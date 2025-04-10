@@ -1,0 +1,84 @@
+fof(ax_coll1, axiom, ![A,B,C]:   ((coll(A,B,C)) => coll(A,C,B))).
+fof(ax_coll2, axiom, ![A,B,C]:   ((coll(A,B,C)) => coll(B,C,A))).
+fof(ax_coll3, axiom, ![A,B,C]:   ((~coll(A,B,C)) => ~coll(A,C,B))).
+fof(ax_coll4, axiom, ![A,B,C]:   ((~coll(A,B,C)) => ~coll(B,C,A))).
+fof(ax_coll5, axiom, ![A,B,C]: (~coll(A,B,C) => (A!=B))).
+fof(ax_coll6, axiom, ![A,B,C,D]: ((~coll(A,B,C) & col(A,B,D) & A!=D) => ~coll(A,D,C))).
+fof(ax_coll7, axiom, ![A,B,C,D]: ((~coll(A,B,C) & between(C,D,B)) => ~coll(A,B,D))).
+
+
+fof(ax_bet1, axiom, ![A,B,C]:   ((between(A,B,C)) => coll(A,B,C))).
+fof(ax_bet2, axiom, ![A,B,C]:   ((between(A,B,C)) => between(C,B,A))).
+fof(ax_bet3, axiom, ![A,B,C,D]:   ((between(A,B,C) & between(B,C,D)) => between(A,B,D))).
+fof(ax_bet4, axiom, ![A,B,C,D]:   ((between(A,B,C) & between(B,C,D)) => between(A,C,D))).
+
+fof(ax_sides1, axiom, ![A,B,C,X]: ((between(A,X,B)) => opp_sides(A,B,X,C))).
+fof(ax_sides2, axiom, ![A,B,C,D,X]: ((between(A,X,B) & coll(C,X,D)) => opp_sides(A,B,C,D))).
+fof(ax_sides3, axiom, ![A,B,C,X]:  ((between(A,X,B)) => same_side(X,B,A,C))).
+fof(ax_sides4, axiom, ![A,B,C,D,X]: ((between(A,X,B) & coll(A,C,D)) => same_side(X,B,C,D))).
+fof(ax_sides5, axiom, ![A,B,C,D,X]:   ((between(A,X,B) & between(C,X,D)) => cong_angle(A,X,C,B,X,D))).
+fof(ax_sides6, axiom, ![A,B,C,D]:   ((same_side(B,C,D,A)) => same_side(B,C,A,D))).
+fof(ax_sides7, axiom, ![A,B,C,D]:   ((same_side(B,C,D,A)) => same_side(C,B,A,D))).
+fof(ax_sides8, axiom, ![A,C,L]: ((opp_sides_line(A,C,L)) => opp_sides_line(C,A,L))).
+fof(ax_sides9, axiom, ![A,B,C,D]: ((opp_sides(A,C,B,D)) => opp_sides(C,A,B,D))).
+fof(ax_sides10, axiom, ![A,B,C,D]: ((opp_sides(A,C,B,D)) => opp_sides(A,C,D,B))).
+fof(ax_sides11, axiom, ![A,C,L]: ((same_side_line(A,C,L)) => same_side_line(C,A,L))).
+
+fof(ax_perp1, axiom, ![L1,L2]: ((perp_lines(L1,L2)) => perp_lines(L2,L1))).
+fof(ax_perp2, axiom, ![L1,L2]: ((perp_lines(L1,L2)) => right_angle_lines(L1,L2))).
+fof(ax_perp3, axiom, ![X,Y,Z,U]: ((perp_strict(X,Y,Z,U)) => perp_strict(Y,X,Z,U))).
+fof(ax_perp4, axiom, ![X,Y,Z,U]: ((perp_strict(X,Y,Z,U)) => perp_strict(Z,U,X,Y))).
+fof(ax_perp5, axiom, ![X,Y,Z]:   ((perp_strict(X,Y,Y,Z) => right_angle(X,Y,Z)))).
+fof(ax_perp6, axiom, ![X,Y,Z,U]: ((perp_strict(X,Y,Z,U) & coll(Y,Z,U)) => right_angle(X,Y,Z))).
+
+fof(ax_para1, axiom, ![X,Y,Z,U]: ((para_strict(X,Y,Z,U)) => para_strict(Y,X,Z,U))).
+fof(ax_para2, axiom, ![X,Y,Z,U]: ((para_strict(X,Y,Z,U)) => para_strict(Z,U,X,Y))).
+fof(ax_angle3, axiom, ![A,B,C]: ((coll(A,B,C) & A!=B & A!=C) => para_strict(A,B,A,C))).
+fof(ax_angle4, axiom, ![A,B,C]: ((coll(A,B,C) & A!=B & B!=C) => para_strict(A,B,B,C))).
+
+fof(ax_cong1, axiom, ![X,Y]: (cong(X,Y,X,Y))).
+fof(ax_cong2, axiom, ![X,Y,Z,U]: ((cong(X,Y,Z,U)) => cong(Z,U,X,Y))).
+fof(ax_cong3, axiom, ![X,Y,Z,U]: ((cong(X,Y,Z,U)) => cong(Y,X,Z,U))).
+
+fof(ax_angle1, axiom, ![A,B,C]: ((cong_angle(A,B,C,A,B,C)))).
+fof(ax_angle2, axiom, ![A,B,C,D,E,F]: ((cong_angle(A,B,C,D,E,F)) => (cong_angle(D,E,F,A,B,C)))).
+fof(ax_angle3, axiom, ![A,B,C,D,E,F,X,Y,Z]: ((cong_angle(A,B,C,D,E,F) & cong_angle(D,E,F,X,Y,Z)) => (cong_angle(A,B,C,X,Y,Z)))).
+fof(ax_angle4, axiom, ![A,B,C]: ((cong_angle(A,B,C,C,B,A)))).
+fof(ax_angle5, axiom, ![A,B,C,D]: ((between(A,B,C) => cong_angle(A,C,D,B,C,D)))).
+fof(ax_angle6, axiom, ![A,B,C,D]: ((between(A,B,C) & right_angle(D,B,C)) => right_angle(D,B,A))).
+fof(ax_angle7, axiom, ![A,B,C,X,Y,Z]: ((right_angle(A,B,C) & cong_angle(A,B,C,X,Y,Z)) => right_angle(X,Y,Z))).
+fof(ax_angle8, axiom, ![A,B,C,X,Y,Z]: ((right_angle(A,B,C) & right_angle(X,Y,Z)) => cong_angle(A,B,C,X,Y,Z))).
+fof(ax_angle9, axiom, ![A,B,C,D]: ((opp_sides(A,C,B,D) & para_strict(A,D,B,C)) => cong_angle(A,D,B,D,B,C))).
+fof(ax_angle10, axiom, ![A,B,C,D]: ((opp_sides(A,C,B,D) & cong_angle(A,D,B,D,B,C)) => para_strict(A,D,B,C))).              
+fof(ax_angle11, axiom, ![A,B,C,D,E,F]: ((para_strict(A,B,C,D) & para_strict(C,D,E,F)) => para_strict(A,B,E,F))).
+fof(ax_angle12, axiom, ![A,B,C,D]: ((para_strict(A,B,C,D) & para_strict(A,D,B,C)) => parallelogram(A,B,C,D))).
+
+fof(ax_midpoint1, axiom, ![A,B,M]: ((midpoint(M,A,B)) => cong(A,M,M,B))).
+fof(ax_midpoint2, axiom, ![A,B,M]: ((midpoint(M,A,B)) => between(A,M,B))).
+fof(ax_midpoint3, axiom, ![A,B,M]: ((between(A,M,B) & cong(A,M,M,B)) => midpoint(M,A,B))).
+fof(ax_midpoint4, axiom, ![A,B,C]: ((midpoint(C,A,B)) => midpoint(C,B,A))).
+fof(ax_midpoint5, axiom, ![A,B,C,D,E]: ((midpoint(D,A,B) & midpoint(E,A,C)) => para_strict(B,C,D,E))).
+fof(ax_midpoint6, axiom, ![A,B,C,D,E]: ((midpoint(D,A,B) & para_strict(B,C,D,E) & coll(A,C,E)) => midpoint(E,A,C))).
+
+fof(ax_triangle1, axiom, ![A,B,C]: ((A!=B & A!=C & B!=C & ~coll(A,B,C)) => cong_triangle(A,B,C,A,B,C))).
+fof(ax_triangle2, axiom, ![A,B,C,D,E,F]: ((cong_triangle(A,B,C,D,E,F)) => (cong_triangle(D,E,F,A,B,C)))).
+fof(ax_triangle3, axiom, ![A,B,C,D,E,F,X,Y,Z]: ((cong_triangle(A,B,C,D,E,F) & cong_triangle(D,E,F,X,Y,Z)) 
+   => (cong_triangle(A,B,C,X,Y,Z)))).
+
+fof(ax_sas, axiom, ![A,B,C,D,E,F]: (
+  (~coll(A,B,C) & cong(A,B,D,E) & cong_angle(A,B,C,D,E,F) & cong(B,C,E,F)) => cong_triangle(A,B,C,D,E,F))).
+fof(ax_sss, axiom, ![A,B,C,D,E,F]: (
+  (~coll(A,B,C) & cong(A,B,D,E) & cong(B,C,E,F) & cong(F,D,C,A)) => cong_triangle(A,B,C,D,E,F))).
+fof(ax_asa, axiom, ![A,B,C,D,E,F]: (
+  (~coll(A,B,C) & cong_angle(C,A,B,F,D,E) & cong(A,B,D,E) & cong_angle(A,B,C,D,E,F)) => cong_triangle(A,B,C,D,E,F))).
+fof(ax_aaa, axiom, ![A,B,C,D,E,F]: (
+  (~coll(A,B,C) & cong_angle(A,B,C,D,E,F) & cong_angle(B,C,A,E,F,D)) => cong_angle(C,A,B,F,D,E))).
+fof(ax_tc, axiom, ![A,B,C,D,E,F]: (
+  (cong_triangle(A,B,C,D,E,F)) => (cong(A,B,D,E)))).
+fof(ax_tc, axiom, ![A,B,C,D,E,F]: (
+  (cong_triangle(A,B,C,D,E,F)) => (cong_angle(A,B,C,D,E,F)))).
+
+fof(ax_tt, axiom, ![X,Y,Z,U,V,W]: (cong_triangle(X,Y,Z,U,V,W) => cong_triangle(Z,X,Y,W,U,V))).
+
+% --------------------------------------------------------------------------------
+
