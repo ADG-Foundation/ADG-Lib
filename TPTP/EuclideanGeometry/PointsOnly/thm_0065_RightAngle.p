@@ -14,18 +14,18 @@
 
 include('geo.ax').
 fof(thm, conjecture, ! [ A,B,O,C] : ((
-   dimensions(110,110)
-   & freepoint(A,20,55)
-   & freepoint(B,90,55)
-   & midp(O,A,B)
-   & oncircle(C,O,A)
+   dimensions(110, 110)
+   & freepoint(A, 20, 55)
+   & freepoint(B, 90, 55)
+   & midp(O, A, B)
+   & oncircle(C, O, A)
    & cmark_t(C)
-   & drawsegment(A,C)
-   & drawsegment(B,C)
-   & drawcircle(O,A)
+   & drawsegment(A, C)
+   & drawsegment(B, C)
+   & drawcircle(O, A)
    & cmark_l(A)
    & cmark_r(B)
-   & drawsegment(A,B)
+   & drawsegment(A, B)
    & prooflevel(1)) 
  => 
-   perpNS(A,C,C,B))).
+   perpNS(A, C, C, B))).

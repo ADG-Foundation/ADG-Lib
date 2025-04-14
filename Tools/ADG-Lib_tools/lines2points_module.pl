@@ -53,7 +53,7 @@ translate_term_lines2points(paraS(Lp,P,L), M) :- !,
 
 translate_term_lines2points(perpS(Lp,P,L), M) :- !, 
    getNewVarName('objP', Vname),
-   write('perpS('), write(Vname), write(', '), print(P,M), write(', '), 
+   write('perpendicular('), write(Vname), write(', '), print(P,M), write(', '), 
    newline(L,A,B), %  take the first such
    print(A,M), write(', '),
    print(B,M), write(')'),
@@ -99,10 +99,10 @@ translate_goal_folLines2Points(Goal,M) :-
    translate_folLines2Points_g(Goal,M).   
 
 translate_folLines2Points_g(perpendicular(A,B,C,D),M)  :- !, 
-   write('perpNS('), print(A,M), write(', '), 
+   write('perpendicular('), print(A,M), write(', '), 
    print(B,M), write(', '), print(C,M), write(', '), print(D,M), write(')').
 translate_folLines2Points_g(parallel(A,B,C,D),M)  :- !, 
-   write('paraNS('), print(A,M), write(', '), 
+   write('parallel('), print(A,M), write(', '), 
    print(B,M), write(', '), print(C,M), write(', '), print(D,M), write(')').
 
 translate_folLines2Points_g(F, M)  :- !, 

@@ -23,7 +23,7 @@ print(H,M) :-
 
 pretty_print(A, M) :- 
     var(A), !, 
-    write_term(A, [variable_names(M)]), write(' ').
+    write_term(A, [variable_names(M)]).
 pretty_print(A, _M) :- 
     number(A), !, 
     write(A).
@@ -73,8 +73,15 @@ pretty_print_list([], _M).
 pretty_print_list([H], M) :- !,
   pretty_print(H, M). 
 pretty_print_list([H | T], M) :-
-  pretty_print(H, M), write(','),
+  pretty_print(H, M), write(', '),
   pretty_print_list(T, M).
+
+pretty_print_list_nl([], _M).
+pretty_print_list_nl([H], M) :- !,
+  pretty_print(H, M). 
+pretty_print_list_nl([H | T], M) :-
+  write('    '),pretty_print(H, M), write(', '), nl,
+  pretty_print_list_nl(T, M).
 
 
 % ------------------------------------- 

@@ -1,0 +1,17 @@
+include('gelernter.ax').
+
+% --------------------------------------------------------------------------------
+
+fof(thm_B, conjecture, ![A,B,C,D]: (
+  ( 
+  ~collinear(A,B,D) & 
+  ~collinear(C,D,B) & 
+  parallel_strict(B,C,A,D) & cong(B,C,A,D) & opposite_sides(A,C,D,B) ) 
+  => 
+  cong(A,B,C,D) 
+  )).
+	
+% --------------------------------------------------------------------------------
+
+% /larus theorems/gel_thm_2.p -h -l1000 -m14 -n0 -i -t (35s)
+ 

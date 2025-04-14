@@ -14,20 +14,20 @@
 
 include('geo.ax').
 fof(thm, conjecture, ! [ A,B,C,P,D,E,F] : ((
-   dimensions(100,100)
-   & freepoint(A,60,10)
-   & freepoint(B,30,90)
-   & freepoint(C,80,90)
-   & freepoint(P,55,75)
-   & inter(B,C,P,A,D)
-   & inter(A,C,P,B,E)
-   & inter(A,B,P,C,F)
-   & drawsegment(A,B)
-   & drawsegment(A,C)
-   & drawsegment(B,C)
-   & drawsegment(A,D)
-   & drawsegment(B,E)
-   & drawsegment(C,F)
+   dimensions(100, 100)
+   & freepoint(A, 60, 10)
+   & freepoint(B, 30, 90)
+   & freepoint(C, 80, 90)
+   & freepoint(P, 55, 75)
+   & inter(B, C, P, A, D)
+   & inter(A, C, P, B, E)
+   & inter(A, B, P, C, F)
+   & drawsegment(A, B)
+   & drawsegment(A, C)
+   & drawsegment(B, C)
+   & drawsegment(A, D)
+   & drawsegment(B, E)
+   & drawsegment(C, F)
    & cmark_b(A)
    & cmark_t(B)
    & cmark_t(C)
@@ -37,4 +37,4 @@ fof(thm, conjecture, ! [ A,B,C,P,D,E,F] : ((
    & cmark_rt(P)
    & prooflevel(1)) 
  => 
-   mult(mult(sratio(A,F,F,B),sratio(B,D,D,C)),sratio(C,E,E,A)) = 1)).
+   mult(mult(sratio(A, F, F, B), sratio(B, D, D, C)), sratio(C, E, E, A)) = 1)).

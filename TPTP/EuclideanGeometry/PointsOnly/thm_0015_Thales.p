@@ -14,17 +14,17 @@
 
 include('geo.ax').
 fof(thm, conjecture, ! [ O,A,C,B,P1,D] : ((
-   dimensions(80,80)
-   & freepoint(O,20,30)
-   & freepoint(A,60,30)
-   & freepoint(C,40,50)
-   & coll(B,O,A)
-   & paraS(P1,B,A,C)
-   & inter(O,C,P1,B,D)
-   & drawline(O,A)
-   & drawline(O,C)
-   & drawline(A,C)
-   & drawline(B,D)
+   dimensions(80, 80)
+   & freepoint(O, 20, 30)
+   & freepoint(A, 60, 30)
+   & freepoint(C, 40, 50)
+   & coll(B, O, A)
+   & paraS(P1, B, A, C)
+   & inter(O, C, P1, B, D)
+   & drawline(O, A)
+   & drawline(O, C)
+   & drawline(A, C)
+   & drawline(B, D)
    & cmark_t(O)
    & cmark_t(A)
    & cmark_t(B)
@@ -32,4 +32,4 @@ fof(thm, conjecture, ! [ O,A,C,B,P1,D] : ((
    & cmark_t(D)
    & prooflevel(1)) 
  => 
-   sratio(O,A,O,B) = sratio(O,C,O,D))).
+   sratio(O, A, O, B) = sratio(O, C, O, D))).

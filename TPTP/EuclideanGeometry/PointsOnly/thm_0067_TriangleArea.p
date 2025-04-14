@@ -14,19 +14,19 @@
 
 include('geo.ax').
 fof(thm, conjecture, ! [ A,B,C,M] : ((
-   dimensions(100,70)
-   & freepoint(A,20,20)
-   & freepoint(B,80,20)
-   & freepoint(C,65,45)
-   & midp(M,A,B)
+   dimensions(100, 70)
+   & freepoint(A, 20, 20)
+   & freepoint(B, 80, 20)
+   & freepoint(C, 65, 45)
+   & midp(M, A, B)
    & cmark_b(A)
    & cmark_b(B)
    & cmark_t(C)
    & cmark_b(M)
-   & drawsegment(A,B)
-   & drawsegment(B,C)
-   & drawsegment(A,C)
-   & drawsegment(C,M)
+   & drawsegment(A, B)
+   & drawsegment(B, C)
+   & drawsegment(A, C)
+   & drawsegment(C, M)
    & prooflevel(1)) 
  => 
-   signed_area3(A,M,C) = signed_area3(M,B,C))).
+   signed_area3(A, M, C) = signed_area3(M, B, C))).

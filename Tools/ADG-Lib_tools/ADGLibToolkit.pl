@@ -35,6 +35,7 @@
 
 :- consult('provers_module.pl').
 :- consult('gclc_module.pl').
+:- consult('prolog_module.pl').
 
 % --------------------------------------
 % transformation of list of FOL formulae
@@ -66,7 +67,8 @@ write_help(Argv) :-
     nl,write('-l : tptp/fof lines -> tptp/fof points-only   '),
     nl,write('-r : remove layout information                 '),
     nl,write('-p : tptp/fof axioms -> tptp/fof premises=>goal'),
-    nl,write('-g : tptp/fof -> gclc'),
+    nl,write('-gclc : tptp/fof -> gclc'),
+    nl,write('-prolog : tptp/fof -> prolog'),
     nl,write('-h : this help'), nl, nl.
 write_help(_Argv).
 
@@ -84,9 +86,12 @@ translate_file(InputFilename, Argv) :-
     member('-p', Argv),!, 
     assert(allpremises([])), 
     translate_tptp_file(folAxioms2Premises, InputFilename).
+translate_file(InputFilename, Argv) :-   
+    member('-prolog', Argv),!, 
+    translate_tptp_file(fol2prolog, InputFilename).
 translate_file(InputFilename, _Argv) :-   
     % default 
-    % member('-g', Argv),!, 
+    % member('-gclc', Argv),!, 
     % can be used only for the form premises=>goal
     assert(counterVar(1)),
     translate_tptp_file(fol2gclc, InputFilename).
@@ -132,6 +137,8 @@ translate_tptp_entry(folLines2Points, F, M) :-
     translate_tptp_entry_folLines2Points(F, M).
 translate_tptp_entry(fol2gclc, F, M) :-
     translate_tptp_entry_fol2gclc(F, M).
+translate_tptp_entry(fol2prolog, F, M) :-
+    translate_tptp_entry_fol2prolog(F, M).
 translate_tptp_entry(folRemoveLayoutAxioms, F, M) :-
     translate_tptp_entry_folRemoveLayoutAxioms(F, M).
 

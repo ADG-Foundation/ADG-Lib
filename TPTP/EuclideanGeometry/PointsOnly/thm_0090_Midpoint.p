@@ -14,20 +14,20 @@
 
 include('geo.ax').
 fof(thm, conjecture, ! [ A,B,C,B_1,A_1,M] : ((
-   dimensions(80,50)
-   & freepoint(A,20,10)
-   & freepoint(B,70,10)
-   & freepoint(C,35,40)
-   & drawsegment(A,B)
-   & drawsegment(A,C)
-   & drawsegment(B,C)
-   & midp(B_1,B,C)
-   & midp(A_1,A,C)
-   & drawsegment(A_1,B_1)
-   & midp(M,A,B)
+   dimensions(80, 50)
+   & freepoint(A, 20, 10)
+   & freepoint(B, 70, 10)
+   & freepoint(C, 35, 40)
+   & drawsegment(A, B)
+   & drawsegment(A, C)
+   & drawsegment(B, C)
+   & midp(B_1, B, C)
+   & midp(A_1, A, C)
+   & drawsegment(A_1, B_1)
+   & midp(M, A, B)
    & cmark_b(M)
-   & drawdashsegment(A_1,M)
-   & drawdashsegment(B_1,M)
+   & drawdashsegment(A_1, M)
+   & drawdashsegment(B_1, M)
    & cmark_b(A)
    & cmark_b(B)
    & cmark_t(C)
@@ -35,4 +35,4 @@ fof(thm, conjecture, ! [ A,B,C,B_1,A_1,M] : ((
    & cmark_rt(B_1)
    & prooflevel(1)) 
  => 
-   paraNS(A_1,B_1,A,B))).
+   paraNS(A_1, B_1, A, B))).
