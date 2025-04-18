@@ -3,7 +3,7 @@ fof(ax_coll2, axiom, ![A,B,C]:   ((collinear(A,B,C)) => collinear(B,C,A))).
 fof(ax_coll3, axiom, ![A,B,C]:   ((~collinear(A,B,C)) => ~collinear(A,C,B))).
 fof(ax_coll4, axiom, ![A,B,C]:   ((~collinear(A,B,C)) => ~collinear(B,C,A))).
 fof(ax_coll5, axiom, ![A,B,C]:   ((~collinear(A,B,C)) => (A!=B))).
-fof(ax_coll6, axiom, ![A,B,C,D]: ((~collinear(A,B,C) & collinear(A,B,D) & A!=B) => ~collinear(A,D,C))).
+fof(ax_coll6, axiom, ![A,B,C,D]: ((~collinear(A,B,C) & collinear(A,B,D) & A!=D) => ~collinear(A,D,C))).
 fof(ax_coll7, axiom, ![A,B,C,D]: ((~collinear(A,B,C) & between_strict(C,D,B)) => ~collinear(A,B,D))).
 
 
