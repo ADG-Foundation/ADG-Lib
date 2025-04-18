@@ -9,7 +9,7 @@ fof(ax_coll7, axiom, ![A,B,C,D]: ((~collinear(A,B,C) & between_strict(C,D,B)) =>
 
 fof(ax_bet1, axiom, ![A,B,C]:     ((between_strict(A,B,C)) => collinear(A,B,C))).
 fof(ax_bet2, axiom, ![A,B,C]:     ((between_strict(A,B,C)) => between_strict(C,B,A))).
-fof(ax_bet3, axiom, ![A,B,C,D]:   ((between_strict(A,B,C) & between_strict(B,C,D)) => between_strict(A,B,D))).
+fof(ax_bet3, axiom, ![A,B,C,D]:   ((between_strict(A,B,C) & between_strict(B,C,D) & (A!=D)) => between_strict(A,B,D))).
 fof(ax_bet4, axiom, ![A,B,C,D]:   ((between_strict(A,B,C) & between_strict(B,C,D)) => between_strict(A,C,D))).
 
 fof(ax_sides1, axiom, ![A,B,C,X]:   ((between_strict(A,X,B)) => opposite_sides(A,B,X,C))).
