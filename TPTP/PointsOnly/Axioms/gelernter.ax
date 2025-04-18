@@ -9,7 +9,7 @@ fof(ax_coll7, axiom, ![A,B,C,D]: ((~collinear(A,B,C) & between_strict(C,D,B)) =>
 
 fof(ax_bet1, axiom, ![A,B,C]:     ((between_strict(A,B,C)) => collinear(A,B,C))).
 fof(ax_bet2, axiom, ![A,B,C]:     ((between_strict(A,B,C)) => between_strict(C,B,A))).
-fof(ax_bet3, axiom, ![A,B,C,D]:   ((between_strict(A,B,C) & between_strict(B,C,D) & (A!=D)) => between_strict(A,B,D))).
+fof(ax_bet3, axiom, ![A,B,C,D]:   ((between_strict(A,B,C) & between_strict(B,C,D)) => between_strict(A,B,D))).
 fof(ax_bet4, axiom, ![A,B,C,D]:   ((between_strict(A,B,C) & between_strict(B,C,D)) => between_strict(A,C,D))).
 
 fof(ax_sides1, axiom, ![A,B,C,X]:   ((between_strict(A,X,B)) => opposite_sides(A,B,X,C))).
@@ -22,8 +22,8 @@ fof(ax_sides7, axiom, ![A,B,C,D]:   ((same_side(B,C,D,A)) => same_side(C,B,A,D))
 fof(ax_sides9, axiom, ![A,B,C,D]:   ((opposite_sides(A,C,B,D)) => opposite_sides(C,A,B,D))).
 fof(ax_sides10, axiom, ![A,B,C,D]:  ((opposite_sides(A,C,B,D)) => opposite_sides(A,C,D,B))).
 
-%fof(ax_perp1, axiom, ![L1,L2]:      ((perpendicular_lines(L1,L2)) => perpendicular_lines(L2,L1))).
-%fof(ax_perp2, axiom, ![L1,L2]:      ((perpendicular_lines(L1,L2)) => right_angle_lines(L1,L2))).
+%fof(ax_perp1, axiom, ![L1,L2]:     ((perpendicular_lines(L1,L2)) => perpendicular_lines(L2,L1))).
+%fof(ax_perp2, axiom, ![L1,L2]:     ((perpendicular_lines(L1,L2)) => right_angle_lines(L1,L2))).
 fof(ax_perp3, axiom, ![X,Y,Z,U]:    ((perpendicular_strict(X,Y,Z,U)) => perpendicular_strict(Y,X,Z,U))).
 fof(ax_perp4, axiom, ![X,Y,Z,U]:    ((perpendicular_strict(X,Y,Z,U)) => perpendicular_strict(Z,U,X,Y))).
 fof(ax_perp5, axiom, ![X,Y,Z]:      ((perpendicular_strict(X,Y,Y,Z)) => right_angle(X,Y,Z))).
