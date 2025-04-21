@@ -10,6 +10,8 @@ print(A, M) :-
     write_term(A, [variable_names(M)]).
 
 print([],_) :- !.
+print([H], M) :- !,
+    pretty_print(H, M).  
 print([H|L], M) :- !,
     pretty_print(H, M), write(' ; '),
     print(L, M).  

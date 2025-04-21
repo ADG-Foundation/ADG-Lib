@@ -35,6 +35,7 @@
 
 :- consult('provers_module.pl').
 :- consult('gclc_module.pl').
+:- consult('geocoq_module.pl').
 :- consult('prolog_module.pl').
 
 % --------------------------------------
@@ -68,6 +69,7 @@ write_help(Argv) :-
     nl,write('-r : remove layout information                 '),
     nl,write('-p : tptp/fof axioms -> tptp/fof premises=>goal'),
     nl,write('-gclc : tptp/fof -> gclc'),
+    nl,write('-geocoq : tptp/fof -> geocoq'),
     nl,write('-prolog : tptp/fof -> prolog'),
     nl,write('-h : this help'), nl, nl.
 write_help(_Argv).
@@ -89,6 +91,9 @@ translate_file(InputFilename, Argv) :-
 translate_file(InputFilename, Argv) :-   
     member('-prolog', Argv),!, 
     translate_tptp_file(fol2prolog, InputFilename).
+translate_file(InputFilename, Argv) :-   
+    member('-geocoq', Argv),!, 
+    translate_tptp_file(fol2geocoq, InputFilename).
 translate_file(InputFilename, _Argv) :-   
     % default 
     % member('-gclc', Argv),!, 
@@ -137,6 +142,8 @@ translate_tptp_entry(folLines2Points, F, M) :-
     translate_tptp_entry_folLines2Points(F, M).
 translate_tptp_entry(fol2gclc, F, M) :-
     translate_tptp_entry_fol2gclc(F, M).
+translate_tptp_entry(fol2geocoq, F, M) :-
+    translate_tptp_entry_fol2geocoq(F, M).
 translate_tptp_entry(fol2prolog, F, M) :-
     translate_tptp_entry_fol2prolog(F, M).
 translate_tptp_entry(folRemoveLayoutAxioms, F, M) :-

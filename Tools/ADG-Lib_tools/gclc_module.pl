@@ -8,7 +8,7 @@ translate_tptp_entry_fol2gclc(include(_Ax),_M) :- !.
 translate_tptp_entry_fol2gclc(fof(_Ax, axiom, F), M) :- !,
     translate_term_fol2gclc(F, M).
 translate_tptp_entry_fol2gclc(fof(_, conjecture, F), M) :-
-   fof2Implication(F, Premises, Goal),
+   fof2Implication(F, _Univ, _Exi, Premises, Goal),
    conjunction2list(Premises, LP),
    find_free_points(LP,M,FreePoints),
    emit_free_points(FreePoints,M), 

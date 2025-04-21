@@ -2,13 +2,13 @@
 % Support for TPTP/FOF to provers (like GCLC)
 %**********************************************
 
-
-fof2Implication(! _ : (A => B),A,B)       :- !.
-fof2Implication(! _ : ? _ : (A => B),A,B) :- !.
-fof2Implication(! _ : (A => ? _ : B),A,B) :- !.
-fof2Implication(! _ : ? _ : (B),[],B)     :- !.
-fof2Implication(! _ : (B),[],B)           :- !.
-fof2Implication((B),[],B)                 :- !.
+fof2Implication(! U : (A => B), U, [], A, B)     :- !.
+fof2Implication(! U : ? E : (A => B), U, E, A,B) :- !.
+fof2Implication(! U : (A => ? E : B), U, E, A,B) :- !.
+fof2Implication(! U : ? E : (B), U, E, [], B)    :- !.
+fof2Implication(! U : (B), U, [], [],B)          :- !.
+fof2Implication(? E : (B), [], E, [],B)          :- !.
+fof2Implication((B),[], [], [],B)                :- !.
 
 conjunction2list([], []) :- !.
 conjunction2list(A & B, L) :- !,   
