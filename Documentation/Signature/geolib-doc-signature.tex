@@ -160,7 +160,7 @@ between\_strict(A,B,C) & & points $A$, $B$ and $C$ are collinear and B is strict
 \hi{cong(A,B,C,D)} & $ \congT{AB}{CD} $ & the segments $AB$ and $CD$ are congruent (intuitively in the sense that they have same length, but length measure is not assumed to exist) \\
 collinear(A,B,C) & $ \col{A}{B}{C} $ & points $A$, $B$ and $C$ are collinear & $ \bT{A}{B}{C} \lor \bT{B}{A}{C} \lor \bT{A}{C}{B} $ \\
 collinear\_strict(A,B,C) & & points $A$, $B$ and $C$ are distinct collinear points. \\
-\hi{out(O,A,B)} & $ \out{O}{A}{B} $ & $B$ belongs to the half line $OA$ & $ O \neq A \land O  \neq B \land (\bT{O}{A}{B} \lor \bT{O}{B}{A}) $ \\
+\hi{on\_ray(O,A,B)} & $ \out{O}{A}{B} $ & $B$ belongs to the half line $OA$ & $ O \neq A \land O  \neq B \land (\bT{O}{A}{B} \lor \bT{O}{B}{A}) $ \\
 opposite\_sides(A,B,P,Q)  & $ \tS{A}{B}{P}{Q} $ & $P$ and $Q$ are on different sides of line $AB$ & $ \lnot \col{P}{A}{B} \land \lnot \col{Q}{A}{B} \land \exists T, \col{T}{A}{B} \land \bT{P}{T}{Q} $ \\
 same\_side(A,B,X,Y) & $ \oS {A}{B}{X}{Y} $ & $X$ and $Y$ are on the same side of line $AB$ & $ \exists Z, \tS{A}{B}{X}{Z} \land \tS{A}{B}{Y}{Z} $\\
 is\_midpoint(M,A,B) & $ \midpoint{A}{M}{B} $ & $M$ is the midpoint of segment $AB$ & $ \bT{A}{M}{B} \land \congT{A M}{B M} $ \\
@@ -217,11 +217,11 @@ supplementary(A,B,C,D,E,F) & & the angles $\angle{ABC}$ and $\angle{DEF}$ are su
 sum\_segments(A,B,C,D,E,F) & & $EF$ is congruent to the sum of $AB$ and $CD$ \\ 
 sum\_angles(A,B,C,D,E,F,G,H,I) & $\suma{A}{B}{C}{D}{E}{F}{G}{H}{I}$ & The sum of angles $\angle{ABC}$ and $\angle{DEF}$ is congruent to $\angle{GHI}$ & $ \exists\,J\; \conga{C}{B}{J}{D}{E}{F} \land \lnot \oS{B}{C}{A}{J} \land \cp{A}{B}{C}{J} \land \conga{A}{B}{J}{G}{H}{I} $ \\
 
-\hi{sum\_angles\_ok}(A,B,C,D,E,F) & & The sum of the angles $\angle{ABC}$ and $\angle{DEF}$ is smaller than the flat angle. & $ A\neq B \land (Out E D F \lor \lnot \bT{A}{B}{C}) \land
+sum\_angles\_less\_than\_straight\_angle(A,B,C,D,E,F) & & The sum of the angles $\angle{ABC}$ and $\angle{DEF}$ is smaller than the straight angle. & $ A\neq B \land (Out E D F \lor \lnot \bT{A}{B}{C}) \land
   \exists\,J\; \conga{C}{B}{J}{D}{E}{F} \land \lnot \oS{B}{C}{A}{J} \land \lnot \tS{A}{B}{C}{J} \land \cp{A}{B}{C}{J} $
 \\
 sum\_angles\_triangle\_congruent(A,B,C,D,E,F) & $\trisuma{A}{B}{C}{D}{E}{F}$ & The sum of the angles of the triangle $ABC$ is congruent to the angle $\angle{D}{E}{F}$ & $\exists G\,H\,I\; SumA\; A\, B\, C\, B\, C\, A\, G\, H\, I \land SumA\; G\, H \,I\, C\, A\, B\, D\, E\, F $ \\
-sum\_angles\_defect(A,B,C,D,E,F) & & The difference between the sum of angles of ABC and a flat angle. \\
+sum\_angles\_defect(A,B,C,D,E,F) & & The difference between the sum of angles of ABC and a straight angle. \\
 \addlinespace
 isosceles(A,B,C) & & $ABC$ is an isosceles triangle in $B$, points may be equal. & $\congT{AB}{BC}$ \\
 isosceles\_strict(A,B,C) & & $ABC$ is an isosceles triangle in $B$, points are not collinear. & $\congT{AB}{BC} \land \lnot \col{A}{B}{C} $  \\
