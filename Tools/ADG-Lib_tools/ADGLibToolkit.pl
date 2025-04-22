@@ -36,6 +36,7 @@
 :- consult('provers_module.pl').
 :- consult('gclc_module.pl').
 :- consult('geocoq_module.pl').
+:- consult('geogebra_module.pl').
 :- consult('prolog_module.pl').
 
 % --------------------------------------
@@ -63,12 +64,13 @@ write_help(Argv) :-
     member('-h', Argv),!, 
     nl,
     nl,write('Usage: '),
-    nl,write('> fol2gclc InputFile OutputFile option'),
+    nl,write('> ADGLibToolkit InputFile OutputFile option'),
     nl,write('Options: '),
     nl,write('-l : tptp/fof lines -> tptp/fof points-only   '),
     nl,write('-r : remove layout information                 '),
     nl,write('-p : tptp/fof axioms -> tptp/fof premises=>goal'),
     nl,write('-gclc : tptp/fof -> gclc'),
+    nl,write('-geogebra : tptp/fof -> geogebra'),
     nl,write('-geocoq : tptp/fof -> geocoq'),
     nl,write('-prolog : tptp/fof -> prolog'),
     nl,write('-h : this help'), nl, nl.
@@ -94,6 +96,16 @@ translate_file(InputFilename, Argv) :-
 translate_file(InputFilename, Argv) :-   
     member('-geocoq', Argv),!, 
     translate_tptp_file(fol2geocoq, InputFilename).
+
+translate_file(InputFilename, Argv) :-   
+    member('-geogebra', Argv),!, 
+    write('<?xml version="1.0" encoding="utf-8"?>'),nl,
+    write('<geogebra format="5.0" xsi:noNamespaceSchemaLocation="http://www.geogebra.org/apps/xsd/ggb.xsd" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >'),nl,
+    write('<construction>'),nl,
+    translate_tptp_file(fol2geogebra, InputFilename),
+    write('</construction>'),nl,
+    write('</geogebra>'),nl.
+
 translate_file(InputFilename, _Argv) :-   
     % default 
     % member('-gclc', Argv),!, 
@@ -102,31 +114,40 @@ translate_file(InputFilename, _Argv) :-
     translate_tptp_file(fol2gclc, InputFilename).
 
 translate_tptp_file(Conversion_type, InputFile) :- 
-    take_leading_comments(InputFile),    
+    take_leading_comments(InputFile,Conversion_type),    
     open(InputFile, read, Stream),
     read_file(Stream, ListOfTerms),
     close(Stream),
     translate_tptp_list_of_terms(Conversion_type, ListOfTerms).
 
-take_leading_comments(InputFile) :-
+take_leading_comments(InputFile,Conversion_type) :-
     open(InputFile, read, Stream),
-    read_comments(Stream),
+    read_comments(Stream,Conversion_type),
     close(Stream).
 
-read_comments(Stream) :-
+read_comments(Stream,_Conversion_type) :-
     at_end_of_stream(Stream), !.
-read_comments(Stream) :-
+read_comments(Stream,Conversion_type) :-
     read_line_to_string(Stream, Line),
     string_chars(Line, ['%'|_]),
-    write(Line),nl,
-    read_comments(Stream).
-read_comments(_) :- !.
+    print_comment(Line,Conversion_type),
+    read_comments(Stream,Conversion_type).
+read_comments(_,_) :- !.
 
 read_file(Stream,[[X,M]|L]) :-
     read_term(Stream,X,[variable_names(M)]),
     not(X == end_of_file), !,
     read_file(Stream,L).
 read_file(_Stream,[]).
+
+print_comment(Line,fol2geogebra) :- !,
+    write('<!---'),
+    write(Line),
+    write('>'), nl.
+
+print_comment(Line,fol2geogebra) :-
+    write(Line),nl.
+
 
 % --------------------------------------------------------
 
@@ -142,6 +163,8 @@ translate_tptp_entry(folLines2Points, F, M) :-
     translate_tptp_entry_folLines2Points(F, M).
 translate_tptp_entry(fol2gclc, F, M) :-
     translate_tptp_entry_fol2gclc(F, M).
+translate_tptp_entry(fol2geogebra, F, M) :-
+    translate_tptp_entry_fol2geogebra(F, M).
 translate_tptp_entry(fol2geocoq, F, M) :-
     translate_tptp_entry_fol2geocoq(F, M).
 translate_tptp_entry(fol2prolog, F, M) :-

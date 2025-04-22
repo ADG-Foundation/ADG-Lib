@@ -16,6 +16,13 @@ translate_tptp_entry_fol2gclc(fof(_, conjecture, F), M) :-
    translate_premises_fol2gclc(LP1, M), nl,
    translate_goal_fol2gclc(Goal, M),nl.   
 
+translate_premises_fol2gclc([],_M) :- !.
+translate_premises_fol2gclc([F|T],M) :- 
+   translate_term_fol2gclc(F,M),
+   newlineifnewpredicate(fol2gclc,[F|T]),   
+   translate_premises_fol2gclc(T,M).
+  
+
 % ----------------------------------------
 % Construction steps
 % ----------------------------------------

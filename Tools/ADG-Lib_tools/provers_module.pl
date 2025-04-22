@@ -79,11 +79,5 @@ var_member(A,[B|_]) :- not(not(A==B)),!.
 var_member(A,[_|T]) :- var_member(A,T).
 
 
-translate_premises_fol2gclc([],_M) :- !.
-translate_premises_fol2gclc([F|T],M) :- 
-   translate_term_fol2gclc(F,M),
-   newlineifnewpredicate(fol2gclc,[F|T]),   
-   translate_premises_fol2gclc(T,M).
-
 % ----------------------------------------
 
