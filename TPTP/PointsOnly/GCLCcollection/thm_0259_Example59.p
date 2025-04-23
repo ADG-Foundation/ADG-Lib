@@ -1,8 +1,33 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0259_Example59.p; Output: thm_0259_Example59.p; Arg: [-p]
+% ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
+% Input: tmp_1_thm_0259_Example59.p; Output: tmp_2_thm_0259_Example59.p; Arg: [-l]
+%--------------------------------------------------------------------------
+% File     : tmp_thm_0259_Example59
+% Domain   : Geometry 
+% Problem  : ...
+% Source   : Converted from GCLC Goran Predovic Collection of Theorems
+% Refs     : Shang-Ching Chou: Mechanical Geometry Theorem Proving, Springer, 1988
+% Status   : Valid
+%--------------------------------------------------------------------------
+%----Include geometry axioms
+%include('geo.ax').
+%--------------------------------------------------------------------------
+%  thmname Primer 59 iz \cite{chou} 
+%  thmnamee Example 59 from \cite{chou} 
+%  thmtext Dva duplo perspektivna trougla su istovremeno 
+%  thmtext i troustruko perspektivna. 
+%  thmnote Dva trougla $ABC$ i $A_1B_1C_1$ su perspektivna  
+%  thmnote ukoliko su prave $AA_1$, $BB_1$ i $CC_1$ 
+%  thmnote kolinearne. Konstrukcija duplo perspektivnog 
+%  thmnote je polazna u dokazu teoreme (iskusniji \ch italac 
+%  thmnote mo\zh e na osnovu izbora koordinata ta\ch aka 
+%  thmnote rekonstruisati korake konstrukcije). 
+%  thmtexte Two doubly perspective triangles are in fact 
+%  thmtexte triply perspective. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ O,A,B,C,O_1] : ((
+fof(thm, conjecture, ! [ O,A,B,C,O_1,A_1,B_1,C_1,O_2] : ((
    dimensions(130, 100)
    & freepoint(O, 20, 20)
    & freepoint(A, 70, 20)

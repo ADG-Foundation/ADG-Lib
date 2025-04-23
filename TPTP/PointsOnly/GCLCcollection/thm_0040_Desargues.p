@@ -1,8 +1,32 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0040_Desargues.p; Output: thm_0040_Desargues.p; Arg: [-p]
+% ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
+% Input: tmp_1_thm_0040_Desargues.p; Output: tmp_2_thm_0040_Desargues.p; Arg: [-l]
+%--------------------------------------------------------------------------
+% File     : tmp_thm_0040_Desargues
+% Domain   : Geometry 
+% Problem  : ...
+% Source   : Converted from GCLC Goran Predovic Collection of Theorems
+% Refs     : Shang-Ching Chou: Mechanical Geometry Theorem Proving, Springer, 1988
+% Status   : Valid
+%--------------------------------------------------------------------------
+%----Include geometry axioms
+%include('geo.ax').
+%--------------------------------------------------------------------------
+%  thmname Dezargova teorema 
+%  thmnamee Desargues' theorem 
+%  thmtext Ako se prave $A_1B_1$, 
+%  thmtext $A_2B_2$ i $A_3B_3$ seku u jednoj ta\ch ki, 
+%  thmtext tada su preseci pravih $A_1A_2 \cap B_1B_2$, 
+%  thmtext $A_1A_3 \cap B_1B_3$ i $A_2A_3 \cap B_2B_3$ 
+%  thmtext tri kolinearne ta\ch ke. 
+%  thmtexte If lines $A_1B_1$, $A_2B_2$ and $A_3B_3$ are 
+%  thmtexte concurrent, show that intersections 
+%  thmtexte $A_1A_2 \cap B_1B_2$, $A_1A_3 \cap B_1B_3$ 
+%  thmtexte and $A_2A_3 \cap B_2B_3$ are collinear. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ S,A_2,A_1,A_3] : ((
+fof(thm, conjecture, ! [ S,A_2,B_2,A_1,B_1,A_3,B_3,P,Q,R] : ((
    dimensions(110, 90)
    & freepoint(S, 20, 30)
    & freepoint(A_2, 36.6, 30)

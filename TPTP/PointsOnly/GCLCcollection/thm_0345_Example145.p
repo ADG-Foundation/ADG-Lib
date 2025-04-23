@@ -1,8 +1,32 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0345_Example145.p; Output: thm_0345_Example145.p; Arg: [-p]
+% ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
+% Input: tmp_1_thm_0345_Example145.p; Output: tmp_2_thm_0345_Example145.p; Arg: [-l]
+%--------------------------------------------------------------------------
+% File     : tmp_thm_0345_Example145
+% Domain   : Geometry 
+% Problem  : ...
+% Source   : Converted from GCLC Goran Predovic Collection of Theorems
+% Refs     : Shang-Ching Chou: Mechanical Geometry Theorem Proving, Springer, 1988
+% Status   : Valid
+%--------------------------------------------------------------------------
+%----Include geometry axioms
+%include('geo.ax').
+%--------------------------------------------------------------------------
+%  thmname Primer 145 iz \cite{chou} 
+%  thmnamee Example 145 from \cite{chou} 
+%  thmtext Dokazati da su rastojanja ta\ch ke na te\zh i\sh noj 
+%  thmtext liniji trougla od stranica trougla inverzno proporcionalna 
+%  thmtext dvema stranicama trougla, odnosno: 
+%  thmtext $NK : NJ = BC : AC$. 
+%  thmtexte Show that the distance of a point on a 
+%  thmtexte median of triangle from the sides including 
+%  thmtexte the median are inversely proportional to these 
+%  thmtexte sides, ie: 
+%  thmtexte $NK : NJ = BC : AC$. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,K,N,J] : ((
+fof(thm, conjecture, ! [ A,B,C,F,N,K,J] : ((
    dimensions(110, 110)
    & freepoint(A, 20, 30)
    & freepoint(B, 90, 30)

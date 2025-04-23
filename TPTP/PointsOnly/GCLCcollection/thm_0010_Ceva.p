@@ -1,8 +1,21 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0010_Ceva.p; Output: thm_0010_Ceva.p; Arg: [-p]
+% ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
+% Input: tmp_1_thm_0010_Ceva.p; Output: tmp_2_thm_0010_Ceva.p; Arg: [-l]
+%--------------------------------------------------------------------------
+% File     : tmp_thm_0010_Ceva
+% Domain   : Geometry 
+% Problem  : ...
+% Source   : Converted from GCLC Goran Predovic Collection of Theorems
+% Refs     : Shang-Ching Chou: Mechanical Geometry Theorem Proving, Springer, 1988
+% Status   : Valid
+%--------------------------------------------------------------------------
+%----Include geometry axioms
+%include('geo.ax').
+%--------------------------------------------------------------------------
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,P] : ((
+fof(thm, conjecture, ! [ A,B,C,P,D,E,F] : ((
    dimensions(100, 100)
    & freepoint(A, 60, 10)
    & freepoint(B, 30, 90)

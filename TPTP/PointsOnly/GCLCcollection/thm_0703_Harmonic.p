@@ -1,8 +1,28 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0703_Harmonic.p; Output: thm_0703_Harmonic.p; Arg: [-p]
+% ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
+% Input: tmp_1_thm_0703_Harmonic.p; Output: tmp_2_thm_0703_Harmonic.p; Arg: [-l]
+%--------------------------------------------------------------------------
+% File     : tmp_thm_0703_Harmonic
+% Domain   : Geometry 
+% Problem  : ...
+% Source   : Converted from GCLC Goran Predovic Collection of Theorems
+% Refs     : Shang-Ching Chou: Mechanical Geometry Theorem Proving, Springer, 1988
+% Status   : Valid
+%--------------------------------------------------------------------------
+%----Include geometry axioms
+%include('geo.ax').
+%--------------------------------------------------------------------------
+%  thmname Harmonijska spregnutost 
+%  thmnamee Projection Keeps Cross Ratio 
+%  thmtext Harmonijska spregnutost ta\ch aka ostaje 
+%  thmtext ista nakon projekcije. 
+%  thmtexte Cross ratio of four points $A$, $B$, $C$ and $D$ 
+%  thmtexte is same after central projection from point $O$ 
+%  thmtexte onto line $p$. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,C,O] : ((
+fof(thm, conjecture, ! [ A,C,D,B,O,A_1,B_1,C_1,D_1] : ((
    dimensions(130, 85)
    & freepoint(A, 20, 20)
    & freepoint(C, 40, 20)

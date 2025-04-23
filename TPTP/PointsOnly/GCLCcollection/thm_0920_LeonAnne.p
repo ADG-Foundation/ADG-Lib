@@ -1,8 +1,33 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0920_LeonAnne.p; Output: thm_0920_LeonAnne.p; Arg: [-p]
+% ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
+% Input: tmp_1_thm_0920_LeonAnne.p; Output: tmp_2_thm_0920_LeonAnne.p; Arg: [-l]
+%--------------------------------------------------------------------------
+% File     : tmp_thm_0920_LeonAnne
+% Domain   : Geometry 
+% Problem  : ...
+% Source   : Converted from GCLC Goran Predovic Collection of Theorems
+% Refs     : Shang-Ching Chou: Mechanical Geometry Theorem Proving, Springer, 1988
+% Status   : Valid
+%--------------------------------------------------------------------------
+%----Include geometry axioms
+%include('geo.ax').
+%--------------------------------------------------------------------------
+%  thmname Leon-An teorema 
+%  thmnamee Leon Anne's Theorem 
+%  thmtext U ravni je dat \ch etvorouga $ABCD$. Neka su $M_1$ i $M_2$ 
+%  thmtext sredi\sh ta dijagonala $AC$ i $BD$ i neka je $O$ proizvoljna 
+%  thmtext ta\ch ka na pravoj $M_1M_2$. Dokazati da je zbir povr\sh ina 
+%  thmtext trouglova $ABO$ i $CDO$ jednak polovini povr\sh ine  
+%  thmtext \ch etvorougla $ABCD$. 
+%  thmtexte Given quadrilateral $ABCD$, let $M_1$ and $M_2$ be 
+%  thmtexte midpoints of diagonals $AC$ and $BD$, and let $O$ 
+%  thmtexte be point on line $M_1M_2$. Show that the sum of 
+%  thmtexte areas of triangles $ABO$ and $CDO$ equals the half of the 
+%  thmtexte area of quadrilateral $ABCD$. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,D] : ((
+fof(thm, conjecture, ! [ A,B,C,D,M_1,M_2,O] : ((
    dimensions(110, 110)
    & freepoint(A, 20, 20)
    & freepoint(B, 90, 20)

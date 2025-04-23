@@ -1,8 +1,37 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0322_Example122.p; Output: thm_0322_Example122.p; Arg: [-p]
+% ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
+% Input: tmp_1_thm_0322_Example122.p; Output: tmp_2_thm_0322_Example122.p; Arg: [-l]
+%--------------------------------------------------------------------------
+% File     : tmp_thm_0322_Example122
+% Domain   : Geometry 
+% Problem  : ...
+% Source   : Converted from GCLC Goran Predovic Collection of Theorems
+% Refs     : Shang-Ching Chou: Mechanical Geometry Theorem Proving, Springer, 1988
+% Status   : Valid
+%--------------------------------------------------------------------------
+%----Include geometry axioms
+%include('geo.ax').
+%--------------------------------------------------------------------------
+%  thmname Primer 122 iz \cite{chou} 
+%  thmnamee Example 122 from \cite{chou} 
+%  thmtext Stranice $BC$ i $CD$ \ch etvorougla $ABCD$ seku 
+%  thmtext se u ta\ch ki $O$, dok se stranice $AD$ i $BC$ 
+%  thmtext seku u ta\ch ki $O_1$. Na pravama $OA$, $OC$, 
+%  thmtext $O_1A$, $O_1C$ su redom konstruisane ta\ch ke 
+%  thmtext $E$, $F$, $E_1$ i $F_1$ takve da je 
+%  thmtext $\overrightarrow{OE} \cong \overrightarrow{AB}$, $\overrightarrow{OF} \cong \overrightarrow{DC}$,  
+%  thmtext $\overrightarrow{O_1E_1} \cong \overrightarrow{AD}$, $\overrightarrow{O_1F_1} \cong \overrightarrow{BC}$. 
+%  thmtext Dokazati da su prave $EF$ i $E_1F_1$ paralelne. 
+%  thmtexte The sides $BA$, $CD$ of the quadrilateral 
+%  thmtexte $ABCD$ meet in $O$, and the sides $DA$, $CB$ 
+%  thmtexte meet $O_1$. Along $OA$, $OC$, $O_1A$, $O_1C$ 
+%  thmtexte are measured off, respectively, $OE$, $OF$, 
+%  thmtexte $O_1E_1$, $O_1F_1$ equal to $AB$, $DC$, $AD$, 
+%  thmtexte $BC$. Prove that $EF$ is parallel to $E_1F_1$. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,D,E,O,F,E_1,O_1,F_1] : ((
+fof(thm, conjecture, ! [ A,B,C,D,O,O_1,E,F,E_1,F_1] : ((
    dimensions(110, 110)
    & freepoint(A, 40, 20)
    & freepoint(B, 90, 20)

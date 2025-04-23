@@ -1,8 +1,38 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0150_PappusHexagon.p; Output: thm_0150_PappusHexagon.p; Arg: [-p]
+% ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
+% Input: tmp_1_thm_0150_PappusHexagon.p; Output: tmp_2_thm_0150_PappusHexagon.p; Arg: [-l]
+%--------------------------------------------------------------------------
+% File     : tmp_thm_0150_PappusHexagon
+% Domain   : Geometry 
+% Problem  : ...
+% Source   : Converted from GCLC Goran Predovic Collection of Theorems
+% Refs     : Shang-Ching Chou: Mechanical Geometry Theorem Proving, Springer, 1988
+% Status   : Valid
+%--------------------------------------------------------------------------
+%----Include geometry axioms
+%include('geo.ax').
+%--------------------------------------------------------------------------
+%  thmname Paposov heksagon 
+%  thmnamee Pappus Hexagon Theorem 
+%  thmtext Na pravoj $p$ su date ta\ch ke $A$, $B$ i $C$, 
+%  thmtext dok su na pravoj $q$ date ta\ch ke $A_1$, $B_1$ 
+%  thmtext i $C_1$. Neka je $P = AB_1 \cap A_1B$, 
+%  thmtext $Q = AC_1 \cap A_1C$ i $R = BC_1 \cap B_1C$. 
+%  thmtext Dokazati da su ta\ch ke $P$, $Q$ i $R$ 
+%  thmtext kolinearne. 
+%  thmnote Ova teorema je posledica Paskalove teoreme 
+%  thmnote za krive drugog reda. Dve prave su specijalan 
+%  thmnote slu\ch aj krive drugog reda. 
+%  thmtexte Let $A$, $B$ and $C$ be three points on the 
+%  thmtexte line $p$, and let $A_1$, $B_1$ and $C_1$ be 
+%  thmtexte three points on the line $q$. Following intersections are created: 
+%  thmtexte $P = AB_1 \cap A_1B$, $Q = AC_1 \cap A_1C$ and 
+%  thmtexte $R = BC_1 \cap B_1C$. Show that points 
+%  thmtexte $P$, $Q$ and $R$ are collinear. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,A_1,B_1] : ((
+fof(thm, conjecture, ! [ A,B,C,A_1,B_1,C_1,P,Q,S] : ((
    dimensions(110, 90)
    & freepoint(A, 40, 10)
    & freepoint(B, 90, 10)

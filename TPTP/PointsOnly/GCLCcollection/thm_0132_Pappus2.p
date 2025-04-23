@@ -1,8 +1,31 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0132_Pappus2.p; Output: thm_0132_Pappus2.p; Arg: [-p]
+% ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
+% Input: tmp_1_thm_0132_Pappus2.p; Output: tmp_2_thm_0132_Pappus2.p; Arg: [-l]
+%--------------------------------------------------------------------------
+% File     : tmp_thm_0132_Pappus2
+% Domain   : Geometry 
+% Problem  : ...
+% Source   : Converted from GCLC Goran Predovic Collection of Theorems
+% Refs     : Shang-Ching Chou: Mechanical Geometry Theorem Proving, Springer, 1988
+% Status   : Valid
+%--------------------------------------------------------------------------
+%----Include geometry axioms
+%include('geo.ax').
+%--------------------------------------------------------------------------
+%  thmname Paposova teorema (druga verzija) 
+%  thmnamee Pappus' Theorem (second version) 
+%  thmtext Neka su $ABC$ i $A_1B_1C_1$ dve prave i neka je 
+%  thmtext $P = AB_1 \cap A_1B$, $Q = AC_1 \cap A_1C$ i 
+%  thmtext $S = BC_1 \cap B_1C$. 
+%  thmtext Dokazati da su $P$, $Q$ i $S$ kolinearne. 
+%  thmtexte Let $ABC$ and $A_1B_1C_1$ be two lines and 
+%  thmtexte $P = AB_1 \cap A_1B$, $Q = AC_1 \cap A_1C$, 
+%  thmtexte $S = BC_1 \cap B_1C$. Then $P$, $Q$ and $S$ 
+%  thmtexte are collinear. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,A_1,B_1] : ((
+fof(thm, conjecture, ! [ A,B,C,A_1,B_1,C_1,P,Q,S] : ((
    dimensions(100, 100)
    & freepoint(A, 20, 20)
    & freepoint(B, 50, 20)

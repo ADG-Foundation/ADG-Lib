@@ -1,8 +1,35 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0285_Example85.p; Output: thm_0285_Example85.p; Arg: [-p]
+% ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
+% Input: tmp_1_thm_0285_Example85.p; Output: tmp_2_thm_0285_Example85.p; Arg: [-l]
+%--------------------------------------------------------------------------
+% File     : tmp_thm_0285_Example85
+% Domain   : Geometry 
+% Problem  : ...
+% Source   : Converted from GCLC Goran Predovic Collection of Theorems
+% Refs     : Shang-Ching Chou: Mechanical Geometry Theorem Proving, Springer, 1988
+% Status   : Valid
+%--------------------------------------------------------------------------
+%----Include geometry axioms
+%include('geo.ax').
+%--------------------------------------------------------------------------
+%  thmname Primer 85 iz \cite{chou} 
+%  thmnamee Example 85 from \cite{chou} 
+%  thmtext Dat je paralelogram $ABCD$. Neka su $P$ i $Q$ 
+%  thmtext ta\ch ke na stranicama $BC$ i $AD$ takve da je 
+%  thmtext $PQ \parallel AB$. Neka su dalje $M = BQ \cap AP$ 
+%  thmtext i $N = CQ \cap PD$. Dokazati da je $MN$ paralelna 
+%  thmtext sa $AD$ i jednaka polovini te stranice. 
+%  thmnote Kada se doka\zh e paralelnost, druga pretpostavka 
+%  thmnote se dokazuje kroz odnos du\zh i. 
+%  thmtexte Let $P$ and $Q$ be two points on side $BC$ 
+%  thmtexte and $AD$ of a parallelogram such that 
+%  thmtexte $PQ \parallel AB$; $M = AP \cap BQ$, 
+%  thmtexte $N = DP \cap QC$. Show that $MN \parallel AD$ 
+%  thmtexte and $MN = AD/2$. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C] : ((
+fof(thm, conjecture, ! [ A,B,C,P1,P2,D,P,P3,Q,N,M] : ((
    dimensions(130, 100)
    & freepoint(A, 20, 20)
    & freepoint(B, 80, 20)

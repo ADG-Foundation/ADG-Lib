@@ -1,8 +1,27 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0269_Example69.p; Output: thm_0269_Example69.p; Arg: [-p]
+% ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
+% Input: tmp_1_thm_0269_Example69.p; Output: tmp_2_thm_0269_Example69.p; Arg: [-l]
+%--------------------------------------------------------------------------
+% File     : tmp_thm_0269_Example69
+% Domain   : Geometry 
+% Problem  : ...
+% Source   : Converted from GCLC Goran Predovic Collection of Theorems
+% Refs     : Shang-Ching Chou: Mechanical Geometry Theorem Proving, Springer, 1988
+% Status   : Valid
+%--------------------------------------------------------------------------
+%----Include geometry axioms
+%include('geo.ax').
+%--------------------------------------------------------------------------
+%  thmname Primer 69 iz \cite{chou} 
+%  thmnamee Example 69 from \cite{chou} 
+%  thmtext Dijagonale paralelograma i upisanog 
+%  thmtext paralelograma su konkurentne. 
+%  thmtexte The diagonals of a parallelogram and those 
+%  thmtexte of its inscribed parallelogram are concurrent. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C] : ((
+fof(thm, conjecture, ! [ A,B,C,P1,P2,D,A_1,B_1,C_1,D_1,O] : ((
    dimensions(130, 100)
    & freepoint(A, 20, 20)
    & freepoint(B, 90, 20)

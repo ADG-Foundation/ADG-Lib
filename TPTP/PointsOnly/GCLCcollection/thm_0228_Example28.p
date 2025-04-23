@@ -1,8 +1,37 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0228_Example28.p; Output: thm_0228_Example28.p; Arg: [-p]
+% ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
+% Input: tmp_1_thm_0228_Example28.p; Output: tmp_2_thm_0228_Example28.p; Arg: [-l]
+%--------------------------------------------------------------------------
+% File     : tmp_thm_0228_Example28
+% Domain   : Geometry 
+% Problem  : ...
+% Source   : Converted from GCLC Goran Predovic Collection of Theorems
+% Refs     : Shang-Ching Chou: Mechanical Geometry Theorem Proving, Springer, 1988
+% Status   : Valid
+%--------------------------------------------------------------------------
+%----Include geometry axioms
+%include('geo.ax').
+%--------------------------------------------------------------------------
+%  thmname Primer 28 iz \cite{chou} 
+%  thmnamee Example 28 from \cite{chou} 
+%  thmtext Kod \sh estougla $AC_1BA_1CB_1$ trojka pravih 
+%  thmtext $BB_1$, $C_1A$ i $A_1C$ je konkurentna, kao i 
+%  thmtext trojka pravih $CC_1$, $A_1B$ i $B_1A$. Dokazati 
+%  thmtext da je i trojka pravih $AA_1$, $B_1C$ i $C_1B$ 
+%  thmtext tako\dj e konkurentna. 
+%  thmnote Po\sh to dokazujemo teoreme konstruktivnog tipa, 
+%  thmnote a ne opisnog, ova opisna teorema mora biti iskazana 
+%  thmnote u konstruktivnom tipu. Prvo \cj e biti konstruisan 
+%  thmnote \sh estougao koji zadovoljava svojstva iz zadatka, 
+%  thmnote i potom \cj e na njemu biti dokazana teorema. 
+%  thmtexte In a hexagon $AC_1BA_1CB_1$, $BB_1$, $C_1A$, 
+%  thmtexte $A_1C$ are concurrent and $CC_1$, $A_1B$, $B_1A$ 
+%  thmtexte are concurrent. Prove that $AA_1$, $B_1C$, $C_1B$ 
+%  thmtexte are also concurrent. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,C_1,B,A_1,C] : ((
+fof(thm, conjecture, ! [ A,C_1,B,A_1,C,O,H,B_1,I] : ((
    dimensions(110, 90)
    & freepoint(A, 30, 20)
    & freepoint(C_1, 58, 20)

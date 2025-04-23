@@ -1,8 +1,41 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0060_MenelausGen.p; Output: thm_0060_MenelausGen.p; Arg: [-p]
+% ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
+% Input: tmp_1_thm_0060_MenelausGen.p; Output: tmp_2_thm_0060_MenelausGen.p; Arg: [-l]
+%--------------------------------------------------------------------------
+% File     : tmp_thm_0060_MenelausGen
+% Domain   : Geometry 
+% Problem  : ...
+% Source   : Converted from GCLC Goran Predovic Collection of Theorems
+% Refs     : Shang-Ching Chou: Mechanical Geometry Theorem Proving, Springer, 1988
+% Status   : Valid
+%--------------------------------------------------------------------------
+%----Include geometry axioms
+%include('geo.ax').
+%--------------------------------------------------------------------------
+%  thmname Uop\sh tena Menelajeva teorema 
+%  thmnamee General Menelaus's Theorem 
+%  thmtext Dati su \ch etvorougao $ABCD$, ta\ch ka $A_1$ na 
+%  thmtext pravoj $AB$ i ta\ch ka $B_1$ na pravoj $BC$. 
+%  thmtext Neka su $C_1$ i $D_1$ preseci prave $A_1B_1$ 
+%  thmtext sa pravama $CD$ i $AD$ redom. 
+%  thmtext Dokazati da je 
+%  thmtext $\frac{\overline{AA_1}}{\overline{A_1B}} \cdot 
+%  thmtext \frac{\overline{BB_1}}{\overline{B_1C}} \cdot 
+%  thmtext \frac{\overline{CC_1}}{\overline{C_1D}} \cdot 
+%  thmtext \frac{\overline{DD_1}}{\overline{D_1A}} \cdot 
+%  thmtext = 1$ 
+%  thmtexte Line $p$ intersects lines $AB$, $BC$, $CD$ and $DA$ 
+%  thmtexte at points $A_1$, $B_1$, $C_1$ and $D_1$ respectively. 
+%  thmtexte Show that: 
+%  thmtexte $\frac{\overline{AA_1}}{\overline{A_1B}} \cdot 
+%  thmtexte \frac{\overline{BB_1}}{\overline{B_1C}} \cdot 
+%  thmtexte \frac{\overline{CC_1}}{\overline{C_1D}} \cdot 
+%  thmtexte \frac{\overline{DD_1}}{\overline{D_1A}} \cdot 
+%  thmtexte = 1$ 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,D] : ((
+fof(thm, conjecture, ! [ A,B,C,D,A_1,B_1,C_1,D_1] : ((
    dimensions(100, 100)
    & freepoint(A, 20, 20)
    & freepoint(B, 80, 20)

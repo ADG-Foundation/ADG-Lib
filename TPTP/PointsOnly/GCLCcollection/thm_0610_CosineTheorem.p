@@ -1,5 +1,23 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0610_CosineTheorem.p; Output: thm_0610_CosineTheorem.p; Arg: [-p]
+% ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
+% Input: tmp_1_thm_0610_CosineTheorem.p; Output: tmp_2_thm_0610_CosineTheorem.p; Arg: [-l]
+%--------------------------------------------------------------------------
+% File     : tmp_thm_0610_CosineTheorem
+% Domain   : Geometry 
+% Problem  : ...
+% Source   : Converted from GCLC Goran Predovic Collection of Theorems
+% Refs     : Shang-Ching Chou: Mechanical Geometry Theorem Proving, Springer, 1988
+% Status   : Valid
+%--------------------------------------------------------------------------
+%----Include geometry axioms
+%include('geo.ax').
+%--------------------------------------------------------------------------
+%  thmname Kosinusna teorema 
+%  thmnamee The Law of Cosine 
+%  thmtext $c^2 + b^2 - 2bc \cos \alpha = a^2$ 
+%  thmtexte $c^2 + b^2 - 2bc \cos \alpha = a^2$ 
+%  thmnote $\cos \alpha = \frac{CD}{AC}$ 
 
 include('geo.ax').
 fof(thm, conjecture, ! [ A,B,C,D,a,b,c,al,x,xx] : ((

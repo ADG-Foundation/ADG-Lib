@@ -1,8 +1,39 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0820_GeoThms20.p; Output: thm_0820_GeoThms20.p; Arg: [-p]
+% ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
+% Input: tmp_1_thm_0820_GeoThms20.p; Output: tmp_2_thm_0820_GeoThms20.p; Arg: [-l]
+%--------------------------------------------------------------------------
+% File     : tmp_thm_0820_GeoThms20
+% Domain   : Geometry 
+% Problem  : ...
+% Source   : Converted from GCLC Goran Predovic Collection of Theorems
+% Refs     : Shang-Ching Chou: Mechanical Geometry Theorem Proving, Springer, 1988
+% Status   : Valid
+%--------------------------------------------------------------------------
+%----Include geometry axioms
+%include('geo.ax').
+%--------------------------------------------------------------------------
+%  thmname Primer 20 iz \cite{geothms} 
+%  thmnamee Example 20 from \cite{geothms} 
+%  thmtext U ravni je dat trougao $ABC$ sa te\zh i\sh tem $T$. 
+%  thmtext Kroz proizvoljnu ta\ch ku $X$ povu\ch ena je prava 
+%  thmtext $TX$. Dokazati da je zbir rastojanja dva temena od prave $TX$ 
+%  thmtext jednak rastojanju tr\cj eg temena. 
+%  thmnote Obratiti pa\zh nju na sliku koja je izabrana 
+%  thmnote tako da se maksimalno pojednostavi proces dokazivanja. 
+%  thmnote Slika je konstruisana na na\ch in da najve\cj i 
+%  thmnote broj ta\ch aka le\zh i na pravoj koja je  
+%  thmnote paralelna koordinatnoj osi. Pa\zh ljivom analizom 
+%  thmnote redosleda konstrukcija ta\ch aka, iskusniji \ch italac 
+%  thmnote mo\zh e rekonstruisati korake konstrukcije. 
+%  thmtexte Given a triangle $ABC$ and a point $X$, the sum 
+%  thmtexte of the distances of the line $XG$, where $G$ is the 
+%  thmtexte centroid of $ABC$, to the two vertices of the triangle 
+%  thmtexte situated on the same side of the line is equal to the 
+%  thmtexte distance of the line from the third vertex. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,C,T,A_1,C_1,X,D,E,B,F] : ((
+fof(thm, conjecture, ! [ A,C,T,A_1,C_1,B,X,D,E,F] : ((
    dimensions(110, 100)
    & freepoint(A, 20, 20)
    & freepoint(C, 65, 80)

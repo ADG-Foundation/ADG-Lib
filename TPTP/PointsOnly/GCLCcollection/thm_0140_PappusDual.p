@@ -1,8 +1,35 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0140_PappusDual.p; Output: thm_0140_PappusDual.p; Arg: [-p]
+% ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
+% Input: tmp_1_thm_0140_PappusDual.p; Output: tmp_2_thm_0140_PappusDual.p; Arg: [-l]
+%--------------------------------------------------------------------------
+% File     : tmp_thm_0140_PappusDual
+% Domain   : Geometry 
+% Problem  : ...
+% Source   : Converted from GCLC Goran Predovic Collection of Theorems
+% Refs     : Shang-Ching Chou: Mechanical Geometry Theorem Proving, Springer, 1988
+% Status   : Valid
+%--------------------------------------------------------------------------
+%----Include geometry axioms
+%include('geo.ax').
+%--------------------------------------------------------------------------
+%  thmname Dualna Paposova teorema 
+%  thmnamee Pappus' Dual Theorem 
+%  thmtext U ravni su date ta\ch ke $O$, $A$, 
+%  thmtext $B$, $C$ i $O_1$. Ta\ch ke $A_1$, 
+%  thmtext $B_1$, $C_1$ i $I$ su konstruisane 
+%  thmtext kao preseci parova pravih: $O_1B$ i 
+%  thmtext $OC$, $OA$ i $O_1C$, $OB$ i $O_1A$, 
+%  thmtext $BB_1$ i $AA_1$. Dokazati da su 
+%  thmtext ta\ch ke $C$, $C_1$ i $I$ kolinearne. 
+%  thmtexte Given points $O$, $A$, $B$, $C$ and $O_1$ 
+%  thmtexte new points are constructed as: 
+%  thmtexte $A_1 = O_1B \cap OC$, $B_1 = OA \cap O_1C$, 
+%  thmtexte $C_1 = OB \cap O_1A$, $I = BB_1 \cap AA_1$. 
+%  thmtexte Show that points $C$, $C_1$ and $I$ are collinear. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ O,A,B,C,O_1] : ((
+fof(thm, conjecture, ! [ O,A,B,C,O_1,A_1,B_1,C_1,I] : ((
    dimensions(130, 130)
    & freepoint(O, 25.8, 48.3)
    & freepoint(A, 95.2, 55)

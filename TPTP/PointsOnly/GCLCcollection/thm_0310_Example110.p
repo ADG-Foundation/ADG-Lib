@@ -1,8 +1,37 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0310_Example110.p; Output: thm_0310_Example110.p; Arg: [-p]
+% ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
+% Input: tmp_1_thm_0310_Example110.p; Output: tmp_2_thm_0310_Example110.p; Arg: [-l]
+%--------------------------------------------------------------------------
+% File     : tmp_thm_0310_Example110
+% Domain   : Geometry 
+% Problem  : ...
+% Source   : Converted from GCLC Goran Predovic Collection of Theorems
+% Refs     : Shang-Ching Chou: Mechanical Geometry Theorem Proving, Springer, 1988
+% Status   : Valid
+%--------------------------------------------------------------------------
+%----Include geometry axioms
+%include('geo.ax').
+%--------------------------------------------------------------------------
+%  thmname Primer 110 iz \cite{chou} 
+%  thmnamee Example 110 from \cite{chou} 
+%  thmtext Na pravam $AC$ i $BD$ trougla $ABC$ date su 
+%  thmtext $D$ i $E$ takve da je $AD \cong BE$. 
+%  thmtext Neka je $F = DE \cap AB$. Dokazati da je: 
+%  thmtext $FD \cdot AC = EF \cdot BC$. 
+%  thmtexte Let $D$ and $E$ be two points on two 
+%  thmtexte sides $AC$ and $BC$ of triangle $ABC$ such 
+%  thmtexte that $AD \cong BE$. $F = DE \cap AB$. Show that: 
+%  thmtexte $FD \cdot AC = EF \cdot BC$. 
+%  thmnote Konstrukcija je izvedena tako \sh to su ta\ch ke 
+%  thmnote $A$, $B$, $C$ izabrane proizvoljno, $D$ izabrana 
+%  thmnote proizvoljno na pravoj $AC$. Zatim je konstruisan  
+%  thmnote paralelogram $ADD_1B$ i ta\ch ka $E$ je odre\dj ena 
+%  thmnote kao presek kruga sa polupre\ch nikom $BD_1$ 
+%  thmnote prave $BC$. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C] : ((
+fof(thm, conjecture, ! [ A,B,C,D,P1,P2,D1,E,E1,F] : ((
    dimensions(120, 110)
    & freepoint(A, 20, 40)
    & freepoint(B, 85, 40)
