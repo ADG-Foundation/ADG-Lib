@@ -228,7 +228,8 @@ translate_fol2geogebra_g((A=B),M)                :- !,
 translate_fol2geogebra_g( parallel(A,B,C,D),M)  :- !, 
    write('AreParallel['),
    write('Segment['), print(A,M), write(', '), print(B,M),write('],'),
-   write('Segment['), print(C,M), write(', '), print(D,M),write(']').
+   write('Segment['), print(C,M), write(', '), print(D,M),write(']'),
+   write(']').
    
 translate_fol2geogebra_g( perpNS(A,B,C,D),M)    :- !, 
    write('perpendicular '), print(A,M), write(' '), 
