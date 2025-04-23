@@ -43,15 +43,15 @@ translate_term_lines2points(drawdashline(L), M) :- !,
    print(A,M), write(', '),
    print(B,M), write(')').
 
-translate_term_lines2points(paraS(Lp,P,L), M) :- !, 
+translate_term_lines2points(parallel(Lp,P,L), M) :- !, 
    getNewVarName('objP', Vname),
-   write('paraS('), write(Vname), write(', '), print(P,M), write(', '), 
+   write('parallel('), write(Vname), write(', '), print(P,M), write(', '), 
    newline(L,A,B), %  take the first such
    print(A,M), write(', '),
    print(B,M), write(')'),
    asserta(newline(Lp,Vname,P)).
 
-translate_term_lines2points(perpS(Lp,P,L), M) :- !, 
+translate_term_lines2points(perpendiculr(Lp,P,L), M) :- !, 
    getNewVarName('objP', Vname),
    write('perpendicular('), write(Vname), write(', '), print(P,M), write(', '), 
    newline(L,A,B), %  take the first such
@@ -66,8 +66,8 @@ translate_term_lines2points(foot(X,P,L), M) :- !,
    print(A,M), write(', '),
    print(B,M), write(')').
 
-translate_term_lines2points(intersec_ll(X,L1,L2), M) :- !, 
-   write('inter('), 
+translate_term_lines2points(intersection_ll(X,L1,L2), M) :- !, 
+   write('intersection('), 
    newline(L1,A1,B1),
    newline(L2,A2,B2),
    print(A1,M), write(', '), print(B1,M), write(', '),    
@@ -75,8 +75,8 @@ translate_term_lines2points(intersec_ll(X,L1,L2), M) :- !,
    print(X,M), write(')').
 
 
-translate_term_lines2points(intersec_cl(X1,X2,C,L), M) :- !, 
-   write('intersec_cl('), 
+translate_term_lines2points(intersection_cl(X1,X2,C,L), M) :- !, 
+   write('intersection_cl('), 
    print(X1,M), write(', '),
    print(X2,M), write(', '),
    newcircle(C,O1,A1),
@@ -86,7 +86,7 @@ translate_term_lines2points(intersec_cl(X1,X2,C,L), M) :- !,
 
    
 translate_term_lines2points(midpoint(X,P,L), M) :- !, 
-   print(midp(X,P,L), M). 
+   print(midpoint(X,P,L), M). 
 
 translate_term_lines2points(F, M) :- !, 
    pretty_print(F,M).

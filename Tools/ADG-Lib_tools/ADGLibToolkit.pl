@@ -106,9 +106,8 @@ translate_file(InputFilename, Argv) :-
     write('</construction>'),nl,
     write('</geogebra>'),nl.
 
-translate_file(InputFilename, _Argv) :-   
-    % default 
-    % member('-gclc', Argv),!, 
+translate_file(InputFilename, Argv) :-   
+    member('-gclc', Argv),!, 
     % can be used only for the form premises=>goal
     assert(counterVar(1)),
     translate_tptp_file(fol2gclc, InputFilename).

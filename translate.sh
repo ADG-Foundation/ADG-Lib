@@ -8,7 +8,7 @@ InputFolder="CustomFormats/GCLC/GoranPredovicCollection/points_only"
 OutputFolder="Generated"
 mkdir -p "$OutputFolder"
 
-for file in ${InputFolder}/thm_0*.gcl
+for file in ${InputFolder}/thm_0010*.gcl
 	do
 		echo "  "
                 filenameext=$(basename "$file")
@@ -23,7 +23,7 @@ for file in ${InputFolder}/thm_0*.gcl
 		cd ${OutputFolder}
 		gclc tmp_"$filename".gcl -xml -w
 		echo "--------------------------------------"		
-		echo "Exporting file "${InputFolder}/$filename".xml to ${OutputFolder}/tmp_1_"$filename".p: "		
+		echo "Exporting file "${OutputFolder}/tmp_"$filename".xml to ${OutputFolder}/tmp_1_"$filename".p: 		
 		xsltproc ../Tools/GCLC-XML-tools/GeoConsTPTP.xsl tmp_"$filename".xml > tmp_1_"$filename".p
 		echo "--------------------------------------"		
 		echo "Converting ${OutputFolder}/tmp_1_"$filename".p to points-only ${OutputFolder}/tmp_2_"$filename".p: "		
@@ -42,8 +42,11 @@ for file in ${InputFolder}/thm_0*.gcl
 		#vampire ${OutputFolder}/"$filename".p --mode casc --cores 4 --time_limit 5
 		echo "--------------------------------------"		
 		echo "Translating file ${OutputFolder}/"$filename".p to ${OutputFolder}/${filename}.gcl : "		
-		../Tools/ADG-Lib_tools/ADGLibToolkit "$filename".p ${filename}.gcl -g
-		echo "--------------------------------------"				
+		../Tools/ADG-Lib_tools/ADGLibToolkit "$filename".p ${filename}.gcl -gclc
+		echo "--------------------------------------"		
+		#echo "Translating file ${OutputFolder}/"$filename".p to ${OutputFolder}/${filename}.geogebra : "		
+		#../Tools/ADG-Lib_tools/ADGLibToolkit "$filename".p ${filename}.geogebra -geogebra
+		#echo "--------------------------------------"				
 		# echo "Diff $file and ${OutputFolder}/"$filename".gcl : "
 		# diff tmp_"$filename".gcl "$filename".gcl  
 		echo "--------------------------------------"				

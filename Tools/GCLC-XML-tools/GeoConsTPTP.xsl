@@ -93,14 +93,14 @@
 </xsl:template>
 
 <xsl:template match="intersection">
-  fof(intersec_ll_<xsl:apply-templates select="new_point"/>, axiom, intersec_ll<xsl:text>(</xsl:text>
+  fof(intersec_ll_<xsl:apply-templates select="new_point"/>, axiom, intersection_ll<xsl:text>(</xsl:text>
     <xsl:text>obj</xsl:text><xsl:apply-templates select="new_point"/><xsl:text>, </xsl:text>
     <xsl:text>obj</xsl:text><xsl:apply-templates select="line[1]"/><xsl:text>, </xsl:text>
     <xsl:text>obj</xsl:text><xsl:apply-templates select="line[2]"/><xsl:text>)). </xsl:text>
 </xsl:template>
 
 <xsl:template match="intersection_cc">
-  fof(intersec_cc_<xsl:apply-templates select="new_point[1]"/>_<xsl:apply-templates select="new_point[2]"/>, axiom, intersec_cc<xsl:text>(</xsl:text>
+  fof(intersec_cc_<xsl:apply-templates select="new_point[1]"/>_<xsl:apply-templates select="new_point[2]"/>, axiom, intersection_cc<xsl:text>(</xsl:text>
   <xsl:text>obj</xsl:text><xsl:apply-templates select="new_point[1]"/><xsl:text>, </xsl:text>
   <xsl:text>obj</xsl:text><xsl:apply-templates select="new_point[2]"/><xsl:text>, </xsl:text>
   <xsl:text>obj</xsl:text><xsl:apply-templates select="circle[1]"/><xsl:text>, </xsl:text>
@@ -108,7 +108,7 @@
 </xsl:template>
 
 <xsl:template match="intersection_cl">
-  fof(intersec_cl_<xsl:apply-templates select="new_point[1]"/>_<xsl:apply-templates select="new_point[2]"/>, axiom, intersec_cl<xsl:text>(</xsl:text>
+  fof(intersec_cl_<xsl:apply-templates select="new_point[1]"/>_<xsl:apply-templates select="new_point[2]"/>, axiom, intersection_cl<xsl:text>(</xsl:text>
     <xsl:text>obj</xsl:text><xsl:apply-templates select="new_point[1]"/><xsl:text>, </xsl:text>
     <xsl:text>obj</xsl:text><xsl:apply-templates select="new_point[2]"/><xsl:text>, </xsl:text>
     <xsl:text>obj</xsl:text><xsl:apply-templates select="circle"/><xsl:text>, </xsl:text>
@@ -116,7 +116,7 @@
 </xsl:template>
 
 <xsl:template match="midpoint">
-  fof(midpoint_<xsl:apply-templates select="new_point"/>, axiom, midp<xsl:text>(</xsl:text>
+  fof(midpoint_<xsl:apply-templates select="new_point"/>, axiom, midpoint<xsl:text>(</xsl:text>
     <xsl:text>obj</xsl:text><xsl:apply-templates select="new_point"/><xsl:text>, </xsl:text>
     <xsl:text>obj</xsl:text><xsl:apply-templates select="point[1]"/><xsl:text>, </xsl:text>
     <xsl:text>obj</xsl:text><xsl:apply-templates select="point[2]"/><xsl:text>)). </xsl:text>
@@ -130,14 +130,14 @@
 </xsl:template>
 
 <xsl:template match="random_point_on_line ">
-  fof(online_<xsl:apply-templates select="new_point"/>, axiom, coll<xsl:text>(</xsl:text>
+  fof(online_<xsl:apply-templates select="new_point"/>, axiom, collinear<xsl:text>(</xsl:text>
     <xsl:text>obj</xsl:text><xsl:apply-templates select="new_point"/><xsl:text>, </xsl:text>
     <xsl:text>obj</xsl:text><xsl:apply-templates select="point[1]"/><xsl:text>, </xsl:text>
     <xsl:text>obj</xsl:text><xsl:apply-templates select="point[2]"/><xsl:text>)). </xsl:text>    		
 </xsl:template>
 
 <xsl:template match="random_point_on_circle ">
-  fof(oncircle_<xsl:apply-templates select="new_point"/>, axiom, oncircle<xsl:text>(</xsl:text>
+  fof(oncircle_<xsl:apply-templates select="new_point"/>, axiom, on_circle<xsl:text>(</xsl:text>
     <xsl:text>obj</xsl:text><xsl:apply-templates select="new_point"/><xsl:text>, </xsl:text>
     <xsl:text>obj</xsl:text><xsl:apply-templates select="point[1]"/><xsl:text>, </xsl:text>
     <xsl:text>obj</xsl:text><xsl:apply-templates select="point[2]"/><xsl:text>)). </xsl:text>    		
@@ -214,14 +214,14 @@
 <!--**************properties**************-->
 
 <xsl:template match="parallel">
-  <xsl:if test="ancestor::prove">paraNS<xsl:text>(</xsl:text>
+  <xsl:if test="ancestor::prove">parallel<xsl:text>(</xsl:text>
     <xsl:text>obj</xsl:text><xsl:apply-templates select="point[1]"/><xsl:text>, </xsl:text>
     <xsl:text>obj</xsl:text><xsl:apply-templates select="point[2]"/><xsl:text>, </xsl:text>
     <xsl:text>obj</xsl:text><xsl:apply-templates select="point[3]"/><xsl:text>, </xsl:text>    
     <xsl:text>obj</xsl:text><xsl:apply-templates select="point[4]"/><xsl:text>) </xsl:text>
   </xsl:if>
   <xsl:if test="not(ancestor::prove)">
-  fof(parallel_<xsl:apply-templates select="new_line"/>, axiom, paraS<xsl:text>(</xsl:text>
+  fof(parallel_<xsl:apply-templates select="new_line"/>, axiom, parallel<xsl:text>(</xsl:text>
     <xsl:text>obj</xsl:text><xsl:apply-templates select="new_line"/><xsl:text>, </xsl:text>
     <xsl:text>obj</xsl:text><xsl:apply-templates select="point"/><xsl:text>, </xsl:text>
     <xsl:text>obj</xsl:text><xsl:apply-templates select="line"/><xsl:text>)). </xsl:text>
@@ -229,14 +229,14 @@
 </xsl:template>
 
 <xsl:template match="perpendicular">
-  <xsl:if test="ancestor::prove">perpNS<xsl:text>(</xsl:text>
+  <xsl:if test="ancestor::prove">perpendicular<xsl:text>(</xsl:text>
     <xsl:text>obj</xsl:text><xsl:apply-templates select="point[1]"/><xsl:text>, </xsl:text>
     <xsl:text>obj</xsl:text><xsl:apply-templates select="point[2]"/><xsl:text>, </xsl:text>
     <xsl:text>obj</xsl:text><xsl:apply-templates select="point[3]"/><xsl:text>, </xsl:text>    
     <xsl:text>obj</xsl:text><xsl:apply-templates select="point[4]"/><xsl:text>) </xsl:text>
   </xsl:if>
   <xsl:if test="not(ancestor::prove)">
-  fof(perpendicular_<xsl:apply-templates select="new_line"/>, axiom, perpS<xsl:text>(</xsl:text>
+  fof(perpendicular_<xsl:apply-templates select="new_line"/>, axiom, perpendicular<xsl:text>(</xsl:text>
     <xsl:text>obj</xsl:text><xsl:apply-templates select="new_line"/><xsl:text>, </xsl:text>
     <xsl:text>obj</xsl:text><xsl:apply-templates select="point"/><xsl:text>, </xsl:text>
     <xsl:text>obj</xsl:text><xsl:apply-templates select="line"/><xsl:text>)). </xsl:text>
