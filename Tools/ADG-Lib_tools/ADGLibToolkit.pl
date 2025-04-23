@@ -140,10 +140,11 @@ read_file(Stream,[[X,M]|L]) :-
     read_file(Stream,L).
 read_file(_Stream,[]).
 
-print_comment(Line,fol2geogebra) :- !,
-    write('<!---'),
-    write(Line),
-    write('>'), nl.
+%print_comment(Line,fol2geogebra) :- !,
+%    Do not print comments, they seem to be unsupported in this format in GeoGebra.
+%    write('<!---'),
+%    write(Line),
+%    write('>'), nl.
 
 print_comment(Line,fol2geogebra) :-
     write(Line),nl.
