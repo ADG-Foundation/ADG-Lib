@@ -3,7 +3,7 @@
 %**********************************************
 
 translate_tptp_entry_folLines2Points(include(Ax),_M) :- !,
-    nl,write(include(Ax)),write('.'),nl.
+    nl,write("include('"),write(Ax),write("')."),nl.
 translate_tptp_entry_folLines2Points(fof(Ax,axiom, F),  M) :- !,
     write('fof('),write(Ax),write(', axiom, '),
     translate_term_lines2points(F, M),

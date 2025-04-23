@@ -28,22 +28,23 @@ collect_all_points([H|T], M, AllPoints, Constructed) :-
    append(AllPoints1, AllPoints2, AllPoints),
    append(Constructed1, Constructed2, Constructed).
 
-geo_predicate(coll(X,A,B), _M, [A,B,X], [A,B], [X]) :- !.
-geo_predicate(oncircle(X,A,B), _M, [A,B,X], [A,B], [X]) :- !.
-geo_predicate(perpS(A,B,C,D), _M, [A,B,C,D], [B,C,D], [A]) :- !.
-geo_predicate(perpNS(A,B,C,D), _M, [A,B,C,D], [B,C,D], [A]) :- !.
-geo_predicate(paraS(A,B,C,D), _M, [A,B,C,D], [B,C,D], [A]) :- !.
-geo_predicate(paraNS(A,B,C,D), _M, [A,B,C,D], [B,C,D], [A]) :- !.
-geo_predicate(inter(A,B,C,D,X), _M, [A,B,C,D,X], [A,B,C,D], [X]) :- !.
-geo_predicate(intersec_cl(X1,X2,O,A1,A,B), _M, [X1,X2,O,A1,A,B], [O,A1,A,B], [X1,X2]) :- !.
+geo_predicate(collinear(X,A,B), _M, [A,B,X], [A,B], [X]) :- !.
+geo_predicate(on_line(X,A,B), _M, [A,B,X], [A,B], [X]) :- !.
+geo_predicate(on_circle(X,A,B), _M, [A,B,X], [A,B], [X]) :- !.
+geo_predicate(perpendicular(A,B,C,D), _M, [A,B,C,D], [B,C,D], [A]) :- !.
+geo_predicate(perpendicular_non_strict(A,B,C,D), _M, [A,B,C,D], [B,C,D], [A]) :- !.
+geo_predicate(parallel(A,B,C,D), _M, [A,B,C,D], [B,C,D], [A]) :- !.
+geo_predicate(parallel_non_strict(A,B,C,D), _M, [A,B,C,D], [B,C,D], [A]) :- !.
+geo_predicate(intersection(A,B,C,D,X), _M, [A,B,C,D,X], [A,B,C,D], [X]) :- !.
+geo_predicate(intersection_cl(X1,X2,O,A1,A,B), _M, [X1,X2,O,A1,A,B], [O,A1,A,B], [X1,X2]) :- !.
 geo_predicate(foot(X,A,B,C), _M, [A,B,C,X], [A,B,C], [X]) :- !.
 geo_predicate(translate(X,A,B,C), _M, [A,B,C,X], [A,B,C], [X]) :- !.
 geo_predicate(towards(X,A,B,_), _M, [A,B,X], [A,B], [X]) :- !.
-geo_predicate(midp(X,A,B), _M, [A,B,X], [A,B], [X]) :- !.
+geo_predicate(midpoint(X,A,B), _M, [A,B,X], [A,B], [X]) :- !.
 geo_predicate(reflection(X,A,B), _M, [A,B,X], [A,B],[X]) :- !.
 geo_predicate(orthocenter(X,A,B,C), _M, [A,B,C,X], [A,B,C],[X]) :- !.
 geo_predicate(circle(X,A,B,C), _M, [A,B,C,X], [A,B,C],[X]) :- !.
-geo_predicate(~coll(A,B,C), _M, [A,B,C], [A,B,C],[]) :- !.
+geo_predicate(~colllinear(A,B,C), _M, [A,B,C], [A,B,C],[]) :- !.
 geo_predicate(A-B, _M, [A,B], [A,B],[]) :- !.
 geo_predicate(freepoint(A,_,_), _M, [A], [],[A]) :- !.
 geo_predicate(_, _M, [], [],[]) :- !.

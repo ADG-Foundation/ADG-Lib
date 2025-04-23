@@ -8,7 +8,7 @@ InputFolder="CustomFormats/GCLC/GoranPredovicCollection/points_only"
 OutputFolder="Generated"
 mkdir -p "$OutputFolder"
 
-for file in ${InputFolder}/thm_0010*.gcl
+for file in ${InputFolder}/thm_0*.gcl
 	do
 		echo "  "
                 filenameext=$(basename "$file")

@@ -35,10 +35,10 @@ translate_term_fol2gclc(newline(L,A,B),M)     :- !,
    nl, write('line '), print(L,M), write(' '), print(A,M), write(' '), print(B,M).
 translate_term_fol2gclc(newcircle(K,C,X),M)   :- !, 
    nl, write('circle '), print(K), write(' '), print(C,M), write(' '), print(X,M).
-translate_term_fol2gclc(online(P,A,B),M)      :- !, 
+translate_term_fol2gclc(on_line(P,A,B),M)      :- !, 
    nl, write('online '), print(P,M), write(' '), print(A,M), write(' '), print(B,M).
-translate_term_fol2gclc(oncircle(P,A,B),M)    :- !, 
-   nl, write('oncircle '), print(P,M), write(' '), print(A,M), write(' '), print(B,M).
+translate_term_fol2gclc(on_circle(P,A,B),M)    :- !, 
+   nl, write('on_circle '), print(P,M), write(' '), print(A,M), write(' '), print(B,M).
 translate_term_fol2gclc(midpoint(P,A,B),M)        :- !, 
    nl, write('midpoint '), print(P,M), write(' '), print(A,M), write(' '), print(B,M).
 translate_term_fol2gclc(med(L,A,B),M)         :- !, 

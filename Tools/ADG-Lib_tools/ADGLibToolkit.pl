@@ -113,10 +113,10 @@ translate_file(InputFilename, Argv) :-
     translate_tptp_file(fol2gclc, InputFilename).
 
 translate_tptp_file(Conversion_type, InputFile) :- 
-    take_leading_comments(InputFile,Conversion_type),    
+    take_leading_comments(InputFile,Conversion_type), 
     open(InputFile, read, Stream),
     read_file(Stream, ListOfTerms),
-    close(Stream),
+    close(Stream),!,   
     translate_tptp_list_of_terms(Conversion_type, ListOfTerms).
 
 take_leading_comments(InputFile,Conversion_type) :-
@@ -128,8 +128,8 @@ read_comments(Stream,_Conversion_type) :-
     at_end_of_stream(Stream), !.
 read_comments(Stream,Conversion_type) :-
     read_line_to_string(Stream, Line),
-    string_chars(Line, ['%'|_]),
-    print_comment(Line,Conversion_type),
+    ((string_chars(Line, ['%'|_]), print_comment(Line,Conversion_type)) ;
+     (string_chars(Line, ['i','n','c','l','u','d','e'|_]), write('%'),write(Line),nl)),
     read_comments(Stream,Conversion_type).
 read_comments(_,_) :- !.
 
@@ -145,7 +145,7 @@ read_file(_Stream,[]).
 %    write(Line),
 %    write('>'), nl.
 
-print_comment(Line,fol2geogebra) :-
+print_comment(Line,_Conversion_type) :-
     write(Line),nl.
 
 

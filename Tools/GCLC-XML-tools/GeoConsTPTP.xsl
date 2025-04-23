@@ -469,7 +469,7 @@
 
 <xsl:template match="fraction">fraction <xsl:apply-templates /></xsl:template>
 
-<xsl:template match="equal_segments">same_length<xsl:text>(</xsl:text>  
+<xsl:template match="equal_segments">congruent_segments<xsl:text>(</xsl:text>  
    <xsl:apply-templates select="segment[1]"/><xsl:text>, </xsl:text>
    <xsl:apply-templates select="segment[2]"/><xsl:text>) </xsl:text>	
 </xsl:template>
