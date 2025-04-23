@@ -1,19 +1,8 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0258_Example58.p; Output: thm_0258_Example58.p; Arg: [-p]
-% ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0258_Example58.p; Output: tmp_2_thm_0258_Example58.p; Arg: [-l]
-%--------------------------------------------------------------------------
-% File     : tmp_thm_0258_Example58
-% Domain   : Geometry 
-% Problem  : ...
-% Source   : Converted from GCLC Goran Predovic Collection of Theorems
-% Refs     : Shang-Ching Chou: Mechanical Geometry Theorem Proving, Springer, 1988
-% Status   : Valid
-%--------------------------------------------------------------------------
-%----Include geometry axioms
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C_1,C,A_1,B_1,A_2,B_2,C_2] : ((
+fof(thm, conjecture, ! [ A,B,C_1,C,A_1,B_1] : ((
    dimensions(130, 100)
    & freepoint(A, 20, 20)
    & freepoint(B, 90, 20)
@@ -21,9 +10,9 @@ fof(thm, conjecture, ! [ A,B,C_1,C,A_1,B_1,A_2,B_2,C_2] : ((
    & freepoint(C, 70, 80)
    & towards(A_1, B, C, 0.333333)
    & towards(B_1, C, A, 0.333333)
-   & inter(B, B_1, C, C_1, A_2)
-   & inter(A, A_1, C, C_1, B_2)
-   & inter(A, A_1, B, B_1, C_2)
+   & intersection(B, B_1, C, C_1, A_2)
+   & intersection(A, A_1, C, C_1, B_2)
+   & intersection(A, A_1, B, B_1, C_2)
    & cmark_b(A)
    & cmark_b(B)
    & cmark_b(C_1)

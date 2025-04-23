@@ -1,30 +1,19 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0040_Desargues.p; Output: thm_0040_Desargues.p; Arg: [-p]
-% ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0040_Desargues.p; Output: tmp_2_thm_0040_Desargues.p; Arg: [-l]
-%--------------------------------------------------------------------------
-% File     : tmp_thm_0040_Desargues
-% Domain   : Geometry 
-% Problem  : ...
-% Source   : Converted from GCLC Goran Predovic Collection of Theorems
-% Refs     : Shang-Ching Chou: Mechanical Geometry Theorem Proving, Springer, 1988
-% Status   : Valid
-%--------------------------------------------------------------------------
-%----Include geometry axioms
 
 include('geo.ax').
-fof(thm, conjecture, ! [ S,A_2,B_2,A_1,B_1,A_3,B_3,P,Q,R] : ((
+fof(thm, conjecture, ! [ S,A_2,A_1,A_3] : ((
    dimensions(110, 90)
    & freepoint(S, 20, 30)
    & freepoint(A_2, 36.6, 30)
-   & coll(B_2, S, A_2)
+   & collinear(B_2, S, A_2)
    & freepoint(A_1, 27.2, 24.7)
-   & coll(B_1, S, A_1)
+   & collinear(B_1, S, A_1)
    & freepoint(A_3, 42.2, 41.1)
-   & coll(B_3, S, A_3)
-   & inter(A_1, A_2, B_1, B_2, P)
-   & inter(A_1, A_3, B_1, B_3, Q)
-   & inter(A_2, A_3, B_2, B_3, R)
+   & collinear(B_3, S, A_3)
+   & intersection(A_1, A_2, B_1, B_2, P)
+   & intersection(A_1, A_3, B_1, B_3, Q)
+   & intersection(A_2, A_3, B_2, B_3, R)
    & drawdashline(P, Q)
    & drawline(A_1, A_2)
    & drawline(A_1, A_3)

@@ -1,16 +1,5 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0100_Parallelogram.p; Output: thm_0100_Parallelogram.p; Arg: [-p]
-% ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0100_Parallelogram.p; Output: tmp_2_thm_0100_Parallelogram.p; Arg: [-l]
-%--------------------------------------------------------------------------
-% File     : tmp_thm_0100_Parallelogram
-% Domain   : Geometry 
-% Problem  : ...
-% Source   : Converted from GCLC Goran Predovic Collection of Theorems
-% Refs     : Shang-Ching Chou: Mechanical Geometry Theorem Proving, Springer, 1988
-% Status   : Valid
-%--------------------------------------------------------------------------
-%----Include geometry axioms
 
 include('geo.ax').
 fof(thm, conjecture, ! [ A,B,C,D] : ((

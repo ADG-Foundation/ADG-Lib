@@ -1,32 +1,21 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0225_Example25.p; Output: thm_0225_Example25.p; Arg: [-p]
-% ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0225_Example25.p; Output: tmp_2_thm_0225_Example25.p; Arg: [-l]
-%--------------------------------------------------------------------------
-% File     : tmp_thm_0225_Example25
-% Domain   : Geometry 
-% Problem  : ...
-% Source   : Converted from GCLC Goran Predovic Collection of Theorems
-% Refs     : Shang-Ching Chou: Mechanical Geometry Theorem Proving, Springer, 1988
-% Status   : Valid
-%--------------------------------------------------------------------------
-%----Include geometry axioms
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,F,D,E,P,Q,R,X,Y,Z] : ((
+fof(thm, conjecture, ! [ A,B,C] : ((
    dimensions(150, 110)
    & freepoint(A, 20, 20)
    & freepoint(B, 70, 20)
    & freepoint(C, 60, 70)
-   & coll(F, A, B)
-   & coll(D, B, C)
-   & inter(F, D, A, C, E)
-   & midp(P, E, F)
-   & midp(Q, F, D)
-   & midp(R, D, E)
-   & inter(A, P, B, C, X)
-   & inter(B, Q, A, C, Y)
-   & inter(C, R, A, B, Z)
+   & collinear(F, A, B)
+   & collinear(D, B, C)
+   & intersection(F, D, A, C, E)
+   & midpoint(P, E, F)
+   & midpoint(Q, F, D)
+   & midpoint(R, D, E)
+   & intersection(A, P, B, C, X)
+   & intersection(B, Q, A, C, Y)
+   & intersection(C, R, A, B, Z)
    & drawdashline(X, Y)
    & cmark_lb(X)
    & cmark_t(Y)

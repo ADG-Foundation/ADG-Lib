@@ -1,24 +1,13 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0288_Example88.p; Output: thm_0288_Example88.p; Arg: [-p]
-% ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0288_Example88.p; Output: tmp_2_thm_0288_Example88.p; Arg: [-l]
-%--------------------------------------------------------------------------
-% File     : tmp_thm_0288_Example88
-% Domain   : Geometry 
-% Problem  : ...
-% Source   : Converted from GCLC Goran Predovic Collection of Theorems
-% Refs     : Shang-Ching Chou: Mechanical Geometry Theorem Proving, Springer, 1988
-% Status   : Valid
-%--------------------------------------------------------------------------
-%----Include geometry axioms
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,D,E,F,H] : ((
+fof(thm, conjecture, ! [ A,B,E,D,F,C,H] : ((
    dimensions(110, 80)
    & freepoint(A, 20, 20)
    & freepoint(B, 90, 20)
-   & oncircle(C, B, A)
-   & coll(D, A, C)
+   & on_circle(C, B, A)
+   & collinear(D, A, C)
    & foot(E, D, A, B)
    & foot(F, D, B, C)
    & foot(H, C, A, B)

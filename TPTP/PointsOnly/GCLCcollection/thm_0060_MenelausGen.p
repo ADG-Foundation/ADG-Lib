@@ -1,28 +1,17 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0060_MenelausGen.p; Output: thm_0060_MenelausGen.p; Arg: [-p]
-% ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0060_MenelausGen.p; Output: tmp_2_thm_0060_MenelausGen.p; Arg: [-l]
-%--------------------------------------------------------------------------
-% File     : tmp_thm_0060_MenelausGen
-% Domain   : Geometry 
-% Problem  : ...
-% Source   : Converted from GCLC Goran Predovic Collection of Theorems
-% Refs     : Shang-Ching Chou: Mechanical Geometry Theorem Proving, Springer, 1988
-% Status   : Valid
-%--------------------------------------------------------------------------
-%----Include geometry axioms
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,D,A_1,B_1,C_1,D_1] : ((
+fof(thm, conjecture, ! [ A,B,C,D] : ((
    dimensions(100, 100)
    & freepoint(A, 20, 20)
    & freepoint(B, 80, 20)
    & freepoint(C, 70, 60)
    & freepoint(D, 37, 74)
-   & coll(A_1, A, B)
-   & coll(B_1, B, C)
-   & inter(A_1, B_1, C, D, C_1)
-   & inter(A_1, B_1, D, A, D_1)
+   & collinear(A_1, A, B)
+   & collinear(B_1, B, C)
+   & intersection(A_1, B_1, C, D, C_1)
+   & intersection(A_1, B_1, D, A, D_1)
    & cmark_rb(A)
    & cmark_b(B)
    & cmark_r(C)

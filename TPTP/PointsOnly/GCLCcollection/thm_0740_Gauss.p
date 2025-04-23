@@ -1,29 +1,18 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0740_Gauss.p; Output: thm_0740_Gauss.p; Arg: [-p]
-% ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0740_Gauss.p; Output: tmp_2_thm_0740_Gauss.p; Arg: [-l]
-%--------------------------------------------------------------------------
-% File     : tmp_thm_0740_Gauss
-% Domain   : Geometry 
-% Problem  : ...
-% Source   : Converted from GCLC Goran Predovic Collection of Theorems
-% Refs     : Shang-Ching Chou: Mechanical Geometry Theorem Proving, Springer, 1988
-% Status   : Valid
-%--------------------------------------------------------------------------
-%----Include geometry axioms
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A_0,A_1,A_2,A_3,X,Y,M_1,M_2,M_3] : ((
+fof(thm, conjecture, ! [ A_0,A_1,A_2,A_3] : ((
    dimensions(90, 80)
    & freepoint(A_0, 30, 10)
    & freepoint(A_1, 70, 10)
    & freepoint(A_2, 55, 40)
    & freepoint(A_3, 35, 25)
-   & inter(A_1, A_2, A_0, A_3, X)
-   & inter(A_0, A_1, A_2, A_3, Y)
-   & midp(M_1, A_1, A_3)
-   & midp(M_2, A_0, A_2)
-   & midp(M_3, X, Y)
+   & intersection(A_1, A_2, A_0, A_3, X)
+   & intersection(A_0, A_1, A_2, A_3, Y)
+   & midpoint(M_1, A_1, A_3)
+   & midpoint(M_2, A_0, A_2)
+   & midpoint(M_3, X, Y)
    & cmark_b(A_0)
    & cmark_b(A_1)
    & cmark_rt(A_2)

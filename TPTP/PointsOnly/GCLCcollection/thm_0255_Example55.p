@@ -1,32 +1,21 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0255_Example55.p; Output: thm_0255_Example55.p; Arg: [-p]
-% ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0255_Example55.p; Output: tmp_2_thm_0255_Example55.p; Arg: [-l]
-%--------------------------------------------------------------------------
-% File     : tmp_thm_0255_Example55
-% Domain   : Geometry 
-% Problem  : ...
-% Source   : Converted from GCLC Goran Predovic Collection of Theorems
-% Refs     : Shang-Ching Chou: Mechanical Geometry Theorem Proving, Springer, 1988
-% Status   : Valid
-%--------------------------------------------------------------------------
-%----Include geometry axioms
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,M,N,P,P1,P2,P3,P_1,M_1,N_1] : ((
+fof(thm, conjecture, ! [ A,B,C] : ((
    dimensions(130, 110)
    & freepoint(A, 20, 20)
    & freepoint(B, 110, 20)
    & freepoint(C, 80, 90)
-   & coll(M, A, B)
-   & coll(N, B, C)
-   & coll(P, A, C)
-   & paraS(P1, P, A, B)
-   & paraS(P2, N, A, C)
-   & paraS(P3, M, B, C)
-   & inter(P1, P, B, C, P_1)
-   & inter(P3, M, A, C, M_1)
-   & inter(P2, N, A, B, N_1)
+   & collinear(M, A, B)
+   & collinear(N, B, C)
+   & collinear(P, A, C)
+   & parallel(P1, P, A, B)
+   & parallel(P2, N, A, C)
+   & parallel(P3, M, B, C)
+   & intersection(P1, P, B, C, P_1)
+   & intersection(P3, M, A, C, M_1)
+   & intersection(P2, N, A, B, N_1)
    & cmark_b(A)
    & cmark_b(B)
    & cmark_t(C)

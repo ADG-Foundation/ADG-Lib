@@ -1,29 +1,18 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0259_Example59.p; Output: thm_0259_Example59.p; Arg: [-p]
-% ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0259_Example59.p; Output: tmp_2_thm_0259_Example59.p; Arg: [-l]
-%--------------------------------------------------------------------------
-% File     : tmp_thm_0259_Example59
-% Domain   : Geometry 
-% Problem  : ...
-% Source   : Converted from GCLC Goran Predovic Collection of Theorems
-% Refs     : Shang-Ching Chou: Mechanical Geometry Theorem Proving, Springer, 1988
-% Status   : Valid
-%--------------------------------------------------------------------------
-%----Include geometry axioms
 
 include('geo.ax').
-fof(thm, conjecture, ! [ O,A,B,C,O_1,A_1,B_1,C_1,O_2] : ((
+fof(thm, conjecture, ! [ O,A,B,C,O_1] : ((
    dimensions(130, 100)
    & freepoint(O, 20, 20)
    & freepoint(A, 70, 20)
    & freepoint(B, 40.4, 60.7)
    & freepoint(C, 73.2, 52.5)
    & freepoint(O_1, 57.1, 64)
-   & inter(C, O_1, A, O, A_1)
-   & inter(A, O_1, B, O, B_1)
-   & inter(B, O_1, C, O, C_1)
-   & inter(B, A_1, A, C_1, O_2)
+   & intersection(C, O_1, A, O, A_1)
+   & intersection(A, O_1, B, O, B_1)
+   & intersection(B, O_1, C, O, C_1)
+   & intersection(B, A_1, A, C_1, O_2)
    & cmark_b(O)
    & cmark_b(A)
    & cmark_l(B)

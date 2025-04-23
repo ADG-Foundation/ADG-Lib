@@ -1,34 +1,23 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0257_Example57.p; Output: thm_0257_Example57.p; Arg: [-p]
-% ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0257_Example57.p; Output: tmp_2_thm_0257_Example57.p; Arg: [-l]
-%--------------------------------------------------------------------------
-% File     : tmp_thm_0257_Example57
-% Domain   : Geometry 
-% Problem  : ...
-% Source   : Converted from GCLC Goran Predovic Collection of Theorems
-% Refs     : Shang-Ching Chou: Mechanical Geometry Theorem Proving, Springer, 1988
-% Status   : Valid
-%--------------------------------------------------------------------------
-%----Include geometry axioms
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,P1,P2,D,C_1,D_1,A_1,B_1,A_2,B_2,C_2,D_2] : ((
+fof(thm, conjecture, ! [ A,B,C,C_1,D_1,A_1,D,B_1] : ((
    dimensions(130, 100)
    & freepoint(A, 20, 20)
    & freepoint(B, 90, 20)
    & freepoint(C, 110, 80)
-   & paraS(P1, A, B, C)
-   & paraS(P2, C, A, B)
-   & inter(P1, A, P2, C, D)
+   & parallel(P1, A, B, C)
+   & parallel(P2, C, A, B)
+   & intersection(P1, A, P2, C, D)
    & towards(C_1, A, B, 0.333333)
    & towards(D_1, B, C, 0.333333)
    & towards(A_1, C, D, 0.333333)
    & towards(B_1, D, A, 0.333333)
-   & inter(A, A_1, B, B_1, A_2)
-   & inter(B, B_1, C, C_1, B_2)
-   & inter(D, D_1, C, C_1, C_2)
-   & inter(A, A_1, D, D_1, D_2)
+   & intersection(A, A_1, B, B_1, A_2)
+   & intersection(B, B_1, C, C_1, B_2)
+   & intersection(D, D_1, C, C_1, C_2)
+   & intersection(A, A_1, D, D_1, D_2)
    & cmark_b(A)
    & cmark_b(B)
    & cmark_b(C_1)
