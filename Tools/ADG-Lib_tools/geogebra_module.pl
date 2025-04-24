@@ -162,15 +162,16 @@ translate_term_fol2geogebra(~coll(A,B,C), M)           :- !,
 translate_term_fol2geogebra(dimensions(_A,_B),_M)   :- !. 
 translate_term_fol2geogebra(area(_A,_B,_C,_D),_M)   :- !.
 
-translate_term_fol2geogebra(drawsegment(A,B),M)     :- !, nl,
-   write('<command name="Segment">'),nl,
-   write('   <input a0="'),print(A,M),write('" a1="'),print(B,M),write('"/>'),nl,
-   write('   <output a0="'),write('s'),print(A,M),print(B,M),write('"/>'),nl,
-   write('</command>'),nl,
-   write('<element type="segment" label="'), write('s'),print(A,M),print(B,M),write('">'),nl,
-   write('   <show object="true" label="true"/>'),nl,
-   write('</element>'),nl.
-   
+translate_term_fol2geogebra(drawsegment(A,B),M)     :- !, 
+    drawsegment_general(A,B,M,0).
+translate_term_fol2geogebra(drawdashsegment(A,B),M) :- !, 
+    drawsegment_general(A,B,M,15).
+
+translate_term_fol2geogebra(drawline(A,B),M) :- !,
+    drawline_general(A,B,M,0).
+translate_term_fol2geogebra(drawdashline(A,B),M) :- !,
+    drawline_general(A,B,M,15).
+
 translate_term_fol2geogebra(collinear(A,B,C),M)     :- !, nl,
    write('<command name="Point">'),nl,
    write('   <input a0="Line['),print(B,M),write(', '),print(C,M),write(']"/>'),nl,
@@ -179,22 +180,6 @@ translate_term_fol2geogebra(collinear(A,B,C),M)     :- !, nl,
    write('<element type="point" label="'), print(A,M) ,write('">'),nl,
    write('   <show object="true" label="true"/>'),nl,
    write('</element>'),nl.
-   
-translate_term_fol2geogebra(drawdashsegment(A,B),M) :- !, 
-   write('<command name="Segment">'),nl,
-   write('   <input a0="'),print(A,M),write('" a1="'),print(B,M),write('"/>'),nl,
-   write('   <output a0="'),write('s'),print(A,M),print(B,M),write('"/>'),nl,
-   write('</command>'),nl,
-   write('<element type="segment" label="'), write('s'),print(A,M),print(B,M),write('">'),nl,
-   write('   <show object="true" label="true"/>'),nl,
-   write('   <lineStyle type="15"/>'),nl,
-   write('</element>'),nl.
-
-translate_term_fol2geogebra(drawline(A,B),M) :- !,
-    drawline_general(A,B,M,0).
-translate_term_fol2geogebra(drawdashline(A,B),M) :- !,
-    drawline_general(A,B,M,15).
-
 
 translate_term_fol2geogebra(drawdashline(L),M)      :- !, 
    nl, write('drawdashline '), print(L,M).
@@ -251,6 +236,18 @@ drawline_general(A,B,M,LS)          :- !,
       LS > 0 -> (write('   <lineStyle type="'), print(LS,M), write('"/>'),nl,
       write('</element>'),nl);
       write('</element>'),nl.
+
+drawsegment_general(A,B,M,LS) :- !, 
+   nl, write('<command name="Segment">'),nl,
+   write('   <input a0="'),print(A,M),write('" a1="'),print(B,M),write('"/>'),nl,
+   write('   <output a0="'),write('s'),print(A,M),print(B,M),write('"/>'),nl,
+   write('</command>'),nl,
+   write('<element type="segment" label="'), write('s'),print(A,M),print(B,M),write('">'),nl,
+   write('   <show object="true" label="true"/>'),nl,
+% This is ugly, </element> is repeated (unsure how to do an if-then-else correctly):
+   LS > 0 -> (write('   <lineStyle type="'), print(LS,M), write('"/>'),nl,
+   write('</element>'),nl);
+   write('</element>'),nl.
 
 % ----------------------------------------
 % Goals
