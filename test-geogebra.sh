@@ -15,10 +15,12 @@ OUT_DIR=`pwd`/Generated
 # Build ADGLibToolkit:
 cd Tools/ADG-Lib_tools
 TOOLKIT_DIR=`pwd`
-make
+make -s
 
 cd ../../TPTP/PointsOnly/GCLCcollection
 P_DIR=`pwd`
+SUCCESS=0
+ALL=0
 for i in *.p; do
   cd "$OUT_DIR"
   TESTNAME=`basename $i .p`
@@ -32,10 +34,13 @@ for i in *.p; do
   timeout $TIMEOUT $GEOGEBRA --prover=timeout:$TIMEOUT --logFile="$TESTNAME.log" \
     --regressionFile="$TESTNAME.result" --language=en "$TESTNAME.ggb" \
     > "$TESTNAME.out" 2> "$TESTNAME.err"
-  grep --silent "Statement is GENERALLY TRUE\|Statement is TRUE" "$TESTNAME.log" && {
+  grep --silent "STATEMENT IS TRUE" "$TESTNAME.log" && {
     TIME=`grep "Benchmarking" "$TESTNAME.log" | head -1 | awk '{print $5}'`
     echo " true ($TIME ms)"
+    SUCCESS=$((SUCCESS+1))
     } || {
     echo " unsuccessful"
     }
+  ALL=$((ALL+1))
   done
+echo "$SUCCESS successful of $ALL cases"
