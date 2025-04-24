@@ -30,8 +30,6 @@ translate_premises_fol2geogebra([F|T],M) :-
 translate_term_fol2geogebra(freepoint(P, X, Y),M) :- !, 
    nl, write('<expression label="'), print(P,M), write('" exp="('), write(X), write(','), write(Y),write(')" type="point"/>').
    
-translate_term_fol2geogebra(coll(X, A, B),M) :- !, 
-   nl, write('online '), print(X,M), write(' '), print(A,M), write(' '), print(B,M).
 translate_term_fol2geogebra(newline(L,A,B),M)     :- !, 
    nl, write('line '), print(L,M), write(' '), print(A,M), write(' '), print(B,M).
 translate_term_fol2geogebra(newcircle(K,C,X),M)   :- !, 
@@ -77,10 +75,33 @@ translate_term_fol2geogebra(paraNS(L,A,L1),M)   :- !,
    nl, write('parallel '), print(L,M), write(' '), print(A,M), write(' '), print(L1).
 translate_term_fol2geogebra(paraS(L,A,L1),M)   :- !, 
    nl, write('parallel '), print(L,M), write(' '), print(A,M), write(' '), print(L1).
-translate_term_fol2geogebra(paraNS(P,A,B,C),M)    :- !, 
-   getNewVarName('Ptmp', VnameP), 
-   nl, write('translate '), write(VnameP), write(' '), print(B,M), write(' '), print(C,M), write(' '), print(A,M),  
-   nl, write('online '),print(P,M), write(' '), write(VnameP), write(' '),print(A,M).
+
+translate_term_fol2geogebra(parallel(P,A,B,C),M)    :- !, 
+   write('<command name="Line">'),nl,
+   write('   <input a0="'),print(A,M),write('", a1="Line['),print(B,M),write(', '),print(C,M),write(']"/>'),nl,
+   write('   <output a0="pl'),print(A,M),print(B,M),print(C,M),write('"/>'),nl,
+   write('</command>'),nl,
+   write('<element type="line" label="pl'),print(A,M),print(B,M),print(C,M),write('">'),nl,
+   write('   <show object="true" label="true"/>'),nl,
+   write('</element>'),
+   write('<command name="Point">'),nl,
+   write('   <input a0="pl'),print(A,M),print(B,M),print(C,M),write('"/>'),nl,
+   write('   <output a0="'),print(P,M),write('"/>'),nl,
+   write('</command>'),nl,
+   write('<element type="point" label="'), print(P,M) ,write('">'),nl,
+   write('   <show object="true" label="true"/>'),nl,
+   write('</element>'),nl.
+
+translate_term_fol2geogebra(intersection(A,B,C,D,P),M)    :- !, 
+   write('<command name="Intersect">'),nl,
+   write('   <input a0="Line['),print(A,M),write(', '),print(B,M),
+   write(']" a1="Line['),print(C,M),write(', '),print(D,M),write(']"/>'),
+   write('   <output a0="'),print(P,M),write('"/>'),nl,
+   write('</command>'),nl,
+   write('<element type="point" label="'), print(P,M) ,write('">'),nl,
+   write('   <show object="true" label="true"/>'),nl,
+   write('</element>'),nl.
+
 translate_term_fol2geogebra(paraS(P,A,B,C),M)    :- !, 
    getNewVarName('Ptmp', VnameP), 
    nl, write('translate '), write(VnameP), write(' '), print(B,M), write(' '), print(C,M), write(' '), print(A,M),  
@@ -145,6 +166,15 @@ translate_term_fol2geogebra(drawsegment(A,B),M)     :- !, nl,
    write('   <output a0="'),write('s'),print(A,M),print(B,M),write('"/>'),nl,
    write('</command>'),nl,
    write('<element type="segment" label="'), write('s'),print(A,M),print(B,M),write('">'),nl,
+   write('   <show object="true" label="true"/>'),nl,
+   write('</element>'),nl.
+   
+translate_term_fol2geogebra(collinear(A,B,C),M)     :- !, nl,
+   write('<command name="Point">'),nl,
+   write('   <input a0="Line['),print(B,M),write(', '),print(C,M),write(']"/>'),nl,
+   write('   <output a0="'),print(A,M),write('"/>'),nl,
+   write('</command>'),nl,
+   write('<element type="point" label="'), print(A,M) ,write('">'),nl,
    write('   <show object="true" label="true"/>'),nl,
    write('</element>'),nl.
    
@@ -238,7 +268,8 @@ translate_fol2geogebra_g( perpNS(A,B,C,D),M)    :- !,
    write('perpendicular '), print(A,M), write(' '), 
    print(B,M), write(' '), print(C,M), write(' '), print(D,M).
 translate_fol2geogebra_g( collinear(A,B,C),M)   :- !, 
-   write('collinear '), print(A,M), write(' '), print(B,M), write(' '), print(C,M).
+   write('AreCollinear['), print(A,M), write(', '), print(B,M), write(', '), print(C,M),write(']').
+
 translate_fol2geogebra_g( harmonic(A,B,C,D),M)  :- !, 
    write('harmonic '), print(A,M), write(' '), print(B,M), write(' '), 
    print(C,M), write(' '),print(D,M).
