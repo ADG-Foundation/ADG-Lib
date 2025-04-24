@@ -95,7 +95,7 @@ translate_term_fol2geogebra(parallel(P,A,B,C),M)    :- !,
 translate_term_fol2geogebra(intersection(A,B,C,D,P),M)    :- !, 
    write('<command name="Intersect">'),nl,
    write('   <input a0="Line['),print(A,M),write(', '),print(B,M),
-   write(']" a1="Line['),print(C,M),write(', '),print(D,M),write(']"/>'),
+   write(']" a1="Line['),print(C,M),write(', '),print(D,M),write(']"/>'),nl,
    write('   <output a0="'),print(P,M),write('"/>'),nl,
    write('</command>'),nl,
    write('<element type="point" label="'), print(P,M) ,write('">'),nl,
@@ -178,17 +178,37 @@ translate_term_fol2geogebra(collinear(A,B,C),M)     :- !, nl,
    write('   <show object="true" label="true"/>'),nl,
    write('</element>'),nl.
    
-   
 translate_term_fol2geogebra(drawdashsegment(A,B),M) :- !, 
-   nl, write('drawdashsegment '), print(A,M), write(' '), print(B,M).
-translate_term_fol2geogebra(drawline(L),M)          :- !, 
-   nl, write('drawline '), print(L,M).
+   write('<command name="Segment">'),nl,
+   write('   <input a0="'),print(A,M),write('" a1="'),print(B,M),write('"/>'),nl,
+   write('   <output a0="'),write('s'),print(A,M),print(B,M),write('"/>'),nl,
+   write('</command>'),nl,
+   write('<element type="segment" label="'), write('s'),print(A,M),print(B,M),write('">'),nl,
+   write('   <show object="true" label="true"/>'),nl,
+   write('   <lineStyle type="15"/>'),nl,
+   write('</element>'),nl.
+
+translate_term_fol2geogebra(drawline(A,B),M)          :- !,
+   nl, write('<command name="Line">'),nl,
+   write('   <input a0="'),print(A,M),write('" a1="'),print(B,M),write('"/>'),nl,
+   write('   <output a0="l'),print(A,M),print(B,M),write('"/>'),nl,
+   write('</command>'),nl,
+   write('<element type="line" label="l'), print(A,M),print(B,M) ,write('">'),nl,
+   write('   <show object="true" label="true"/>'),nl,
+   write('</element>'),nl.
+
+translate_term_fol2geogebra(drawdashline(A,B),M)          :- !,
+   nl, write('<command name="Line">'),nl,
+   write('   <input a0="'),print(A,M),write('" a1="'),print(B,M),write('"/>'),nl,
+   write('   <output a0="l'),print(A,M),print(B,M),write('"/>'),nl,
+   write('</command>'),nl,
+   write('<element type="line" label="l'), print(A,M),print(B,M) ,write('">'),nl,
+   write('   <show object="true" label="true"/>'),nl,
+   write('   <lineStyle type="15"/>'),nl,
+   write('</element>'),nl.
+
 translate_term_fol2geogebra(drawdashline(L),M)      :- !, 
    nl, write('drawdashline '), print(L,M).
-translate_term_fol2geogebra(drawline(A,B),M)        :- !, 
-   nl, write('drawline '), print(A,M), write(' '), print(B,M).
-translate_term_fol2geogebra(drawdashline(A,B),M)    :- !, 
-   nl, write('drawdashline '), print(A,M), write(' '), print(B,M).
 translate_term_fol2geogebra(drawcircle(O,A),M)        :- !, 
    nl, write('drawcircle '), write(' '), print(O,M), write(' '), print(A,M).
 translate_term_fol2geogebra(drawcircle(C),M)        :- !, 
