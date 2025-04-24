@@ -80,7 +80,7 @@ translate_term_fol2geogebra(paraS(L,A,L1),M)   :- !,
 
 translate_term_fol2geogebra(parallel(P,A,B,C),M)    :- !, 
    write('<command name="Line">'),nl,
-   write('   <input a0="'),print(A,M),write('", a1="Line['),print(B,M),write(', '),print(C,M),write(']"/>'),nl,
+   write('   <input a0="'),print(A,M),write('" a1="Line['),print(B,M),write(', '),print(C,M),write(']"/>'),nl,
    write('   <output a0="pl'),print(A,M),print(B,M),print(C,M),write('"/>'),nl,
    write('</command>'),nl,
    write('<element type="line" label="pl'),print(A,M),print(B,M),print(C,M),write('">'),nl,
@@ -271,7 +271,7 @@ translate_fol2geogebra_g(A,M)  :- var(A), !,
 translate_fol2geogebra_g(A,M)  :- atomic(A), !, 
    print(A,M).
 translate_fol2geogebra_g((A=B),M)                :- !, 
-   write('equal '), translate_fol2geogebra_g(A,M), write(' '), translate_fol2geogebra_g(B,M).
+   translate_fol2geogebra_g(A,M), write('=='), translate_fol2geogebra_g(B,M).
 
 translate_fol2geogebra_g( parallel(A,B,C,D),M)  :- !, 
    write('AreParallel['),
@@ -301,8 +301,8 @@ translate_fol2geogebra_g(sum(A,B),M)             :- !,
 translate_fol2geogebra_g(length(A,B),M)             :- !, 
    write('{ segment '), translate_fol2geogebra_g(A,M), write(' '), translate_fol2geogebra_g(B,M), write(' }').
 translate_fol2geogebra_g(sratio(A,B,C,D),M)      :- !, 
-   write('{ sratio '), translate_fol2geogebra_g(A,M), write(' '), translate_fol2geogebra_g(B,M), write(' '), 
-   translate_fol2geogebra_g(C,M), write(' '), translate_fol2geogebra_g(D,M), write(' }').
+   write('Segment['),translate_fol2geogebra_g(A,M), write(','), translate_fol2geogebra_g(B,M), write(']/Segment['), 
+   translate_fol2geogebra_g(C,M), write(','), translate_fol2geogebra_g(D,M), write(']').
 translate_fol2geogebra_g(signed_area3(A,B,C),M)  :- !, 
    write('{ signed_area3 '), translate_fol2geogebra_g(A,M), write(' '), 
    translate_fol2geogebra_g(B,M), write(' '), translate_fol2geogebra_g(C,M), write(' }').
