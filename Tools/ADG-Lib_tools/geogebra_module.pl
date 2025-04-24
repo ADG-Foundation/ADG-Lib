@@ -51,10 +51,20 @@ translate_term_fol2geogebra(med(L,A,B),M)         :- !,
    nl, write('med '), print(L,M), write(' '), print(A,M), write(' '), print(B,M).
 translate_term_fol2geogebra(foot(X,P,L),M)        :- !, 
    nl, write('foot '), print(X,M), write(' '), print(P,M), write(' '), print(L,M).
-translate_term_fol2geogebra(foot(X,A,B,C),M)      :- !,
-   getNewVarName('ltmp', Vname), 
-   nl, write('line '),write(Vname), write(' '), print(B,M), write(' '), print(C,M),
-   nl, write('foot '), print(X,M), write(' '), print(A,M), write(' '), write(Vname).
+translate_term_fol2geogebra(foot(X,A,B,C),M)      :- !, nl,
+   write('<command name="Line">'),nl,
+   write('   <input a0="'),print(B,M),write('" a1="'), print(C,M),write('"/>'),nl,
+   write('   <output a0="l'),print(B,M),print(C,M),write('"/>'),nl,
+   write('</command>'),nl,
+   write('<element type="line" label="l'),print(B,M),print(C,M),write('">'),nl,
+   write('   <show object="true" label="true"/>'),nl,
+   write('</element>'),nl,
+   write('<command name="Intersect">'),nl,
+   write('  <input a0="PerpendicularLine['),print(A,M),write(',l'),print(B,M),print(C,M),
+   write(']" a1="l'),print(B,M),print(C,M),write('"/>'),nl,
+   write('  <output a0="'),print(X,M),write('"/>'),nl,
+   write('</command>').
+
 translate_term_fol2geogebra(translate(X,A,B,P),M)           :- !, 
    nl, write('translate '), print(X,M), write(' '), print(A,M), write(' '), print(B,M), write(' '), print(P,M).
 translate_term_fol2geogebra(perpNS(X,P,L),M)      :- !, 
