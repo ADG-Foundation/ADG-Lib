@@ -172,12 +172,26 @@ translate_term_fol2geogebra(drawline(A,B),M) :- !,
 translate_term_fol2geogebra(drawdashline(A,B),M) :- !,
     drawline_general(A,B,M,15).
 
+translate_term_fol2geogebra(drawcircle(A,B),M) :- !,
+    drawcircle_general(A,B,M,0).
+translate_term_fol2geogebra(drawdashcircle(A,B),M) :- !,
+    drawcircle_general(A,B,M,15).
+
 translate_term_fol2geogebra(collinear(A,B,C),M)     :- !, nl,
    write('<command name="Point">'),nl,
    write('   <input a0="Line['),print(B,M),write(', '),print(C,M),write(']"/>'),nl,
    write('   <output a0="'),print(A,M),write('"/>'),nl,
    write('</command>'),nl,
    write('<element type="point" label="'), print(A,M) ,write('">'),nl,
+   write('   <show object="true" label="true"/>'),nl,
+   write('</element>'),nl.
+
+translate_term_fol2geogebra(on_circle(C,O,A),M)     :- !, nl,
+   write('<command name="Point">'),nl,
+   write('   <input a0="Circle['),print(O,M),write(', '),print(A,M),write(']"/>'),nl,
+   write('   <output a0="'),print(C,M),write('"/>'),nl,
+   write('</command>'),nl,
+   write('<element type="point" label="'), print(C,M) ,write('">'),nl,
    write('   <show object="true" label="true"/>'),nl,
    write('</element>'),nl.
 
@@ -249,6 +263,18 @@ drawsegment_general(A,B,M,LS) :- !,
    write('</element>'),nl);
    write('</element>'),nl.
 
+drawcircle_general(A,B,M,LS) :- !, 
+   nl, write('<command name="Circle">'),nl,
+   write('   <input a0="'),print(A,M),write('" a1="'),print(B,M),write('"/>'),nl,
+   write('   <output a0="'),write('c'),print(A,M),print(B,M),write('"/>'),nl,
+   write('</command>'),nl,
+   write('<element type="conic" label="'), write('c'),print(A,M),print(B,M),write('">'),nl,
+   write('   <show object="true" label="true"/>'),nl,
+% This is ugly, </element> is repeated (unsure how to do an if-then-else correctly):
+   LS > 0 -> (write('   <lineStyle type="'), print(LS,M), write('"/>'),nl,
+   write('</element>'),nl);
+   write('</element>'),nl.
+
 % ----------------------------------------
 % Goals
 % ----------------------------------------
@@ -275,6 +301,12 @@ translate_fol2geogebra_g((A=B),M)                :- !,
 
 translate_fol2geogebra_g( parallel(A,B,C,D),M)  :- !, 
    write('AreParallel['),
+   write('Segment['), print(A,M), write(', '), print(B,M),write('],'),
+   write('Segment['), print(C,M), write(', '), print(D,M),write(']'),
+   write(']').
+   
+translate_fol2geogebra_g( perpendicular(A,B,C,D),M)  :- !, 
+   write('ArePerpendicular['),
    write('Segment['), print(A,M), write(', '), print(B,M),write('],'),
    write('Segment['), print(C,M), write(', '), print(D,M),write(']'),
    write(']').
