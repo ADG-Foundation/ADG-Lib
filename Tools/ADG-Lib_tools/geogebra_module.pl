@@ -28,7 +28,9 @@ translate_premises_fol2geogebra([F|T],M) :-
 % ----------------------------------------
 
 translate_term_fol2geogebra(freepoint(P, X, Y),M) :- !, 
-   nl, write('<expression label="'), print(P,M), write('" exp="('), write(X), write(','), write(Y),write(')" type="point"/>').
+   nl, write('<expression label="'), print(P,M), write('" exp="('),
+   X1 is X/10, write(X1), write(','),
+   Y1 is Y/10, write(Y1),write(')" type="point"/>').
    
 translate_term_fol2geogebra(newline(L,A,B),M)     :- !, 
    nl, write('line '), print(L,M), write(' '), print(A,M), write(' '), print(B,M).
@@ -188,24 +190,11 @@ translate_term_fol2geogebra(drawdashsegment(A,B),M) :- !,
    write('   <lineStyle type="15"/>'),nl,
    write('</element>'),nl.
 
-translate_term_fol2geogebra(drawline(A,B),M)          :- !,
-   nl, write('<command name="Line">'),nl,
-   write('   <input a0="'),print(A,M),write('" a1="'),print(B,M),write('"/>'),nl,
-   write('   <output a0="l'),print(A,M),print(B,M),write('"/>'),nl,
-   write('</command>'),nl,
-   write('<element type="line" label="l'), print(A,M),print(B,M) ,write('">'),nl,
-   write('   <show object="true" label="true"/>'),nl,
-   write('</element>'),nl.
+translate_term_fol2geogebra(drawline(A,B),M) :- !,
+    drawline_general(A,B,M,0).
+translate_term_fol2geogebra(drawdashline(A,B),M) :- !,
+    drawline_general(A,B,M,15).
 
-translate_term_fol2geogebra(drawdashline(A,B),M)          :- !,
-   nl, write('<command name="Line">'),nl,
-   write('   <input a0="'),print(A,M),write('" a1="'),print(B,M),write('"/>'),nl,
-   write('   <output a0="l'),print(A,M),print(B,M),write('"/>'),nl,
-   write('</command>'),nl,
-   write('<element type="line" label="l'), print(A,M),print(B,M) ,write('">'),nl,
-   write('   <show object="true" label="true"/>'),nl,
-   write('   <lineStyle type="15"/>'),nl,
-   write('</element>'),nl.
 
 translate_term_fol2geogebra(drawdashline(L),M)      :- !, 
    nl, write('drawdashline '), print(L,M).
@@ -249,7 +238,19 @@ translate_term_fol2geogebra(printat_rt(A,B),M) :- !, nl, write('printat_rt '), p
 translate_term_fol2geogebra(printat_lb(A,B),M) :- !, nl, write('printat_lb '), print(A,M), write(' { '), write(B), write(' } ').
 translate_term_fol2geogebra(printat_rb(A,B),M) :- !, nl, write('printat_rb '), print(A,M), write(' { '), write(B), write(' } ').
 
-translate_term_fol2geogebra(prooflevel(A),M)   :- !, nl, write('prooflevel '), print(A,M), write(' ').
+translate_term_fol2geogebra(prooflevel(_A),_M)   :- !.
+
+drawline_general(A,B,M,LS)          :- !,
+      nl, write('<command name="Line">'),nl,
+      write('   <input a0="'),print(A,M),write('" a1="'),print(B,M),write('"/>'),nl,
+      write('   <output a0="l'),print(A,M),print(B,M),write('"/>'),nl,
+      write('</command>'),nl,
+      write('<element type="line" label="l'), print(A,M),print(B,M) ,write('">'),nl,
+      write('   <show object="true" label="true"/>'),nl,
+% This is ugly, </element> is repeated (unsure how to do an if-then-else correctly):
+      LS > 0 -> (write('   <lineStyle type="'), print(LS,M), write('"/>'),nl,
+      write('</element>'),nl);
+      write('</element>'),nl.
 
 % ----------------------------------------
 % Goals
