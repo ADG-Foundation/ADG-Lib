@@ -10,6 +10,8 @@ OUT_DIR=`pwd`/Generated
 
 # Above this point the variables can be freely edited.
 
+mkdir -p "$OUT_DIR"
+
 trap "echo 'Exit forced'" EXIT
 trap "echo 'Term forced'" TERM
 trap "echo 'Kill forced'" KILL
