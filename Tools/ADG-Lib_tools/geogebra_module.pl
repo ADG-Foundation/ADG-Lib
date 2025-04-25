@@ -313,8 +313,8 @@ translate_fol2geogebra_g( collinear(A,B,C),M)   :- !,
    write('AreCollinear['), print(A,M), write(', '), print(B,M), write(', '), print(C,M),write(']').
 
 translate_fol2geogebra_g( harmonic(A,B,C,D),M)  :- !, 
-   write('harmonic '), print(A,M), write(' '), print(B,M), write(' '), 
-   print(C,M), write(' '),print(D,M).
+   write('Segment['), print(A,M), write(','), print(C,M), write(']*Segment['),print(D,M),write(','),print(B,M),write(']=='),
+   write('Segment['), print(C,M), write(','), print(B,M), write(']*Segment['),print(D,M),write(','),print(A,M),write(']').
 translate_fol2geogebra_g( same_length(A,B,C,D),M) :- !, 
    write('Segment['),translate_fol2geogebra_g(A,M), write(','), translate_fol2geogebra_g(B,M), write(']==Segment['), 
    translate_fol2geogebra_g(C,M), write(','), translate_fol2geogebra_g(D,M), write(']').
