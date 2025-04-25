@@ -56,9 +56,6 @@ translate_term_fol2geogebra(foot(X,A,B,C),M)      :- !, nl,
    write('   <input a0="'),print(B,M),write('" a1="'), print(C,M),write('"/>'),nl,
    write('   <output a0="l'),print(B,M),print(C,M),write('"/>'),nl,
    write('</command>'),nl,
-   write('<element type="line" label="l'),print(B,M),print(C,M),write('">'),nl,
-   write('   <show object="true" label="true"/>'),nl,
-   write('</element>'),nl,
    write('<command name="Intersect">'),nl,
    write('  <input a0="PerpendicularLine['),print(A,M),write(',l'),print(B,M),print(C,M),
    write(']" a1="l'),print(B,M),print(C,M),write('"/>'),nl,
@@ -67,10 +64,7 @@ translate_term_fol2geogebra(foot(X,A,B,C),M)      :- !, nl,
 
 translate_term_fol2geogebra(translate(X,A,B,P),M)           :- !, nl,
    write('<expression label="'),print(X,M),write('" exp="'),print(P,M),write('+Vector('),
-   print(A,M),write(','),print(B,M),write(')" type="point" />'),nl,
-   write('<element type="point" label="'),print(X,M),write('">'),nl,
-   write('   <show object="true" label="true"/>'),nl,
-   write('</element>'),nl.
+   print(A,M),write(','),print(B,M),write(')" type="point" />'),nl.
 
 translate_term_fol2geogebra(perpNS(X,P,L),M)      :- !, 
    nl, write('perp '), print(X,M), write(' '), print(P,M), write(' '), print(L,M).
