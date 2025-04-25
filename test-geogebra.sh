@@ -41,7 +41,7 @@ for i in *.p; do
     } || {
     test -r "$TESTNAME.result" && {
       tail -1 "$TESTNAME.result" | grep --silent "Boolean Value a = true" && {
-        grep --silent "Eliminating system" "$TESTNAME.log" && {
+        grep --silent "eliminate" "$TESTNAME.log" && {
           echo " timeout in elimination"
         } || {
           echo -n " Prove command incomplete: "
