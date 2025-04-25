@@ -46,12 +46,24 @@ for i in *.p; do
     test -r "$TESTNAME.result" && {
       tail -1 "$TESTNAME.result" | grep --silent "Boolean Value a = true" && {
         grep --silent "eliminate" "$TESTNAME.log" && {
-          echo " timeout in elimination"
+          echo " timeout in elimination (1)"
         } || {
           echo -n " Prove command incomplete: "
           cat geogebra.xml | grep -A1 Prove | tail -1 | cut -f2 -d\"
           }
-        } || echo " computation issue"
+        } || {
+          grep --silent "STATEMENT IS UNKNOWN" "$TESTNAME.log" && {
+            echo " unknown"
+          } || {
+            grep --silent "STATEMENT IS FALSE" "$TESTNAME.log" && {
+              echo " false"
+            } || {
+              grep --silent "eliminate" "$TESTNAME.log" && {
+                echo " timeout in elimination (2)"
+              } || echo " computation issue"
+            }
+          }
+        }
       } || echo " timeout"
     }
   ALL=$((ALL+1))
