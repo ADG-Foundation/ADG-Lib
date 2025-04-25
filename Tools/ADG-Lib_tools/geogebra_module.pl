@@ -341,7 +341,7 @@ translate_fol2geogebra_g(mult(A,B),M)            :- !,
 translate_fol2geogebra_g(sum(A,B),M)             :- !, 
    translate_fol2geogebra_g(A,M), write('+'), translate_fol2geogebra_g(B,M).
 translate_fol2geogebra_g(length(A,B),M)             :- !, 
-   write('{ segment '), translate_fol2geogebra_g(A,M), write(' '), translate_fol2geogebra_g(B,M), write(' }').
+   write('Segment['), translate_fol2geogebra_g(A,M), write(','), translate_fol2geogebra_g(B,M), write(']').
 translate_fol2geogebra_g(sratio(A,B,C,D),M)      :- !, 
    write('Segment['),translate_fol2geogebra_g(A,M), write(','), translate_fol2geogebra_g(B,M), write(']/Segment['), 
    translate_fol2geogebra_g(C,M), write(','), translate_fol2geogebra_g(D,M), write(']').
