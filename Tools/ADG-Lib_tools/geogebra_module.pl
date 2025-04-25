@@ -102,10 +102,7 @@ translate_term_fol2geogebra(intersection(A,B,C,D,P),M)    :- !,
    write('   <input a0="Line['),print(A,M),write(', '),print(B,M),
    write(']" a1="Line['),print(C,M),write(', '),print(D,M),write(']"/>'),nl,
    write('   <output a0="'),print(P,M),write('"/>'),nl,
-   write('</command>'),nl,
-   write('<element type="point" label="'), print(P,M) ,write('">'),nl,
-   write('   <show object="true" label="true"/>'),nl,
-   write('</element>'),nl.
+   write('</command>'),nl.
 
 translate_term_fol2geogebra(paraS(P,A,B,C),M)    :- !, 
    getNewVarName('Ptmp', VnameP), 
@@ -182,19 +179,13 @@ translate_term_fol2geogebra(collinear(A,B,C),M)     :- !, nl,
    write('<command name="Point">'),nl,
    write('   <input a0="Line['),print(B,M),write(', '),print(C,M),write(']"/>'),nl,
    write('   <output a0="'),print(A,M),write('"/>'),nl,
-   write('</command>'),nl,
-   write('<element type="point" label="'), print(A,M) ,write('">'),nl,
-   write('   <show object="true" label="true"/>'),nl,
-   write('</element>'),nl.
+   write('</command>'),nl.
 
 translate_term_fol2geogebra(on_circle(C,O,A),M)     :- !, nl,
    write('<command name="Point">'),nl,
    write('   <input a0="Circle['),print(O,M),write(', '),print(A,M),write(']"/>'),nl,
    write('   <output a0="'),print(C,M),write('"/>'),nl,
-   write('</command>'),nl,
-   write('<element type="point" label="'), print(C,M) ,write('">'),nl,
-   write('   <show object="true" label="true"/>'),nl,
-   write('</element>'),nl.
+   write('</command>'),nl.
 
 translate_term_fol2geogebra(drawdashline(L),M)      :- !, 
    nl, write('drawdashline '), print(L,M).
