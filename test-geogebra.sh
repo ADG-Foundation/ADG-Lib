@@ -4,13 +4,15 @@
 # To avoid annoying error messages in popup windows, run this script like this:
 # xvfb-run -a -s "-screen 0 1024x768x24" ./test-geogebra.sh
 
+GEOGEBRA=`which geogebra-discovery`
+TIMEOUT=20
+OUT_DIR=`pwd`/Generated
+
+# Above this point the variables can be freely edited.
+
 trap "echo 'Exit forced'" EXIT
 trap "echo 'Term forced'" TERM
 trap "echo 'Kill forced'" KILL
-
-GEOGEBRA=`which geogebra-discovery`
-TIMEOUT=10
-OUT_DIR=`pwd`/Generated
 
 # Build ADGLibToolkit:
 cd Tools/ADG-Lib_tools

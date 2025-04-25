@@ -123,9 +123,7 @@ translate_term_fol2geogebra(paraS(P,A,B,C),M)    :- !,
    getNewVarName('Ptmp', VnameP), 
    nl, write('translate '), write(VnameP), write(' '), print(B,M), write(' '), print(C,M), write(' '), print(A,M),  
    nl, write('online '),print(P,M), write(' '), write(VnameP), write(' '),print(A,M).
-translate_term_fol2geogebra(towards(X,A,B,R),M)   :- !, 
-   nl, write('towards '), print(X,M), 
-   write(' '), print(A,M), write(' '), print(B,M), write(' '), print(R).
+translate_term_fol2geogebra(towards(X,A,B,_R),M)   :- !, translate_term_fol2geogebra(collinear(X,A,B),M).
 translate_term_fol2geogebra(rotate(X,C,Angle,P),M):- !, 
    nl, write('rotate '), print(X,M), write(' '), print(C,M), write(' '), 
    print(Angle), write(' '), print(P,M).
