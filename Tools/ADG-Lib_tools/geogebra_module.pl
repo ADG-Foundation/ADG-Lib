@@ -334,12 +334,12 @@ translate_fol2geogebra_g( harmonic(A,B,C,D),M)  :- !,
    write('harmonic '), print(A,M), write(' '), print(B,M), write(' '), 
    print(C,M), write(' '),print(D,M).
 translate_fol2geogebra_g( same_length(A,B,C,D),M) :- !, 
-   write('same_length '), print(A,M), write(' '), print(B,M), write(' '), 
-   print(C,M),write(' '),print(D,M).
+   write('Segment['),translate_fol2geogebra_g(A,M), write(','), translate_fol2geogebra_g(B,M), write(']==Segment['), 
+   translate_fol2geogebra_g(C,M), write(','), translate_fol2geogebra_g(D,M), write(']').
 translate_fol2geogebra_g(mult(A,B),M)            :- !, 
-   write('{ mult '), translate_fol2geogebra_g(A,M), write(' '), translate_fol2geogebra_g(B,M), write(' }').
+   translate_fol2geogebra_g(A,M), write('*'), translate_fol2geogebra_g(B,M).
 translate_fol2geogebra_g(sum(A,B),M)             :- !, 
-   write('{ sum '), translate_fol2geogebra_g(A,M), write(' '), translate_fol2geogebra_g(B,M), write(' }').
+   translate_fol2geogebra_g(A,M), write('+'), translate_fol2geogebra_g(B,M).
 translate_fol2geogebra_g(length(A,B),M)             :- !, 
    write('{ segment '), translate_fol2geogebra_g(A,M), write(' '), translate_fol2geogebra_g(B,M), write(' }').
 translate_fol2geogebra_g(sratio(A,B,C,D),M)      :- !, 
