@@ -98,16 +98,10 @@ translate_term_fol2geogebra(parallel(P,A,B,C),M)    :- !,
    write('   <input a0="'),print(A,M),write('" a1="Line['),print(B,M),write(', '),print(C,M),write(']"/>'),nl,
    write('   <output a0="pl'),print(A,M),print(B,M),print(C,M),write('"/>'),nl,
    write('</command>'),nl,
-   write('<element type="line" label="pl'),print(A,M),print(B,M),print(C,M),write('">'),nl,
-   write('   <show object="true" label="true"/>'),nl,
-   write('</element>'),
    write('<command name="Point">'),nl,
    write('   <input a0="pl'),print(A,M),print(B,M),print(C,M),write('"/>'),nl,
    write('   <output a0="'),print(P,M),write('"/>'),nl,
-   write('</command>'),nl,
-   write('<element type="point" label="'), print(P,M) ,write('">'),nl,
-   write('   <show object="true" label="true"/>'),nl,
-   write('</element>'),nl.
+   write('</command>'),nl.
 
 translate_term_fol2geogebra(intersection(A,B,C,D,P),M)    :- !, 
    write('<command name="Intersect">'),nl,
