@@ -39,7 +39,11 @@ for i in *.p; do
     echo " true ($TIME ms)"
     SUCCESS=$((SUCCESS+1))
     } || {
-    echo " unsuccessful"
+    test -r "$TESTNAME.result" && {
+      tail -1 "$TESTNAME.result" | grep --silent "Boolean Value a = true" && {
+        echo " Prove command incomplete"
+        } || echo " computation issue"
+      } || echo " timeout"
     }
   ALL=$((ALL+1))
   done
