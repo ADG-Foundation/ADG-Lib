@@ -41,8 +41,12 @@ for i in *.p; do
     } || {
     test -r "$TESTNAME.result" && {
       tail -1 "$TESTNAME.result" | grep --silent "Boolean Value a = true" && {
-        echo -n " Prove command incomplete: "
-        cat geogebra.xml | grep -A1 Prove | tail -1 | cut -f2 -d\"
+        grep --silent "Eliminating system" "$TESTNAME.log" && {
+          echo " timeout in elimination"
+        } || {
+          echo -n " Prove command incomplete: "
+          cat geogebra.xml | grep -A1 Prove | tail -1 | cut -f2 -d\"
+          }
         } || echo " computation issue"
       } || echo " timeout"
     }
