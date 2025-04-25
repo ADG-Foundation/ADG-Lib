@@ -65,8 +65,13 @@ translate_term_fol2geogebra(foot(X,A,B,C),M)      :- !, nl,
    write('  <output a0="'),print(X,M),write('"/>'),nl,
    write('</command>').
 
-translate_term_fol2geogebra(translate(X,A,B,P),M)           :- !, 
-   nl, write('translate '), print(X,M), write(' '), print(A,M), write(' '), print(B,M), write(' '), print(P,M).
+translate_term_fol2geogebra(translate(X,A,B,P),M)           :- !, nl,
+   write('<expression label="'),print(X,M),write('" exp="'),print(P,M),write('+Vector('),
+   print(A,M),write(','),print(B,M),write(')" type="point" />'),nl,
+   write('<element type="point" label="'),print(X,M),write('">'),nl,
+   write('   <show object="true" label="true"/>'),nl,
+   write('</element>'),nl.
+
 translate_term_fol2geogebra(perpNS(X,P,L),M)      :- !, 
    nl, write('perp '), print(X,M), write(' '), print(P,M), write(' '), print(L,M).
 translate_term_fol2geogebra(perpS(X,P,L),M)      :- !, 
