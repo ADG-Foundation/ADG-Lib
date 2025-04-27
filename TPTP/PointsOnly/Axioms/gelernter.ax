@@ -1,82 +1,192 @@
-fof(ax_coll1, axiom, ![A,B,C]:   ((collinear(A,B,C)) => collinear(A,C,B))).
-fof(ax_coll2, axiom, ![A,B,C]:   ((collinear(A,B,C)) => collinear(B,C,A))).
-fof(ax_coll3, axiom, ![A,B,C]:   ((~collinear(A,B,C)) => ~collinear(A,C,B))).
-fof(ax_coll4, axiom, ![A,B,C]:   ((~collinear(A,B,C)) => ~collinear(B,C,A))).
-fof(ax_coll5, axiom, ![A,B,C]:   ((~collinear(A,B,C)) => (A!=B))).
-fof(ax_coll6, axiom, ![A,B,C,D]: ((~collinear(A,B,C) & collinear(A,B,D) & A!=D) => ~collinear(A,D,C))).
-fof(ax_coll7, axiom, ![A,B,C,D]: ((~collinear(A,B,C) & between_strict(C,D,B)) => ~collinear(A,B,D))).
+% Collinearity permutation
+fof(ax_col1, axiom, ![A, B, C]: (collinear(A, B, C) => collinear(A, C, B))).
 
+% Collinearity circular permutation
+fof(ax_col2, axiom, ![A, B, C]: (collinear(A, B, C) => collinear(B, C, A))).
 
-fof(ax_bet1, axiom, ![A,B,C]:     ((between_strict(A,B,C)) => collinear(A,B,C))).
-fof(ax_bet2, axiom, ![A,B,C]:     ((between_strict(A,B,C)) => between_strict(C,B,A))).
-fof(ax_bet3, axiom, ![A,B,C,D]:   ((between_strict(A,B,C) & between_strict(B,C,D)) => between_strict(A,B,D))).
-fof(ax_bet4, axiom, ![A,B,C,D]:   ((between_strict(A,B,C) & between_strict(B,C,D)) => between_strict(A,C,D))).
+% Non-collinearity permutation
+fof(ax_col3, axiom, ![A, B, C]: (~collinear(A, B, C) => ~collinear(A, C, B))).
 
-fof(ax_sides1, axiom, ![A,B,C,X]:   ((between_strict(A,X,B)) => opposite_sides(A,B,X,C))).
-fof(ax_sides2, axiom, ![A,B,C,D,X]: ((between_strict(A,X,B) & collinear(C,X,D)) => opposite_sides(A,B,C,D))).
-fof(ax_sides3, axiom, ![A,B,C,X]:   ((between_strict(A,X,B)) => same_side(X,B,A,C))).
-fof(ax_sides4, axiom, ![A,B,C,D,X]: ((between_strict(A,X,B) & collinear(A,C,D)) => same_side(X,B,C,D))).
-fof(ax_sides5, axiom, ![A,B,C,D,X]: ((between_strict(A,X,B) & between_strict(C,X,D)) => congruent_angles(A,X,C,B,X,D))).
-fof(ax_sides6, axiom, ![A,B,C,D]:   ((same_side(B,C,D,A)) => same_side(B,C,A,D))).
-fof(ax_sides7, axiom, ![A,B,C,D]:   ((same_side(B,C,D,A)) => same_side(C,B,A,D))).
-fof(ax_sides9, axiom, ![A,B,C,D]:   ((opposite_sides(A,C,B,D)) => opposite_sides(C,A,B,D))).
-fof(ax_sides10, axiom, ![A,B,C,D]:  ((opposite_sides(A,C,B,D)) => opposite_sides(A,C,D,B))).
+% Non-collinearity circular permutation
+fof(ax_col4, axiom, ![A, B, C]: (~collinear(A, B, C) => ~collinear(B, C, A))).
 
-%fof(ax_perp1, axiom, ![L1,L2]:     ((perpendicular_lines(L1,L2)) => perpendicular_lines(L2,L1))).
-%fof(ax_perp2, axiom, ![L1,L2]:     ((perpendicular_lines(L1,L2)) => right_angle_lines(L1,L2))).
-fof(ax_perp3, axiom, ![X,Y,Z,U]:    ((perpendicular_strict(X,Y,Z,U)) => perpendicular_strict(Y,X,Z,U))).
-fof(ax_perp4, axiom, ![X,Y,Z,U]:    ((perpendicular_strict(X,Y,Z,U)) => perpendicular_strict(Z,U,X,Y))).
-fof(ax_perp5, axiom, ![X,Y,Z]:      ((perpendicular_strict(X,Y,Y,Z)) => right_angle(X,Y,Z))).
-fof(ax_perp6, axiom, ![X,Y,Z,U]:    ((perpendicular_strict(X,Y,Z,U) & collinear(Y,Z,U)) => right_angle(X,Y,Z))).
+% Non-collinearity implies distinct points
+fof(ax_col5, axiom, ![A, B, C]: (~collinear(A, B, C) => A != B)).
 
-fof(ax_para1, axiom, ![X,Y,Z,U]:    ((parallel_strict(X,Y,Z,U)) => parallel_strict(Y,X,Z,U))).
-fof(ax_para2, axiom, ![X,Y,Z,U]:    ((parallel_strict(X,Y,Z,U)) => parallel_strict(Z,U,X,Y))).
-fof(ax_angle3, axiom, ![A,B,C]:     ((collinear(A,B,C) & A!=B & A!=C) => parallel_strict(A,B,A,C))).
-fof(ax_angle4, axiom, ![A,B,C]:     ((collinear(A,B,C) & A!=B & B!=C) => parallel_strict(A,B,B,C))).
+% Non-collinearity with additional conditions
+fof(ax_col6, axiom, ![A, B, C, D]: 
+  ((~collinear(A, B, C) & collinear(A, B, D) & A != D) => ~collinear(A, D, C))).
 
-fof(ax_cong1, axiom, ![X,Y]: (cong(X,Y,X,Y))).
-fof(ax_cong2, axiom, ![X,Y,Z,U]: ((cong(X,Y,Z,U)) => cong(Z,U,X,Y))).
-fof(ax_cong3, axiom, ![X,Y,Z,U]: ((cong(X,Y,Z,U)) => cong(Y,X,Z,U))).
+% Non-collinearity and strict betweenness
+fof(ax_col7, axiom, ![A, B, C, D]: 
+  ((~collinear(A, B, C) & between_strict(C, D, B)) => ~collinear(A, B, D))).
 
-fof(ax_angle1, axiom, ![A,B,C]: ((congruent_angles(A,B,C,A,B,C)))).
-fof(ax_angle2, axiom, ![A,B,C,D,E,F]: ((congruent_angles(A,B,C,D,E,F)) => (congruent_angles(D,E,F,A,B,C)))).
-fof(ax_angle3, axiom, ![A,B,C,D,E,F,X,Y,Z]: ((congruent_angles(A,B,C,D,E,F) & congruent_angles(D,E,F,X,Y,Z)) => (congruent_angles(A,B,C,X,Y,Z)))).
-fof(ax_angle4, axiom, ![A,B,C]: ((congruent_angles(A,B,C,C,B,A)))).
-fof(ax_angle5, axiom, ![A,B,C,D]: ((between_strict(A,B,C) => congruent_angles(A,C,D,B,C,D)))).
-fof(ax_angle6, axiom, ![A,B,C,D]: ((between_strict(A,B,C) & right_angle(D,B,C)) => right_angle(D,B,A))).
-fof(ax_angle7, axiom, ![A,B,C,X,Y,Z]: ((right_angle(A,B,C) & congruent_angles(A,B,C,X,Y,Z)) => right_angle(X,Y,Z))).
-fof(ax_angle8, axiom, ![A,B,C,X,Y,Z]: ((right_angle(A,B,C) & right_angle(X,Y,Z)) => congruent_angles(A,B,C,X,Y,Z))).
-fof(ax_angle9, axiom, ![A,B,C,D]: ((opposite_sides(A,C,B,D) & parallel_strict(A,D,B,C)) => congruent_angles(A,D,B,D,B,C))).
-fof(ax_angle10, axiom, ![A,B,C,D]: ((opposite_sides(A,C,B,D) & congruent_angles(A,D,B,D,B,C)) => parallel_strict(A,D,B,C))).              
-fof(ax_angle11, axiom, ![A,B,C,D,E,F]: ((parallel_strict(A,B,C,D) & parallel_strict(C,D,E,F)) => parallel_strict(A,B,E,F))).
-fof(ax_angle12, axiom, ![A,B,C,D]: ((parallel_strict(A,B,C,D) & parallel_strict(A,D,B,C)) => parallelogram(A,B,C,D))).
+% Betweenness implies collinearity
+fof(ax_bet1, axiom, ![A, B, C]: (between_strict(A, B, C) => collinear(A, B, C))).
 
-fof(ax_is_midpoint1, axiom, ![A,B,M]: ((is_midpoint(M,A,B)) => cong(A,M,M,B))).
-fof(ax_is_midpoint2, axiom, ![A,B,M]: ((is_midpoint(M,A,B)) => between_strict(A,M,B))).
-fof(ax_is_midpoint3, axiom, ![A,B,M]: ((between_strict(A,M,B) & cong(A,M,M,B)) => is_midpoint(M,A,B))).
-fof(ax_is_midpoint4, axiom, ![A,B,C]: ((is_midpoint(C,A,B)) => is_midpoint(C,B,A))).
-fof(ax_is_midpoint5, axiom, ![A,B,C,D,E]: ((is_midpoint(D,A,B) & is_midpoint(E,A,C)) => parallel_strict(B,C,D,E))).
-fof(ax_is_midpoint6, axiom, ![A,B,C,D,E]: ((is_midpoint(D,A,B) & parallel_strict(B,C,D,E) & collinear(A,C,E)) => is_midpoint(E,A,C))).
+% Betweenness is symmetric
+fof(ax_bet2, axiom, ![A, B, C]: (between_strict(A, B, C) => between_strict(C, B, A))).
 
-fof(ax_triangle1, axiom, ![A,B,C]: ((~collinear(A,B,C)) => congruent_triangles(A,B,C,A,B,C))).
-fof(ax_triangle2, axiom, ![A,B,C,D,E,F]: ((congruent_triangles(A,B,C,D,E,F)) => (congruent_triangles(D,E,F,A,B,C)))).
-fof(ax_triangle3, axiom, ![A,B,C,D,E,F,X,Y,Z]: ((congruent_triangles(A,B,C,D,E,F) & congruent_triangles(D,E,F,X,Y,Z)) 
-   => (congruent_triangles(A,B,C,X,Y,Z)))).
+% Pseudo-transitivity of betweenness
+fof(ax_bet3, axiom, ![A, B, C, D]: 
+  ((between_strict(A, B, C) & between_strict(B, C, D)) => between_strict(A, B, D))).
 
-fof(ax_sas, axiom, ![A,B,C,D,E,F]: (
-  (~collinear(A,B,C) & cong(A,B,D,E) & congruent_angles(A,B,C,D,E,F) & cong(B,C,E,F)) => congruent_triangles(A,B,C,D,E,F))).
-fof(ax_sss, axiom, ![A,B,C,D,E,F]: (
-  (~collinear(A,B,C) & cong(A,B,D,E) & cong(B,C,E,F) & cong(F,D,C,A)) => congruent_triangles(A,B,C,D,E,F))).
-fof(ax_asa, axiom, ![A,B,C,D,E,F]: (
-  (~collinear(A,B,C) & congruent_angles(C,A,B,F,D,E) & cong(A,B,D,E) & congruent_angles(A,B,C,D,E,F)) => congruent_triangles(A,B,C,D,E,F))).
-fof(ax_aaa, axiom, ![A,B,C,D,E,F]: (
-  (~collinear(A,B,C) & congruent_angles(A,B,C,D,E,F) & congruent_angles(B,C,A,E,F,D)) => congruent_angles(C,A,B,F,D,E))).
-fof(ax_tc, axiom, ![A,B,C,D,E,F]: (
-  (congruent_triangles(A,B,C,D,E,F)) => (cong(A,B,D,E)))).
-fof(ax_tc, axiom, ![A,B,C,D,E,F]: (
-  (congruent_triangles(A,B,C,D,E,F)) => (congruent_angles(A,B,C,D,E,F)))).
+fof(ax_bet4, axiom, ![A, B, C, D]: 
+  ((between_strict(A, B, C) & between_strict(B, C, D)) => between_strict(A, C, D))).
 
-fof(ax_tt, axiom, ![X,Y,Z,U,V,W]: (congruent_triangles(X,Y,Z,U,V,W) => congruent_triangles(Z,X,Y,W,U,V))).
+% Definition of opposite sides
+fof(ax_sides1, axiom, ![A, B, C, X]: 
+  ((between_strict(A, X, B) & ~collinear(A, X, C) & ~collinear(B, X, C)) => opposite_sides(X, C, A, B))).
 
-% --------------------------------------------------------------------------------
+fof(ax_sides2, axiom, ![A, B, C, D, X]: 
+  ((between_strict(A, X, B) & collinear(C, X, D) & ~collinear(A, C, D) & ~collinear(B, C, D)) => opposite_sides(C, D, A, B))).
+
+% Straight angles are congruent
+fof(ax_sides5, axiom, ![A, B, C, D, X]: 
+  ((between_strict(A, X, B) & between_strict(C, X, D)) => congruent_angles(A, X, C, B, X, D))).
+
+% Same side symmetries
+fof(ax_sides6, axiom, ![A, B, C, D]: (same_side(B, C, D, A) => same_side(B, C, A, D))).
+
+fof(ax_sides7, axiom, ![A, B, C, D]: (same_side(B, C, D, A) => same_side(C, B, A, D))).
+
+% Opposite sides symmetries
+fof(ax_sides9, axiom, ![A, B, C, D]: (opposite_sides(A, C, B, D) => opposite_sides(C, A, B, D))).
+
+fof(ax_sides10, axiom, ![A, B, C, D]: (opposite_sides(A, C, B, D) => opposite_sides(A, C, D, B))).
+
+% Perpendicularity implies distinct points
+fof(ax_perp_distinct1, axiom, ![X, Y, Z, U]: (perpendicular(X, Y, Z, U) => X != Y)).
+
+fof(ax_perp_distinct2, axiom, ![X, Y, Z, U]: (perpendicular(X, Y, Z, U) => Z != U)).
+
+% Perpendicularity is symmetric
+fof(ax_perp3, axiom, ![X, Y, Z, U]: (perpendicular(X, Y, Z, U) => perpendicular(Y, X, Z, U))).
+
+fof(ax_perp4, axiom, ![X, Y, Z, U]: (perpendicular(X, Y, Z, U) => perpendicular(Z, U, X, Y))).
+
+% Right angles and perpendicularity
+fof(ax_perp5, axiom, ![X, Y, Z]: (perpendicular(X, Y, Y, Z) => right_angle(X, Y, Z))).
+
+fof(ax_perp6, axiom, ![X, Y, Z, U]: 
+  ((perpendicular(X, Y, Z, U) & collinear(Y, Z, U)) => right_angle(X, Y, Z))).
+
+% Parallelism is symmetric
+fof(ax_para1, axiom, ![X, Y, Z, U]: (parallel(X, Y, Z, U) => parallel(Y, X, Z, U))).
+
+fof(ax_para2, axiom, ![X, Y, Z, U]: (parallel(X, Y, Z, U) => parallel(Z, U, X, Y))).
+
+% Same line preserves parallelism
+fof(ax_par_col, axiom, ![A, B, C, D, e]: 
+  ((A != E & parallel(A, B, C, D) & collinear(A, B, E)) => parallel(A, E, C, D))).
+
+% Equal lines are parallel
+fof(ax_angle1, axiom, ![A, B, C]: 
+  (collinear(A, B, C) & A != B & A != C => parallel(A, B, A, C))).
+
+fof(ax_angle2, axiom, ![A, B, C]: 
+  (collinear(A, B, C) & A != B & B != C => parallel(A, B, B, C))).
+
+% Segment congruence is reflexive
+fof(ax_cong1, axiom, ![X, Y]: (cong(X, Y, X, Y))).
+
+% Segment congruence is symmetric
+fof(ax_cong2, axiom, ![X, Y, Z, U]: (cong(X, Y, Z, U) => cong(Z, U, X, Y))).
+
+% Segments are symmetric
+fof(ax_cong3, axiom, ![X, Y, Z, U]: (cong(X, Y, Z, U) => cong(Y, X, Z, U))).
+
+% Angle congruence is reflexive
+fof(ax_angle3, axiom, ![A, B, C]: ((A != B & B != C) => congruent_angles(A, B, C, A, B, C))).
+
+% Angle congruence is symmetric
+fof(ax_angle4, axiom, ![A, B, C, D, E, F]: 
+  (congruent_angles(A, B, C, D, E, F) => congruent_angles(D, E, F, A, B, C))).
+
+% Angles are symmetric
+fof(ax_angle4_prime, axiom, ![A, B, C, D, E, F]: 
+  (congruent_angles(A, B, C, D, E, F) => congruent_angles(C, B, A, D, E, F))).
+
+% Angle change of half-line
+fof(ax_angle5, axiom, ![A, B, C, D]: 
+  ((between_strict(A, B, C) & C != D) => congruent_angles(A, C, D, B, C, D))).
+
+% The supplementary of a right angle is a right angle
+fof(ax_angle6, axiom, ![A, B, C, D]: 
+  ((between_strict(A, B, C) & right_angle(D, B, C)) => right_angle(D, B, A))).
+
+% An angle congruent to a right angle is a right angle
+fof(ax_angle7, axiom, ![A, B, C, X, Y, Z]: 
+  ((right_angle(A, B, C) & congruent_angles(A, B, C, X, Y, Z)) => right_angle(X, Y, Z))).
+
+% Right angles are congruent
+fof(ax_angle8, axiom, ![A, B, C, X, Y, Z]: 
+  ((right_angle(A, B, C) & right_angle(X, Y, Z) & A != B & B != C & X != Y & Y != Z) => 
+   congruent_angles(A, B, C, X, Y, Z))).
+
+% Angle congruence is transitive
+fof(ax_congruent_angle_trans, axiom, ![A, B, C, D, E, F, G, H, I]: 
+  ((congruent_angles(A, B, C, D, E, F) & congruent_angles(D, E, F, G, H, I)) => 
+   congruent_angles(A, B, C, G, H, I))).
+
+% Right angle symmetry
+fof(ax_right_angle_sym, axiom, ![A, B, C]: 
+  (right_angle(A, B, C) => right_angle(C, B, A))).
+
+% The midpoint is equidistant from extremities
+fof(ax_is_midpoint1, axiom, ![A, B, M]: 
+  (is_midpoint(M, A, B) => cong(A, M, M, B))).
+
+% The midpoint is strictly between the extremities of the segment
+fof(ax_is_midpoint2, axiom, ![A, B, M]: 
+  ((is_midpoint(M, A, B) & A != B) => between_strict(A, M, B))).
+
+% Definition of midpoint
+fof(ax_is_midpoint3, axiom, ![A, B, M]: 
+  ((between_strict(A, M, B) & cong(A, M, M, B)) => is_midpoint(M, A, B))).
+
+% Segments in midpoint are symmetric
+fof(ax_is_midpoint4, axiom, ![A, B, C]: 
+  (is_midpoint(C, A, B) => is_midpoint(C, B, A))).
+
+% Congruence of triangles is reflexive
+fof(ax_triangle1, axiom, ![A, B, C]: 
+  (~collinear(A, B, C) => congruent_triangles(A, B, C, A, B, C))).
+
+% Congruence of triangles is symmetric
+fof(ax_triangle2, axiom, ![A, B, C, D, E, F]: 
+  (congruent_triangles(A, B, C, D, E, F) => congruent_triangles(D, E, F, A, B, C))).
+
+% Congruence of triangles is transitive
+fof(ax_triangle3, axiom, ![A, B, C, D, E, F, X, Y, Z]: 
+  ((congruent_triangles(A, B, C, D, E, F) & congruent_triangles(D, E, F, X, Y, Z)) => 
+   congruent_triangles(A, B, C, X, Y, Z))).
+
+% Side-Angle-Side (SAS)
+fof(ax_sas, axiom, ![A, B, C, D, E, F]: 
+  ((~collinear(A, B, C) & cong(A, B, D, E) & congruent_angles(A, B, C, D, E, F) & cong(B, C, E, F)) => 
+   congruent_triangles(A, B, C, D, E, F))).
+
+% Side-Side-Side (SSS)
+fof(ax_sss, axiom, ![A, B, C, D, E, F]: 
+  ((~collinear(A, B, C) & cong(A, B, D, E) & cong(B, C, E, F) & cong(F, D, C, A)) => 
+   congruent_triangles(A, B, C, D, E, F))).
+
+% Angle-Side-Angle (ASA)
+fof(ax_asa, axiom, ![A, B, C, D, E, F]: 
+  ((~collinear(A, B, C) & congruent_angles(C, A, B, F, D, E) & cong(A, B, D, E) & congruent_angles(A, B, C, D, E, F)) => 
+   congruent_triangles(A, B, C, D, E, F))).
+
+% Side-Angle-Angle (SAA)
+fof(ax_saa, axiom, ![A, B, C, D, E, F]: 
+  ((~collinear(A, B, C) & congruent_angles(B, C, A, E, F, D) & congruent_angles(A, B, C, D, E, F) & cong(A, B, D, E)) => 
+   congruent_triangles(A, B, C, D, E, F))).
+
+% Congruent triangles provide segment congruence
+fof(ax_tc, axiom, ![A, B, C, D, E, F]: 
+  (congruent_triangles(A, B, C, D, E, F) => cong(A, B, D, E))).
+
+% Congruent triangles circular permutation
+fof(ax_tt, axiom, ![X, Y, Z, U, V, W]: 
+  (congruent_triangles(X, Y, Z, U, V, W) => congruent_triangles(Z, X, Y, W, U, V))).
 
