@@ -77,7 +77,7 @@ fof(ax_para1, axiom, ![X, Y, Z, U]: (parallel(X, Y, Z, U) => parallel(Y, X, Z, U
 fof(ax_para2, axiom, ![X, Y, Z, U]: (parallel(X, Y, Z, U) => parallel(Z, U, X, Y))).
 
 % Same line preserves parallelism
-fof(ax_par_col, axiom, ![A, B, C, D, e]: 
+fof(ax_par_col, axiom, ![A, B, C, D, E]: 
   ((A != E & parallel(A, B, C, D) & collinear(A, B, E)) => parallel(A, E, C, D))).
 
 % Equal lines are parallel

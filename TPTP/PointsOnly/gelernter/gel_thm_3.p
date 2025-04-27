@@ -6,9 +6,9 @@ fof(thm_B, conjecture, ![A,B,C,D,M,E]: (
   ( 
   ~collinear(A,B,C) &
   between_strict(B,M,C) & cong(B,M,M,C) &
-  between_strict(A,D,M) & between(D,M,E) &
-  perpendicular_strict(B,D,A,M) &
-  perpendicular_strict(C,E,M,E))
+  between_strict(A,D,M) & between_strict(D,M,E) &
+  perpendicular(B,D,A,M) &
+  perpendicular(C,E,M,E))
   => 
 cong(B,D,E,C)
 

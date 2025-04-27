@@ -2,18 +2,20 @@ include('gelernter.ax').
 
 % --------------------------------------------------------------------------------
 
-fof(thm_B, conjecture, ![A,B,C,D,E,F,M,K]: (
+fof(ax_inter, axiom, ![A,B,C,D]:  ((~parallel(A,B,C,D)) => ?[E]: (collinear(A,B,E) & collinear(C,D,E)))).
+
+fof(thm_B, conjecture, ![A,B,C,D,E,F,M]: (
   ( 
   ~collinear(F,B,C) &
   
-   A!=K & A!=D & K!=D &
-  parallel_strict(A,D,B,C) &
+  A!=D & 
+  parallel(A,D,B,C) &
    is_midpoint(E,A,C) &
     is_midpoint(F,B,D) &
      between_strict(M,E,F) &
-      between_strict(A,M,B) &
-       between_strict(C,F,K) &
-        collinear(A,K,D) 
+      between_strict(A,M,B) 
+%       & between_strict(C,F,K) 
+%       & collinear(A,K,D) 
       )
   => 
   cong(M,B,M,A)

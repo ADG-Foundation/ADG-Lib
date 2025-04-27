@@ -5,7 +5,7 @@ include('gelernter.ax').
  fof(thm_A, conjecture, ![A,B,C,D]: 
  (( 
    ~collinear(B,A,D) & ~collinear(B,C,D) & congruent_angles(A,B,D,D,B,C) & 
-   perpendicular_strict(A,D,A,B) & perpendicular_strict(D,C,B,C) )
+   perpendicular(A,D,A,B) & perpendicular(D,C,B,C) )
   => 
   cong(A,D,C,D)
 
