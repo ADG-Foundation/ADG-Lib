@@ -19,7 +19,7 @@ trap "echo 'Kill forced'" KILL
 # Build ADGLibToolkit:
 cd Tools/ADG-Lib_tools
 TOOLKIT_DIR=`pwd`
-make -s
+make -s || exit 1
 
 cd ../../TPTP/PointsOnly/GCLCcollection
 P_DIR=`pwd`
