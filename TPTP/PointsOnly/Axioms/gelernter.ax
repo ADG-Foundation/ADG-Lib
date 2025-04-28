@@ -82,10 +82,10 @@ fof(ax_par_col, axiom, ![A, B, C, D, E]:
 
 % Equal lines are parallel
 fof(ax_angle1, axiom, ![A, B, C]: 
-  (collinear(A, B, C) & A != B & A != C => parallel(A, B, A, C))).
+  ((collinear(A, B, C) & A != B & A != C) => parallel(A, B, A, C))).
 
 fof(ax_angle2, axiom, ![A, B, C]: 
-  (collinear(A, B, C) & A != B & B != C => parallel(A, B, B, C))).
+  ((collinear(A, B, C) & A != B & B != C) => parallel(A, B, B, C))).
 
 % Segment congruence is reflexive
 fof(ax_cong1, axiom, ![X, Y]: (cong(X, Y, X, Y))).
