@@ -161,6 +161,13 @@ between\_strict(A,B,C) & & points $A$, $B$ and $C$ are collinear and B is strict
 collinear(A,B,C) & $ \col{A}{B}{C} $ & points $A$, $B$ and $C$ are collinear & $ \bT{A}{B}{C} \lor \bT{B}{A}{C} \lor \bT{A}{C}{B} $ \\
 collinear\_strict(A,B,C) & & points $A$, $B$ and $C$ are distinct collinear points. \\
 \hi{on\_ray(O,A,B)} & $ \out{O}{A}{B} $ & $B$ belongs to the half line $OA$ & $ O \neq A \land O  \neq B \land (\bT{O}{A}{B} \lor \bT{O}{B}{A}) $ \\
+
+\hi{on\_angle\_bisector(P,A,O,B)} &  & $P$ belongs to the bisector of angle $AOB$ & $P \neq O \land 
+\angle{AOP}$ and $\angle{POB}$ are congruent \\
+
+\hi{on\_segment\_bisector(P,A,B)} &  & $P$ belongs to the bisector of segment $AB$ & $P \neq midpoint(A,B) \land 
+AP$ and $PB$ are congruent \\
+
 opposite\_sides(A,B,P,Q)  & $ \tS{A}{B}{P}{Q} $ & $P$ and $Q$ are on different sides of line $AB$ & $ \lnot \col{P}{A}{B} \land \lnot \col{Q}{A}{B} \land \exists T, \col{T}{A}{B} \land \bT{P}{T}{Q} $ \\
 same\_side(A,B,X,Y) & $ \oS {A}{B}{X}{Y} $ & $X$ and $Y$ are on the same side of line $AB$ & $ \exists Z, \tS{A}{B}{X}{Z} \land \tS{A}{B}{Y}{Z} $\\
 is\_midpoint(M,A,B) & $ \midpoint{A}{M}{B} $ & $M$ is the midpoint of segment $AB$ & $ \bT{A}{M}{B} \land \congT{A M}{B M} $ \\
@@ -178,7 +185,7 @@ perpendicular2(A,B,C,D,P) & $\perpTwo{A B}{C D}{P}$ & the line $AB$ and $CD$ hav
 
 
 parallel(A,B,C,D) & $ \para{A B}{C D} $ & line $AB$ is parallel to line $CD$ & $ \spara{A B}{C D} \lor (A \neq B \land C \neq D \land \col{A}{C}{D} \land \col{B}{C}{D}) $ \\
-parallel\_strict(A,B,C,D) & $ \spara{A B}{C D} $ & line $AB$ is parallel to line $CD$ and $AB \neq CD$ & $ A \neq B \land C \neq D \land \cp{A}{B}{C}{D} \land \lnot \exists X, \col{X}{A}{B} \land \col{X}{C}{D} $ \\
+parallel\_non_reflexive(A,B,C,D) & $ \spara{A B}{C D} $ & line $AB$ is parallel to line $CD$ and $AB \neq CD$ & $ A \neq B \land C \neq D \land \cp{A}{B}{C}{D} \land \lnot \exists X, \col{X}{A}{B} \land \col{X}{C}{D} $ \\
 
 \addlinespace
 
