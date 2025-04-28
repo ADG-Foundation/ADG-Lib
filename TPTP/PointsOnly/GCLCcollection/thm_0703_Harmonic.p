@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0703_Harmonic.p; Output: thm_0703_Harmonic.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0703_Harmonic.p; Output: tmp_2_thm_0703_Harmonic.p; Arg: [-l]
+% Input: tmp_1_thm_0703_Harmonic.p; Output: tmp_2_thm_0703_Harmonic.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0703_Harmonic
 % Domain   : Geometry 
@@ -22,17 +22,23 @@
 %  thmtexte onto line $p$. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,C,D,B,O,A_1,B_1,C_1,D_1] : ((
+fof(thm, conjecture, ! [ A,C,a,D,B,O,ao,bo,co,do,A_1,B_1,ab1,C_1,D_1] : ((
    dimensions(130, 85)
    & freepoint(A, 20, 20)
    & freepoint(C, 40, 20)
+   & newline(a, A, C)
    & collinear(D, A, C)
    & collinear(B, A, C)
    & freepoint(O, 80, 70)
+   & newline(ao, A, O)
+   & newline(bo, B, O)
+   & newline(co, C, O)
+   & newline(do, D, O)
    & collinear(A_1, A, O)
    & collinear(B_1, B, O)
-   & intersection(A_1, B_1, C, O, C_1)
-   & intersection(A_1, B_1, D, O, D_1)
+   & newline(ab1, A_1, B_1)
+   & intersection(C_1, A_1, B_1, C, O)
+   & intersection(D_1, A_1, B_1, D, O)
    & cmark_b(A)
    & cmark_b(B)
    & cmark_b(C)

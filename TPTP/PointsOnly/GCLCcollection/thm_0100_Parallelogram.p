@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0100_Parallelogram.p; Output: thm_0100_Parallelogram.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0100_Parallelogram.p; Output: tmp_2_thm_0100_Parallelogram.p; Arg: [-l]
+% Input: tmp_1_thm_0100_Parallelogram.p; Output: tmp_2_thm_0100_Parallelogram.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0100_Parallelogram
 % Domain   : Geometry 
@@ -26,11 +26,13 @@
 %  thmtexte $\overline{AB} = \overline{DC}$. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,D] : ((
+fof(thm, conjecture, ! [ A,B,C,ab,bc,D] : ((
    dimensions(130, 70)
    & freepoint(A, 20, 20)
    & freepoint(B, 80, 20)
    & freepoint(C, 103.4, 55.1)
+   & newline(ab, A, B)
+   & newline(bc, B, C)
    & translate(D, B, A, C)
    & cmark_b(A)
    & cmark_b(B)

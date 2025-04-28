@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0070_Altitude.p; Output: thm_0070_Altitude.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0070_Altitude.p; Output: tmp_2_thm_0070_Altitude.p; Arg: [-l]
+% Input: tmp_1_thm_0070_Altitude.p; Output: tmp_2_thm_0070_Altitude.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0070_Altitude
 % Domain   : Geometry 
@@ -20,15 +20,21 @@
 %  thmtexte Show that triangle altitudes are concurrent. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,A_1,B_1,C_1,H] : ((
+fof(thm, conjecture, ! [ A,B,C,bc,ab,ac,A_1,B_1,C_1,ha,hb,hc,H] : ((
    dimensions(100, 85)
    & freepoint(A, 20, 20)
    & freepoint(B, 80, 20)
    & freepoint(C, 60, 70)
+   & newline(bc, B, C)
+   & newline(ab, A, B)
+   & newline(ac, A, C)
    & foot(A_1, A, B, C)
    & foot(B_1, B, A, C)
    & foot(C_1, C, A, B)
-   & intersection(C, C_1, B, B_1, H)
+   & newline(ha, A, A_1)
+   & newline(hb, B, B_1)
+   & newline(hc, C, C_1)
+   & intersection(H, C, C_1, B, B_1)
    & cmark_b(A)
    & cmark_b(B)
    & cmark_t(C)

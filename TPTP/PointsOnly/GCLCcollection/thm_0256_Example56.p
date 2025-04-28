@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0256_Example56.p; Output: thm_0256_Example56.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0256_Example56.p; Output: tmp_2_thm_0256_Example56.p; Arg: [-l]
+% Input: tmp_1_thm_0256_Example56.p; Output: tmp_2_thm_0256_Example56.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0256_Example56
 % Domain   : Geometry 
@@ -33,18 +33,22 @@
 %  thmtexte Show that $1/MR + 1/MS = 1/MT$. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ M,N,P,P1,P2,Q,Pp,S,T,R] : ((
+fof(thm, conjecture, ! [ M,N,P,mn,np,P1,P2,Q,Pp,S,ms,nq,T,R] : ((
    dimensions(130, 60)
    & freepoint(M, 20, 20)
    & freepoint(N, 70, 20)
    & freepoint(P, 85, 45)
+   & newline(mn, M, N)
+   & newline(np, N, P)
    & parallel(P1, P, M, N)
    & parallel(P2, M, N, P)
-   & intersection(P1, P, P2, M, Q)
+   & intersection(Q, P1, P, P2, M)
    & translate(Pp, M, N, P)
    & collinear(S, P, Pp)
-   & intersection(M, S, N, Q, T)
-   & intersection(N, P, M, S, R)
+   & newline(ms, M, S)
+   & newline(nq, N, Q)
+   & intersection(T, M, S, N, Q)
+   & intersection(R, N, P, M, S)
    & cmark_b(M)
    & cmark_b(N)
    & cmark_b(S)

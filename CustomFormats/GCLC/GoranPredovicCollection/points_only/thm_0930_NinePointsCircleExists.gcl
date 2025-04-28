@@ -82,9 +82,9 @@ drawsegment C F
 
 %prove { equal { segment O G } { segment O K } }
 % K is on circle with diameter GM
-%prove { perpendicular G M G K }
+%prove { perpendicular K M G K }
 % I is on circle with diameter GM
-%prove { perpendicular G M G I }
+%prove { perpendicular I M G I }
 % E is on circle with diameter GM
-prove { perpendicular G M G E }
+prove { perpendicular E M G E }
 %prove { equal { angle E I D } { angle E M D } }

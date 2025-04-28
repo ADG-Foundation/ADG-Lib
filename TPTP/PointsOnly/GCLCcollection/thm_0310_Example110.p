@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0310_Example110.p; Output: thm_0310_Example110.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0310_Example110.p; Output: tmp_2_thm_0310_Example110.p; Arg: [-l]
+% Input: tmp_1_thm_0310_Example110.p; Output: tmp_2_thm_0310_Example110.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0310_Example110
 % Domain   : Geometry 
@@ -31,17 +31,22 @@
 %  thmnote prave $BC$. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,D,P1,P2,D1,E,E1,F] : ((
+fof(thm, conjecture, ! [ A,B,C,D,b,P1,c,P2,D1,a,k,E,E1,de,F] : ((
    dimensions(120, 110)
    & freepoint(A, 20, 40)
    & freepoint(B, 85, 40)
    & freepoint(C, 70, 90)
    & collinear(D, A, C)
+   & newline(b, A, C)
    & parallel(P1, B, A, C)
+   & newline(c, A, B)
    & parallel(P2, D, A, B)
-   & intersection(P1, B, P2, D, D1)
+   & intersection(D1, P1, B, P2, D)
+   & newline(a, B, C)
+   & newcircle(k, B, D1)
    & intersection_cl(E1, E, B, D1, B, C)
-   & intersection(D, E, A, B, F)
+   & newline(de, D, E)
+   & intersection(F, D, E, A, B)
    & cmark_lb(A)
    & cmark_rb(B)
    & cmark_t(C)

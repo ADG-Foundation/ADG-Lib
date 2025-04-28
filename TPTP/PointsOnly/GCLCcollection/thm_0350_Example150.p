@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0350_Example150.p; Output: thm_0350_Example150.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0350_Example150.p; Output: tmp_2_thm_0350_Example150.p; Arg: [-l]
+% Input: tmp_1_thm_0350_Example150.p; Output: tmp_2_thm_0350_Example150.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0350_Example150
 % Domain   : Geometry 
@@ -24,7 +24,7 @@
 %  thmtexte $3 \cdot MG^2 + AG^2 + BG^2 + CG^2 = AM^2 + BM^2 + CM^2$. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,M,F,E,D,G] : ((
+fof(thm, conjecture, ! [ A,B,C,M,F,E,D,cf,ad,G] : ((
    dimensions(110, 110)
    & freepoint(A, 20, 30)
    & freepoint(B, 90, 30)
@@ -33,7 +33,9 @@ fof(thm, conjecture, ! [ A,B,C,M,F,E,D,G] : ((
    & midpoint(F, A, B)
    & midpoint(E, A, C)
    & midpoint(D, B, C)
-   & intersection(A, D, C, F, G)
+   & newline(cf, C, F)
+   & newline(ad, A, D)
+   & intersection(G, A, D, C, F)
    & cmark_lb(A)
    & cmark_rb(B)
    & cmark_t(C)

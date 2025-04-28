@@ -33,40 +33,63 @@ translate_term_fol2gclc(collinear(X, A, B),M) :- !,
    nl, write('online '), print(X,M), write(' '), print(A,M), write(' '), print(B,M).
 translate_term_fol2gclc(newline(L,A,B),M)     :- !, 
    nl, write('line '), print(L,M), write(' '), print(A,M), write(' '), print(B,M).
-translate_term_fol2gclc(newcircle(K,C,X),M)   :- !, 
-   nl, write('circle '), print(K), write(' '), print(C,M), write(' '), print(X,M).
+translate_term_fol2gclc(newcircle(K,O,A),M)   :- !, 
+   nl, write('circle '), print(K,M), write(' '), print(O,M), write(' '), print(A,M).
 translate_term_fol2gclc(on_line(P,A,B),M)      :- !, 
    nl, write('online '), print(P,M), write(' '), print(A,M), write(' '), print(B,M).
 translate_term_fol2gclc(on_circle(P,A,B),M)    :- !, 
-   nl, write('on_circle '), print(P,M), write(' '), print(A,M), write(' '), print(B,M).
+   nl, write('oncircle '), print(P,M), write(' '), print(A,M), write(' '), print(B,M).
+
+translate_term_fol2gclc(on_segment_bisector(P,A,B),M)    :- !, 
+   getNewVarName('Ptmp', Vname1),
+   nl, write('midpoint '), print(Vname1,M), write(' '), print(A,M), write(' '), print(B,M),  
+   getNewVarName('Ptmp', Vname2), 
+   nl, write('rotate '), print(Vname2,M), write(' '), print(Vname1,M), write(' 90 '), print(A,M),
+   nl, write('online '), print(P,M), write(' '), print(Vname1,M), write(' '), print(Vname2,M).   
+
+translate_term_fol2gclc(on_angle_bisector(P,A,B,C),M)    :- !, 
+   getNewVarName('Ltmp', Vname1),
+   nl, write('bis '), print(Vname1,M), write(' '), print(A,M), write(' '), print(B,M), write(' '), print(C,M), nl,   
+   getNewVarName('Ltmp', Vname2), 
+   nl, write('line '), print(Vname2,M), write(' '), print(A,M), write(' '), print(C,M), nl,
+   getNewVarName('Ptmp', Vname3),
+   nl, write('intersec '), print(Vname3,M), write(' '), print(Vname1,M), write(' '), print(Vname2,M), nl,
+   nl, write('online '), print(P,M), write(' '), print(B,M), write(' '), print(Vname3,M).   
+
 translate_term_fol2gclc(midpoint(P,A,B),M)        :- !, 
    nl, write('midpoint '), print(P,M), write(' '), print(A,M), write(' '), print(B,M).
 translate_term_fol2gclc(med(L,A,B),M)         :- !, 
    nl, write('med '), print(L,M), write(' '), print(A,M), write(' '), print(B,M).
+
 translate_term_fol2gclc(foot(X,P,L),M)        :- !, 
    nl, write('foot '), print(X,M), write(' '), print(P,M), write(' '), print(L,M).
+
+%translate_term_fol2gclc(foot(_X,_A,_B,_C),_M)      :- !.
+
 translate_term_fol2gclc(foot(X,A,B,C),M)      :- !,
    getNewVarName('ltmp', Vname), 
    nl, write('line '),write(Vname), write(' '), print(B,M), write(' '), print(C,M),
    nl, write('foot '), print(X,M), write(' '), print(A,M), write(' '), write(Vname).
+
 translate_term_fol2gclc(translate(X,A,B,P),M)           :- !, 
    nl, write('translate '), print(X,M), write(' '), print(A,M), write(' '), print(B,M), write(' '), print(P,M).
 translate_term_fol2gclc(perpNS(X,P,L),M)      :- !, 
    nl, write('perp '), print(X,M), write(' '), print(P,M), write(' '), print(L,M).
+
+translate_term_fol2gclc(perpendicular(_P,_A,_B,_C),_M)    :- !.
+translate_term_fol2gclc(perpendicular_p(_P,_A,_L),_M)    :- !.
+
 translate_term_fol2gclc(perpendicular(X,P,L),M)      :- !, 
    nl, write('perp '), print(X,M), write(' '), print(P,M), write(' '), print(L,M).
+
+
 translate_term_fol2gclc(perpendicular_non_strict(P,A,B,C),M)    :- not(A=B), not(A=C), !, 
    getNewVarName('ltmp', Vnamel), 
    nl, write('line '), write(Vnamel), write(' '), print(B,M), write(' '), print(C,M),
    getNewVarName('Ptmp', VnameP), 
    nl, write('foot '), write(VnameP), write(' '), print(A,M), write(' '), write(Vnamel),
    nl, write('online '),print(P,M),write(' '), write(VnameP), write(' '), print(A,M).
-translate_term_fol2gclc(perpendicular(P,A,B,C),M)    :- not(A=B), not(A=C), !, 
-   getNewVarName('ltmp', Vnamel), 
-   nl, write('line '), write(Vnamel), write(' '), print(B,M), write(' '), print(C,M),
-   getNewVarName('Ptmp', VnameP), 
-   nl, write('foot '), write(VnameP), write(' '), print(A,M), write(' '), write(Vnamel),
-   nl, write('online '),print(P,M),write(' '), write(VnameP), write(' '), print(A,M).
+
 translate_term_fol2gclc(parallel_non_strict(L,A,L1),M)   :- !, 
    nl, write('parallel '), print(L,M), write(' '), print(A,M), write(' '), print(L1).
 translate_term_fol2gclc(parallel(L,A,L1),M)   :- !, 
@@ -92,7 +115,7 @@ translate_term_fol2gclc(line_reflection(X,L,P),M) :- !,
 translate_term_fol2gclc(inversion(X,C,P),M)       :- !, 
    nl, write('sim '), print(X,M), write(' '), print(C,M), write(' '), print(P,M).
 
-translate_term_fol2gclc(intersection(A1,B1,A2,B2,X),M)  :- !, 
+translate_term_fol2gclc(intersection(X,A1,B1,A2,B2),M)  :- !, 
    getNewVarName('ltmp', Vname1), 
    getNewVarName('ltmp', Vname2), 
    nl, write('line '), write(Vname1), write(' '), print(A1,M), write(' '), print(B1,M),
@@ -104,13 +127,9 @@ translate_term_fol2gclc(intersection(X,L1,L2),M)  :- !,
 translate_term_fol2gclc(intersection_ll(X,L1,L2),M)   :- !, 
    nl, write('intersec '), print(X,M), write(' '), print(L1,M), write(' '), print(L2,M).
 
-translate_term_fol2gclc(intersection_cl(X1,X2,O1,A1,A,B),M) :- !, 
-   getNewVarName('ctmp', Vname1), 
-   getNewVarName('ltmp', Vname2), 
-   nl, write('circle '), write(Vname1), write(' '), print(O1,M), write(' '), print(A1,M),
-   nl, write('line '), write(Vname2), write(' '), print(A,M), write(' '), print(B,M),         
+translate_term_fol2gclc(intersection_cl(X1,X2,K,L),M) :- !, 
    nl, write('intersec2 '), print(X1,M), write(' '), print(X2,M), write(' '), 
-   print(Vname1,M), write(' '), print(Vname2,M).
+   print(K,M), write(' '), print(L,M).
 
 translate_term_fol2gclc(intersection_cc(X,C1,C2),M)   :- !, 
    nl, write('intersec '), print(X,M), write(' '), print(C1), write(' '), print(C2).
@@ -200,6 +219,8 @@ translate_fol2gclc_g(A,M)  :- var(A), !,
    print(A,M).
 translate_fol2gclc_g(A,M)  :- atomic(A), !, 
    print(A,M).
+translate_fol2gclc_g((A=B),M)                :- var(A),var(B),!, 
+   write('identical '), translate_fol2gclc_g(A,M), write(' '), translate_fol2gclc_g(B,M).
 translate_fol2gclc_g((A=B),M)                :- !, 
    write('equal '), translate_fol2gclc_g(A,M), write(' '), translate_fol2gclc_g(B,M).
 translate_fol2gclc_g( parallel(A,B,C,D),M)  :- !, 
@@ -231,11 +252,10 @@ translate_fol2gclc_g(signed_area3(A,B,C),M)  :- !,
 translate_fol2gclc_g( signed_area4(A,B,C,D),M):- !, 
    write('{ signed_area4 '), translate_fol2gclc_g(A,M), write(' '), translate_fol2gclc_g(B,M), write(' '),
    translate_fol2gclc_g(C,M), write(' '), translate_fol2gclc_g(D,M), write(' }').
-translate_fol2gclc_g( alg_sum_zero3(A,B,C,D,E,F),M)   :- !, 
-   write('alg_sum_zero3 '), 
-   write(' { segment '), translate_fol2gclc_g(A,M), write(' '), translate_fol2gclc_g(B,M), write(' } '),
-   write(' { segment '), translate_fol2gclc_g(C,M), write(' '), translate_fol2gclc_g(D,M), write(' } '),
-   write(' { segment '), translate_fol2gclc_g(E,M), write(' '), translate_fol2gclc_g(F,M), write(' } '). 
+translate_fol2gclc_g( alg_sum_zero3(A,B,C),M)   :- !, 
+   write('{ alg_sum_zero3 '), 
+   translate_fol2gclc_g(A,M), write(' '), translate_fol2gclc_g(B,M), write(' '),
+   translate_fol2gclc_g(C,M), write(' } '). 
 
 
 % ----------------------------------------

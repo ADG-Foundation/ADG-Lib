@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0140_PappusDual.p; Output: thm_0140_PappusDual.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0140_PappusDual.p; Output: tmp_2_thm_0140_PappusDual.p; Arg: [-l]
+% Input: tmp_1_thm_0140_PappusDual.p; Output: tmp_2_thm_0140_PappusDual.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0140_PappusDual
 % Domain   : Geometry 
@@ -29,17 +29,26 @@
 %  thmtexte Show that points $C$, $C_1$ and $I$ are collinear. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ O,A,B,C,O_1,A_1,B_1,C_1,I] : ((
+fof(thm, conjecture, ! [ O,A,B,C,O_1,o1b,oc,oa,o1c,ob,o1a,A_1,B_1,bb1,aa1,C_1,I,cc1i] : ((
    dimensions(130, 130)
    & freepoint(O, 25.8, 48.3)
    & freepoint(A, 95.2, 55)
    & freepoint(B, 120.1, 91.6)
    & freepoint(C, 44.5, 112.7)
    & freepoint(O_1, 62.4, 56.8)
-   & intersection(O_1, B, O, C, A_1)
-   & intersection(O, A, O_1, C, B_1)
-   & intersection(O, B, O_1, A, C_1)
-   & intersection(B, B_1, A, A_1, I)
+   & newline(o1b, O_1, B)
+   & newline(oc, O, C)
+   & newline(oa, O, A)
+   & newline(o1c, O_1, C)
+   & newline(ob, O, B)
+   & newline(o1a, O_1, A)
+   & intersection(A_1, O_1, B, O, C)
+   & intersection(B_1, O, A, O_1, C)
+   & newline(bb1, B, B_1)
+   & newline(aa1, A, A_1)
+   & intersection(C_1, O, B, O_1, A)
+   & intersection(I, B, B_1, A, A_1)
+   & newline(cc1i, C, I)
    & drawdashline(C, I)
    & cmark_b(A_1)
    & cmark_rb(B_1)

@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0255_Example55.p; Output: thm_0255_Example55.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0255_Example55.p; Output: tmp_2_thm_0255_Example55.p; Arg: [-l]
+% Input: tmp_1_thm_0255_Example55.p; Output: tmp_2_thm_0255_Example55.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0255_Example55
 % Domain   : Geometry 
@@ -30,20 +30,23 @@
 %  thmtexte $M_1N_1P_1$ have equal areas. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,M,N,P,P1,P2,P3,P_1,M_1,N_1] : ((
+fof(thm, conjecture, ! [ A,B,C,ab,M,ac,bc,N,P,P1,P2,P3,P_1,M_1,N_1] : ((
    dimensions(130, 110)
    & freepoint(A, 20, 20)
    & freepoint(B, 110, 20)
    & freepoint(C, 80, 90)
+   & newline(ab, A, B)
    & collinear(M, A, B)
+   & newline(ac, A, C)
+   & newline(bc, B, C)
    & collinear(N, B, C)
    & collinear(P, A, C)
    & parallel(P1, P, A, B)
    & parallel(P2, N, A, C)
    & parallel(P3, M, B, C)
-   & intersection(P1, P, B, C, P_1)
-   & intersection(P3, M, A, C, M_1)
-   & intersection(P2, N, A, B, N_1)
+   & intersection(P_1, P1, P, B, C)
+   & intersection(M_1, P3, M, A, C)
+   & intersection(N_1, P2, N, A, B)
    & cmark_b(A)
    & cmark_b(B)
    & cmark_t(C)

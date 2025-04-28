@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0820_GeoThms20.p; Output: thm_0820_GeoThms20.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0820_GeoThms20.p; Output: tmp_2_thm_0820_GeoThms20.p; Arg: [-l]
+% Input: tmp_1_thm_0820_GeoThms20.p; Output: tmp_2_thm_0820_GeoThms20.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0820_GeoThms20
 % Domain   : Geometry 
@@ -33,15 +33,18 @@
 %  thmtexte distance of the line from the third vertex. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,C,T,A_1,C_1,B,X,D,E,F] : ((
+fof(thm, conjecture, ! [ A,C,T,A_1,C_1,bc,ab,B,X,gx,D,E,F] : ((
    dimensions(110, 100)
    & freepoint(A, 20, 20)
    & freepoint(C, 65, 80)
    & freepoint(T, 55, 45)
    & towards(A_1, A, T, 1.5)
    & towards(C_1, C, T, 1.5)
-   & intersection(A, C_1, C, A_1, B)
+   & newline(bc, C, A_1)
+   & newline(ab, A, C_1)
+   & intersection(B, A, C_1, C, A_1)
    & freepoint(X, 95, 45)
+   & newline(gx, T, X)
    & foot(D, A, T, X)
    & foot(E, B, T, X)
    & foot(F, C, T, X)

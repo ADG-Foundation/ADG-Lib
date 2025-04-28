@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0150_PappusHexagon.p; Output: thm_0150_PappusHexagon.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0150_PappusHexagon.p; Output: tmp_2_thm_0150_PappusHexagon.p; Arg: [-l]
+% Input: tmp_1_thm_0150_PappusHexagon.p; Output: tmp_2_thm_0150_PappusHexagon.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0150_PappusHexagon
 % Domain   : Geometry 
@@ -32,7 +32,7 @@
 %  thmtexte $P$, $Q$ and $R$ are collinear. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,A_1,B_1,C_1,P,Q,S] : ((
+fof(thm, conjecture, ! [ A,B,C,A_1,B_1,C_1,A_1B_1,AB_1,AC_1,BA_1,BC_1,CA_1,CB_1,P,Q,S] : ((
    dimensions(110, 90)
    & freepoint(A, 40, 10)
    & freepoint(B, 90, 10)
@@ -40,9 +40,16 @@ fof(thm, conjecture, ! [ A,B,C,A_1,B_1,C_1,P,Q,S] : ((
    & freepoint(A_1, 35.2, 38.2)
    & freepoint(B_1, 76.8, 64.6)
    & collinear(C_1, A_1, B_1)
-   & intersection(A, B_1, B, A_1, P)
-   & intersection(A, C_1, C, A_1, Q)
-   & intersection(B, C_1, C, B_1, S)
+   & newline(A_1B_1, A_1, B_1)
+   & newline(AB_1, A, B_1)
+   & newline(AC_1, A, C_1)
+   & newline(BA_1, B, A_1)
+   & newline(BC_1, B, C_1)
+   & newline(CA_1, C, A_1)
+   & newline(CB_1, C, B_1)
+   & intersection(P, A, B_1, B, A_1)
+   & intersection(Q, A, C_1, C, A_1)
+   & intersection(S, B, C_1, C, B_1)
    & cmark_b(A)
    & cmark_b(B)
    & cmark_b(C)

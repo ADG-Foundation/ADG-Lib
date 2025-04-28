@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0065_RightAngle.p; Output: thm_0065_RightAngle.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0065_RightAngle.p; Output: tmp_2_thm_0065_RightAngle.p; Arg: [-l]
+% Input: tmp_1_thm_0065_RightAngle.p; Output: tmp_2_thm_0065_RightAngle.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0065_RightAngle
 % Domain   : Geometry 
@@ -19,11 +19,12 @@
 %  thmtexte Prove that the angle over circle diameter is right angle. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,O,C] : ((
+fof(thm, conjecture, ! [ A,B,O,k,C] : ((
    dimensions(110, 110)
    & freepoint(A, 20, 55)
    & freepoint(B, 90, 55)
    & midpoint(O, A, B)
+   & newcircle(k, O, A)
    & on_circle(C, O, A)
    & cmark_t(C)
    & drawsegment(A, C)

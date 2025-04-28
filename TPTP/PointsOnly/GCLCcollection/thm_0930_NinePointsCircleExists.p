@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0930_NinePointsCircleExists.p; Output: thm_0930_NinePointsCircleExists.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0930_NinePointsCircleExists.p; Output: tmp_2_thm_0930_NinePointsCircleExists.p; Arg: [-l]
+% Input: tmp_1_thm_0930_NinePointsCircleExists.p; Output: tmp_2_thm_0930_NinePointsCircleExists.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0930_NinePointsCircleExists
 % Domain   : Geometry 
@@ -34,22 +34,30 @@
 %  thmtexte lie on circle. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,D,E,F,G,J,I,H,K,L,M,O] : ((
+fof(thm, conjecture, ! [ A,B,C,ab,ac,bc,D,E,F,G,J,I,ad,be,H,K,L,M,kj,gm,O,k] : ((
    dimensions(110, 110)
    & freepoint(A, 20, 20)
    & freepoint(B, 90, 20)
    & freepoint(C, 80, 100)
+   & newline(ab, A, B)
+   & newline(ac, A, C)
+   & newline(bc, B, C)
    & foot(D, A, B, C)
    & foot(E, B, A, C)
    & foot(F, C, A, B)
    & midpoint(G, A, B)
    & midpoint(J, B, C)
    & midpoint(I, C, A)
-   & intersection(A, D, B, E, H)
+   & newline(ad, A, D)
+   & newline(be, B, E)
+   & intersection(H, A, D, B, E)
    & midpoint(K, A, H)
    & midpoint(L, B, H)
    & midpoint(M, C, H)
-   & intersection(K, J, G, M, O)
+   & newline(kj, K, J)
+   & newline(gm, G, M)
+   & intersection(O, K, J, G, M)
+   & newcircle(k, O, G)
    & drawcircle(O, G)
    & drawdashline(K, J)
    & drawdashline(G, M)
@@ -75,4 +83,4 @@ fof(thm, conjecture, ! [ A,B,C,D,E,F,G,J,I,H,K,L,M,O] : ((
    & drawsegment(C, F)
    & prooflevel(1)) 
  => 
-   perpendicular(G, M, G, E))).
+   perpendicular(E, M, G, E))).

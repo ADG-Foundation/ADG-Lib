@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0203_Example3.p; Output: thm_0203_Example3.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0203_Example3.p; Output: tmp_2_thm_0203_Example3.p; Arg: [-l]
+% Input: tmp_1_thm_0203_Example3.p; Output: tmp_2_thm_0203_Example3.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0203_Example3
 % Domain   : Geometry 
@@ -30,21 +30,31 @@
 %  thmtexte are collinear. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,D,E,J,G,K,I,L,H,F,O] : ((
+fof(thm, conjecture, ! [ A,B,ab,C,D,E,ae,cd,ad,be,bd,ec,de,J,G,K,I,L,H,F,jh,ig,O,oed,olk] : ((
    dimensions(100, 100)
    & freepoint(A, 20, 20)
    & freepoint(B, 55, 20)
+   & newline(ab, A, B)
    & collinear(C, A, B)
    & freepoint(D, 40.2, 47.2)
    & freepoint(E, 53.3, 37.5)
-   & intersection(A, E, C, D, J)
-   & intersection(A, D, B, E, G)
-   & intersection(B, D, E, C, K)
-   & intersection(A, E, B, D, I)
-   & intersection(C, D, B, E, L)
-   & intersection(E, C, A, D, H)
-   & intersection(D, E, A, B, F)
-   & intersection(J, H, I, G, O)
+   & newline(ae, A, E)
+   & newline(cd, C, D)
+   & newline(ad, A, D)
+   & newline(be, B, E)
+   & newline(bd, B, D)
+   & newline(ec, E, C)
+   & newline(de, D, E)
+   & intersection(J, A, E, C, D)
+   & intersection(G, A, D, B, E)
+   & intersection(K, B, D, E, C)
+   & intersection(I, A, E, B, D)
+   & intersection(L, C, D, B, E)
+   & intersection(H, E, C, A, D)
+   & intersection(F, D, E, A, B)
+   & newline(jh, J, H)
+   & newline(ig, I, G)
+   & intersection(O, J, H, I, G)
    & cmark_rb(A)
    & cmark_b(B)
    & cmark_lb(C)
@@ -58,6 +68,8 @@ fof(thm, conjecture, ! [ A,B,C,D,E,J,G,K,I,L,H,F,O] : ((
    & cmark_rb(H)
    & cmark_b(F)
    & cmark_r(O)
+   & newline(oed, O, E)
+   & newline(olk, O, L)
    & drawline(O, E)
    & drawline(O, L)
    & drawdashline(A, B)

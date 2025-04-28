@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0010_Ceva.p; Output: thm_0010_Ceva.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0010_Ceva.p; Output: tmp_2_thm_0010_Ceva.p; Arg: [-l]
+% Input: tmp_1_thm_0010_Ceva.p; Output: tmp_2_thm_0010_Ceva.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0010_Ceva
 % Domain   : Geometry 
@@ -15,15 +15,21 @@
 %--------------------------------------------------------------------------
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,P,D,E,F] : ((
+fof(thm, conjecture, ! [ A,B,C,P,bc,pa,ac,pb,ab,pc,D,E,F] : ((
    dimensions(100, 100)
    & freepoint(A, 60, 10)
    & freepoint(B, 30, 90)
    & freepoint(C, 80, 90)
    & freepoint(P, 55, 75)
-   & intersection(B, C, P, A, D)
-   & intersection(A, C, P, B, E)
-   & intersection(A, B, P, C, F)
+   & newline(bc, B, C)
+   & newline(pa, P, A)
+   & newline(ac, A, C)
+   & newline(pb, P, B)
+   & newline(ab, A, B)
+   & newline(pc, P, C)
+   & intersection(D, B, C, P, A)
+   & intersection(E, A, C, P, B)
+   & intersection(F, A, B, P, C)
    & drawsegment(A, B)
    & drawsegment(A, C)
    & drawsegment(B, C)

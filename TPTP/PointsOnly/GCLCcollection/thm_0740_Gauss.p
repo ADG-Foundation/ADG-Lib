@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0740_Gauss.p; Output: thm_0740_Gauss.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0740_Gauss.p; Output: tmp_2_thm_0740_Gauss.p; Arg: [-l]
+% Input: tmp_1_thm_0740_Gauss.p; Output: tmp_2_thm_0740_Gauss.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0740_Gauss
 % Domain   : Geometry 
@@ -27,14 +27,18 @@
 %  thmtexte This line is called Gauss line. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A_0,A_1,A_2,A_3,X,Y,M_1,M_2,M_3] : ((
+fof(thm, conjecture, ! [ A_0,A_1,A_2,A_3,a12,a03,a01,a23,X,Y,M_1,M_2,M_3] : ((
    dimensions(90, 80)
    & freepoint(A_0, 30, 10)
    & freepoint(A_1, 70, 10)
    & freepoint(A_2, 55, 40)
    & freepoint(A_3, 35, 25)
-   & intersection(A_1, A_2, A_0, A_3, X)
-   & intersection(A_0, A_1, A_2, A_3, Y)
+   & newline(a12, A_1, A_2)
+   & newline(a03, A_0, A_3)
+   & newline(a01, A_0, A_1)
+   & newline(a23, A_2, A_3)
+   & intersection(X, A_1, A_2, A_0, A_3)
+   & intersection(Y, A_0, A_1, A_2, A_3)
    & midpoint(M_1, A_1, A_3)
    & midpoint(M_2, A_0, A_2)
    & midpoint(M_3, X, Y)

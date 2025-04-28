@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0320_Example120.p; Output: thm_0320_Example120.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0320_Example120.p; Output: tmp_2_thm_0320_Example120.p; Arg: [-l]
+% Input: tmp_1_thm_0320_Example120.p; Output: tmp_2_thm_0320_Example120.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0320_Example120
 % Domain   : Geometry 
@@ -32,16 +32,20 @@
 %  thmtexte $P_{XYZ} : P_{ABC} = 2 : 1$. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,X,P1,P2,Y,Z] : ((
+fof(thm, conjecture, ! [ A,B,C,X,ab,bc,ac,ax,P1,P2,Y,Z] : ((
    dimensions(110, 100)
    & freepoint(A, 50, 50)
    & freepoint(B, 90, 50)
    & freepoint(C, 75, 80)
    & collinear(X, B, C)
+   & newline(ab, A, B)
+   & newline(bc, B, C)
+   & newline(ac, A, C)
+   & newline(ax, A, X)
    & parallel(P1, C, A, X)
    & parallel(P2, B, A, X)
-   & intersection(P2, B, A, C, Y)
-   & intersection(P1, C, A, B, Z)
+   & intersection(Y, P2, B, A, C)
+   & intersection(Z, P1, C, A, B)
    & cmark_t(Z)
    & cmark_b(Y)
    & cmark_rt(X)

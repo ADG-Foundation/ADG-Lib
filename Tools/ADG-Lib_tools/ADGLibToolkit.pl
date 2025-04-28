@@ -30,6 +30,7 @@
 :- consult('misc.pl').
 
 :- consult('lines2points_module.pl').
+:- consult('points2lines_module.pl').
 :- consult('axioms2premises_module.pl').
 :- consult('removeLayout_module.pl').
 
@@ -66,8 +67,9 @@ write_help(Argv) :-
     nl,write('Usage: '),
     nl,write('> ADGLibToolkit InputFile OutputFile option'),
     nl,write('Options: '),
-    nl,write('-l : tptp/fof lines -> tptp/fof points-only   '),
-    nl,write('-r : remove layout information                 '),
+    nl,write('-lines2points : tptp/fof lines -> tptp/fof points-only '),
+    nl,write('-points2lines : tptp/fof points-only -> tptp/fof lines '),
+    nl,write('-remove_layout : remove layout information                 '),
     nl,write('-p : tptp/fof axioms -> tptp/fof premises=>goal'),
     nl,write('-gclc : tptp/fof -> gclc'),
     nl,write('-geogebra : tptp/fof -> geogebra'),
@@ -78,14 +80,28 @@ write_help(_Argv).
 
 
 translate_file(InputFilename, Argv) :-   
-    member('-r', Argv),!, 
+    member('-remove_layout', Argv),!, 
     % can be used only if the premises are separare axioms, not the form premises=>goal
     translate_tptp_file(folRemoveLayoutAxioms, InputFilename).
 translate_file(InputFilename, Argv) :-   
-    member('-l', Argv),!, 
+    member('-lines2points', Argv),!, 
     % can be used only if the premises are separare axioms, not the form premises=>goal
     assert(counterVar(1)),
+    asserta(newline(1,1,1)),
+    asserta(newcircle(1,1,1)),    
     translate_tptp_file(folLines2Points, InputFilename).
+translate_file(InputFilename, Argv) :-   
+    member('-points2lines', Argv),!, 
+    asserta(counterVar(1)),
+    asserta(newline(1,1,1)),
+    asserta(newcircle(1,1,1)),    
+    asserta(midpoint(1,1,1)),     
+    asserta(on_segment_bisector(1,1,1)),
+    asserta(perpendicular(1,1,1,1)),
+    asserta(perpendicular_p(1,1,1)),
+    asserta(segment_bisector(1,1,1)), 
+    asserta(on_angle_bisector(1,1,1,1)),
+    translate_tptp_file(folPoints2Lines, InputFilename).
 translate_file(InputFilename, Argv) :-   
     member('-p', Argv),!, 
     assert(allpremises([])), 
@@ -161,6 +177,8 @@ translate_tptp_entry(folAxioms2Premises, F, M) :-
     translate_tptp_entry_folAxioms2Premises(F, M).
 translate_tptp_entry(folLines2Points, F, M) :-
     translate_tptp_entry_folLines2Points(F, M).
+translate_tptp_entry(folPoints2Lines, F, M) :-
+    translate_tptp_entry_folPoints2Lines(F, M).
 translate_tptp_entry(fol2gclc, F, M) :-
     translate_tptp_entry_fol2gclc(F, M).
 translate_tptp_entry(fol2geogebra, F, M) :-

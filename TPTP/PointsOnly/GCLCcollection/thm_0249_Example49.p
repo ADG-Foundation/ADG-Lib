@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0249_Example49.p; Output: thm_0249_Example49.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0249_Example49.p; Output: tmp_2_thm_0249_Example49.p; Arg: [-l]
+% Input: tmp_1_thm_0249_Example49.p; Output: tmp_2_thm_0249_Example49.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0249_Example49
 % Domain   : Geometry 
@@ -27,17 +27,23 @@
 %  thmtexte of the trapezoid. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,P1,Cp,D,F,E,G] : ((
+fof(thm, conjecture, ! [ A,B,C,ab,P1,Cp,D,bc,ad,ac,bd,F,E,ef,G] : ((
    dimensions(130, 80)
    & freepoint(A, 20, 20)
    & freepoint(B, 110, 20)
    & freepoint(C, 90, 50)
+   & newline(ab, A, B)
    & parallel(P1, C, A, B)
    & translate(Cp, A, B, C)
    & collinear(D, C, Cp)
-   & intersection(A, D, B, C, F)
-   & intersection(A, C, B, D, E)
-   & intersection(A, B, E, F, G)
+   & newline(bc, B, C)
+   & newline(ad, A, D)
+   & newline(ac, A, C)
+   & newline(bd, B, D)
+   & intersection(F, A, D, B, C)
+   & intersection(E, A, C, B, D)
+   & newline(ef, E, F)
+   & intersection(G, A, B, E, F)
    & cmark_b(A)
    & cmark_b(B)
    & cmark_rt(C)

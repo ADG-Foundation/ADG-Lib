@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0610_CosineTheorem.p; Output: thm_0610_CosineTheorem.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0610_CosineTheorem.p; Output: tmp_2_thm_0610_CosineTheorem.p; Arg: [-l]
+% Input: tmp_1_thm_0610_CosineTheorem.p; Output: tmp_2_thm_0610_CosineTheorem.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0610_CosineTheorem
 % Domain   : Geometry 
@@ -20,11 +20,12 @@
 %  thmnote $\cos \alpha = \frac{CD}{AC}$ 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,D,a,b,c,al,x,xx] : ((
+fof(thm, conjecture, ! [ A,B,C,c,D,a,b,al,x,xx] : ((
    dimensions(110, 110)
    & freepoint(A, 20, 30)
    & freepoint(B, 90, 30)
    & freepoint(C, 70, 90)
+   & newline(c, A, B)
    & foot(D, C, A, B)
    & cmark_b(A)
    & cmark_b(B)

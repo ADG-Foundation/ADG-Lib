@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0322_Example122.p; Output: thm_0322_Example122.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0322_Example122.p; Output: tmp_2_thm_0322_Example122.p; Arg: [-l]
+% Input: tmp_1_thm_0322_Example122.p; Output: tmp_2_thm_0322_Example122.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0322_Example122
 % Domain   : Geometry 
@@ -31,14 +31,18 @@
 %  thmtexte $BC$. Prove that $EF$ is parallel to $E_1F_1$. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,D,O,O_1,E,F,E_1,F_1] : ((
+fof(thm, conjecture, ! [ A,B,C,D,cd,ab,O,bc,ad,O_1,E,F,E_1,F_1] : ((
    dimensions(110, 110)
    & freepoint(A, 40, 20)
    & freepoint(B, 90, 20)
    & freepoint(C, 75, 50)
    & freepoint(D, 55, 40)
-   & intersection(A, B, C, D, O)
-   & intersection(B, C, A, D, O_1)
+   & newline(cd, C, D)
+   & newline(ab, A, B)
+   & intersection(O, A, B, C, D)
+   & newline(bc, B, C)
+   & newline(ad, A, D)
+   & intersection(O_1, B, C, A, D)
    & translate(E, A, B, O)
    & translate(F, D, C, O)
    & translate(E_1, A, D, O_1)

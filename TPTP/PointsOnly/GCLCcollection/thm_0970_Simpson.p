@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0970_Simpson.p; Output: thm_0970_Simpson.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0970_Simpson.p; Output: tmp_2_thm_0970_Simpson.p; Arg: [-l]
+% Input: tmp_1_thm_0970_Simpson.p; Output: tmp_2_thm_0970_Simpson.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0970_Simpson
 % Domain   : Geometry 
@@ -29,13 +29,17 @@
 %  thmtexte are collinear. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,O,B,C,D,E,F,G] : ((
+fof(thm, conjecture, ! [ A,O,k,B,C,D,ab,bc,ac,E,F,G,efg] : ((
    dimensions(100, 100)
    & freepoint(A, 20, 50)
    & freepoint(O, 55, 50)
+   & newcircle(k, O, A)
    & on_circle(B, O, A)
    & on_circle(C, O, A)
    & on_circle(D, O, A)
+   & newline(ab, A, B)
+   & newline(bc, B, C)
+   & newline(ac, A, C)
    & foot(E, D, B, C)
    & foot(F, D, A, C)
    & foot(G, D, A, B)
@@ -54,6 +58,7 @@ fof(thm, conjecture, ! [ A,O,B,C,D,E,F,G] : ((
    & drawdashsegment(E, D)
    & drawdashsegment(F, D)
    & drawdashsegment(G, D)
+   & newline(efg, E, F)
    & drawdashline(E, F)
    & prooflevel(1)) 
  => 

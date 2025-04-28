@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0228_Example28.p; Output: thm_0228_Example28.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0228_Example28.p; Output: tmp_2_thm_0228_Example28.p; Arg: [-l]
+% Input: tmp_1_thm_0228_Example28.p; Output: tmp_2_thm_0228_Example28.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0228_Example28
 % Domain   : Geometry 
@@ -31,17 +31,25 @@
 %  thmtexte are also concurrent. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,C_1,B,A_1,C,O,H,B_1,I] : ((
+fof(thm, conjecture, ! [ A,C_1,B,A_1,C,ac1,a1c,O,ba1,cc1,H,ah,bo,B_1,cb1,bc1,I] : ((
    dimensions(110, 90)
    & freepoint(A, 30, 20)
    & freepoint(C_1, 58, 20)
    & freepoint(B, 20, 37)
    & freepoint(A_1, 37, 50)
    & freepoint(C, 60, 35)
-   & intersection(A, C_1, A_1, C, O)
-   & intersection(B, A_1, C, C_1, H)
-   & intersection(B, O, A, H, B_1)
-   & intersection(C, B_1, B, C_1, I)
+   & newline(ac1, A, C_1)
+   & newline(a1c, A_1, C)
+   & intersection(O, A, C_1, A_1, C)
+   & newline(ba1, B, A_1)
+   & newline(cc1, C, C_1)
+   & intersection(H, B, A_1, C, C_1)
+   & newline(ah, A, H)
+   & newline(bo, B, O)
+   & intersection(B_1, B, O, A, H)
+   & newline(cb1, C, B_1)
+   & newline(bc1, B, C_1)
+   & intersection(I, C, B_1, B, C_1)
    & cmark_rb(B_1)
    & cmark_t(H)
    & cmark_rb(A)

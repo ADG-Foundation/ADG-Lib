@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0090_Midpoint.p; Output: thm_0090_Midpoint.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0090_Midpoint.p; Output: tmp_2_thm_0090_Midpoint.p; Arg: [-l]
+% Input: tmp_1_thm_0090_Midpoint.p; Output: tmp_2_thm_0090_Midpoint.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0090_Midpoint
 % Domain   : Geometry 

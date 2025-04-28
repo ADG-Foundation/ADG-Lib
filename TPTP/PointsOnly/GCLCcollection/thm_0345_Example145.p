@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0345_Example145.p; Output: thm_0345_Example145.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0345_Example145.p; Output: tmp_2_thm_0345_Example145.p; Arg: [-l]
+% Input: tmp_1_thm_0345_Example145.p; Output: tmp_2_thm_0345_Example145.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0345_Example145
 % Domain   : Geometry 
@@ -26,12 +26,14 @@
 %  thmtexte $NK : NJ = BC : AC$. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,F,N,K,J] : ((
+fof(thm, conjecture, ! [ A,B,C,F,a,b,N,K,J] : ((
    dimensions(110, 110)
    & freepoint(A, 20, 30)
    & freepoint(B, 90, 30)
    & freepoint(C, 40, 88)
    & midpoint(F, A, B)
+   & newline(a, B, C)
+   & newline(b, A, C)
    & collinear(N, C, F)
    & foot(K, N, A, C)
    & foot(J, N, B, C)

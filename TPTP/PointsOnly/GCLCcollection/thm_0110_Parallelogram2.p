@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0110_Parallelogram2.p; Output: thm_0110_Parallelogram2.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0110_Parallelogram2.p; Output: tmp_2_thm_0110_Parallelogram2.p; Arg: [-l]
+% Input: tmp_1_thm_0110_Parallelogram2.p; Output: tmp_2_thm_0110_Parallelogram2.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0110_Parallelogram2
 % Domain   : Geometry 
@@ -28,14 +28,16 @@
 %  thmtexte $\overline{AE} = \overline{EC}$. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,P1,P2,D,E] : ((
+fof(thm, conjecture, ! [ A,B,C,ab,bc,P1,P2,D,ac,bd,E] : ((
    dimensions(130, 70)
    & freepoint(A, 20, 20)
    & freepoint(B, 80, 20)
    & freepoint(C, 97.6, 51.5)
+   & newline(ab, A, B)
+   & newline(bc, B, C)
    & parallel(P1, A, B, C)
    & parallel(P2, C, A, B)
-   & intersection(P1, A, P2, C, D)
+   & intersection(D, P1, A, P2, C)
    & cmark_b(A)
    & cmark_b(B)
    & cmark_t(C)
@@ -44,7 +46,9 @@ fof(thm, conjecture, ! [ A,B,C,P1,P2,D,E] : ((
    & drawsegment(C, B)
    & drawsegment(A, D)
    & drawsegment(C, D)
-   & intersection(A, C, B, D, E)
+   & newline(ac, A, C)
+   & newline(bd, B, D)
+   & intersection(E, A, C, B, D)
    & cmark_t(E)
    & drawdashsegment(A, C)
    & drawdashsegment(B, D)

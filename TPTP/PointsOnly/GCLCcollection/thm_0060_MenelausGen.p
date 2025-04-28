@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0060_MenelausGen.p; Output: thm_0060_MenelausGen.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0060_MenelausGen.p; Output: tmp_2_thm_0060_MenelausGen.p; Arg: [-l]
+% Input: tmp_1_thm_0060_MenelausGen.p; Output: tmp_2_thm_0060_MenelausGen.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0060_MenelausGen
 % Domain   : Geometry 
@@ -35,16 +35,21 @@
 %  thmtexte = 1$ 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,D,A_1,B_1,C_1,D_1] : ((
+fof(thm, conjecture, ! [ A,B,C,D,ab,bc,da,cd,A_1,B_1,a1b1,C_1,D_1] : ((
    dimensions(100, 100)
    & freepoint(A, 20, 20)
    & freepoint(B, 80, 20)
    & freepoint(C, 70, 60)
    & freepoint(D, 37, 74)
+   & newline(ab, A, B)
+   & newline(bc, B, C)
+   & newline(da, D, A)
+   & newline(cd, C, D)
    & collinear(A_1, A, B)
    & collinear(B_1, B, C)
-   & intersection(A_1, B_1, C, D, C_1)
-   & intersection(A_1, B_1, D, A, D_1)
+   & newline(a1b1, A_1, B_1)
+   & intersection(C_1, A_1, B_1, C, D)
+   & intersection(D_1, A_1, B_1, D, A)
    & cmark_rb(A)
    & cmark_b(B)
    & cmark_r(C)

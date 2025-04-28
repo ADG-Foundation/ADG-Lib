@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0243_Example46.p; Output: thm_0243_Example46.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0243_Example46.p; Output: tmp_2_thm_0243_Example46.p; Arg: [-l]
+% Input: tmp_1_thm_0243_Example46.p; Output: tmp_2_thm_0243_Example46.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0243_Example46
 % Domain   : Geometry 
@@ -31,20 +31,28 @@
 %  thmtexte $MN$ meet $DA$ at $P$ and $EB$ at $Q$. Then $AP \cong QB$. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,E,B,C,P1,P2,D,F,M,N,P,Q] : ((
+fof(thm, conjecture, ! [ A,E,B,C,ae,P1,be,P2,D,F,cd,af,M,ef,bc,N,mn,P,Q,pq] : ((
    dimensions(130, 100)
    & freepoint(A, 20, 20)
    & freepoint(E, 80, 20)
    & freepoint(B, 95, 70)
    & collinear(C, A, E)
+   & newline(ae, A, E)
    & parallel(P1, B, A, E)
+   & newline(be, B, E)
    & parallel(P2, A, B, E)
-   & intersection(P1, B, P2, A, D)
+   & intersection(D, P1, B, P2, A)
    & collinear(F, D, B)
-   & intersection(C, D, A, F, M)
-   & intersection(E, F, B, C, N)
-   & intersection(M, N, P2, A, P)
-   & intersection(M, N, B, E, Q)
+   & newline(cd, C, D)
+   & newline(af, A, F)
+   & intersection(M, C, D, A, F)
+   & newline(ef, E, F)
+   & newline(bc, B, C)
+   & intersection(N, E, F, B, C)
+   & newline(mn, M, N)
+   & intersection(P, M, N, P2, A)
+   & intersection(Q, M, N, B, E)
+   & newline(pq, P, Q)
    & cmark_b(A)
    & cmark_b(E)
    & cmark_t(B)
