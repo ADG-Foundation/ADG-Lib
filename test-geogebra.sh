@@ -19,7 +19,7 @@ trap "echo 'Kill forced'" KILL
 # Build ADGLibToolkit:
 cd Tools/ADG-Lib_tools
 TOOLKIT_DIR=`pwd`
-make -s
+make -s || exit 1
 
 cd ../../TPTP/PointsOnly/GCLCcollection
 P_DIR=`pwd`
@@ -30,9 +30,10 @@ for i in *.p; do
   TESTNAME=`basename $i .p`
   echo -n "$TESTNAME..."
   # Convert the .p file to geogebra.xml:
-  "$TOOLKIT_DIR/ADGLibToolkit" "$P_DIR/$i" geogebra.xml -geogebra \
+  "$TOOLKIT_DIR/ADGLibToolkit" "$P_DIR/$i" geogebra.xml.tmp -geogebra \
     > "$TESTNAME.adgtoolkit.out" 2> "$TESTNAME.adgtoolkit.err"
   # Create GeoGebra file:
+  grep -v ^% geogebra.xml.tmp > geogebra.xml # remove comments
   zip -q "$TESTNAME.ggb" "geogebra.xml"
   # Run GeoGebra:
   timeout $TIMEOUT $GEOGEBRA --prover=timeout:$TIMEOUT --logFile="$TESTNAME.log" \
