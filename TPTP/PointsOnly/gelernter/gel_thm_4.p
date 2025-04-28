@@ -1,8 +1,10 @@
-include('gelernter.ax').
+include('../Axioms/gelernter.ax').
 
+% Example taken from Gelertner seminal paper:  
+% EMPIRICAL EXPLORATIONS OF THE GEOMETRY-THEOREM PROVING MACHINE
 % --------------------------------------------------------------------------------
 
-fof(thm_B, conjecture, ![A,B,C,D,E,F,G,H]: (
+fof(thm_appendix1, conjecture, ![A,B,C,D,E,F,G,H]: (
   ( 
   is_midpoint(E,A,B) &
     is_midpoint(F,A,C) &

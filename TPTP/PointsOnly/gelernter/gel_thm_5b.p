@@ -3,10 +3,9 @@ include('../Axioms/gelernter.ax').
 % Example taken from Gelertner's paper:  
 % EMPIRICAL EXPLORATIONS OF THE GEOMETRY-THEOREM PROVING MACHINE
 % --------------------------------------------------------------------------------
+% Variant of appendix 2 where the point K is constructed.
 
-fof(ax_inter, axiom, ![A,B,C,D]:  ((~parallel(A,B,C,D)) => ?[E]: (collinear(A,B,E) & collinear(C,D,E)))).
-
-fof(thm_appendix2, conjecture, ![A,B,C,D,E,F,M]: (
+fof(thm_appendix2b, conjecture, ![A,B,C,D,E,F,M]: (
   ( 
   ~collinear(F,B,C) &
   A!=D & 
@@ -14,9 +13,9 @@ fof(thm_appendix2, conjecture, ![A,B,C,D,E,F,M]: (
   is_midpoint(E,A,C) &
   is_midpoint(F,B,D) &
   between_strict(M,E,F) &
-  between_strict(A,M,B) 
-%       & between_strict(C,F,K) 
-%       & collinear(A,K,D) 
+  between_strict(A,M,B) &
+  between_strict(C,F,K) &
+  collinear(A,K,D) 
  )
   => 
   cong(M,B,M,A)

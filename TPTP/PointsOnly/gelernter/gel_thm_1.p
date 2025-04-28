@@ -1,16 +1,21 @@
-include('gelernter.ax').
+include('../Axioms/gelernter.ax').
 
+% Example taken from Gelertner seminal paper:  
+% REALIZATION OF A GEOMETRY THEOREM PROVING MACHINE
 % --------------------------------------------------------------------------------
 
  fof(thm_A, conjecture, ![A,B,C,D]: 
  (( 
-   ~collinear(B,A,D) & ~collinear(B,C,D) & congruent_angles(A,B,D,D,B,C) & 
-   perpendicular(A,D,A,B) & perpendicular(D,C,B,C) )
+   ~collinear(B,A,D) &
+   ~collinear(B,C,D) &
+   congruent_angles(A,B,D,D,B,C) & 
+   perpendicular(A,D,A,B) &
+   perpendicular(D,C,B,C) )
   => 
   cong(A,D,C,D)
 
-% perpendicular_strict(A,D,A,B)
-% right_angle(D,A,B)
+%  perpendicular(A,D,A,B)
+%  right_angle(D,A,B)
 %  right_angle(D,C,B)    
 %  congruent_angles(D,A,B,D,C,B)
 %  congruent_angles(B,D,A,B,D,C)
