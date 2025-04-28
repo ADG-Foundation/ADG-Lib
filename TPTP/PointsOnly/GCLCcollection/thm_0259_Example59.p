@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0259_Example59.p; Output: thm_0259_Example59.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0259_Example59.p; Output: tmp_2_thm_0259_Example59.p; Arg: [-l]
+% Input: tmp_1_thm_0259_Example59.p; Output: tmp_2_thm_0259_Example59.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0259_Example59
 % Domain   : Geometry 
@@ -27,17 +27,25 @@
 %  thmtexte triply perspective. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ O,A,B,C,O_1,A_1,B_1,C_1,O_2] : ((
+fof(thm, conjecture, ! [ O,A,B,C,O_1,co1,ao,ao1,bo,bo1,co,A_1,B_1,C_1,ba1,ac1,O_2,b1co2] : ((
    dimensions(130, 100)
    & freepoint(O, 20, 20)
    & freepoint(A, 70, 20)
    & freepoint(B, 40.4, 60.7)
    & freepoint(C, 73.2, 52.5)
    & freepoint(O_1, 57.1, 64)
-   & intersection(C, O_1, A, O, A_1)
-   & intersection(A, O_1, B, O, B_1)
-   & intersection(B, O_1, C, O, C_1)
-   & intersection(B, A_1, A, C_1, O_2)
+   & newline(co1, C, O_1)
+   & newline(ao, A, O)
+   & newline(ao1, A, O_1)
+   & newline(bo, B, O)
+   & newline(bo1, B, O_1)
+   & newline(co, C, O)
+   & intersection(A_1, C, O_1, A, O)
+   & intersection(B_1, A, O_1, B, O)
+   & intersection(C_1, B, O_1, C, O)
+   & newline(ba1, B, A_1)
+   & newline(ac1, A, C_1)
+   & intersection(O_2, B, A_1, A, C_1)
    & cmark_b(O)
    & cmark_b(A)
    & cmark_l(B)
@@ -55,6 +63,7 @@ fof(thm, conjecture, ! [ O,A,B,C,O_1,A_1,B_1,C_1,O_2] : ((
    & drawsegment(A, C_1)
    & drawsegment(B, A_1)
    & drawsegment(O_1, A_1)
+   & newline(b1co2, B_1, C)
    & drawdashline(B_1, C)
    & prooflevel(1)) 
  => 

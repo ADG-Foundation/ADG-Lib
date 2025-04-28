@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0225_Example25.p; Output: thm_0225_Example25.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0225_Example25.p; Output: tmp_2_thm_0225_Example25.p; Arg: [-l]
+% Input: tmp_1_thm_0225_Example25.p; Output: tmp_2_thm_0225_Example25.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0225_Example25
 % Domain   : Geometry 
@@ -28,20 +28,28 @@
 %  thmtexte $AB$ in $X$, $Y$, $Z$. Show that $X$, $Y$, $Z$ are collinear. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,F,D,E,P,Q,R,X,Y,Z] : ((
+fof(thm, conjecture, ! [ A,B,C,ab,bc,ac,F,D,fd,E,P,Q,R,ap,bq,cr,X,Y,Z,xyz] : ((
    dimensions(150, 110)
    & freepoint(A, 20, 20)
    & freepoint(B, 70, 20)
    & freepoint(C, 60, 70)
+   & newline(ab, A, B)
+   & newline(bc, B, C)
+   & newline(ac, A, C)
    & collinear(F, A, B)
    & collinear(D, B, C)
-   & intersection(F, D, A, C, E)
+   & newline(fd, F, D)
+   & intersection(E, F, D, A, C)
    & midpoint(P, E, F)
    & midpoint(Q, F, D)
    & midpoint(R, D, E)
-   & intersection(A, P, B, C, X)
-   & intersection(B, Q, A, C, Y)
-   & intersection(C, R, A, B, Z)
+   & newline(ap, A, P)
+   & newline(bq, B, Q)
+   & newline(cr, C, R)
+   & intersection(X, A, P, B, C)
+   & intersection(Y, B, Q, A, C)
+   & intersection(Z, C, R, A, B)
+   & newline(xyz, X, Y)
    & drawdashline(X, Y)
    & cmark_lb(X)
    & cmark_t(Y)

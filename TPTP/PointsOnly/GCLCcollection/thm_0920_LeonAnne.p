@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0920_LeonAnne.p; Output: thm_0920_LeonAnne.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0920_LeonAnne.p; Output: tmp_2_thm_0920_LeonAnne.p; Arg: [-l]
+% Input: tmp_1_thm_0920_LeonAnne.p; Output: tmp_2_thm_0920_LeonAnne.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0920_LeonAnne
 % Domain   : Geometry 
@@ -27,7 +27,7 @@
 %  thmtexte area of quadrilateral $ABCD$. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,D,M_1,M_2,O] : ((
+fof(thm, conjecture, ! [ A,B,C,D,M_1,M_2,m12,O,ac,bd] : ((
    dimensions(110, 110)
    & freepoint(A, 20, 20)
    & freepoint(B, 90, 20)
@@ -35,7 +35,10 @@ fof(thm, conjecture, ! [ A,B,C,D,M_1,M_2,O] : ((
    & freepoint(D, 40, 65)
    & midpoint(M_1, A, C)
    & midpoint(M_2, B, D)
+   & newline(m12, M_1, M_2)
    & collinear(O, M_1, M_2)
+   & newline(ac, A, C)
+   & newline(bd, B, D)
    & drawline(A, C)
    & drawline(B, D)
    & drawdashline(M_1, M_2)

@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0321_Example121.p; Output: thm_0321_Example121.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0321_Example121.p; Output: tmp_2_thm_0321_Example121.p; Arg: [-l]
+% Input: tmp_1_thm_0321_Example121.p; Output: tmp_2_thm_0321_Example121.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0321_Example121
 % Domain   : Geometry 
@@ -28,16 +28,20 @@
 %  thmtexte show that $DF$ is parallel to $AC$. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,D,P1,E,P2,F] : ((
+fof(thm, conjecture, ! [ A,B,C,D,bd,P1,cd,E,bc,P2,ab,F] : ((
    dimensions(110, 110)
    & freepoint(A, 20, 35)
    & freepoint(B, 90, 35)
    & freepoint(C, 70, 90)
    & freepoint(D, 50, 20)
+   & newline(bd, B, D)
    & parallel(P1, A, B, D)
-   & intersection(P1, A, C, D, E)
+   & newline(cd, C, D)
+   & intersection(E, P1, A, C, D)
+   & newline(bc, B, C)
    & parallel(P2, E, B, C)
-   & intersection(A, B, P2, E, F)
+   & newline(ab, A, B)
+   & intersection(F, A, B, P2, E)
    & cmark_b(A)
    & cmark_b(B)
    & cmark_t(C)

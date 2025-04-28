@@ -28,15 +28,22 @@ collect_all_points([H|T], M, AllPoints, Constructed) :-
    append(AllPoints1, AllPoints2, AllPoints),
    append(Constructed1, Constructed2, Constructed).
 
+geo_predicate(newline(X,A,B), _M, [A,B,X], [A,B], [X]) :- !.
+geo_predicate(newcircle(X,A,B), _M, [A,B,X], [A,B], [X]) :- !.
 geo_predicate(collinear(X,A,B), _M, [A,B,X], [A,B], [X]) :- !.
 geo_predicate(on_line(X,A,B), _M, [A,B,X], [A,B], [X]) :- !.
 geo_predicate(on_circle(X,A,B), _M, [A,B,X], [A,B], [X]) :- !.
+geo_predicate(on_segment_bisector(X,A,B), _M, [A,B,X], [A,B], [X]) :- !.
+geo_predicate(on_angle_bisector(X,A,B,C), _M, [A,B,X], [A,B,C], [X]) :- !.
 geo_predicate(perpendicular(A,B,C,D), _M, [A,B,C,D], [B,C,D], [A]) :- !.
+geo_predicate(perpendicular(L,A,La), _M, [L,A,La], [A,La], [L]) :- !.
 geo_predicate(perpendicular_non_strict(A,B,C,D), _M, [A,B,C,D], [B,C,D], [A]) :- !.
 geo_predicate(parallel(A,B,C,D), _M, [A,B,C,D], [B,C,D], [A]) :- !.
 geo_predicate(parallel_non_strict(A,B,C,D), _M, [A,B,C,D], [B,C,D], [A]) :- !.
-geo_predicate(intersection(A,B,C,D,X), _M, [A,B,C,D,X], [A,B,C,D], [X]) :- !.
+geo_predicate(intersection(X,A,B,C,D), _M, [A,B,C,D,X], [A,B,C,D], [X]) :- !.
 geo_predicate(intersection_cl(X1,X2,O,A1,A,B), _M, [X1,X2,O,A1,A,B], [O,A1,A,B], [X1,X2]) :- !.
+geo_predicate(intersection_cl(X1,X2,C,L), _M, [X1,X2,C,L], [C,L], [X1,X2]) :- !.
+geo_predicate(intersection_ll(X,L1,L2), _M, [X,L1,L2], [L1,L2], [X]) :- !.
 geo_predicate(foot(X,A,B,C), _M, [A,B,C,X], [A,B,C], [X]) :- !.
 geo_predicate(translate(X,A,B,C), _M, [A,B,C,X], [A,B,C], [X]) :- !.
 geo_predicate(towards(X,A,B,_), _M, [A,B,X], [A,B], [X]) :- !.

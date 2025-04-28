@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0282_Example82.p; Output: thm_0282_Example82.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0282_Example82.p; Output: tmp_2_thm_0282_Example82.p; Arg: [-l]
+% Input: tmp_1_thm_0282_Example82.p; Output: tmp_2_thm_0282_Example82.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0282_Example82
 % Domain   : Geometry 
@@ -29,14 +29,18 @@
 %  thmtexte $G$ is the midpoint of $DE$. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,F,P,Q,G] : ((
+fof(thm, conjecture, ! [ A,B,C,F,ab,ac,bc,P,Q,pq,G] : ((
    dimensions(110, 100)
    & freepoint(A, 20, 20)
    & freepoint(B, 90, 20)
    & freepoint(C, 70, 70)
    & midpoint(F, A, B)
+   & newline(ab, A, B)
+   & newline(ac, A, C)
+   & newline(bc, B, C)
    & foot(P, A, B, C)
    & foot(Q, B, A, C)
+   & newline(pq, P, Q)
    & foot(G, F, P, Q)
    & cmark_b(A)
    & cmark_b(B)

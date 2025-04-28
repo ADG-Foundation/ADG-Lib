@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0950_Pascal.p; Output: thm_0950_Pascal.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0950_Pascal.p; Output: tmp_2_thm_0950_Pascal.p; Arg: [-l]
+% Input: tmp_1_thm_0950_Pascal.p; Output: tmp_2_thm_0950_Pascal.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0950_Pascal
 % Domain   : Geometry 
@@ -32,24 +32,31 @@
 %  thmtexte straight line. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,O,B,C,D,E,F,P,Q,S] : ((
+fof(thm, conjecture, ! [ A,O,k,B,C,D,E,F,ab,df,bc,fe,cd,ea,P,Q,S,pqs] : ((
    dimensions(100, 100)
    & freepoint(A, 20.5, 51.4)
    & freepoint(O, 50, 50)
+   & newcircle(k, O, A)
    & on_circle(B, O, A)
    & on_circle(C, O, A)
    & on_circle(D, O, A)
    & on_circle(E, O, A)
    & on_circle(F, O, A)
+   & newline(ab, A, B)
+   & newline(df, D, F)
+   & newline(bc, B, C)
+   & newline(fe, F, E)
+   & newline(cd, C, D)
+   & newline(ea, E, A)
    & drawdashline(A, B)
    & drawdashline(D, F)
    & drawdashline(B, C)
    & drawdashline(F, E)
    & drawdashline(C, D)
    & drawdashline(E, A)
-   & intersection(A, B, D, F, P)
-   & intersection(B, C, F, E, Q)
-   & intersection(C, D, E, A, S)
+   & intersection(P, A, B, D, F)
+   & intersection(Q, B, C, F, E)
+   & intersection(S, C, D, E, A)
    & cmark_lt(A)
    & cmark_t(O)
    & cmark_t(B)
@@ -61,6 +68,7 @@ fof(thm, conjecture, ! [ A,O,B,C,D,E,F,P,Q,S] : ((
    & cmark_t(Q)
    & cmark_t(S)
    & drawcircle(O, A)
+   & newline(pqs, P, Q)
    & drawline(P, Q)
    & prooflevel(1)) 
  => 

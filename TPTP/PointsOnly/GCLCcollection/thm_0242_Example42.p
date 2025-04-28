@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0242_Example42.p; Output: thm_0242_Example42.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0242_Example42.p; Output: tmp_2_thm_0242_Example42.p; Arg: [-l]
+% Input: tmp_1_thm_0242_Example42.p; Output: tmp_2_thm_0242_Example42.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0242_Example42
 % Domain   : Geometry 
@@ -29,13 +29,15 @@
 %  thmtexte then $(WXY) = 1/4(ABCD)$. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,D,W,X,Y] : ((
+fof(thm, conjecture, ! [ A,B,C,D,ab,cd,W,X,Y] : ((
    dimensions(110, 90)
    & freepoint(A, 20, 20)
    & freepoint(B, 60, 20)
    & freepoint(C, 50, 50)
    & freepoint(D, 35, 65)
-   & intersection(A, B, C, D, W)
+   & newline(ab, A, B)
+   & newline(cd, C, D)
+   & intersection(W, A, B, C, D)
    & midpoint(X, A, C)
    & midpoint(Y, B, D)
    & cmark_b(X)

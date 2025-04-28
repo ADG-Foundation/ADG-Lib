@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0269_Example69.p; Output: thm_0269_Example69.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0269_Example69.p; Output: tmp_2_thm_0269_Example69.p; Arg: [-l]
+% Input: tmp_1_thm_0269_Example69.p; Output: tmp_2_thm_0269_Example69.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0269_Example69
 % Domain   : Geometry 
@@ -21,19 +21,23 @@
 %  thmtexte of its inscribed parallelogram are concurrent. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,P1,P2,D,A_1,B_1,C_1,D_1,O] : ((
+fof(thm, conjecture, ! [ A,B,C,ab,bc,P1,P2,D,A_1,B_1,C_1,D_1,ac,bd,O] : ((
    dimensions(130, 100)
    & freepoint(A, 20, 20)
    & freepoint(B, 90, 20)
    & freepoint(C, 110, 70)
+   & newline(ab, A, B)
+   & newline(bc, B, C)
    & parallel(P1, C, A, B)
    & parallel(P2, A, B, C)
-   & intersection(P1, C, P2, A, D)
+   & intersection(D, P1, C, P2, A)
    & midpoint(A_1, A, B)
    & midpoint(B_1, B, C)
    & midpoint(C_1, C, D)
    & midpoint(D_1, D, A)
-   & intersection(A, C, B, D, O)
+   & newline(ac, A, C)
+   & newline(bd, B, D)
+   & intersection(O, A, C, B, D)
    & cmark_b(A)
    & cmark_b(B)
    & cmark_b(A_1)

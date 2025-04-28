@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0067_TriangleArea.p; Output: thm_0067_TriangleArea.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0067_TriangleArea.p; Output: tmp_2_thm_0067_TriangleArea.p; Arg: [-l]
+% Input: tmp_1_thm_0067_TriangleArea.p; Output: tmp_2_thm_0067_TriangleArea.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0067_TriangleArea
 % Domain   : Geometry 

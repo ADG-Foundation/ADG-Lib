@@ -189,7 +189,7 @@
 </xsl:template>
 
 <xsl:template match="segment_bisector">
-  fof(med_<xsl:apply-templates select="new_line"/>, axiom, med<xsl:text>(</xsl:text>
+  fof(segment_bisector_<xsl:apply-templates select="new_line"/>, axiom, segment_bisector<xsl:text>(</xsl:text>
     <xsl:text>obj</xsl:text><xsl:apply-templates select="new_line"/><xsl:text>, </xsl:text>
     <xsl:text>obj</xsl:text><xsl:apply-templates select="point[1]"/><xsl:text>, </xsl:text>
     <xsl:text>obj</xsl:text><xsl:apply-templates select="point[2]"/><xsl:text>)). </xsl:text>
@@ -455,7 +455,7 @@
 
 <xsl:template match="number"><xsl:value-of select="."/></xsl:template>
 
-<xsl:template match="constant"><xsl:apply-templates select="."/></xsl:template>
+<xsl:template match="constant"><xsl:value-of select="."/></xsl:template>
 
 <xsl:template match="sum">sum<xsl:text>(</xsl:text>  
   <xsl:apply-templates select="expression[1]"/><xsl:text>,</xsl:text>
@@ -475,12 +475,9 @@
 </xsl:template>
 
 <xsl:template match="algebraic_sum_is_zero">alg_sum_zero3<xsl:text>(</xsl:text>  
-   <xsl:text>obj</xsl:text><xsl:apply-templates select="segment[1]/point[1]"/><xsl:text>, </xsl:text>
-   <xsl:text>obj</xsl:text><xsl:apply-templates select="segment[1]/point[2]"/><xsl:text>, </xsl:text>	
-   <xsl:text>obj</xsl:text><xsl:apply-templates select="segment[2]/point[1]"/><xsl:text>, </xsl:text>	
-   <xsl:text>obj</xsl:text><xsl:apply-templates select="segment[2]/point[2]"/><xsl:text>, </xsl:text>	
-   <xsl:text>obj</xsl:text><xsl:apply-templates select="segment[3]/point[1]"/><xsl:text>, </xsl:text>	
-   <xsl:text>obj</xsl:text><xsl:apply-templates select="segment[3]/point[2]"/><xsl:text>) </xsl:text>	
+  <xsl:apply-templates select="expression[1]"/><xsl:text>,</xsl:text>
+  <xsl:apply-templates select="expression[2]"/><xsl:text>,</xsl:text>
+  <xsl:apply-templates select="expression[3]"/><xsl:text>)</xsl:text>
 </xsl:template>
 
 

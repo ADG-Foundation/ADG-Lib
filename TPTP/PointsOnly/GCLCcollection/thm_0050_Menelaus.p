@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0050_Menelaus.p; Output: thm_0050_Menelaus.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0050_Menelaus.p; Output: tmp_2_thm_0050_Menelaus.p; Arg: [-l]
+% Input: tmp_1_thm_0050_Menelaus.p; Output: tmp_2_thm_0050_Menelaus.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0050_Menelaus
 % Domain   : Geometry 
@@ -31,14 +31,16 @@
 %  thmtext = -1$. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,D,E,F] : ((
+fof(thm, conjecture, ! [ A,B,C,c,D,E,p,F] : ((
    dimensions(100, 80)
    & freepoint(A, 30, 20)
    & freepoint(B, 60, 20)
    & freepoint(C, 40, 50)
+   & newline(c, A, B)
    & collinear(D, B, C)
    & collinear(E, A, C)
-   & intersection(A, B, D, E, F)
+   & newline(p, D, E)
+   & intersection(F, A, B, D, E)
    & drawsegment(A, B)
    & drawsegment(A, C)
    & drawsegment(B, C)

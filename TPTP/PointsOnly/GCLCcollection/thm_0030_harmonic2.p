@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0030_harmonic2.p; Output: thm_0030_harmonic2.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0030_harmonic2.p; Output: tmp_2_thm_0030_harmonic2.p; Arg: [-l]
+% Input: tmp_1_thm_0030_harmonic2.p; Output: tmp_2_thm_0030_harmonic2.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0030_harmonic2
 % Domain   : Geometry 
@@ -31,7 +31,7 @@
 %  thmnote na sliku, odabir koordinata i kompleksnost dokaza. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,D,L,K,F,G] : ((
+fof(thm, conjecture, ! [ A,B,C,D,AB,CD,L,AD,BC,K,BD,KL,F,AC,G,lkfg] : ((
    dimensions(130, 50)
    & freepoint(A, 30, 32)
    & freepoint(B, 40, 40)
@@ -41,13 +41,20 @@ fof(thm, conjecture, ! [ A,B,C,D,L,K,F,G] : ((
    & cmark_t(B)
    & cmark_rt(C)
    & cmark_lb(D)
-   & intersection(A, B, C, D, L)
+   & newline(AB, A, B)
+   & newline(CD, C, D)
+   & intersection(L, A, B, C, D)
    & cmark_b(L)
-   & intersection(A, D, B, C, K)
+   & newline(AD, A, D)
+   & newline(BC, B, C)
+   & intersection(K, A, D, B, C)
    & cmark_b(K)
-   & intersection(B, D, K, L, F)
+   & newline(BD, B, D)
+   & newline(KL, K, L)
+   & intersection(F, B, D, K, L)
    & cmark_b(F)
-   & intersection(A, C, K, L, G)
+   & newline(AC, A, C)
+   & intersection(G, A, C, K, L)
    & cmark_b(G)
    & drawsegment(B, L)
    & drawsegment(C, L)
@@ -55,6 +62,7 @@ fof(thm, conjecture, ! [ A,B,C,D,L,K,F,G] : ((
    & drawsegment(B, K)
    & drawsegment(B, F)
    & drawsegment(A, G)
+   & newline(lkfg, L, K)
    & drawdashline(L, K)
    & prooflevel(1)) 
  => 

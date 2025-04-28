@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0015_Thales.p; Output: thm_0015_Thales.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0015_Thales.p; Output: tmp_2_thm_0015_Thales.p; Arg: [-l]
+% Input: tmp_1_thm_0015_Thales.p; Output: tmp_2_thm_0015_Thales.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0015_Thales
 % Domain   : Geometry 
@@ -29,14 +29,16 @@
 %  thmtexte \frac{\overline{OC}}{\overline{OD}}$ 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ O,A,C,B,P1,D] : ((
+fof(thm, conjecture, ! [ O,A,C,B,a,c,P1,D] : ((
    dimensions(80, 80)
    & freepoint(O, 20, 30)
    & freepoint(A, 60, 30)
    & freepoint(C, 40, 50)
    & collinear(B, O, A)
+   & newline(a, A, C)
+   & newline(c, O, C)
    & parallel(P1, B, A, C)
-   & intersection(O, C, P1, B, D)
+   & intersection(D, O, C, P1, B)
    & drawline(O, A)
    & drawline(O, C)
    & drawline(A, C)

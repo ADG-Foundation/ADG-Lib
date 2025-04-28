@@ -1,7 +1,7 @@
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
 % Input: tmp_2_thm_0130_Pappus.p; Output: thm_0130_Pappus.p; Arg: [-p]
 % ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------
-% Input: tmp_1_thm_0130_Pappus.p; Output: tmp_2_thm_0130_Pappus.p; Arg: [-l]
+% Input: tmp_1_thm_0130_Pappus.p; Output: tmp_2_thm_0130_Pappus.p; Arg: [-lines2points]
 %--------------------------------------------------------------------------
 % File     : tmp_thm_0130_Pappus
 % Domain   : Geometry 
@@ -28,7 +28,7 @@
 %  thmtexte Show that $AC_1 \parallel CA_1$. 
 
 include('geo.ax').
-fof(thm, conjecture, ! [ A,B,C,A_1,A_2,P1,B_1,P2,C_1] : ((
+fof(thm, conjecture, ! [ A,B,C,A_1,A_2,A_1A_2,A_1B,P1,B_1,CB_1,P2,C_1] : ((
    dimensions(100, 80)
    & freepoint(A, 20, 10)
    & freepoint(B, 90, 10)
@@ -38,10 +38,13 @@ fof(thm, conjecture, ! [ A,B,C,A_1,A_2,P1,B_1,P2,C_1] : ((
    & cmark_b(C)
    & freepoint(A_1, 55, 50)
    & freepoint(A_2, 45, 43)
+   & newline(A_1A_2, A_1, A_2)
+   & newline(A_1B, A_1, B)
    & parallel(P1, A, A_1, B)
-   & intersection(A_1, A_2, P1, A, B_1)
+   & intersection(B_1, A_1, A_2, P1, A)
+   & newline(CB_1, C, B_1)
    & parallel(P2, B, C, B_1)
-   & intersection(A_1, A_2, P2, B, C_1)
+   & intersection(C_1, A_1, A_2, P2, B)
    & cmark_lt(A_1)
    & cmark_lt(B_1)
    & cmark_lt(C_1)
