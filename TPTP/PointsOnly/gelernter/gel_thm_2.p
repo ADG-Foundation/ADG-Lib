@@ -10,7 +10,7 @@ fof(thm_B, conjecture, ![A,B,C,D]: (
   ~collinear(C,D,B) & 
   parallel(B,C,A,D) & 
   cong(B,C,A,D) & 
-  opposite_sides(D,B,A,C) 
+  opposite_sides(D,B,A,C))
   => 
   cong(A,B,C,D) 
   )).
