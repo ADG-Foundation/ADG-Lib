@@ -83,4 +83,4 @@ fof(thm, conjecture, ! [ A,B,C,ab,ac,bc,D,E,F,G,J,I,ad,be,H,K,L,M,kj,gm,O,k] : (
    & drawsegment(C, F)
    & prooflevel(1)) 
  => 
-   perpendicular(G, M, G, E))).
+   perpendicular(E, M, G, E))).
