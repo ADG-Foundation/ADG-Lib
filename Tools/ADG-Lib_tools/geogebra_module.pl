@@ -97,7 +97,7 @@ translate_term_fol2geogebra(parallel(P,A,B,C),M)    :- !,
    write('   <output a0="'),print(P,M),write('"/>'),nl,
    write('</command>'),nl.
 
-translate_term_fol2geogebra(intersection(A,B,C,D,P),M)    :- !, 
+translate_term_fol2geogebra(intersection(P,A,B,C,D),M)    :- !, 
    write('<command name="Intersect">'),nl,
    write('   <input a0="Line['),print(A,M),write(', '),print(B,M),
    write(']" a1="Line['),print(C,M),write(', '),print(D,M),write(']"/>'),nl,
