@@ -226,6 +226,11 @@ $equilateral A B C \land A \neq B$ \\
 gravity\_center(H,A,B,C) & 
 & 
 $H$ is the gravity center of triangle $ABC$. \\
+
+%-------------------------------------------------------------------
+on\_line\_harmonic(A,B,C,D) & 
+& 
+Points $A$, $B$, $C$, $D$ are on the same line and $AC/CB=DA/DB$. \\
 %-------------------------------------------------------------------
 incenter(G,A,B,C) & 
 & 
@@ -692,14 +697,19 @@ intersection of segment $AB$ and segment $CD$. \\
 \noindent\hspace{-75mm}
 \begin{tabularx}{270mm}{>{\ttfamily}llXX}
 \toprule
-\multicolumn{4}{l}{\Huge Area method; function symbols} \\ \midrule
+\multicolumn{4}{l}{\Huge Area method; specific predicates and function symbols} \\ \midrule
 ADGLib & 
 \LaTeX{} notation & 
 Intuitive meaning & 
 Definition \\ \midrule
-signed\_area(A,B,C) & & the signed area of triangle $ABC$ & \\
-signed\_ratio(A,B,C,D) & & the ratio of the signed distance from $A$ to $B$ and from $C$ to $D$ \\
-pythagoras\_difference(A,B,C) & & $AB^2 + BC^2 - AC^2$ \\
+signed\_area\_triangle(A,B,C) & $\mathcal{S}_{ABC}$ & the signed area of triangle $ABC$ & \\
+signed\_area\_4(A,B,C,D) & $\mathcal{S}_{ABCD}$ & the sum of the signed areas the triangles $ABC$ and $ACD$ \\
+signed\_ratio(A,B,C,D) & $\frac{\overline{AB}}{\overline{CD}} $ & the ratio of the signed distance from $A$ to $B$ and from $C$ to $D$. $C$ is different from $D$. \\
+pythagoras\_difference(A,B,C) & $\mathcal{P}_{ABC}$ & $AB^2 + BC^2 - AC^2$ \\
+pythagoras\_difference\_4(A,B,C,D) & $\mathcal{P}_{ABCD}$ & The pytharogas difference of $ABD$ minus the pythagoras difference of $CBD$ \\
+on\_parallel\_ratio(Y,W,U,V,r) & & $Y$ is a point on the parallel to line $UV$ going through $W$ such that $\overline{WY}=r\overline{UV}$ \\
+%todo if r=0 W=Y and this holds ? 
+on\_perpenticular\_ratio(Y,W,U,V,r) & & $Y$ is a point on the perpendicular to line $UV$ going through $W$ such that $4\mathcal{S}_{UVY}=\mathcal{P}_{UVU}$ \\
 \bottomrule
 \end{tabularx}
 
