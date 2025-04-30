@@ -114,6 +114,9 @@
 \DeclareMathOperator{\trisum}{\mathcal{S}}
 \newcommand{\trisuma}[6]{\trisum(\bigtriangleup{#1}{#2}{#3}) \eqaa \angleT{#4}{#5}{#6}}
 
+\newcommand{\jn}[1]{\textcolor{blue}{JN: #1}}
+
+
 \DefineVerbatimEnvironment
 {CoqVerbatim}{Verbatim}
 {frame=lines, fontsize=\small}
@@ -634,6 +637,9 @@ A point $C$ such that $ABC$ is an equilateral triangle, and $C$ and $P$ are on t
 fun\_extend(A,B) & &
 a point on half-line $AB$ such that $B$ is between $A$ and the new point. \\
 %-------------------------------------------------------------------
+fun\_extend\_distance(A,B,P,Q) & &
+a point $N$ on half-line $AB$ such that $B$ is between $A$ and $N$ and $BN$ is congruent to $PQ$. This corresponds to a compass. \\
+%-------------------------------------------------------------------
 fun\_foot(A,B,P) & 
 &
 the foot of the perpendicular to $AB$ through $P$ \\
@@ -681,7 +687,7 @@ the circumcenter of triangle $ABC$ \\
 %-------------------------------------------------------------------
 fun\_intersection\_line\_line(A,B,C,D) & 
 &
-the intersection of lines AB and CD (assuming they do interesect ? ) \\
+the intersection of lines AB and CD (assuming they do interesect ? ) \jn{undefined if they do not intersect ?}\\
 %-------------------------------------------------------------------
 fun\_intersection\_line\_segment(A,B,C,D) & 
 &
@@ -690,9 +696,13 @@ intersection of line $AB$ and segment $CD$. \\
 fun\_intersection\_segment\_segment(A,B,C,D) & 
 &
 intersection of segment $AB$ and segment $CD$. \\
-
+%-------------------------------------------------------------------
+fun\_intersection\_circle\_segment(O,P,A,B) & 
+&
+intersection of circle of center $O$ going through $P$ and segment $AB$. \jn{what to do when there are two intersections ?} \\
 \bottomrule
 \end{tabularx}
+
 
 \noindent\hspace{-75mm}
 \begin{tabularx}{270mm}{>{\ttfamily}llXX}
