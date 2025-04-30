@@ -122,24 +122,30 @@
 
 \newcommand{\hi}[1]{\textcolor{red}{#1}}
 
+\title{A standard signature for the ADGlib}
+\author{ADG Foundation}
+\date{\today}
+
 
 \begin{document}
 
+\maketitle
+
+\begin{abstract}
+This document describes the signature of the ADGlib library. 
+The signature is a collection of predicates and functions for the manipulation of geometric objects. 
+The objective is to facilitate the communication between different tools manipulating geometric statements.
+
+\end{abstract}
+
+
+\section{General conventions}
+
+
+\newpage
+
+
 \pagestyle{empty}
-
-\begin{center}
-{\huge ADG-Lib }
-\end{center}
-
-The definitions given below are given, in the spirit
-of Tarski's geometry, in terms of primitive predicates: 
-{\ttfamily =}, {\ttfamily between} and {\ttfamily cong}, 
-or in terms of other predicate symbols defined in terms 
-of the primitive predicates.
-However, it is not a critical feature of the signature 
-defined -- in some theory some other predicate symbols 
-may be taken to be primitive ones.
-
 
 
 \noindent\hspace{-75mm}
@@ -466,7 +472,7 @@ triangle(A,B,C) & & \\
 \noindent\hspace{-75mm}
 \begin{tabularx}{270mm}{>{\ttfamily}llXX}
 \toprule
-\multicolumn{4}{l}{\Huge Points-only; predicate symbols on comparison of angles} \\ \midrule
+\multicolumn{4}{l}{\Huge Points-only; predicate symbols on comparison of segments and angles} \\ \midrule
 ADGLib & 
 \LaTeX{} notation & 
 Intuitive meaning & 
@@ -616,6 +622,10 @@ fun\_equilateral\_from(A,B) &
 &
 A point $C$ such that $ABC$ is an equilateral triangle. \\
 %-------------------------------------------------------------------
+fun\_equilateral\_from\_on\_side(A,B,P) & 
+&
+A point $C$ such that $ABC$ is an equilateral triangle, and $C$ and $P$ are on the same side of line $AB$. \\
+%-------------------------------------------------------------------
 fun\_extend(A,B) & &
 a point on half-line $AB$ such that $B$ is between $A$ and the new point. \\
 %-------------------------------------------------------------------
@@ -664,14 +674,32 @@ fun\_circumcenter(A,B,C) &
 &
 the circumcenter of triangle $ABC$ \\
 %-------------------------------------------------------------------
-fun\_intersection\_ll(A,B,C,D) & 
+fun\_intersection\_line\_line(A,B,C,D) & 
 &
 the intersection of lines AB and CD (assuming they do interesect ? ) \\
 %-------------------------------------------------------------------
-fun\_intersection\_ls(A,B,C,D) & 
+fun\_intersection\_line\_segment(A,B,C,D) & 
 &
 intersection of line $AB$ and segment $CD$. \\
+%-------------------------------------------------------------------
+fun\_intersection\_segment\_segment(A,B,C,D) & 
+&
+intersection of segment $AB$ and segment $CD$. \\
 
+\bottomrule
+\end{tabularx}
+
+\noindent\hspace{-75mm}
+\begin{tabularx}{270mm}{>{\ttfamily}llXX}
+\toprule
+\multicolumn{4}{l}{\Huge Area method; function symbols} \\ \midrule
+ADGLib & 
+\LaTeX{} notation & 
+Intuitive meaning & 
+Definition \\ \midrule
+signed\_area(A,B,C) & & the signed area of triangle $ABC$ & \\
+signed\_ratio(A,B,C,D) & & the ratio of the signed distance from $A$ to $B$ and from $C$ to $D$ \\
+pythagoras\_difference(A,B,C) & & $AB^2 + BC^2 - AC^2$ \\
 \bottomrule
 \end{tabularx}
 
@@ -702,9 +730,14 @@ opposite\_side\_plane(P,P',A,B,C) & & $P$ and $P'$ are on the opposite sides of 
 \end{tabularx}
 
 
+\newpage
 
+\section*{Contributors}
 
-
+Predrag Janičić,
+Julien Narboux,
+Filip Maric,
+Zoltan Kovács.
 
 
 
