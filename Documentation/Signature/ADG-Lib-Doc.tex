@@ -336,6 +336,27 @@ is\_orthocenter(H,A,B,C) &
 & 
 $H$ is the orthocenter of triangle $ABC$. \\
 %-------------------------------------------------------------------
+meet\_line\_line(A,B,C,D) & 
+& 
+The lines $AB$ and $CD$ intersect. \\
+%-------------------------------------------------------------------
+meet\_line\_segment(A,B,C,D) & 
+& 
+The line $AB$ and segment $CD$ intersect. \\
+%-------------------------------------------------------------------
+meet\_segment\_segment(A,B,C,D) & 
+& 
+The segment $AB$ and segment $CD$ intersect. \\
+%-------------------------------------------------------------------
+is\_intersection\_line\_line(P,A,B,C,D) & &
+P is the intersection of lines $AB$ and $CD$ \\
+%-------------------------------------------------------------------
+is\_intersection\_line\_segment(P,A,B,C,D) & &
+P is the intersection of line $AB$ and segment $CD$ \\
+%-------------------------------------------------------------------
+is\_intersection\_segment\_segment(P,A,B,C,D) & &
+P is the intersection of segments $AB$ and $CD$ \\
+%-------------------------------------------------------------------
 perpendicular(A,B,C,D) & 
 $\perpT{A B}{C D} $ & 
 line $AB$ is perpendicular to line $CD$ ($A\neq B$ and $C\neq D$) & 
@@ -739,6 +760,7 @@ signed\_area\_4(A,B,C,D) & $\mathcal{S}_{ABCD}$ & the sum of the signed areas th
 signed\_ratio(A,B,C,D) & $\frac{\overline{AB}}{\overline{CD}} $ & the ratio of the signed distance from $A$ to $B$ and from $C$ to $D$. $C$ is different from $D$. \\
 pythagoras\_difference(A,B,C) & $\mathcal{P}_{ABC}$ & $AB^2 + BC^2 - AC^2$ \\
 pythagoras\_difference\_4(A,B,C,D) & $\mathcal{P}_{ABCD}$ & The pytharogas difference of $ABD$ minus the pythagoras difference of $CBD$ \\
+on\_line\_ratio(Y,A,B,r) & & $Y$ is a point on the line $AB$ such that $\overline{AY}=r\overline{AB}$ \\
 on\_parallel\_ratio(Y,W,U,V,r) & & $Y$ is a point on the parallel to line $UV$ going through $W$ such that $\overline{WY}=r\overline{UV}$ \\
 %todo if r=0 W=Y and this holds ? 
 on\_perpenticular\_ratio(Y,W,U,V,r) & & $Y$ is a point on the perpendicular to line $UV$ going through $W$ such that $4\mathcal{S}_{UVY}=\mathcal{P}_{UVU}$ \\
