@@ -183,6 +183,10 @@ collinear\_strict(A,B,C) &
 & 
 points $A$, $B$ and $C$ are distinct collinear points. \\
 %-------------------------------------------------------------------
+on\_line(P,A,B) & 
+& 
+points $P$ is on line $AB$ ($A\neq B$). \\
+%-------------------------------------------------------------------
 concyclic(A,B,C,D) &  
 & 
 $A$, $B$, $C$ and $D$ belong to the same circle & 
@@ -355,11 +359,24 @@ $ \para{A B}{C D} $ &
 line $AB$ is parallel to line $CD$ & 
 $ \spara{A B}{C D} \lor (A \neq B \land C \neq D \land \col{A}{C}{D} \land \col{B}{C}{D}) $ \\
 %-------------------------------------------------------------------
+\addlinespace
+parallel\_non\_strict(A,B,C,D) & 
+ & 
+line $AB$ is parallel to line $CD$ or $A=B$ or $CD$ & 
+$ \para{A B}{C D} \lor (A=B \lor C=D) $ \\
+%-------------------------------------------------------------------
 parallel\_non\_reflexive(A,B,C,D) & 
 $\spara{A B}{C D} $ & 
 line $AB$ is parallel to line $CD$ and $AB \neq CD$ & 
 $A \neq B \land C \neq D \land \cp{A}{B}{C}{D} \land \lnot \exists X, \col{X}{A}{B} \land \col{X}{C}{D} $ \\
 %-------------------------------------------------------------------
+\addlinespace
+on\_parallel(P,B,C,D) & 
+ & 
+$P$ is on the parallel to line $CD$ through $B$ & 
+$ \para{A B}{C D} \land C \neq D $ \\
+%-------------------------------------------------------------------
+
 \bottomrule
 \end{tabularx}
 
@@ -665,7 +682,6 @@ fun\_isosceles\_from\_on\_side(A,B,P) &
 &
 A point $C$ such that $ABC$ is an isosceles triangle in $C$ and $C$ 
 is on the same side of line $AB$ as $P$. \\
-
 %-------------------------------------------------------------------
 fun\_symmetric(P,O) & 
 &
