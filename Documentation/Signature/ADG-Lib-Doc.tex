@@ -29,6 +29,8 @@
 %\renewcommand\colorchapnum{\color{ared}}
 %\renewcommand\colorchaptitle{\color{ared}}
 
+% !TEX program = xelatex
+% Ltex config: language=english
 
 \hypersetup{
     colorlinks,
@@ -606,12 +608,29 @@ ADGLib &
 Intuitive meaning & 
 Definition \\ \midrule
 %-------------------------------------------------------------------
+fun\_another\_point(A,B) & 
+&
+a point on line $AB$ different from $A$ and $B$ \\
+%-------------------------------------------------------------------
+fun\_equilateral\_from(A,B) & 
+&
+A point $C$ such that $ABC$ is an equilateral triangle. \\
+%-------------------------------------------------------------------
 fun\_extend(A,B) & &
 a point on half-line $AB$ such that $B$ is between $A$ and the new point. \\
 %-------------------------------------------------------------------
 fun\_foot(A,B,P) & 
 &
 the foot of the perpendicular to $AB$ through $P$ \\
+%-------------------------------------------------------------------
+fun\_on\_line(A,B) & &
+a point on line $AB$. \\
+%-------------------------------------------------------------------
+fun\_on\_ray(A,B) & &
+a point on ray $AB$. \\
+%-------------------------------------------------------------------
+fun\_on\_segment(A,B) & &
+a point segment $AB$. \\
 %-------------------------------------------------------------------
 fun\_midpoint(A,B) & 
 &
@@ -623,11 +642,11 @@ A point $C$ such that $ABC$ is an isosceles triangle in $C$. \\
 %-------------------------------------------------------------------
 fun\_symmetric(P,O) & 
 &
-the asymmetric of $P$ wrt. $O$. \\
+the symmetric of $P$ wrt. $O$. \\
 %-------------------------------------------------------------------
 fun\_symmetric(P,A,B) & 
 &
-the asymmetric of $P$ wrt. line $AB$. \\
+the symmetric of $P$ wrt. line $AB$. \\
 %-------------------------------------------------------------------
 fun\_incenter(A,B,C) & 
 &
@@ -647,15 +666,12 @@ the circumcenter of triangle $ABC$ \\
 %-------------------------------------------------------------------
 fun\_intersection\_ll(A,B,C,D) & 
 &
-intersection of lines AB and CD (assuming they do interesect ? ) \\
+the intersection of lines AB and CD (assuming they do interesect ? ) \\
 %-------------------------------------------------------------------
 fun\_intersection\_ls(A,B,C,D) & 
 &
 intersection of line $AB$ and segment $CD$. \\
-%-------------------------------------------------------------------
-fun\_another\_point(A,B) & 
-&
-a point on line $AB$ different from $A$ and $B$ \\
+
 \bottomrule
 \end{tabularx}
 
