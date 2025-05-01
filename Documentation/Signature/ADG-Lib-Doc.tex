@@ -170,6 +170,10 @@ between\_strict(A,B,C) &
 & 
 points $A$, $B$ and $C$ are collinear and $B$ is strictly between $A$ and $C$ \\
 %-------------------------------------------------------------------
+between\_4\_strict(A,B,C,D) & 
+& 
+points $A$, $B$ $C$ and $D$ are collinear distinct and in this order. \\
+%-------------------------------------------------------------------
 circumcenter(G,A,B,C) & 
 & 
 $G$ is the circum-center of triangle $ABC$. \\
@@ -216,6 +220,13 @@ congruent\_triangles(A,B,C,A',B',C') &
 $ABC$ is congruent to $A'B'C'$ & 
 $ \congT{AB}{A'B'} \land \congT{AC}{A'C'} \land \congT{BC}{B'C'} $ \\
 %-------------------------------------------------------------------
+congruent\_rectangles(A,B,C,D,A',B',C',D') & 
+& 
+$ABCD$  and $A'B'C'D'$ are congruent rectangles & 
+$ \congT{AB}{A'B'} \land \congT{BC}{B'C'} \land Rectangle(A,B,C,D) \land Rectangle(A',B',C',D') $ \\
+
+
+%----------------------------------------------------------------
 diameter(A,B,O,P) & 
 & 
 $AB$ is a diameter of the circle of center $O$ going through $P$. \\
@@ -396,6 +407,12 @@ on\_parallel(P,B,C,D) &
  & 
 $P$ is on the parallel to line $CD$ through $B$ & 
 $ \para{A B}{C D} \land C \neq D $ \\
+%-------------------------------------------------------------------
+\addlinespace
+vertical\_angles(A,B,C,D,E,F) & 
+ & 
+$ABC$ and $DEF$ are vertical angles & 
+$ B=E \land \bH{A}{B}{D} \land \bH{C}{B}{F} $ \\
 %-------------------------------------------------------------------
 
 \bottomrule
