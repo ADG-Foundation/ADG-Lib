@@ -26,6 +26,7 @@ P_DIR=`pwd`
 SUCCESS=0
 ALL=0
 for i in *.p; do
+  ALL=$((ALL+1))
   cd "$OUT_DIR"
   TESTNAME=`basename $i .p`
   echo -n "$TESTNAME..."
@@ -34,6 +35,10 @@ for i in *.p; do
     > "$TESTNAME.adgtoolkit.out" 2> "$TESTNAME.adgtoolkit.err"
   # Create GeoGebra file:
   grep -v ^% geogebra.xml.tmp > geogebra.xml # remove comments
+  grep --silent Prove geogebra.xml || {
+   echo " hypotheses incomplete"
+   continue
+   }
   zip -q "$TESTNAME.ggb" "geogebra.xml"
   # Run GeoGebra:
   timeout $TIMEOUT $GEOGEBRA --prover=timeout:$TIMEOUT --logFile="$TESTNAME.log" \
@@ -67,6 +72,5 @@ for i in *.p; do
         }
       } || echo " timeout"
     }
-  ALL=$((ALL+1))
   done
 echo "$SUCCESS successful of $ALL cases"
