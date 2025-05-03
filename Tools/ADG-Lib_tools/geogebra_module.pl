@@ -280,7 +280,6 @@ translate_goal_fol2geogebra(Goal,M) :-
    write('  <value val="true"/>'),nl,
    write('  <show object="false" label="true"/>'),nl,
    write('</element>'),nl.
-   
 
 translate_fol2geogebra_g(N,_M)  :- number(N), !, 
    write(N).
@@ -288,6 +287,26 @@ translate_fol2geogebra_g(A,M)  :- var(A), !,
    print(A,M).
 translate_fol2geogebra_g(A,M)  :- atomic(A), !, 
    print(A,M).
+
+translate_fol2geogebra_g(signed_area3(A,B,C)=signed_area3(D,E,F),M) :- !,
+    write('AreEqual[Area['),
+    print(A,M), write(','),
+    print(B,M), write(','),
+    print(C,M), write('],Area['),
+    print(D,M), write(','),
+    print(E,M), write(','),
+    print(F,M), write(']]').
+translate_fol2geogebra_g(signed_area4(A,B,C,D)=signed_area4(E,F,G,H),M) :- !,
+    write('AreEqual[Area['),
+    print(A,M), write(','),
+    print(B,M), write(','),
+    print(C,M), write(','),
+    print(D,M), write('],Area['),
+    print(E,M), write(','),
+    print(F,M), write(','),
+    print(G,M), write(','),
+    print(H,M), write(']]').
+
 translate_fol2geogebra_g((A=B),M)                :- !, 
    translate_fol2geogebra_g(A,M), write('=='), translate_fol2geogebra_g(B,M).
 
@@ -327,12 +346,12 @@ translate_fol2geogebra_g(length(A,B),M)             :- !,
 translate_fol2geogebra_g(sratio(A,B,C,D),M)      :- !, 
    write('Segment['),translate_fol2geogebra_g(A,M), write(','), translate_fol2geogebra_g(B,M), write(']/Segment['), 
    translate_fol2geogebra_g(C,M), write(','), translate_fol2geogebra_g(D,M), write(']').
-translate_fol2geogebra_g(signed_area3(A,B,C),M)  :- !, 
-   write('{ signed_area3 '), translate_fol2geogebra_g(A,M), write(' '), 
-   translate_fol2geogebra_g(B,M), write(' '), translate_fol2geogebra_g(C,M), write(' }').
-translate_fol2geogebra_g( signed_area4(A,B,C,D),M):- !, 
-   write('{ signed_area4 '), translate_fol2geogebra_g(A,M), write(' '), translate_fol2geogebra_g(B,M), write(' '),
-   translate_fol2geogebra_g(C,M), write(' '), translate_fol2geogebra_g(D,M), write(' }').
+translate_fol2geogebra_g(signed_area3(A,B,C),M)  :- !,
+   write('Area['), translate_fol2geogebra_g(A,M), write(','), translate_fol2geogebra_g(B,M), write(','),
+   translate_fol2geogebra_g(C,M), write(']').
+translate_fol2geogebra_g(signed_area4(A,B,C,D),M):- !,
+   write('Area['), translate_fol2geogebra_g(A,M), write(','), translate_fol2geogebra_g(B,M), write(','),
+   translate_fol2geogebra_g(C,M), write(','), translate_fol2geogebra_g(D,M), write(']').
 translate_fol2geogebra_g( alg_sum_zero3(A,B,C,D,E,F),M)   :- !, 
    write('alg_sum_zero3 '), 
    write(' { segment '), translate_fol2geogebra_g(A,M), write(' '), translate_fol2geogebra_g(B,M), write(' } '),
