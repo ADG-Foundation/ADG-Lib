@@ -32,8 +32,8 @@ translate_term_fol2geogebra(freepoint(P, X, Y),M) :- !,
    X1 is X/10, write(X1), write(','),
    Y1 is Y/10, write(Y1),write(')" type="point"/>').
    
-translate_term_fol2geogebra(newline(L,A,B),M)     :- !, 
-   nl, write('line '), print(L,M), write(' '), print(A,M), write(' '), print(B,M).
+translate_term_fol2geogebra(newline(_L,A,B),M)     :- !, 
+   drawline_general(A,B,M,0).
 translate_term_fol2geogebra(newcircle(K,C,X),M)   :- !, 
    nl, write('circle '), print(K), write(' '), print(C,M), write(' '), print(X,M).
 translate_term_fol2geogebra(online(P,A,B),M)      :- !, 
@@ -59,6 +59,16 @@ translate_term_fol2geogebra(foot(X,A,B,C),M)      :- !, nl,
    write('<command name="Intersect">'),nl,
    write('  <input a0="PerpendicularLine['),print(A,M),write(',l'),print(B,M),print(C,M),
    write(']" a1="l'),print(B,M),print(C,M),write('"/>'),nl,
+   write('  <output a0="'),print(X,M),write('"/>'),nl,
+   write('</command>').
+translate_term_fol2geogebra(perpendicular(X,A,B,C),M)      :- !, nl,
+   write('<command name="Line">'),nl,
+   write('   <input a0="'),print(B,M),write('" a1="'), print(C,M),write('"/>'),nl,
+   write('   <output a0="l'),print(B,M),print(C,M),write('"/>'),nl,
+   write('</command>'),nl,
+   write('<command name="Point">'),nl,
+   write('  <input a0="PerpendicularLine['),print(A,M),write(',l'),print(B,M),print(C,M),
+   write(']"/>'),nl,
    write('  <output a0="'),print(X,M),write('"/>'),nl,
    write('</command>').
 
