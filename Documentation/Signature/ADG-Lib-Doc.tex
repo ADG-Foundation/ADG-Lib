@@ -154,25 +154,28 @@ The objective is to facilitate the communication between different tools manipul
 \noindent\hspace{-75mm}
 \begin{tabularx}{270mm}{>{\ttfamily}llXX}
 \toprule
-\multicolumn{4}{l}{\Huge Points-only; predicate symbols (1/3)} \\ \midrule
+\multicolumn{4}{l}{\Huge Points-only; predicate symbols (1/4)} \\ \midrule
 ADGLib & 
 \LaTeX{} notation & 
 Intuitive meaning & 
 Definition \\ \midrule
-
 %-------------------------------------------------------------------
-between(A,B,C) &  
-$\bT{A}{B}{C}$ & 
-points $A$, $B$ and $C$ are collinear and $B$ is between A and C, it can be the case the $A=B$ or $B=C$. 
-& \\
-%-------------------------------------------------------------------
-between\_strict(A,B,C) & 
+between(A,B,C) & 
 & 
 points $A$, $B$ and $C$ are collinear and $B$ is strictly between $A$ and $C$ \\
 %-------------------------------------------------------------------
-between\_4\_strict(A,B,C,D) & 
+between\_non\_strict(A,B,C) &  
+$\bT{A}{B}{C}$ & 
+points $A$, $B$ and $C$ are collinear and $B$ is between $A$ and $C$, it can be the case the $A=B$ or $B=C$. & 
+\\
+%-------------------------------------------------------------------
+between\_4(A,B,C,D) & 
 & 
 points $A$, $B$ $C$ and $D$ are collinear distinct and in this order. \\
+%-------------------------------------------------------------------
+centroid(H,A,B,C) & 
+& 
+$H$ is the centroid/gravity center of triangle $ABC$. \\
 %-------------------------------------------------------------------
 circumcenter(G,A,B,C) & 
 & 
@@ -186,10 +189,6 @@ $ \bT{A}{B}{C} \lor \bT{B}{A}{C} \lor \bT{A}{C}{B} $ \\
 collinear\_strict(A,B,C) & 
 & 
 points $A$, $B$ and $C$ are distinct collinear points. \\
-%-------------------------------------------------------------------
-on\_line(P,A,B) & 
-& 
-points $P$ is on line $AB$ ($A\neq B$). \\
 %-------------------------------------------------------------------
 concyclic(A,B,C,D) &  
 & 
@@ -224,8 +223,6 @@ congruent\_rectangles(A,B,C,D,A',B',C',D') &
 & 
 $ABCD$  and $A'B'C'D'$ are congruent rectangles & 
 $ \congT{AB}{A'B'} \land \congT{BC}{B'C'} \land Rectangle(A,B,C,D) \land Rectangle(A',B',C',D') $ \\
-
-
 %----------------------------------------------------------------
 diameter(A,B,O,P) & 
 & 
@@ -241,32 +238,13 @@ equilateral\_strict(A,B,C) &
 $ABC$ is an equilateral triangle and the points are distinct and hence not collinear & 
 $equilateral A B C \land A \neq B$ \\
 %-------------------------------------------------------------------
-gravity\_center(H,A,B,C) & 
-& 
-$H$ is the gravity center of triangle $ABC$. \\
-
-%-------------------------------------------------------------------
-on\_line\_harmonic(A,B,C,D) & 
+harmonic(A,B,C,D) & 
 & 
 Points $A$, $B$, $C$, $D$ are on the same line and $AC/CB=DA/DB$. \\
 %-------------------------------------------------------------------
 incenter(G,A,B,C) & 
 & 
 $G$ is the in-center of triangle $ABC$. \\
-%-------------------------------------------------------------------
-inside\_circle(C,O,P) & 
-& 
-$C$ is inside or on circle (or sphere) of center $O$ going through $P$.\\
-%-------------------------------------------------------------------
-inside\_circle\_strict(C,O,P) & 
-& 
-$C$ is strictly inside the circle (or sphere) of center $O$ going through $P$.\\
-%-------------------------------------------------------------------
-inside\_angle(P,A,B,C) & 
-$ \inangleT{P}{A}{B}{C} $ & 
-the point $P$ is inside the angle $\angle{ABC}$ & 
-$A \neq B \land C \neq B \land P \neq B \land \exists X, \bT{A}{X}{C} \land$ \\
- & & & $ (X = B \lor \out{B}{X}{P}) $ \\
 %-------------------------------------------------------------------
 \bottomrule
 \end{tabularx}
@@ -276,16 +254,41 @@ $A \neq B \land C \neq B \land P \neq B \land \exists X, \bT{A}{X}{C} \land$ \\
 \noindent\hspace{-75mm}
 \begin{tabularx}{270mm}{>{\ttfamily}llXX}
 \toprule
-\multicolumn{4}{l}{\Huge Points-only; predicate symbols (2/3)} \\ \midrule
+\multicolumn{4}{l}{\Huge Points-only; predicate symbols (2/4)} \\ \midrule
 ADGLib & 
 \LaTeX{} notation & 
 Intuitive meaning & 
 Definition \\ \midrule
-
 %-------------------------------------------------------------------
-intersection\_circle\_circle(P,Q,O,P,O',P') & 
+inside\_circle(C,O,P) & 
 & 
-$P$ and $Q$ are the intersections of circles $OP$ and $O'P'$. \\
+$C$ is strictly inside or on circle (or sphere) of center $O$ going through $P$.\\
+%-------------------------------------------------------------------
+inside\_circle\_non\_strict(C,O,P) & 
+& 
+$C$ is inside the circle (or sphere) of center $O$ going through $P$.\\
+%-------------------------------------------------------------------
+inside\_angle(P,A,B,C) & 
+$ \inangleT{P}{A}{B}{C} $ & 
+the point $P$ is inside the angle $\angle{ABC}$ & 
+$A \neq B \land C \neq B \land P \neq B \land \exists X, \bT{A}{X}{C} \land$ \\
+ & & & $ (X = B \lor \out{B}{X}{P}) $ \\
+%-------------------------------------------------------------------
+intersection\_line\_line(X,A,B,C,D) & &
+$X$ is the intersection of lines $AB$ and $CD$ \\
+%-------------------------------------------------------------------
+intersection\_line\_segment(X,A,B,C,D) & &
+$X$ is the intersection of line $AB$ and segment $CD$ \\
+%-------------------------------------------------------------------
+intersection\_line\_circle(X,Y,A,B,O,P) & &
+$X$ and $Y$ are the intersections of line $AB$ and circle $OP$ \\
+%-------------------------------------------------------------------
+intersection\_segment\_segment(X,A,B,C,D) & &
+$X$ is the intersection of segments $AB$ and $CD$ \\
+%-------------------------------------------------------------------
+intersection\_circle\_circle(X,Y,O,P,O',P') & 
+& 
+$X$ and $Y$ are the intersections of circles $OP$ and $O'P'$. \\
 %-------------------------------------------------------------------
 isosceles(A,B,C) & 
 & 
@@ -312,10 +315,6 @@ $\midpoint{A}{M}{B}$ &
 $M$ is the midpoint of segment $AB$ & 
 $\bT{A}{M}{B} \land \congT{A M}{B M} $ \\
 %-------------------------------------------------------------------
-on\_ray(O,A,B) & 
-$\out{O}{A}{B}$ & 
-$B$ belongs to the half line $OA$ & $ O \neq A \land O  \neq B \land (\bT{O}{A}{B} \lor \bT{O}{B}{A}) $ \\
-%-------------------------------------------------------------------
 on\_angle\_bisector(P,A,O,B) &  
 & 
 $P$ belongs to the bisector of angle $AOB$ & 
@@ -325,10 +324,38 @@ on\_circle(C,O,P) &
 & 
 $C$ is on circle (or sphere) of center $O$ going through $P$. \\
 %-------------------------------------------------------------------
-on\_segment\_bisector(P,A,B) &  
+on\_line(P,A,B) & 
 & 
-$P$ belongs to the bisector of segment $AB$ & 
-$P \neq midpoint(A,B) \land AP$ and $PB$ are congruent \\
+points $P$ is on line $AB$ ($A\neq B$). \\
+%-------------------------------------------------------------------
+\addlinespace
+on\_parallel(P,B,C,D) & 
+ & 
+$P$ is on the parallel to line $CD$ through $B$ & 
+$ \para{A B}{C D} \land C \neq D $ \\
+%-------------------------------------------------------------------
+on\_perpendicular\_bisector(P,A,B) &  
+& 
+$P$ belongs to the perpendicular bisector of segment $AB$ & 
+$P \neq midpoint(A,B)$ and $\congT{PA}{PB}$ \\
+%-------------------------------------------------------------------
+on\_ray(O,A,B) & 
+$\out{O}{A}{B}$ & 
+$B$ belongs to the half line $OA$ & $ O \neq A \land O  \neq B \land (\bT{O}{A}{B} \lor \bT{O}{B}{A}) $ \\
+%-------------------------------------------------------------------
+\bottomrule
+\end{tabularx}
+
+\newpage
+
+\noindent\hspace{-75mm}
+\begin{tabularx}{270mm}{>{\ttfamily}llXX}
+\toprule
+\multicolumn{4}{l}{\Huge Points-only; predicate symbols (3/4)} \\ \midrule
+ADGLib & 
+\LaTeX{} notation & 
+Intuitive meaning & 
+Definition \\ \midrule
 %-------------------------------------------------------------------
 opposite\_sides(A,B,P,Q) & 
 $\tS{A}{B}{P}{Q}$ & 
@@ -343,10 +370,6 @@ outside\_circle\_strict(C,O,P) &
 & 
 $C$ is strictly outside the circle (or sphere) of center $O$ going through $P$.\\
 %-------------------------------------------------------------------
-is\_orthocenter(H,A,B,C) & 
-& 
-$H$ is the orthocenter of triangle $ABC$. \\
-%-------------------------------------------------------------------
 meet\_line\_line(A,B,C,D) & 
 & 
 The lines $AB$ and $CD$ intersect. \\
@@ -359,14 +382,9 @@ meet\_segment\_segment(A,B,C,D) &
 & 
 The segment $AB$ and segment $CD$ intersect. \\
 %-------------------------------------------------------------------
-is\_intersection\_line\_line(P,A,B,C,D) & &
-P is the intersection of lines $AB$ and $CD$ \\
-%-------------------------------------------------------------------
-is\_intersection\_line\_segment(P,A,B,C,D) & &
-P is the intersection of line $AB$ and segment $CD$ \\
-%-------------------------------------------------------------------
-is\_intersection\_segment\_segment(P,A,B,C,D) & &
-P is the intersection of segments $AB$ and $CD$ \\
+orthocenter(H,A,B,C) & 
+& 
+$H$ is the orthocenter of triangle $ABC$. \\
 %-------------------------------------------------------------------
 perpendicular(A,B,C,D) & 
 $\perpT{A B}{C D} $ & 
@@ -403,32 +421,10 @@ line $AB$ is parallel to line $CD$ and $AB \neq CD$ &
 $A \neq B \land C \neq D \land \cp{A}{B}{C}{D} \land \lnot \exists X, \col{X}{A}{B} \land \col{X}{C}{D} $ \\
 %-------------------------------------------------------------------
 \addlinespace
-on\_parallel(P,B,C,D) & 
- & 
-$P$ is on the parallel to line $CD$ through $B$ & 
-$ \para{A B}{C D} \land C \neq D $ \\
-%-------------------------------------------------------------------
-\addlinespace
 vertical\_angles(A,B,C,D,E,F) & 
  & 
 $ABC$ and $DEF$ are vertical angles & 
 $ B=E \land \bH{A}{B}{D} \land \bH{C}{B}{F} $ \\
-%-------------------------------------------------------------------
-
-\bottomrule
-\end{tabularx}
-
-\newpage
-
-\noindent\hspace{-75mm}
-\begin{tabularx}{270mm}{>{\ttfamily}llXX}
-\toprule
-\multicolumn{4}{l}{\Huge Points-only; predicate symbols (3/3)} \\ \midrule
-ADGLib & 
-\LaTeX{} notation & 
-Intuitive meaning & 
-Definition \\ \midrule
-
 %-------------------------------------------------------------------
 parallelogram(A,B,C,D) & 
 & 
@@ -445,15 +441,24 @@ parallelogram\_flat(A,B,C,D) &
 $ABCD$ is a flat parallelogram &
 $ \col {A} {B} {A'} \; \land \; \col {A} {B} {B'} \; \land \congT {AB} {A'B}' \; \land \; \congT {AB'} {A'B} \; \land \; (A \neq A' \; \lor \; B \neq B') $ \\
 %-------------------------------------------------------------------
+\bottomrule
+\end{tabularx}
+
+\newpage
+
+\noindent\hspace{-75mm}
+\begin{tabularx}{270mm}{>{\ttfamily}llXX}
+\toprule
+\multicolumn{4}{l}{\Huge Points-only; predicate symbols (4/4)} \\ \midrule
+ADGLib & 
+\LaTeX{} notation & 
+Intuitive meaning & 
+Definition \\ \midrule
+%-------------------------------------------------------------------
 perpendicular\_bisector(P,Q,A,B) & 
 & 
 $PQ$ is the perpendicular bisector of segment $AB$ &
 $ ReflectL\,A\,B\,P\,Q \land A \neq B$ \\
-%-------------------------------------------------------------------
-on\_perpendicular\_bisector(P,A,B) & 
-& 
-$P$ is on the perpendicular bisector of $AB$ & 
-$\congT{PA}{PB}$ \\
 %-------------------------------------------------------------------
 quadrilateral(A,B,C,D) & & \\
 %-------------------------------------------------------------------
@@ -522,7 +527,9 @@ trapezoid\_isosceles(A,B,C,D) &
 & 
 $ABCD$ is a trapezoid with congruent non necessary parallel sides: $AB$ is parallel to $CD$ and $\congT{BC}{DA}$\\
 %-------------------------------------------------------------------
-triangle(A,B,C) & & \\
+triangle(A,B,C) & 
+& $A$, $B$, $C$ are non-collinear  
+\\
 \bottomrule
 \end{tabularx}
 
@@ -681,6 +688,14 @@ fun\_another\_point(A,B) &
 &
 a point on line $AB$ different from $A$ and $B$ \\
 %-------------------------------------------------------------------
+fun\_centroid(A,B,C) & 
+&
+the centroid (gravity center) of triangle $ABC$ \\
+%-------------------------------------------------------------------
+fun\_circumcenter(A,B,C) & 
+&
+the circumcenter of triangle $ABC$ \\
+%-------------------------------------------------------------------
 fun\_equilateral\_from(A,B) & 
 &
 A point $C$ such that $ABC$ is an equilateral triangle. \\
@@ -699,18 +714,29 @@ fun\_foot(A,B,P) &
 &
 the foot of the perpendicular to $AB$ through $P$ \\
 %-------------------------------------------------------------------
-fun\_on\_line(A,B) & &
-a point on line $AB$. \\
-%-------------------------------------------------------------------
-fun\_on\_ray(A,B) & &
-a point on ray $AB$. \\
-%-------------------------------------------------------------------
-fun\_on\_segment(A,B) & &
-a point segment $AB$. \\
-%-------------------------------------------------------------------
-fun\_midpoint(A,B) & 
+fun\_incenter(A,B,C) & 
 &
-the midpoint of segment $AB$ \\
+the incenter of triangle $ABC$ \\
+%-------------------------------------------------------------------
+fun\_intersection\_line\_line(A,B,C,D) & 
+&
+the intersection of lines AB and CD (assuming they do interesect ? ) \jn{undefined if they do not intersect ?}\\
+%-------------------------------------------------------------------
+fun\_intersection\_line\_segment(A,B,C,D) & 
+&
+intersection of line $AB$ and segment $CD$. \\
+%-------------------------------------------------------------------
+fun\_intersection\_line\_circle(A,B,O,P) & 
+&
+intersection of line $AB$ and circle of center $O$ going through $P$. \jn{what to do when there are two intersections ?} \\
+%-------------------------------------------------------------------
+fun\_intersection\_segment\_circle(A,B,O,P) & 
+&
+intersection of segment $AB$ and circle of center $O$ going through $P$. \jn{what to do when there are two intersections ?} \\
+%-------------------------------------------------------------------
+fun\_intersection\_segment\_segment(A,B,C,D) & 
+&
+intersection of segment $AB$ and segment $CD$. \\
 %-------------------------------------------------------------------
 fun\_isosceles\_from(A,B) & 
 &
@@ -721,6 +747,23 @@ fun\_isosceles\_from\_on\_side(A,B,P) &
 A point $C$ such that $ABC$ is an isosceles triangle in $C$ and $C$ 
 is on the same side of line $AB$ as $P$. \\
 %-------------------------------------------------------------------
+fun\_midpoint(A,B) & 
+&
+the midpoint of segment $AB$ \\
+%-------------------------------------------------------------------
+fun\_on\_line(A,B) & &
+a point on line $AB$. \\
+%-------------------------------------------------------------------
+fun\_on\_ray(A,B) & &
+a point on ray $AB$. \\
+%-------------------------------------------------------------------
+fun\_on\_segment(A,B) & &
+a point segment $AB$. \\
+%-------------------------------------------------------------------
+fun\_orthocenter(A,B,C) & 
+&
+the orthocenter of triangle $ABC$ \\
+%-------------------------------------------------------------------
 fun\_symmetric(P,O) & 
 &
 the symmetric of $P$ wrt. $O$. \\
@@ -729,37 +772,6 @@ fun\_symmetric(P,A,B) &
 &
 the symmetric of $P$ wrt. line $AB$. \\
 %-------------------------------------------------------------------
-fun\_incenter(A,B,C) & 
-&
-the incenter of triangle $ABC$ \\
-%-------------------------------------------------------------------
-fun\_orthocenter(A,B,C) & 
-&
-the orthocenter of triangle $ABC$ \\
-%-------------------------------------------------------------------
-fun\_gravitycenter(A,B,C) & 
-&
-the gravitycenter of triangle $ABC$ \\
-%-------------------------------------------------------------------
-fun\_circumcenter(A,B,C) & 
-&
-the circumcenter of triangle $ABC$ \\
-%-------------------------------------------------------------------
-fun\_intersection\_line\_line(A,B,C,D) & 
-&
-the intersection of lines AB and CD (assuming they do interesect ? ) \jn{undefined if they do not intersect ?}\\
-%-------------------------------------------------------------------
-fun\_intersection\_line\_segment(A,B,C,D) & 
-&
-intersection of line $AB$ and segment $CD$. \\
-%-------------------------------------------------------------------
-fun\_intersection\_segment\_segment(A,B,C,D) & 
-&
-intersection of segment $AB$ and segment $CD$. \\
-%-------------------------------------------------------------------
-fun\_intersection\_circle\_segment(O,P,A,B) & 
-&
-intersection of circle of center $O$ going through $P$ and segment $AB$. \jn{what to do when there are two intersections ?} \\
 \bottomrule
 \end{tabularx}
 
