@@ -5,10 +5,18 @@ include('../Axioms/gelernter.ax').
 % --------------------------------------------------------------------------------
 % Variant of appendix 2 where the point K is constructed.
 
-fof(thm_appendix2b, conjecture, ![A,B,C,D,E,F,M]: (
+fof(thm_appendix2b, conjecture, ![A,B,C,D,E,F,K,M]: (
   ( 
-  ~collinear(F,B,C) &
-  A!=D & 
+  ~collinear(F,B,C) &   
+  ~collinear(A,B,D) &
+  ~collinear(F,D,K) &
+  A != K & 
+  A != D &  
+  K != D & 
+  E != F &
+  C != A &
+  D != B & 
+  F != M &
   parallel(A,D,B,C) &
   is_midpoint(E,A,C) &
   is_midpoint(F,B,D) &
