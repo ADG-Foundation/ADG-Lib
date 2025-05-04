@@ -8,8 +8,17 @@ fof(ax_inter, axiom, ![A,B,C,D]:  ((~parallel(A,B,C,D)) => ?[E]: (collinear(A,B,
 
 fof(thm_appendix2, conjecture, ![A,B,C,D,E,F,M]: (
   ( 
-  ~collinear(F,B,C) &
-  A!=D & 
+  ~collinear(F,B,C) &   
+  ~collinear(A,B,D) &
+  ~collinear(F,D,K) &
+  A != K & 
+  A != D &  
+  K != D & 
+  E != F &
+  C != A &
+  D != B & 
+  F != M &
+
   parallel(A,D,B,C) &
   is_midpoint(E,A,C) &
   is_midpoint(F,B,D) &

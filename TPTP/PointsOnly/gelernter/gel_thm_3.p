@@ -3,10 +3,11 @@ include('../Axioms/gelernter.ax').
 % Example taken from Gelertner seminal paper:  
 % REALIZATION OF A GEOMETRY THEOREM PROVING MACHINE
 % --------------------------------------------------------------------------------
-
+ 
 fof(thm_C, conjecture, ![A,B,C,D,M,E]: (
   ( 
-  ~collinear(A,B,C) &
+  ~collinear(C,E,M) &
+  ~collinear(B,D,M) &
   between_strict(B,M,C) & 
   cong(B,M,M,C) &
   between_strict(A,D,M) & 
