@@ -16,7 +16,7 @@ fof(thm_appendix1, conjecture, ![A,B,C,D,E,F,G,H]: (
   is_midpoint(H,B,D) 
   )
   => 
- parallelogram(E,F,G,H)
+  parallelogram(E,F,G,H)
   )).
 	
 % --------------------------------------------------------------------------------
