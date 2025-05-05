@@ -1,0 +1,32 @@
+dim 50 40 
+
+point A 15 35
+point B 3 10
+point C 45 10 
+
+midpoint M B C 
+
+line m A M 
+foot D B m 
+foot E C m
+
+cmark_t A
+cmark_b B
+cmark_lb M
+cmark_b C
+
+cmark_rt D
+cmark_lb E
+
+drawsegment A B
+drawsegment A C
+drawsegment B C
+drawsegment A E
+
+drawsegment B D
+drawsegment C E
+
+prove { same_length B D E C }
+
+  
+

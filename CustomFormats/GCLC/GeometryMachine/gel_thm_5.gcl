@@ -1,0 +1,16 @@
+point A 5 5 
+point D 40 5
+point C 35 20 
+translate B1 D A C 
+online B B1 C 
+  
+midpoint E A C  
+midpoint F B D 
+
+line ab A B 
+line ef E F 
+intersec M ab ef
+
+prove { same_length M B M A } 
+
+  

@@ -1,0 +1,39 @@
+dim 50 40
+
+point A 5 5 
+point D 45 5
+point C 27 37
+point B 10 22
+
+midpoint E A B
+midpoint F A C
+midpoint G C D
+midpoint H B D
+
+cmark_b A
+cmark_b D
+cmark_t C
+cmark_lt B
+
+cmark_l E
+cmark_rt G
+cmark_b H
+cmark_rt F
+
+drawsegment A D
+drawsegment D C
+drawsegment C B
+drawsegment B A
+drawsegment B D
+drawsegment A C
+
+drawsegment E F
+drawsegment G H
+drawsegment G F
+drawsegment  H E
+
+
+prove { parallel E F G H }
+%prove { same_length E F G H }
+
+

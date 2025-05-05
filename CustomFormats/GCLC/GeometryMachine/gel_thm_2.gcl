@@ -1,0 +1,17 @@
+point A 5 5 
+point D 40 5
+point C 45 30 
+translate B A D C 
+
+cmark_b A
+cmark_b D
+cmark_t D
+cmark_t D
+drawsegment A D 
+drawsegment D C
+drawsegment C B
+drawsegment B A
+
+prove { same_length A B C D }
+
+
