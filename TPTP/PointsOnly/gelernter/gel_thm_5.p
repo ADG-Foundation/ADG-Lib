@@ -11,7 +11,6 @@ fof(thm_appendix2, conjecture, ![A,B,C,D,E,F,M]: (
   ( 
   ~collinear(F,B,C) &   
   ~collinear(A,B,D) &
-  ~collinear(F,D,K) &
   ~parallel(A,D,C,F) &
   A != D &  
   E != F &
