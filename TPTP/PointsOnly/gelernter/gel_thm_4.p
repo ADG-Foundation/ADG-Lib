@@ -1,4 +1,5 @@
 include('../Axioms/gelernter.ax').
+include('../Axioms/gelernter-euclidean.ax').
 
 % Example taken from Gelertner seminal paper:  
 % EMPIRICAL EXPLORATIONS OF THE GEOMETRY-THEOREM PROVING MACHINE
