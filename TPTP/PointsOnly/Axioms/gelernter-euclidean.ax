@@ -4,29 +4,29 @@
 % Definition of parallelogram
 fof(ax_parallelogram1, axiom, 
     ![A, B, C, D]: 
-      (~collinear(A, B, C) & parallel(A, B, C, D) & parallel(A, D, B, C) => parallelogram(A, B, C, D))).
+      ((~collinear(A, B, C) & parallel(A, B, C, D) & parallel(A, D, B, C)) => parallelogram(A, B, C, D))).
 
 % Transitivity of parallelism
 fof(ax_par_trans, axiom, 
     ![A, B, C, D, E, F]: 
-      (parallel(A, B, C, D) & parallel(C, D, E, F) => parallel(A, B, E, F))).
+      ((parallel(A, B, C, D) & parallel(C, D, E, F)) => parallel(A, B, E, F))).
 
 % Midpoint theorem
 fof(ax_midpoint_th, axiom, 
     ![A, B, C, D, E]: 
-      (B != C & is_midpoint(D, A, B) & is_midpoint(E, A, C) => parallel(B, C, D, E))).
+      ((B != C & is_midpoint(D, A, B) & is_midpoint(E, A, C)) => parallel(B, C, D, E))).
 
 % Converse of midpoint theorem
 fof(ax_midpoint_th_converse, axiom, 
     ![A, B, C, D, E]: 
-      (~collinear(C, A, B) & is_midpoint(D, A, B) & parallel(B, C, D, E) & collinear(A, C, E) => is_midpoint(E, A, C))).
+      ((~collinear(C, A, B) & is_midpoint(D, A, B) & parallel(B, C, D, E) & collinear(A, C, E)) => is_midpoint(E, A, C))).
 
 % Alternate angles formed by parallel lines are congruent
 fof(ax_angle9, axiom, 
     ![A, B, C, D]: 
-      (opposite_sides(D, B, A, C) & parallel(A, D, B, C) => congruent_angles(A, D, B, C, B, D))).
+      ((opposite_sides(D, B, A, C) & parallel(A, D, B, C)) => congruent_angles(A, D, B, C, B, D))).
 
 % If alternate angles are congruent, the lines are parallel
 fof(ax_angle10, axiom, 
     ![A, B, C, D]: 
-      (opposite_sides(A, C, B, D) & congruent_angles(B, A, C, D, C, A) => parallel(A, B, C, D))).
+      ((opposite_sides(A, C, B, D) & congruent_angles(B, A, C, D, C, A)) => parallel(A, B, C, D))).
