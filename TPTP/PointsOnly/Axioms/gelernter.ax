@@ -134,20 +134,20 @@ fof(ax_right_angle_sym, axiom, ![A, B, C]:
   (right_angle(A, B, C) => right_angle(C, B, A))).
 
 % The midpoint is equidistant from extremities
-fof(ax_is_midpoint1, axiom, ![A, B, M]: 
-  (is_midpoint(M, A, B) => cong(A, M, M, B))).
+fof(ax_midpoint1, axiom, ![A, B, M]: 
+  (midpoint(M, A, B) => cong(A, M, M, B))).
 
 % The midpoint is strictly between the extremities of the segment
-fof(ax_is_midpoint2, axiom, ![A, B, M]: 
-  ((is_midpoint(M, A, B) & A != B) => between_strict(A, M, B))).
+fof(ax_midpoint2, axiom, ![A, B, M]: 
+  ((midpoint(M, A, B) & A != B) => between_strict(A, M, B))).
 
 % Definition of midpoint
-fof(ax_is_midpoint3, axiom, ![A, B, M]: 
-  ((between_strict(A, M, B) & cong(A, M, M, B)) => is_midpoint(M, A, B))).
+fof(ax_midpoint3, axiom, ![A, B, M]: 
+  ((between_strict(A, M, B) & cong(A, M, M, B)) => midpoint(M, A, B))).
 
 % Segments in midpoint are symmetric
-fof(ax_is_midpoint4, axiom, ![A, B, C]: 
-  (is_midpoint(C, A, B) => is_midpoint(C, B, A))).
+fof(ax_midpoint4, axiom, ![A, B, C]: 
+  (midpoint(C, A, B) => midpoint(C, B, A))).
 
 % Congruence of triangles is reflexive
 fof(ax_triangle1, axiom, ![A, B, C]: 

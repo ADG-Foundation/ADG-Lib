@@ -18,8 +18,8 @@ fof(thm_appendix2, conjecture, ![A,B,C,D,E,F,M]: (
   D != B & 
   F != M &
   parallel(A,D,B,C) &
-  is_midpoint(E,A,C) &
-  is_midpoint(F,B,D) &
+  midpoint(E,A,C) &
+  midpoint(F,B,D) &
   between_strict(M,E,F) &
   between_strict(A,M,B) 
 %       & between_strict(C,F,K) 

@@ -10,10 +10,10 @@ fof(thm_appendix1, conjecture, ![A,B,C,D,E,F,G,H]: (
   ~collinear(E,F,G) &
   A!=D &
   B!=C &
-  is_midpoint(E,A,B) &
-  is_midpoint(F,A,C) &
-  is_midpoint(G,C,D) &
-  is_midpoint(H,B,D) 
+  midpoint(E,A,B) &
+  midpoint(F,A,C) &
+  midpoint(G,C,D) &
+  midpoint(H,B,D) 
   )
   => 
   parallelogram(E,F,G,H)

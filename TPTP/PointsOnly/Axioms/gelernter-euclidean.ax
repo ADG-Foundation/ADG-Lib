@@ -14,12 +14,12 @@ fof(ax_par_trans, axiom,
 % Midpoint theorem
 fof(ax_midpoint_th, axiom, 
     ![A, B, C, D, E]: 
-      ((B != C & is_midpoint(D, A, B) & is_midpoint(E, A, C)) => parallel(B, C, D, E))).
+      ((B != C & midpoint(D, A, B) & midpoint(E, A, C)) => parallel(B, C, D, E))).
 
 % Converse of midpoint theorem
 fof(ax_midpoint_th_converse, axiom, 
     ![A, B, C, D, E]: 
-      ((~collinear(C, A, B) & is_midpoint(D, A, B) & parallel(B, C, D, E) & collinear(A, C, E)) => is_midpoint(E, A, C))).
+      ((~collinear(C, A, B) & midpoint(D, A, B) & parallel(B, C, D, E) & collinear(A, C, E)) => midpoint(E, A, C))).
 
 % Alternate angles formed by parallel lines are congruent
 fof(ax_angle9, axiom, 
