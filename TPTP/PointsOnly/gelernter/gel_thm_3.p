@@ -49,5 +49,5 @@ fof(thm_C, conjecture, ![A,B,C,D,M,E]: (
 	
 % --------------------------------------------------------------------------------
 
-larus TPTP/PointsOnly/gelernter/gel_thm_3.p  -t     -m8 -l2000 -h -noexcludedmiddle (12s)  
+% larus TPTP/PointsOnly/gelernter/gel_thm_3.p  -t     -m8 -l2000 -h -noexcludedmiddle (12s)  
   
