@@ -21,4 +21,4 @@ fof(thm_appendix1, conjecture, ![A,B,C,D,E,F,G,H]: (
 	
 % --------------------------------------------------------------------------------
 
-%  larus theorems/gel_thm_4.p -h -l1000 -m17 -n0 -i -t -noexcludedmiddle (25s)
+%  larus TPTP/PointsOnly/gelernter/gel_thm_4.p  -t     -m8 -l2000 -h -noexcludedmiddle

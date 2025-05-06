@@ -26,5 +26,5 @@ include('../Axioms/gelernter-euclidean.ax').
 
 % --------------------------------------------------------------------------------
 
-% larus theorems/gel_thm_1.p -h -l100 -m21 -n0 -i -t (95s)
+% larus TPTP/PointsOnly/gelernter/gel_thm_1.p  -t -m7 -l2000 -h -noexcludedmiddle (2s)
 

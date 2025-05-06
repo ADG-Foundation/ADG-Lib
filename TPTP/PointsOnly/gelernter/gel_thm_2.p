@@ -18,5 +18,7 @@ fof(thm_B, conjecture, ![A,B,C,D]: (
 	
 % --------------------------------------------------------------------------------
 
-% /larus theorems/gel_thm_2.p -h -l1000 -m14 -n0 -i -t (35s)
+
+% larus TPTP/PointsOnly/gelernter/gel_thm_2.p  -t     -m7 -l2000 -h -noexcludedmiddle (2s)
+
  
