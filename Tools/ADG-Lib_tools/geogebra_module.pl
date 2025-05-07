@@ -397,11 +397,10 @@ translate_fol2geogebra_g(signed_area3(A,B,C),M)  :- !,
 translate_fol2geogebra_g(signed_area4(A,B,C,D),M):- !,
    write('Area['), translate_fol2geogebra_g(A,M), write(','), translate_fol2geogebra_g(B,M), write(','),
    translate_fol2geogebra_g(C,M), write(','), translate_fol2geogebra_g(D,M), write(']').
-translate_fol2geogebra_g( alg_sum_zero3(A,B,C,D,E,F),M)   :- !, 
-   write('alg_sum_zero3 '), 
-   write(' { segment '), translate_fol2geogebra_g(A,M), write(' '), translate_fol2geogebra_g(B,M), write(' } '),
-   write(' { segment '), translate_fol2geogebra_g(C,M), write(' '), translate_fol2geogebra_g(D,M), write(' } '),
-   write(' { segment '), translate_fol2geogebra_g(E,M), write(' '), translate_fol2geogebra_g(F,M), write(' } '). 
+translate_fol2geogebra_g( alg_sum_zero3(A,B,C),M)   :- !, 
+   translate_fol2geogebra_g(A,M), write('+'),
+   translate_fol2geogebra_g(B,M), write('+'),
+   translate_fol2geogebra_g(C,M), write('==0').
 translate_fol2geogebra_g( congruent_segments(A,B,C,D),M) :- !, 
    write('AreCongruent[Segment['), print(A,M), write(','), print(B,M), write('],Segment['), 
    print(C,M),write(','),print(D,M),write(']]').
