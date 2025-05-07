@@ -34,8 +34,8 @@ translate_term_fol2geogebra(freepoint(P, X, Y),M) :- !,
    
 translate_term_fol2geogebra(newline(_L,A,B),M)     :- !, 
    drawline_general(A,B,M,0).
-translate_term_fol2geogebra(newcircle(K,C,X),M)   :- !, 
-   nl, write('circle '), print(K), write(' '), print(C,M), write(' '), print(X,M).
+translate_term_fol2geogebra(newcircle(_K,C,X),M)   :- !, 
+   drawcircle_general(C,X,M,0).
 translate_term_fol2geogebra(online(P,A,B),M)      :- !, 
    nl, write('online '), print(P,M), write(' '), print(A,M), write(' '), print(B,M).
 translate_term_fol2geogebra(oncircle(P,A,B),M)    :- !, 
@@ -112,6 +112,18 @@ translate_term_fol2geogebra(intersection(P,A,B,C,D),M)    :- !,
    write('   <input a0="Line['),print(A,M),write(', '),print(B,M),
    write(']" a1="Line['),print(C,M),write(', '),print(D,M),write(']"/>'),nl,
    write('   <output a0="'),print(P,M),write('"/>'),nl,
+   write('</command>'),nl.
+
+translate_term_fol2geogebra(intersection_cl(X1,X2,O,P,A,B),M)    :- !, 
+   write('<command name="Intersect">'),nl,
+   write('   <input a0="Circle['),print(O,M),write(', '),print(P,M),
+   write(']" a1="Line['),print(A,M),write(', '),print(B,M),write(']" a2="1"/>'),nl,
+   write('   <output a0="'),print(X1,M),write('"/>'),nl,
+   write('</command>'),nl,
+   write('<command name="Intersect">'),nl,
+   write('   <input a0="Circle['),print(O,M),write(', '),print(P,M),
+   write(']" a1="Line['),print(A,M),write(', '),print(B,M),write(']" a2="2"/>'),nl,
+   write('   <output a0="'),print(X2,M),write('"/>'),nl,
    write('</command>'),nl.
 
 translate_term_fol2geogebra(paraS(P,A,B,C),M)    :- !, 
@@ -195,6 +207,19 @@ translate_term_fol2geogebra(on_circle(C,O,A),M)     :- !, nl,
    write('<command name="Point">'),nl,
    write('   <input a0="Circle['),print(O,M),write(', '),print(A,M),write(']"/>'),nl,
    write('   <output a0="'),print(C,M),write('"/>'),nl,
+   write('</command>'),nl.
+
+translate_term_fol2geogebra(on_segment_bisector(P,A,B),M)     :- !, nl,
+   write('<command name="Point">'),nl,
+   write('   <input a0="PerpendicularBisector['),print(A,M),write(', '),print(B,M),write(']"/>'),nl,
+   write('   <output a0="'),print(P,M),write('"/>'),nl,
+   write('</command>'),nl.
+
+translate_term_fol2geogebra(on_angle_bisector(P,A,B,C),M)     :- !, nl,
+   write('<command name="Point">'),nl,
+   write('   <input a0="AngleBisector['),print(A,M),write(', '),print(B,M),write(', '),
+   print(C,M),write(']"/>'),nl,
+   write('   <output a0="'),print(P,M),write('"/>'),nl,
    write('</command>'),nl.
 
 translate_term_fol2geogebra(drawdashline(L),M)      :- !, 
