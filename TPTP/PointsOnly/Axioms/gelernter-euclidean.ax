@@ -1,7 +1,9 @@
-
-
+% This is a reconstruction of the axioms used by Gelertner's Geometry Machine.
+% Contributors: Predrag Janicic and Julien Narboux
+% This file list axioms that are valid in euclidean geometry
 
 % Definition of parallelogram
+% This could be also in neutral geometry depending on other axioms
 fof(ax_parallelogram1, axiom, 
     ![A, B, C, D]: 
       ((~collinear(A, B, C) & parallel(A, B, C, D) & parallel(A, D, B, C)) => parallelogram(A, B, C, D))).

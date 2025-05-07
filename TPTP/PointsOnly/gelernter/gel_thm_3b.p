@@ -1,4 +1,4 @@
-include('../Axioms/gelernter.ax').
+include('../Axioms/gelernter-neutral.ax').
 
 % Example taken from Gelertner seminal paper:  
 % REALIZATION OF A GEOMETRY THEOREM PROVING MACHINE

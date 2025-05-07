@@ -1,3 +1,8 @@
+% This is a reconstruction of the axioms used by Gelertner's Geometry Machine.
+% Contributors: Predrag Janicic and Julien Narboux
+% This file list the axioms that are valid in neutral geometry (that are both valid in euclidean and hyperbolic geometry).
+% Thoses axioms are valid in any dimension (greater than 2).
+
 % Collinearity permutation
 fof(ax_col1, axiom, ![A, B, C]: (collinear(A, B, C) => collinear(A, C, B))).
 

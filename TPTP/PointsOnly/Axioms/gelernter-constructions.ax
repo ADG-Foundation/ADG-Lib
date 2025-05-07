@@ -1,0 +1,6 @@
+% This is a reconstruction of the axioms used by Gelertner's Geometry Machine.
+% Contributors: Predrag Janicic and Julien Narboux
+% This file list the single axiom which can be used to build new points.
+% Note that this axioms assumes the space is two dimensional.
+
+fof(ax_inter, axiom, ![A,B,C,D]:  ((~parallel(A,B,C,D)) => ?[E]: (collinear(A,B,E) & collinear(C,D,E)))).

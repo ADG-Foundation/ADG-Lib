@@ -1,11 +1,14 @@
-include('../Axioms/gelernter.ax').
+include('../Axioms/gelernter-neutral.ax').
 include('../Axioms/gelernter-euclidean.ax').
+
+% For this example one need an additional axiom for constructing new points.
+
+include('../Axioms/gelernter-construction.ax').
 
 % Example taken from Gelertner's paper:  
 % EMPIRICAL EXPLORATIONS OF THE GEOMETRY-THEOREM PROVING MACHINE
 % --------------------------------------------------------------------------------
 
-fof(ax_inter, axiom, ![A,B,C,D]:  ((~parallel(A,B,C,D)) => ?[E]: (collinear(A,B,E) & collinear(C,D,E)))).
 
 fof(thm_appendix2, conjecture, ![A,B,C,D,E,F,M]: (
   ( 
