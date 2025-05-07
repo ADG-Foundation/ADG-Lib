@@ -323,27 +323,35 @@ translate_fol2geogebra_g(A,M)  :- var(A), !,
 translate_fol2geogebra_g(A,M)  :- atomic(A), !, 
    print(A,M).
 
-translate_fol2geogebra_g(signed_area3(A,B,C)=signed_area3(D,E,F),M) :- !,
-    write('AreEqual[Area['),
-    print(A,M), write(','),
-    print(B,M), write(','),
-    print(C,M), write('],Area['),
-    print(D,M), write(','),
-    print(E,M), write(','),
-    print(F,M), write(']]').
-translate_fol2geogebra_g(signed_area4(A,B,C,D)=signed_area4(E,F,G,H),M) :- !,
-    write('AreEqual[Area['),
-    print(A,M), write(','),
-    print(B,M), write(','),
-    print(C,M), write(','),
-    print(D,M), write('],Area['),
-    print(E,M), write(','),
-    print(F,M), write(','),
-    print(G,M), write(','),
-    print(H,M), write(']]').
+translate_fol2geogebra_g(equal(A,B),M) :-
+   arithmetic(A), !, 
+   translate_fol2geogebra_g(A,M), write('=='),
+   translate_fol2geogebra_g(B,M).
+translate_fol2geogebra_g(equal(A,B),M) :-
+   arithmetic(B), !, 
+   translate_fol2geogebra_g(A,M), write('=='),
+   translate_fol2geogebra_g(B,M).
+translate_fol2geogebra_g(equal(A,B),M) :-
+   write('AreEqual['),
+   translate_fol2geogebra_g(A,M), 
+   write(','),
+   translate_fol2geogebra_g(B,M),
+   write(']').
 
-translate_fol2geogebra_g((A=B),M)                :- !, 
-   translate_fol2geogebra_g(A,M), write('=='), translate_fol2geogebra_g(B,M).
+translate_fol2geogebra_g(A=B,M) :-
+   arithmetic(A), !, 
+   translate_fol2geogebra_g(A,M), write('=='),
+   translate_fol2geogebra_g(B,M).
+translate_fol2geogebra_g(A=B,M) :-
+   arithmetic(B), !, 
+   translate_fol2geogebra_g(A,M), write('=='),
+   translate_fol2geogebra_g(B,M).
+translate_fol2geogebra_g(A=B,M) :-
+   write('AreEqual['),
+   translate_fol2geogebra_g(A,M), 
+   write(','),
+   translate_fol2geogebra_g(B,M),
+   write(']').
 
 translate_fol2geogebra_g( parallel(A,B,C,D),M)  :- !, 
    write('AreParallel['),
@@ -378,9 +386,11 @@ translate_fol2geogebra_g(sum(A,B),M)             :- !,
    translate_fol2geogebra_g(A,M), write('+'), translate_fol2geogebra_g(B,M).
 translate_fol2geogebra_g(length(A,B),M)             :- !, 
    write('Segment['), translate_fol2geogebra_g(A,M), write(','), translate_fol2geogebra_g(B,M), write(']').
+
 translate_fol2geogebra_g(sratio(A,B,C,D),M)      :- !, 
    write('Segment['),translate_fol2geogebra_g(A,M), write(','), translate_fol2geogebra_g(B,M), write(']/Segment['), 
    translate_fol2geogebra_g(C,M), write(','), translate_fol2geogebra_g(D,M), write(']').
+
 translate_fol2geogebra_g(signed_area3(A,B,C),M)  :- !,
    write('Area['), translate_fol2geogebra_g(A,M), write(','), translate_fol2geogebra_g(B,M), write(','),
    translate_fol2geogebra_g(C,M), write(']').
@@ -396,7 +406,19 @@ translate_fol2geogebra_g( congruent_segments(A,B,C,D),M) :- !,
    write('AreCongruent[Segment['), print(A,M), write(','), print(B,M), write('],Segment['), 
    print(C,M),write(','),print(D,M),write(']]').
 
+arithmetic(Term) :- var(Term),!,fail.
+arithmetic(Term) :-
+    compound(Term),         
+    functor(Term, PredName, _),  
+    arithmetic_ops(L),
+    member(PredName, L),!.  
+arithmetic(Term) :-
+    compound(Term),         
+    Term =.. [_ | Args],    
+    member(Arg, Args),      
+    arithmetic(Arg). 
 
+arithmetic_ops([mult, sum, sratio]).
 
 % ----------------------------------------
 
