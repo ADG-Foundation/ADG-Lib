@@ -3,7 +3,7 @@ include('../Axioms/gelernter-euclidean.ax').
 
 % For this example one need an additional axiom for constructing new points.
 
-include('../Axioms/gelernter-construction.ax').
+include('../Axioms/gelernter-constructions.ax').
 
 % Example taken from Gelertner's paper:  
 % EMPIRICAL EXPLORATIONS OF THE GEOMETRY-THEOREM PROVING MACHINE
