@@ -9,8 +9,8 @@ InputFolder="CustomFormats/GCLC/GoranPredovicCollection/points_only"
 
 OutputFolder="Generated"
 mkdir -p "$OutputFolder"
-
-for file in ${InputFolder}/thm_0*.gcl
+	
+for file in ${InputFolder}/thm_0284*.gcl
 	do
 		echo "  "
                 filenameext=$(basename "$file")
@@ -60,8 +60,8 @@ for file in ${InputFolder}/thm_0*.gcl
 		# diff tmp_"$filename".gcl "$filename".gcl  
 		echo "--------------------------------------"				
 		echo "Proving $file and ${OutputFolder}/"$filename".gcl "
-		gclc tmp_"$filename".gcl -a > tmp_1_gclcproof.txt
-		gclc "$filename".gcl -a > tmp_2_gclcproof.txt
+		gclc tmp_"$filename".gcl -w > tmp_1_gclcproof.txt
+		gclc "$filename".gcl -w > tmp_2_gclcproof.txt
 		echo "--------------------------------------"				
 		echo "Diff proofs ${OutputFolder}/tmp_${filename}_proof.tex and ${OutputFolder}/"${filename}"_proof.tex  "
 		#diff ${OutputFolder}/tmp_${filename}_proof.tex ${OutputFolder}/${filename}_proof.tex

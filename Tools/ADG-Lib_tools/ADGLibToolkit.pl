@@ -40,10 +40,26 @@
 :- consult('geogebra_module.pl').
 :- consult('prolog_module.pl').
 
+:- consult('verify_syntax.pl').
+:- consult('signatures.pl').
+
 % --------------------------------------
 % transformation of list of FOL formulae
 % input is a list of items of the form fof(Name, Ax, F) plus comments
 
+
+% verification only
+run_conversion :- 
+    current_prolog_flag(argv, ArgvAll), 
+    append([InputFilename, OutputFileName], Argv, ArgvAll),
+    write_message(InputFilename, OutputFileName, Argv),
+    write_help(Argv),   
+    member('-veuc_points_only', Argv),!, 
+    translate_tptp_file(euc_points_only, InputFilename),!,
+    write('The input file belongs to the theory '), write('euc_points_only'),write(' !'), 
+    nl,nl.     
+
+% conversion
 run_conversion :- 
     current_prolog_flag(argv, ArgvAll), 
     append([InputFilename, OutputFileName], Argv, ArgvAll),
@@ -54,6 +70,8 @@ run_conversion :-
     translate_file(InputFilename, Argv), 
     told(),
     nl,nl.     
+
+
 
 write_message(InputFilename, OutputFileName, Argv) :-
     write('% ------------  TPTP/fof translation by Predrag Janicic, 2025.  ------------'),nl,   
@@ -79,6 +97,9 @@ write_help(Argv) :-
 write_help(_Argv).
 
 
+translate_file(InputFilename, Argv) :-   
+    member('-veuc_points_only', Argv),!, 
+    translate_tptp_file(euc_points_only, InputFilename).
 translate_file(InputFilename, Argv) :-   
     member('-remove_layout', Argv),!, 
     % can be used only if the premises are separare axioms, not the form premises=>goal
@@ -173,6 +194,8 @@ translate_tptp_list_of_terms(Conversion_type, [[F,M]| T]) :-
     newlineifnewpredicate(Conversion_type,[F|T]),
     translate_tptp_list_of_terms(Conversion_type, T).        
 
+translate_tptp_entry(euc_points_only, F, M) :-
+    verify_syntax(euc_points_only, F, M).
 translate_tptp_entry(folAxioms2Premises, F, M) :-
     translate_tptp_entry_folAxioms2Premises(F, M).
 translate_tptp_entry(folLines2Points, F, M) :-
