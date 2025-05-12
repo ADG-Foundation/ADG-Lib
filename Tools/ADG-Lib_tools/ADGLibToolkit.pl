@@ -93,6 +93,7 @@ write_help(Argv) :-
     nl,write('-geogebra : tptp/fof -> geogebra'),
     nl,write('-geocoq : tptp/fof -> geocoq'),
     nl,write('-prolog : tptp/fof -> prolog'),
+    nl,write('-veuc_points_only : verify if input is in euc_points_only'),    
     nl,write('-h : this help'), nl, nl.
 write_help(_Argv).
 
