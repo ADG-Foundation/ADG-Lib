@@ -139,6 +139,10 @@ This document describes the signature of the ADGlib library.
 The signature is a collection of predicates and functions for the manipulation of geometric objects. 
 The objective is to facilitate the communication between different tools manipulating geometric statements.
 
+The {\em core} predicate symbols has to be supported by any translation and here
+they are given in bold face.
+
+
 \end{abstract}
 
 
@@ -160,7 +164,7 @@ ADGLib &
 Intuitive meaning & 
 Definition \\ \midrule
 %-------------------------------------------------------------------
-between(A,B,C) & 
+{\bf between(A,B,C)} & 
 & 
 points $A$, $B$ and $C$ are collinear and $B$ is strictly between $A$ and $C$ \\
 %-------------------------------------------------------------------
@@ -181,7 +185,7 @@ circumcenter(G,A,B,C) &
 & 
 $G$ is the circum-center of triangle $ABC$. \\
 %-------------------------------------------------------------------
-collinear(A,B,C) & 
+{\bf collinear(A,B,C)} & 
 $\col{A}{B}{C}$ & 
 points $A$, $B$ and $C$ are collinear & 
 $ \bT{A}{B}{C} \lor \bT{B}{A}{C} \lor \bT{A}{C}{B} $ \\
@@ -190,19 +194,19 @@ collinear\_strict(A,B,C) &
 & 
 points $A$, $B$ and $C$ are distinct collinear points. \\
 %-------------------------------------------------------------------
-concyclic(A,B,C,D) &  
+{\bf concyclic(A,B,C,D)} &  
 & 
 $A$, $B$, $C$ and $D$ belong to the same circle & 
 $Coplanar A B C D \land \exists O\; \congT{OA}{OB} \land \congT{OA}{OC}  \land \congT{OA}{OD} $ \\
 %-------------------------------------------------------------------
 \addlinespace
 %-------------------------------------------------------------------
-cong(A,B,C,D) & 
+{\bf cong(A,B,C,D)} & 
 $\congT{AB}{CD}$ & 
 the segments $AB$ and $CD$ are congruent (intuitively in the sense that they have 
 same length, but length measure is not assumed to exist) \\
 %-------------------------------------------------------------------
-congruent\_angles(A,B,C,D,E,F) & 
+{\bf congruent\_angles(A,B,C,D,E,F)} & 
 $ \conga{A}{B}{C}{D}{E}{F} $ & 
 the angles $\angle{ABC}$ and $\angle{DEF}$ are congruent & 
 $ A \neq B \land C \neq B \land D \neq E \land F \neq E \land $ \\
@@ -214,7 +218,7 @@ congruent\_circles(O,P,O',P') &
 & 
 the two circles are congruent. \\
 %-------------------------------------------------------------------
-congruent\_triangles(A,B,C,A',B',C') & 
+{\bf congruent\_triangles(A,B,C,A',B',C')} & 
 & 
 $ABC$ is congruent to $A'B'C'$ & 
 $ \congT{AB}{A'B'} \land \congT{AC}{A'C'} \land \congT{BC}{B'C'} $ \\
@@ -274,19 +278,19 @@ the point $P$ is inside the angle $\angle{ABC}$ &
 $A \neq B \land C \neq B \land P \neq B \land \exists X, \bT{A}{X}{C} \land$ \\
  & & & $ (X = B \lor \out{B}{X}{P}) $ \\
 %-------------------------------------------------------------------
-intersection\_line\_line(X,A,B,C,D) & &
+{\bf intersection\_line\_line(X,A,B,C,D)} & &
 $X$ is the intersection of lines $AB$ and $CD$ \\
 %-------------------------------------------------------------------
 intersection\_line\_segment(X,A,B,C,D) & &
 $X$ is the intersection of line $AB$ and segment $CD$ \\
 %-------------------------------------------------------------------
-intersection\_line\_circle(X,Y,A,B,O,P) & &
+{\bf intersection\_line\_circle(X,Y,A,B,O,P)} & &
 $X$ and $Y$ are the intersections of line $AB$ and circle $OP$ \\
 %-------------------------------------------------------------------
 intersection\_segment\_segment(X,A,B,C,D) & &
 $X$ is the intersection of segments $AB$ and $CD$ \\
 %-------------------------------------------------------------------
-intersection\_circle\_circle(X,Y,O,P,O',P') & 
+{\bf intersection\_circle\_circle(X,Y,O,P,O',P')} & 
 & 
 $X$ and $Y$ are the intersections of circles $OP$ and $O'P'$. \\
 %-------------------------------------------------------------------
@@ -310,36 +314,36 @@ $ABCD$ is a quadrilateral with three right angles. In hyperbolic geometry the fo
 angle is acute, in Euclidean geometry it is a right angle. & 
 $A\neq B \land B \neq C \land C \neq D \land A \neq D \land \per{B}{A}{D} \land \per{A}{D}{C} \land \per{A}{B}{C} $ \\
 %-------------------------------------------------------------------
-midpoint(M,A,B) & 
+{\bf midpoint(M,A,B)} & 
 $\midpoint{A}{M}{B}$ & 
 $M$ is the midpoint of segment $AB$ & 
 $\bT{A}{M}{B} \land \congT{A M}{B M} $ \\
 %-------------------------------------------------------------------
-on\_angle\_bisector(P,A,O,B) &  
+{\bf on\_angle\_bisector(P,A,O,B)} &  
 & 
 $P$ belongs to the bisector of angle $AOB$ & 
 $P \neq O \land \angle{AOP}$ and $\angle{POB}$ are congruent \\
 %-------------------------------------------------------------------
-on\_circle(C,O,P) & 
+{\bf on\_circle(C,O,P)} & 
 & 
 $C$ is on circle (or sphere) of center $O$ going through $P$. \\
 %-------------------------------------------------------------------
-on\_line(P,A,B) & 
+{\bf on\_line(P,A,B)} & 
 & 
 points $P$ is on line $AB$ ($A\neq B$). \\
 %-------------------------------------------------------------------
 \addlinespace
-on\_parallel(P,B,C,D) & 
+{\bf on\_parallel(P,B,C,D)} & 
  & 
 $P$ is on the parallel to line $CD$ through $B$ & 
 $ \para{A B}{C D} \land C \neq D $ \\
 %-------------------------------------------------------------------
-on\_perpendicular\_bisector(P,A,B) &  
+{\bf on\_perpendicular\_bisector(P,A,B)} &  
 & 
 $P$ belongs to the perpendicular bisector of segment $AB$ & 
 $P \neq midpoint(A,B)$ and $\congT{PA}{PB}$ \\
 %-------------------------------------------------------------------
-on\_ray(O,A,B) & 
+{\bf on\_ray(O,A,B)} & 
 $\out{O}{A}{B}$ & 
 $B$ belongs to the half line $OA$ & $ O \neq A \land O  \neq B \land (\bT{O}{A}{B} \lor \bT{O}{B}{A}) $ \\
 %-------------------------------------------------------------------
@@ -357,7 +361,7 @@ ADGLib &
 Intuitive meaning & 
 Definition \\ \midrule
 %-------------------------------------------------------------------
-opposite\_sides(A,B,P,Q) & 
+{\bf opposite\_sides(A,B,P,Q)} & 
 $\tS{A}{B}{P}{Q}$ & 
 $P$ and $Q$ are on different sides of line $AB$ & 
 $ \lnot \col{P}{A}{B} \land \lnot \col{Q}{A}{B} \land \exists T, \col{T}{A}{B} \land \bT{P}{T}{Q} $ \\
@@ -370,7 +374,7 @@ outside\_circle\_strict(C,O,P) &
 & 
 $C$ is strictly outside the circle (or sphere) of center $O$ going through $P$.\\
 %-------------------------------------------------------------------
-meet\_line\_line(A,B,C,D) & 
+{\bf meet\_line\_line(A,B,C,D)} & 
 & 
 The lines $AB$ and $CD$ intersect. \\
 %-------------------------------------------------------------------
@@ -386,7 +390,7 @@ orthocenter(H,A,B,C) &
 & 
 $H$ is the orthocenter of triangle $ABC$. \\
 %-------------------------------------------------------------------
-perpendicular(A,B,C,D) & 
+{\bf perpendicular(A,B,C,D)} & 
 $\perpT{A B}{C D} $ & 
 line $AB$ is perpendicular to line $CD$ ($A\neq B$ and $C\neq D$) & 
 $ \exists P, \perpin{AB}{CD}{P} $ \\
@@ -404,7 +408,7 @@ the line $AB$ and $CD$ have a common perpendicular through $P$ &
 $ \exists X, \exists Y, \col{P}{X}{Y} \land \perpT{XY}{AB} \land \perpT{XY}{CD} $ \\
 %-------------------------------------------------------------------
 \addlinespace
-parallel(A,B,C,D) & 
+{\bf parallel(A,B,C,D)} & 
 $ \para{A B}{C D} $ & 
 line $AB$ is parallel to line $CD$ & 
 $ \spara{A B}{C D} \lor (A \neq B \land C \neq D \land \col{A}{C}{D} \land \col{B}{C}{D}) $ \\
@@ -455,7 +459,7 @@ ADGLib &
 Intuitive meaning & 
 Definition \\ \midrule
 %-------------------------------------------------------------------
-perpendicular\_bisector(P,Q,A,B) & 
+{\bf perpendicular\_bisector(P,Q,A,B)} & 
 & 
 $PQ$ is the perpendicular bisector of segment $AB$ &
 $ ReflectL\,A\,B\,P\,Q \land A \neq B$ \\
@@ -473,7 +477,7 @@ reflection\_strict(P',P,A,B) &
 $P'$ is the image of $P$ by reflection on line $AB$ & 
 $(\exists X\; \midpoint{X}{P}{P'} \land \col{A}{B}{X}) \land (\perpT{AB}{PP'} \lor P=P')$ \\
 %-------------------------------------------------------------------
-reflection(P',P,A,B) & 
+{\bf reflection(P',P,A,B)} & 
 & 
 $P'$ is the image of $P$ by reflection on line $AB$ if $A\neq B$ and $P'$ is the image of $P$ by the reflection on point $A$ if $A=B$  & 
 $(A\neq B \land ReflectL\,P'\,P\,A\, B) \lor (A=B \land \midpoint{A}{P}{P'})$ \\
@@ -496,12 +500,12 @@ saccheri(A,B,C,D) &
 $ABCD$ is a quadrilateral with two equal sides perpendicular to the base. In Euclidean geometry it is a rectangle. & 
 $\per{B}{A}{D} \land \per{A}{D}{C} \land \congT{AB}{CD} \land \oS{A}{D}{B}{C}$ \\
 %-------------------------------------------------------------------
-same\_side(A,B,X,Y) & 
+{\bf same\_side(A,B,X,Y)} & 
 $\oS {A}{B}{X}{Y}$ & 
 $X$ and $Y$ are on the same side of line $AB$ & 
 $ \exists Z, \tS{A}{B}{X}{Z} \land \tS{A}{B}{Y}{Z}$ \\
 %-------------------------------------------------------------------
-similar\_triangles(A,B,C,A',B',C') & 
+{\bf similar\_triangles(A,B,C,A',B',C')} & 
 & 
 $ABC$ is similar to $A'B'C'$ & 
 $\conga{A}{B}{C}{A'}{B'}{C'} \land \conga{B}{C}{A}{B'}{C'}{A'} \land \conga{C}{A}{B}{C'}{A'}{B'}$ \\
