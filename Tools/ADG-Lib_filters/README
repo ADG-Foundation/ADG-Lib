@@ -1,0 +1,18 @@
+Filters from ADG tools to ADG-Lib format
+
+For now
+
+FilterGCLtoFOF
+
+   From GCLC to FOF
+
+FilterJGEXtoFOF
+
+   From JGEx to FOF
+
+
+Both filters assume the use of "geometryDeductiveDatabaseMethod.ax" axiom set.
+
+Both filters were built using Flex and Bison (lexical / parser generator).
+
+Pedro Quaresma
