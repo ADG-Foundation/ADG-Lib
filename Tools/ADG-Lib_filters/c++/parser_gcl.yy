@@ -1,0 +1,171 @@
+// -*- C++ -*-
+%skeleton "lalr1.cc"
+%require "3.5.1"
+%defines
+
+%define api.token.constructor
+%define api.value.type variant
+%define parse.assert
+
+%code requires {
+    #include <string>
+    #include "expression.hh"
+    class driver;
+}
+
+%param { driver& drv }
+
+%locations
+
+%define parse.trace
+%define parse.error verbose
+%define parse.lac full
+
+%code {
+#include "driver.hh"
+#include "expression.hh"  
+}
+
+%define api.token.prefix {TOK_}
+
+%token
+  END 0 "end of input"                       
+  POINT "point"
+  LINE "line"
+  CIRCLE "circle"
+  MIDPOINT "midpoint"
+  INTERSECTION "intersection"
+  ONLINE "on line"                      
+  PROVE "prove"
+  EQUAL "equal"
+  PD3 "pythagoras difference 3"
+  SA3 "signed area 3"
+  SRATIO "signed ratio"
+  SAMELENGTH "same_length"
+  PARALLEL "parallel"
+  CMARK "cmark"
+  DRAWSEGMENT "drawsegment"
+                        
+%token <std::string> VARIABLE "variable"
+%token <std::string> STRING "string"
+%token <int> NUMBER "number"
+
+%nterm <ExprPtr> hypothesis conjecture
+
+%printer { yyo << $$; } <*>;
+
+%start gcl
+
+%%
+
+gcl: input { drv.result = 0; }
+        ;
+
+input: 
+       text_line
+     | input '\n' text_line
+     ;
+
+
+text_line: %empty
+    | text_line POINT VARIABLE NUMBER NUMBER { drv.points.push_back($3); }
+    | text_line LINE VARIABLE VARIABLE VARIABLE { drv.lines.emplace($3, Line{$3, $4, $5}); }
+    | text_line hypothesis { drv.hypotheses.push_back($2); }
+    | text_line conjecture { drv.conjectures.push_back($2); }
+    | text_line other { /* other commands are ignored */ }
+    ;
+
+
+hypothesis:
+  MIDPOINT VARIABLE VARIABLE VARIABLE {
+    $$ = make_expression("midp", $2, $3, $4);
+}
+| ONLINE VARIABLE VARIABLE VARIABLE {
+    $$ = make_expression("coll", $2, $3, $4);
+}
+| PARALLEL VARIABLE VARIABLE VARIABLE {
+  // find the existing line
+  auto it = drv.lines.find($4);
+  if (it == drv.lines.end()) {
+    yy::parser::error(drv.location, "Line " + $4 + "not found");
+  } else {
+    std::string aux_point = AuxiliaryPoints::get();
+    drv.points.push_back(aux_point);
+    drv.lines.emplace($2, Line{$2, $3, aux_point});
+    $$ = make_expression("para", it->second.points[0], it->second.points[1], $3, aux_point);
+  }
+}  
+| CIRCLE VARIABLE VARIABLE VARIABLE {
+    // FIXME: $1 - circle id is not used?
+    std::string aux_point1 = AuxiliaryPoints::get();
+    drv.points.push_back(aux_point1);
+    std::string aux_point2 = AuxiliaryPoints::get();
+    drv.points.push_back(aux_point2);
+    $$ = make_expression("circle", $3, $4, aux_point1, aux_point2);
+}
+| INTERSECTION VARIABLE VARIABLE VARIABLE VARIABLE VARIABLE {
+  ExprPtr coll1 = make_expression("coll", $3, $4, $2);
+  ExprPtr coll2 = make_expression("coll", $5, $6, $2);
+  $$ = make_expression("&", coll1, coll2);
+}
+| INTERSECTION VARIABLE VARIABLE VARIABLE {
+  // find the lines
+  auto it1 = drv.lines.find($3);
+  auto it2 = drv.lines.find($4);
+  if (it1 == drv.lines.end()) {
+    yy::parser::error(drv.location, "Line " + $3 + "not found");
+  } else if (it2 == drv.lines.end()) {
+    yy::parser::error(drv.location, "Line " + $4 + "not found");
+  } else {
+    ExprPtr coll1 = make_expression("coll", it1->second.points[0], it1->second.points[1], $2);
+    ExprPtr coll2 = make_expression("coll", it2->second.points[0], it2->second.points[1], $2);
+    $$ = make_expression("&", coll1, coll2);
+  }
+}
+;
+
+conjecture:
+ PROVE '{' SAMELENGTH VARIABLE VARIABLE VARIABLE VARIABLE '}'  {
+   $$ = make_expression("cong", $4, $5, $6, $7);
+}
+| PROVE '{' PARALLEL VARIABLE VARIABLE VARIABLE VARIABLE '}' {
+  $$ = make_expression("parallel", $4, $5, $6, $7);
+}
+
+// P_ACD = P_BCD, AB perpendicular to CD
+| PROVE '{' EQUAL '{' PD3 VARIABLE VARIABLE VARIABLE '}' '{' PD3 VARIABLE VARIABLE VARIABLE '}' '}'  {
+  // FIXME: strange
+  // sprintf(tptpConjectures[numConj++].conjecture,"pythagoras_difference3 %s %s %s  pythagoras_difference3 %s %s %s ",$6,$7,$8,$12,$13,$14);
+}
+// S_ABC=0, points A,B,C are collinear
+| PROVE '{' EQUAL '{' SA3 VARIABLE VARIABLE VARIABLE '}' '{' NUMBER '}' '}'  {
+  // FIXME: shouldn't number be zero?
+  $$ = make_expression("coll", $6,$7,$8);
+}
+// S_ABC=0, points A,B,C are collinear
+| PROVE '{' EQUAL '{' SA3 VARIABLE VARIABLE VARIABLE '}' NUMBER '}'  {
+  // FIXME: shouldn't number be zero?
+  $$ = make_expression("coll", $6,$7,$8);
+}
+// sratio_ABCD = sratio_EFGH
+| PROVE '{' EQUAL '{' SRATIO VARIABLE VARIABLE VARIABLE VARIABLE '}' '{'  SRATIO VARIABLE VARIABLE VARIABLE VARIABLE '}' '}' {
+  $$ = make_expression("eqratio",$6,$7,$8,$9,$13,$14,$15,$16);
+}
+;
+
+
+
+
+     
+
+other:
+  CMARK VARIABLE { }              
+| DRAWSEGMENT VARIABLE VARIABLE { }
+;
+                
+%%
+
+void yy::parser::error (const location_type& l, const std::string& m)
+{
+  std::cerr << l << ": " << m << '\n';
+}
