@@ -5,26 +5,35 @@
 
 %define api.token.constructor
 %define api.value.type variant
+%define api.namespace {parser_gcl}
+%define api.parser.class {parser_gcl}
 %define parse.assert
 
 %code requires {
     #include <string>
     #include "expression.hh"
-    class driver;
+    class driver_gcl;
 }
 
-%param { driver& drv }
+%param { driver_gcl& drv }
 
 %locations
+%define api.location.file "parser_gcl_location.hh"
 
 %define parse.trace
 %define parse.error verbose
 %define parse.lac full
 
 %code {
-#include "driver.hh"
-#include "expression.hh"  
+#include "driver_gcl.hh"
+#include "expression.hh"
+parser_gcl::parser_gcl::symbol_type yylex (driver_gcl& drv);
 }
+
+%{
+extern int scanner_gcl_lex(void);  // tell Bison to call this instead of yylex
+  #define yylex scanner_gcl_lex      // redirect yylex to lexer1lex
+%}
 
 %define api.token.prefix {TOK_}
 
@@ -87,7 +96,7 @@ hypothesis:
   // find the existing line
   auto it = drv.lines.find($4);
   if (it == drv.lines.end()) {
-    yy::parser::error(drv.location, "Line " + $4 + "not found");
+    parser_gcl::parser_gcl::error(drv.location, "Line " + $4 + "not found");
   } else {
     std::string aux_point = AuxiliaryPoints::get();
     drv.points.push_back(aux_point);
@@ -113,9 +122,9 @@ hypothesis:
   auto it1 = drv.lines.find($3);
   auto it2 = drv.lines.find($4);
   if (it1 == drv.lines.end()) {
-    yy::parser::error(drv.location, "Line " + $3 + "not found");
+    parser_gcl::parser_gcl::error(drv.location, "Line " + $3 + "not found");
   } else if (it2 == drv.lines.end()) {
-    yy::parser::error(drv.location, "Line " + $4 + "not found");
+    parser_gcl::parser_gcl::error(drv.location, "Line " + $4 + "not found");
   } else {
     ExprPtr coll1 = make_expression("coll", it1->second.points[0], it1->second.points[1], $2);
     ExprPtr coll2 = make_expression("coll", it2->second.points[0], it2->second.points[1], $2);
@@ -165,7 +174,7 @@ other:
                 
 %%
 
-void yy::parser::error (const location_type& l, const std::string& m)
+void parser_gcl::parser_gcl::error (const location_type& l, const std::string& m)
 {
   std::cerr << l << ": " << m << '\n';
 }

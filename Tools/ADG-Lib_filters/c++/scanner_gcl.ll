@@ -5,22 +5,29 @@
 #include <cstdlib>
 #include <cstring> // strerror
 #include <string>
-#include "driver.hh"
+#include "driver_gcl.hh"
 #include "parser_gcl.hh"
 %}
 
 %option noyywrap nounput noinput batch debug
+%option prefix="scanner_gcl_"
 
 %{
-  // Code run each time a pattern is matched.
-  # define YY_USER_ACTION  loc.columns (yyleng);
+// Code run each time a pattern is matched.
+#define YY_USER_ACTION  loc.columns (yyleng);
+
+// Give Flex the prototype of yylex we want ...
+#define YY_DECL \
+  parser_gcl::parser_gcl::symbol_type yylex (driver_gcl& drv)
+
+
 %}
 
 %%
 
 %{
   // A handy shortcut to the location held by the driver.
-  yy::location& loc = drv.location;
+  parser_gcl::location& loc = drv.location;
   // Code run each time yylex is called.
   loc.step();
 %}
@@ -35,60 +42,60 @@
 \n+     { loc.lines(yyleng); loc.step(); }
 
  /* Numbers */
-(([0-9]+)|([0-9]*\.[0-9]+)) { return yy::parser::make_NUMBER(std::stod(yytext), loc); }
+(([0-9]+)|([0-9]*\.[0-9]+)) { return parser_gcl::parser_gcl::make_NUMBER(std::stod(yytext), loc); }
 
  /* Strings */
 \"[^\"\n]*[\"\n] {
    if (yytext[yyleng-1] != '"') 
-     throw yy::parser::syntax_error (loc, "unterminated character string");
+     throw parser_gcl::parser_gcl::syntax_error (loc, "unterminated character string");
    std::string no_quotes(yytext + 1, yyleng - 2);
-   return yy::parser::make_STRING(no_quotes, loc);
+   return parser_gcl::parser_gcl::make_STRING(no_quotes, loc);
 }
 \$[^\$\n]*[\$\n] {
    if (yytext[yyleng-1] != '$') 
-     throw yy::parser::syntax_error (loc, "unterminated character string");
-   return yy::parser::make_STRING(yytext, loc);
+     throw parser_gcl::parser_gcl::syntax_error (loc, "unterminated character string");
+   return parser_gcl::parser_gcl::make_STRING(yytext, loc);
 }
 
  /* Reserved words */
-point                   { return yy::parser::make_POINT(loc); }
-line                    { return yy::parser::make_LINE(loc); }
-circle                  { return yy::parser::make_CIRCLE(loc); }
-midpoint                { return yy::parser::make_MIDPOINT(loc); }
-intersection            { return yy::parser::make_INTERSECTION(loc); }
-online                  { return yy::parser::make_ONLINE(loc); }
-prove                   { return yy::parser::make_PROVE(loc); }
-equal                   { return yy::parser::make_EQUAL(loc); }
-sratio                  { return yy::parser::make_SRATIO(loc); }
-signed_area3            { return yy::parser::make_SA3(loc); }
-pythagoras_difference3  { return yy::parser::make_PD3(loc); }
-samelength              { return yy::parser::make_SAMELENGTH(loc); }
-parallel                { return yy::parser::make_PARALLEL(loc); }
-cmark_lt                { return yy::parser::make_CMARK(loc); }
-drawsegment             { return yy::parser::make_DRAWSEGMENT(loc); }
+point                   { return parser_gcl::parser_gcl::make_POINT(loc); }
+line                    { return parser_gcl::parser_gcl::make_LINE(loc); }
+circle                  { return parser_gcl::parser_gcl::make_CIRCLE(loc); }
+midpoint                { return parser_gcl::parser_gcl::make_MIDPOINT(loc); }
+intersection            { return parser_gcl::parser_gcl::make_INTERSECTION(loc); }
+online                  { return parser_gcl::parser_gcl::make_ONLINE(loc); }
+prove                   { return parser_gcl::parser_gcl::make_PROVE(loc); }
+equal                   { return parser_gcl::parser_gcl::make_EQUAL(loc); }
+sratio                  { return parser_gcl::parser_gcl::make_SRATIO(loc); }
+signed_area3            { return parser_gcl::parser_gcl::make_SA3(loc); }
+pythagoras_difference3  { return parser_gcl::parser_gcl::make_PD3(loc); }
+samelength              { return parser_gcl::parser_gcl::make_SAMELENGTH(loc); }
+parallel                { return parser_gcl::parser_gcl::make_PARALLEL(loc); }
+cmark_lt                { return parser_gcl::parser_gcl::make_CMARK(loc); }
+drawsegment             { return parser_gcl::parser_gcl::make_DRAWSEGMENT(loc); }
 
  /* Variables */
 [a-zA-Z_][a-zA-Z0-9_']* {
-  return yy::parser::make_VARIABLE(yytext, loc);
+  return parser_gcl::parser_gcl::make_VARIABLE(yytext, loc);
 }
 
  /* Punctuation */
-[{}] return yy::parser::symbol_type(yytext[0], loc);
+[{}] return parser_gcl::parser_gcl::symbol_type(yytext[0], loc);
 
  /* End of input */
-<<EOF>>  { return yy::parser::make_END(loc); }
+<<EOF>>  { return parser_gcl::parser_gcl::make_END(loc); }
 
 
   /* Any other character causes an error */
 .  {
-  throw yy::parser::syntax_error(loc, "invalid character: " + std::string(yytext));
+  throw parser_gcl::parser_gcl::syntax_error(loc, "invalid character: " + std::string(yytext));
 }
 
 
 
 %%
 
-void driver::scan_begin()
+void driver_gcl::scan_begin()
 {
     yy_flex_debug = trace_scanning;
     if (file_name.empty() || file_name == "-")
@@ -99,7 +106,7 @@ void driver::scan_begin()
     }
 }
 
-void driver::scan_end()
+void driver_gcl::scan_end()
 {
   fclose(yyin);
 }

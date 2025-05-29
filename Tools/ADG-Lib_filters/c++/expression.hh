@@ -75,4 +75,32 @@ ExprPtr make_expression(const std::string& name, ExprPtr first, Args... rest) {
 }
 
 
+struct Line {
+  std::string id;
+  std::string points[2];
+  Line(const std::string& id, const std::string& point1, const std::string& point2) {
+    this->id = id;
+    this->points[0] = point1;
+    this->points[1] = point2;
+  }
+};
+
+class AuxiliaryPoints {
+private:
+  // Private constructor
+  AuxiliaryPoints() = default;
+  
+  int num = 0;
+  
+public:
+  // Delete copy constructor and assignment to enforce singleton
+  AuxiliaryPoints(const AuxiliaryPoints&) = delete;
+  AuxiliaryPoints& operator=(const AuxiliaryPoints&) = delete;
+  
+  static std::string get() {
+    static AuxiliaryPoints instance;
+    return "X" + std::to_string(instance.num++);
+  }
+};
+
 #endif // EXPRESSION_HPP

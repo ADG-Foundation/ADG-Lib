@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
-#include "driver.hh"
+#include "driver_jgex.hh"
+#include "driver_gcl.hh"
 
 // TODO: replace with <filesystem> once it becomes stable
 std::string getFilenameStem(const std::string& path) {
@@ -57,29 +58,62 @@ void print_tptp(const std::string& conjectureName,
   std::cout << "\t)" << std::endl;
   std::cout << ")." << std::endl;
 }
-                
+
+inline bool ends_with(std::string const & value, std::string const & ending)
+{
+    if (ending.size() > value.size()) return false;
+    return std::equal(ending.rbegin(), ending.rend(), value.rbegin());
+}
                 
 
 int main (int argc, char *argv[])
 {
   int result = 0;
-  driver drv;
+  bool trace_parsing = false;
+  bool trace_scanning = false;
   for (int i = 1; i < argc; ++i) {
-    if (argv[i] == std::string ("-p"))
-      drv.trace_parsing = true;
-    else if (argv[i] == std::string ("-s"))
-      drv.trace_scanning = true;
-    else {
-      int parse_result = drv.parse(argv[i]);
-      if (parse_result != 0)
-        result = 1;
-      else {
-        if (drv.conjectures.size() == 0) {
-          std::cerr << "Error: no conjectures found" << std::endl;
-        } else {
-          std::string conjectureName = getFilenameStem(argv[i]);
-          print_tptp(conjectureName, drv.points, drv.hypotheses, drv.conjectures);
+    std::cout << argv[i] << std::endl;
+    if (std::string(argv[i]) == "-p")
+      trace_parsing = true;
+    else if (std::string(argv[i]) == "-s") {
+      trace_scanning = true;
+    } else {
+      std::string file_name{argv[i]};
+      if (ends_with(file_name, ".gcl")) {
+        driver_gcl drv;
+        drv.trace_scanning = trace_scanning;
+        drv.trace_parsing = trace_parsing;
+
+        int parse_result = drv.parse(argv[i]);
+        if (parse_result != 0)
+          result = 1;
+        else {
+          if (drv.conjectures.size() == 0) {
+            std::cerr << "Error: no conjectures found" << std::endl;
+          } else {
+            std::string conjectureName = getFilenameStem(argv[i]);
+            print_tptp(conjectureName, drv.points, drv.hypotheses, drv.conjectures);
+          }
         }
+      } else if (ends_with(file_name, ".jgex") || ends_with(file_name, ".gex")) {
+        driver_jgex drv;
+        drv.trace_scanning = trace_scanning;
+        drv.trace_parsing = trace_parsing;
+        
+
+        int parse_result = drv.parse(argv[i]);
+        if (parse_result != 0)
+          result = 1;
+        else {
+          if (drv.conjectures.size() == 0) {
+            std::cerr << "Error: no conjectures found" << std::endl;
+          } else {
+            std::string conjectureName = getFilenameStem(argv[i]);
+            print_tptp(conjectureName, drv.points, drv.hypotheses, drv.conjectures);
+          }
+        }
+      } else {
+        std::cerr << "Unknow extension " << argv[i] << std::endl;
       }
     }
   }
