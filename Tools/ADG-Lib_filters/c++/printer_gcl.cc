@@ -17,6 +17,14 @@ void PrinterGCL::visitNaryExpression(const NaryExpression& e) {
   ostr_ << std::endl;
 }
 
+void PrinterGCL::visitFreePoint(const FreePoint& p) {
+  ostr_ << "point " << p.id() << " " << p.x() << " " << p.y() << std::endl;
+}
+
+void PrinterGCL::visitLine(const Line& l) {
+  ostr_ << "line " << l.id() << " " << l.point1() << " " << l.point2() << std::endl;
+}
+
 void PrinterGCL::visitDrawPoint(const DrawPoint& e) {
   ostr_ << "cmark " << e.point() << std::endl;
 }
@@ -37,5 +45,13 @@ void PrinterGCL::visitFunParallel(const FunParallel& e) {
 }
 
 void PrinterGCL::visitFunIntersectLL(const FunIntersectLL& e) {
-  ostr_ << "intersection " << e.newPoint() << " " << e.line1() << " " << e.line2() << std::endl;
+  ostr_ << "intersec " << e.newPoint() << " " << e.line1() << " " << e.line2() << std::endl;
+}
+
+void PrinterGCL::visitFunIntersectLL_P(const FunIntersectLL_P& e) {
+  ostr_ << "intersec " << e.newPoint() << " " << e.A1() << " " << e.B1() << " " << e.A2() << " " << e.B2() << std::endl;
+}
+
+void PrinterGCL::visitOnParallel(const OnParallel& e) {
+  ostr_ << "translate " << e.B1() << " " << e.A() << " " << e.B() << " " << e.A1() << std::endl;
 }

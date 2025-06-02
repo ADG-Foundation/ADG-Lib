@@ -79,6 +79,35 @@ ExprPtr NaryExpression::acceptTransformer(ExpressionTransformer& transformer) co
   return transformer.transformNaryExpression(*this);
 }
 
+// FreePoint implementation
+
+void FreePoint::print(std::ostream& ostr) const  {
+  ostr << "(free_point " << id_ << ")" << std::endl;
+}
+
+void FreePoint::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitFreePoint(*this);
+}
+
+ExprPtr FreePoint::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformFreePoint(*this);
+}
+
+// Line implementation
+
+void Line::print(std::ostream& ostr) const  {
+  ostr << "(line " << id_ << ")" << std::endl;
+}
+
+void Line::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitLine(*this);
+}
+
+ExprPtr Line::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformLine(*this);
+}
+
+
 // DrawPoint implementation
 void DrawPoint::print(std::ostream& ostr) const  {
   ostr << "(draw_point " << point_ << ")" << std::endl;
@@ -146,6 +175,35 @@ void FunIntersectLL::acceptVisitor(ExpressionVisitor& visitor) const {
 
 ExprPtr FunIntersectLL::acceptTransformer(ExpressionTransformer& transformer) const {
   return transformer.transformFunIntersectLL(*this);
+}
+
+// FunIntersectLL_P implementation
+
+void FunIntersectLL_P::print(std::ostream& ostr) const {
+  ostr << "(fun_intersect_ll_p " << new_point_ << "," << A1_ << "," << B1_ << "," << A2_ << "," << B2_ << ")";
+}
+
+void FunIntersectLL_P::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitFunIntersectLL_P(*this);
+}
+
+ExprPtr FunIntersectLL_P::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformFunIntersectLL_P(*this);
+}
+
+
+// OnParallel implementation
+
+void OnParallel::print(std::ostream& ostr) const {
+  ostr << "(on_parallel " << A_ << "," << B_ << "," << A1_ << "," << B1_ << ")";
+}
+
+void OnParallel::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitOnParallel(*this);
+}
+
+ExprPtr OnParallel::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformOnParallel(*this);
 }
 
 

@@ -9,6 +9,18 @@ void PrinterGGB::visitVariable(const Variable& v) {
 void PrinterGGB::visitNaryExpression(const NaryExpression& e) {
 }
 
+void PrinterGGB::visitFreePoint(const FreePoint& p) {
+  ostr_ << "<expression label=\"" << p.id() << "\" exp=\"(" << p.x() / 10.0 << "," << p.y() / 10.0 << ")\" type=\"point\"/>" << std::endl;
+}
+
+void PrinterGGB::visitLine(const Line& e) {
+  ostr_ << "<command name=\"Line\">" << std::endl;
+  ostr_ << "  <input a0=\"" << e.point1() << "\" a1=\"" << e.point2() << "\"/>" << std::endl;
+  ostr_ << "  <output a0=\"" << e.id() << "\"/>" << std::endl;
+  ostr_ << "</command>" << std::endl;
+}
+
+
 void PrinterGGB::visitDrawPoint(const DrawPoint& e) {
   ostr_ << "<element type=\"point\" label=\"" << e.point() << "\">" << std::endl;
   ostr_ << "   <show object=\"true\" label=\"false\"/>" << std::endl;
@@ -56,4 +68,17 @@ void PrinterGGB::visitFunIntersectLL(const FunIntersectLL& e) {
   ostr_ << "   <input a0=\"" << e.line1() << "\" a1=\"" << e.line2() << "\"/>" << std::endl;
   ostr_ << "   <output a0=\"" << e.newPoint() << "\"/>" << std::endl;
   ostr_ << "</command>" << std::endl;
+}
+
+void PrinterGGB::visitFunIntersectLL_P(const FunIntersectLL_P& e) {
+  /*
+  ostr_ << "<command name=\"Intersect\">" << std::endl;
+  ostr_ << "   <input a0=\"" << e.line1() << "\" a1=\"" << e.line2() << "\"/>" << std::endl;
+  ostr_ << "   <output a0=\"" << e.newPoint() << "\"/>" << std::endl;
+  ostr_ << "</command>" << std::endl;
+  */
+}
+
+void PrinterGGB::visitOnParallel(const OnParallel& e) {
+  ostr_ << "OnParallel " << std::endl;
 }

@@ -77,15 +77,21 @@ input:
 
 
 text_line: %empty
-    | text_line POINT VARIABLE NUMBER NUMBER { drv.points.push_back($3); }
-    | text_line LINE VARIABLE VARIABLE VARIABLE { drv.lines.emplace($3, Line{$3, $4, $5}); }
     | text_line hypothesis { drv.hypotheses.push_back($2); }
     | text_line conjecture { drv.conjectures.push_back($2); }
     ;
 
 
 hypothesis:
-  MIDPOINT VARIABLE VARIABLE VARIABLE {
+ POINT VARIABLE NUMBER NUMBER {
+   drv.points.push_back(FreePoint{$2, $3, $4});
+   $$ = std::make_shared<FreePoint>($2, $3, $4);
+}
+| LINE VARIABLE VARIABLE VARIABLE {
+   drv.lines.emplace($2, Line{$2, $3, $4});
+   $$ = std::make_shared<Line>($2, $3, $4);
+}
+| MIDPOINT VARIABLE VARIABLE VARIABLE {
     $$ = std::make_shared<FunMidpoint>($2, $3, $4);
 }
 | ONLINE VARIABLE VARIABLE VARIABLE {

@@ -32,7 +32,7 @@ public:
 
 
   // information collected during parsing
-  std::vector<std::string> points;
+  std::vector<FreePoint> points;
   std::map<std::string, Line> lines;
   std::vector<ExprPtr> hypotheses;
   std::vector<ExprPtr> conjectures;

@@ -14,6 +14,7 @@ class ExpressionTransformer;
 
 using ExprPtr = std::shared_ptr<Expression>;
 
+
 // Base class for all expressions
 class Expression {
 public:
@@ -69,6 +70,49 @@ private:
   std::vector<ExprPtr> operands_;
 };
 
+
+class FreePoint : public Expression {
+public:
+  FreePoint(const std::string& id, int x=0, int y=0) :
+    id_(id), x_(x), y_(y) {
+  }
+
+  const std::string& id() const { return id_; }
+  int x() const { return x_; }
+  int y() const { return x_; }
+
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+private:
+  std::string id_;
+  int x_, y_;
+};
+
+class Line : public Expression {
+public:
+  Line(const std::string& id, const std::string& point1, const std::string& point2) {
+    this->id_ = id;
+    this->points_[0] = point1;
+    this->points_[1] = point2;
+  }  
+
+  const std::string& id() const { return id_; }
+  const std::string& point1() const { return points_[0]; }
+  const std::string& point2() const { return points_[1]; }
+
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+private:
+  std::string id_;
+  std::string points_[2];
+};
+
+
+
 // Represents a command that draws a point (without a label)
 class DrawPoint : public Expression {
 public:
@@ -77,8 +121,7 @@ public:
   }
 
   const Variable& point() const { return point_; }
-    
-  
+      
   void print(std::ostream&) const override;
   void acceptVisitor(ExpressionVisitor&) const override;
   ExprPtr acceptTransformer(ExpressionTransformer&) const override;
@@ -170,11 +213,56 @@ private:
   Variable new_point_, line1_, line2_;
 };
 
+class FunIntersectLL_P : public Expression {
+public:
+  FunIntersectLL_P(const std::string& new_point,
+                   const std::string& A1, const std::string& B1,
+                   const std::string& A2, const std::string& B2)
+    : new_point_(Variable(new_point)),
+      A1_(Variable(A1)), B1_(Variable(B1)),
+      A2_(Variable(A2)), B2_(Variable(B2))
+  {}
+
+  const Variable& newPoint() const { return new_point_; }
+  const Variable& A1() const { return A1_; }
+  const Variable& B1() const { return B1_; }
+  const Variable& A2() const { return A2_; }
+  const Variable& B2() const { return B2_; }
+
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+private:
+  Variable new_point_, A1_, B1_, A2_, B2_;
+};
+
+class OnParallel: public Expression {
+public:
+  OnParallel(const std::string& A, const std::string& B,
+             const std::string& A1, const std::string& B1) :
+    A_(Variable(A)), B_(Variable(B)), A1_(Variable(A1)), B1_(Variable(B1)) {
+  }
+
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+  const Variable& A() const { return A_; }
+  const Variable& B() const { return B_; }
+  const Variable& A1() const { return A1_; }
+  const Variable& B1() const { return B1_; }
+private:
+  Variable A_, B_, A1_, B1_;
+};
 
 
 // Base class for expression visitors
 class ExpressionVisitor {
 public:
+  virtual void visitFreePoint(const FreePoint&) = 0;
+  virtual void visitLine(const Line&) = 0;
+  
   virtual void visitConstant(const Constant&) = 0;
   virtual void visitVariable(const Variable&) = 0;
   virtual void visitNaryExpression(const NaryExpression&) = 0;
@@ -184,7 +272,9 @@ public:
   virtual void visitFunMidpoint(const FunMidpoint&) = 0;
   virtual void visitFunParallel(const FunParallel&) = 0;
   virtual void visitFunIntersectLL(const FunIntersectLL&) = 0;
+  virtual void visitFunIntersectLL_P(const FunIntersectLL_P&) = 0;
 
+  virtual void visitOnParallel(const OnParallel&) = 0;
   
   virtual ~ExpressionVisitor() = default;
 };
@@ -195,13 +285,19 @@ public:
   virtual ExprPtr transformConstant(const Constant&) = 0;
   virtual ExprPtr transformVariable(const Variable&) = 0;
   virtual ExprPtr transformNaryExpression(const NaryExpression&) = 0;
+
+  virtual ExprPtr transformFreePoint(const FreePoint&) = 0;
+  virtual ExprPtr transformLine(const Line&) = 0;
   
   virtual ExprPtr transformDrawPoint(const DrawPoint&) = 0;
   virtual ExprPtr transformDrawSegment(const DrawSegment&) = 0;
   virtual ExprPtr transformFunMidpoint(const FunMidpoint&) = 0;
   virtual ExprPtr transformFunParallel(const FunParallel&) = 0;
   virtual ExprPtr transformFunIntersectLL(const FunIntersectLL&) = 0;
-  
+  virtual ExprPtr transformFunIntersectLL_P(const FunIntersectLL_P&) = 0;
+
+  virtual ExprPtr transformOnParallel(const OnParallel&) = 0;
+
   virtual ~ExpressionTransformer() = default;
 };
 
@@ -225,17 +321,6 @@ ExprPtr make_expression(const std::string& name, ExprPtr first, Args... rest) {
     std::vector<ExprPtr> operands {first, rest... };
     return std::make_shared<NaryExpression>(name, operands);
 }
-
-
-struct Line {
-  std::string id;
-  std::string points[2];
-  Line(const std::string& id, const std::string& point1, const std::string& point2) {
-    this->id = id;
-    this->points[0] = point1;
-    this->points[1] = point2;
-  }
-};
 
 class AuxiliaryPoints {
 private:

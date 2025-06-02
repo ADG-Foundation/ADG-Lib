@@ -18,7 +18,7 @@ std::string getFilenameStem(const std::string& path) {
 }
 
 void print_tptp(const std::string& conjectureName,
-                std::vector<std::string>& points,
+                std::vector<FreePoint>& points,
                 const std::map<std::string, Line> lines,
                 const std::vector<ExprPtr>& hypotheses,
                 const std::vector<ExprPtr>& conjectures) {
@@ -27,30 +27,22 @@ void print_tptp(const std::string& conjectureName,
   std::cout << "include('geometryDeductiveDatabaseMethod.ax')." << std::endl << std::endl;
   std::cout << "fof(tgtp" << conjectureName << ",conjecture,(";
 
-  //  EliminateLinesTransformer eliminate_lines;
-  //  eliminate_lines.addLines(lines);
-  std::vector<ExprPtr> transformed_hypotheses(hypotheses.size());
-  for (int i = 0; i < hypotheses.size(); i++)
-    // transformed_hypotheses[i] = hypotheses[i]->acceptTransformer(eliminate_lines);
-    transformed_hypotheses[i] = hypotheses[i];
-  //  points.insert(points.end(), eliminate_lines.auxiliaryPoints().begin(), eliminate_lines.auxiliaryPoints().end());
-
   // quantify over all points
   if (points.size() > 0) {
     std::cout << "! [";
-    std::cout << points[0];
+    std::cout << points[0].id();
     for (int i = 1; i < points.size(); i++)
-      std::cout << "," << points[i];
+      std::cout << "," << points[i].id();
     std::cout << "] : " << std::endl;
   }
 
   // hypotheses
-  if (transformed_hypotheses.size() > 0) {
+  if (hypotheses.size() > 0) {
     std::cout << "\t\t(" << std::endl;
-    std::cout << "\t\t "; transformed_hypotheses[0]->print(std::cout);
-    for (int i = 1; i < transformed_hypotheses.size(); i++) {
+    std::cout << "\t\t "; hypotheses[0]->print(std::cout);
+    for (int i = 1; i < hypotheses.size(); i++) {
       std::cout << " &" << std::endl;
-      std::cout << "\t\t "; transformed_hypotheses[i]->print(std::cout);
+      std::cout << "\t\t "; hypotheses[i]->print(std::cout);
     }
     std::cout << std::endl;
     std::cout << "\t\t)" << std::endl;
@@ -73,7 +65,7 @@ void print_tptp(const std::string& conjectureName,
 }
 
 void print_gcl(const std::string& conjectureName,
-               std::vector<std::string>& points,
+               std::vector<FreePoint>& points,
                const std::map<std::string, Line> lines,
                const std::vector<ExprPtr>& hypotheses,
                const std::vector<ExprPtr>& conjectures) {
@@ -83,7 +75,7 @@ void print_gcl(const std::string& conjectureName,
 }
 
 void print_ggb(const std::string& conjectureName,
-               std::vector<std::string>& points,
+               std::vector<FreePoint>& points,
                const std::map<std::string, Line> lines,
                const std::vector<ExprPtr>& hypotheses,
                const std::vector<ExprPtr>& conjectures) {
@@ -110,8 +102,20 @@ int process_file(const std::string& file_name, driver& drv, bool trace_scanning,
     if (drv.conjectures.size() == 0) {
       std::cerr << "Error: no conjectures found" << std::endl;
     } else {
+
+      EliminateLinesTransformer eliminate_lines;
+      eliminate_lines.addLines(drv.lines);
+      std::vector<ExprPtr> transformed_hypotheses;
+      transformed_hypotheses.reserve(drv.hypotheses.size());
+      for (int i = 0; i < drv.hypotheses.size(); i++) {
+        ExprPtr e = drv.hypotheses[i]->acceptTransformer(eliminate_lines);
+        if (e != nullptr)
+          transformed_hypotheses.push_back(e);
+      }
+      drv.points.insert(drv.points.end(), eliminate_lines.auxiliaryPoints().begin(), eliminate_lines.auxiliaryPoints().end());
+      
       std::string conjectureName = getFilenameStem(file_name);
-      print_ggb(conjectureName, drv.points, drv.lines, drv.hypotheses, drv.conjectures);
+      print_ggb(conjectureName, drv.points, drv.lines, transformed_hypotheses, drv.conjectures);
     }
     return 0;
   }
