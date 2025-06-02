@@ -2,6 +2,8 @@
 #include <vector>
 #include "driver_jgex.hh"
 #include "driver_gcl.hh"
+#include "printer_gcl.hh"
+#include "printer_ggb.hh"
 
 #include "eliminate_lines.hh"
 
@@ -25,12 +27,13 @@ void print_tptp(const std::string& conjectureName,
   std::cout << "include('geometryDeductiveDatabaseMethod.ax')." << std::endl << std::endl;
   std::cout << "fof(tgtp" << conjectureName << ",conjecture,(";
 
-  EliminateLinesTransformer eliminate_lines;
-  eliminate_lines.addLines(lines);
+  //  EliminateLinesTransformer eliminate_lines;
+  //  eliminate_lines.addLines(lines);
   std::vector<ExprPtr> transformed_hypotheses(hypotheses.size());
   for (int i = 0; i < hypotheses.size(); i++)
-    transformed_hypotheses[i] = hypotheses[i]->acceptTransformer(eliminate_lines);
-  points.insert(points.end(), eliminate_lines.auxiliaryPoints().begin(), eliminate_lines.auxiliaryPoints().end());
+    // transformed_hypotheses[i] = hypotheses[i]->acceptTransformer(eliminate_lines);
+    transformed_hypotheses[i] = hypotheses[i];
+  //  points.insert(points.end(), eliminate_lines.auxiliaryPoints().begin(), eliminate_lines.auxiliaryPoints().end());
 
   // quantify over all points
   if (points.size() > 0) {
@@ -69,6 +72,27 @@ void print_tptp(const std::string& conjectureName,
   std::cout << ")." << std::endl;
 }
 
+void print_gcl(const std::string& conjectureName,
+               std::vector<std::string>& points,
+               const std::map<std::string, Line> lines,
+               const std::vector<ExprPtr>& hypotheses,
+               const std::vector<ExprPtr>& conjectures) {
+  PrinterGCL printer(std::cout);
+  for (ExprPtr h : hypotheses)
+    h->acceptVisitor(printer);
+}
+
+void print_ggb(const std::string& conjectureName,
+               std::vector<std::string>& points,
+               const std::map<std::string, Line> lines,
+               const std::vector<ExprPtr>& hypotheses,
+               const std::vector<ExprPtr>& conjectures) {
+  PrinterGGB printer(std::cout);
+  for (ExprPtr h : hypotheses)
+    h->acceptVisitor(printer);
+}
+
+
 inline bool ends_with(std::string const & value, std::string const & ending)
 {
     if (ending.size() > value.size()) return false;
@@ -87,7 +111,7 @@ int process_file(const std::string& file_name, driver& drv, bool trace_scanning,
       std::cerr << "Error: no conjectures found" << std::endl;
     } else {
       std::string conjectureName = getFilenameStem(file_name);
-      print_tptp(conjectureName, drv.points, drv.lines, drv.hypotheses, drv.conjectures);
+      print_ggb(conjectureName, drv.points, drv.lines, drv.hypotheses, drv.conjectures);
     }
     return 0;
   }

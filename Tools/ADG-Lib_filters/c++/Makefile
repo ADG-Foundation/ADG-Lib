@@ -19,7 +19,7 @@ all: $(BASE)
 %.o: %.cc %.hh
 	$(CXX) $(CXXFLAGS) -c -o$@ $<
 
-$(BASE): $(BASE).o driver.o parser_gcl.o scanner_gcl.o driver_gcl.o parser_jgex.o scanner_jgex.o driver_jgex.o expression.o 
+$(BASE): $(BASE).o driver.o parser_gcl.o scanner_gcl.o driver_gcl.o printer_gcl.o parser_jgex.o scanner_jgex.o driver_jgex.o printer_ggb.o expression.o 
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
 $(BASE).o: parser_gcl.hh parser_jgex.hh eliminate_lines.hh

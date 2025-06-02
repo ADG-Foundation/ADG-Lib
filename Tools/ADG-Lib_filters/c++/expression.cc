@@ -79,6 +79,46 @@ ExprPtr NaryExpression::acceptTransformer(ExpressionTransformer& transformer) co
   return transformer.transformNaryExpression(*this);
 }
 
+// DrawPoint implementation
+void DrawPoint::print(std::ostream& ostr) const  {
+  ostr << "(draw_point " << point_ << ")" << std::endl;
+}
+
+void DrawPoint::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitDrawPoint(*this);
+}
+
+ExprPtr DrawPoint::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformDrawPoint(*this);
+}
+
+// DrawSegment implementation
+void DrawSegment::print(std::ostream& ostr) const  {
+  ostr << "(draw_segment " << point1_ << "," << point2_ << ")" << std::endl;
+}
+
+void DrawSegment::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitDrawSegment(*this);
+}
+
+ExprPtr DrawSegment::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformDrawSegment(*this);
+}
+
+
+// FunMidpoint implementation
+
+void FunMidpoint::print(std::ostream& ostr) const {
+  ostr << "(midpoint " << new_point_ << "," << point1_ << "," << point2_ << ")";
+}
+
+void FunMidpoint::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitFunMidpoint(*this);
+}
+
+ExprPtr FunMidpoint::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformFunMidpoint(*this);
+}
 
 // FunParallel implementation
 

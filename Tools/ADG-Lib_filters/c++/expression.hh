@@ -69,6 +69,69 @@ private:
   std::vector<ExprPtr> operands_;
 };
 
+// Represents a command that draws a point (without a label)
+class DrawPoint : public Expression {
+public:
+  DrawPoint(const std::string& point) :
+    point_(Variable(point)) {
+  }
+
+  const Variable& point() const { return point_; }
+    
+  
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+private:
+  Variable point_;
+};
+
+enum DrawingStyle {SOLID, DASHED, BOLD};
+
+// Represents a command that draws a segment
+class DrawSegment : public Expression {
+public:
+  
+  DrawSegment(const std::string& point1, const std::string& point2, DrawingStyle style = SOLID) :
+    point1_(Variable(point1)), point2_(Variable(point2)) {
+  }
+
+  const Variable& point1() const { return point1_; }
+  const Variable& point2() const { return point2_; }
+  const DrawingStyle& style() const { return style_; }
+    
+  
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+private:
+  Variable point1_, point2_;
+  DrawingStyle style_;
+};
+
+
+// Represents a function that constructs the midpoint of a segment
+class FunMidpoint : public Expression {
+public:
+  FunMidpoint(const std::string& new_point, const std::string& point1, const std::string& point2)
+    : new_point_(Variable(new_point)), point1_(Variable(point1)), point2_(Variable(point2)) {
+  }
+
+  const Variable& newPoint() const { return new_point_; }
+  const Variable& point1() const { return point1_; }
+  const Variable& point2() const { return point2_; }
+
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+private:
+  Variable new_point_, point1_, point2_;
+};
+
+
 
 class FunParallel : public Expression {
 public:
@@ -116,6 +179,9 @@ public:
   virtual void visitVariable(const Variable&) = 0;
   virtual void visitNaryExpression(const NaryExpression&) = 0;
   
+  virtual void visitDrawPoint(const DrawPoint&) = 0;
+  virtual void visitDrawSegment(const DrawSegment&) = 0;
+  virtual void visitFunMidpoint(const FunMidpoint&) = 0;
   virtual void visitFunParallel(const FunParallel&) = 0;
   virtual void visitFunIntersectLL(const FunIntersectLL&) = 0;
 
@@ -130,6 +196,9 @@ public:
   virtual ExprPtr transformVariable(const Variable&) = 0;
   virtual ExprPtr transformNaryExpression(const NaryExpression&) = 0;
   
+  virtual ExprPtr transformDrawPoint(const DrawPoint&) = 0;
+  virtual ExprPtr transformDrawSegment(const DrawSegment&) = 0;
+  virtual ExprPtr transformFunMidpoint(const FunMidpoint&) = 0;
   virtual ExprPtr transformFunParallel(const FunParallel&) = 0;
   virtual ExprPtr transformFunIntersectLL(const FunIntersectLL&) = 0;
   

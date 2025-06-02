@@ -81,13 +81,12 @@ text_line: %empty
     | text_line LINE VARIABLE VARIABLE VARIABLE { drv.lines.emplace($3, Line{$3, $4, $5}); }
     | text_line hypothesis { drv.hypotheses.push_back($2); }
     | text_line conjecture { drv.conjectures.push_back($2); }
-    | text_line other { /* other commands are ignored */ }
     ;
 
 
 hypothesis:
   MIDPOINT VARIABLE VARIABLE VARIABLE {
-    $$ = make_expression("midp", $2, $3, $4);
+    $$ = std::make_shared<FunMidpoint>($2, $3, $4);
 }
 | ONLINE VARIABLE VARIABLE VARIABLE {
     $$ = make_expression("coll", $2, $3, $4);
@@ -109,7 +108,13 @@ hypothesis:
   $$ = make_expression("&", coll1, coll2);
 }
 | INTERSECTION VARIABLE VARIABLE VARIABLE {
-  $$ = make_expression("fun_intersect_ll", $2, $3, $4);
+  $$ = std::make_shared<FunIntersectLL>($2, $3, $4);
+}
+| CMARK VARIABLE {
+  $$ = std::make_shared<DrawPoint>($2);
+}
+| DRAWSEGMENT VARIABLE VARIABLE {
+  $$ = std::make_shared<DrawSegment>($2, $3);
 }
 ;
 
@@ -145,12 +150,6 @@ conjecture:
 
 
 
-     
-
-other:
-  CMARK VARIABLE { }              
-| DRAWSEGMENT VARIABLE VARIABLE { }
-;
                 
 %%
 
