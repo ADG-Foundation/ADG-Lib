@@ -11,6 +11,14 @@ double Constant::value() const {
     return value_;
 }
 
+void Constant::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitConstant(*this);
+}
+
+ExprPtr Constant::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformConstant(*this);
+}
+
 // Variable implementation
 Variable::Variable(std::string name) : name_(std::move(name)) {}
 
@@ -21,6 +29,15 @@ void Variable::print(std::ostream& os) const {
 const std::string& Variable::name() const {
     return name_;
 }
+
+void Variable::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitVariable(*this);
+}
+
+ExprPtr Variable::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformVariable(*this);
+}
+
 
 // NaryExpression implementation
 NaryExpression::NaryExpression(Operator op, std::vector<ExprPtr> operands)
@@ -53,6 +70,44 @@ const std::vector<ExprPtr>& NaryExpression::operands() const {
 Operator NaryExpression::op() const {
     return op_;
 }
+
+void NaryExpression::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitNaryExpression(*this);
+}
+
+ExprPtr NaryExpression::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformNaryExpression(*this);
+}
+
+
+// FunParallel implementation
+
+void FunParallel::print(std::ostream& ostr) const {
+  ostr << "(fun_paralel " << new_line_ << "," << point_ << "," << line_ << ")";
+}
+
+void FunParallel::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitFunParallel(*this);
+}
+
+ExprPtr FunParallel::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformFunParallel(*this);
+}
+
+// FunIntersectLL implementation
+
+void FunIntersectLL::print(std::ostream& ostr) const {
+  ostr << "(fun_intersect_ll " << new_point_ << "," << line1_ << "," << line2_ << ")";
+}
+
+void FunIntersectLL::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitFunIntersectLL(*this);
+}
+
+ExprPtr FunIntersectLL::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformFunIntersectLL(*this);
+}
+
 
 // Operator overload
 std::ostream& operator<<(std::ostream& os, const Expression& expr) {

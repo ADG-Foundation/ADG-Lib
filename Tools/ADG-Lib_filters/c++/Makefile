@@ -19,14 +19,15 @@ all: $(BASE)
 %.o: %.cc %.hh
 	$(CXX) $(CXXFLAGS) -c -o$@ $<
 
-$(BASE): $(BASE).o parser_gcl.o scanner_gcl.o driver_gcl.o parser_jgex.o scanner_jgex.o driver_jgex.o expression.o
+$(BASE): $(BASE).o driver.o parser_gcl.o scanner_gcl.o driver_gcl.o parser_jgex.o scanner_jgex.o driver_jgex.o expression.o 
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
-$(BASE).o: parser_gcl.hh parser_jgex.hh
+$(BASE).o: parser_gcl.hh parser_jgex.hh eliminate_lines.hh
 parser_gcl.o: parser_gcl.hh
 scanner_gcl.o: parser_gcl.hh
 parser_jgex.o: parser_jgex.hh
 scanner_jgex.o: parser_jgex.hh
+
 
 run: $(BASE)
 	./$< -

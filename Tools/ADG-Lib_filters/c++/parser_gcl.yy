@@ -67,7 +67,7 @@ extern int scanner_gcl_lex(void);  // tell Bison to call this instead of yylex
 
 %%
 
-gcl: input { drv.result = 0; }
+gcl: input { }
         ;
 
 input: 
@@ -93,17 +93,8 @@ hypothesis:
     $$ = make_expression("coll", $2, $3, $4);
 }
 | PARALLEL VARIABLE VARIABLE VARIABLE {
-  // find the existing line
-  auto it = drv.lines.find($4);
-  if (it == drv.lines.end()) {
-    parser_gcl::parser_gcl::error(drv.location, "Line " + $4 + "not found");
-  } else {
-    std::string aux_point = AuxiliaryPoints::get();
-    drv.points.push_back(aux_point);
-    drv.lines.emplace($2, Line{$2, $3, aux_point});
-    $$ = make_expression("para", it->second.points[0], it->second.points[1], $3, aux_point);
-  }
-}  
+    $$ = std::make_shared<FunParallel>($2, $3, $4);
+}
 | CIRCLE VARIABLE VARIABLE VARIABLE {
     // FIXME: $1 - circle id is not used?
     std::string aux_point1 = AuxiliaryPoints::get();
@@ -118,18 +109,7 @@ hypothesis:
   $$ = make_expression("&", coll1, coll2);
 }
 | INTERSECTION VARIABLE VARIABLE VARIABLE {
-  // find the lines
-  auto it1 = drv.lines.find($3);
-  auto it2 = drv.lines.find($4);
-  if (it1 == drv.lines.end()) {
-    parser_gcl::parser_gcl::error(drv.location, "Line " + $3 + "not found");
-  } else if (it2 == drv.lines.end()) {
-    parser_gcl::parser_gcl::error(drv.location, "Line " + $4 + "not found");
-  } else {
-    ExprPtr coll1 = make_expression("coll", it1->second.points[0], it1->second.points[1], $2);
-    ExprPtr coll2 = make_expression("coll", it2->second.points[0], it2->second.points[1], $2);
-    $$ = make_expression("&", coll1, coll2);
-  }
+  $$ = make_expression("fun_intersect_ll", $2, $3, $4);
 }
 ;
 
