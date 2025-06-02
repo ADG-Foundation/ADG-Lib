@@ -1,4 +1,4 @@
-\documentclass[a4wide,9pt,landscape]{article}
+[a4wide,9pt,landscape]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{url}
 \usepackage{hyperref}
@@ -135,15 +135,23 @@
 \maketitle
 
 \begin{abstract}
-This document describes the signature of the ADGlib library. 
-The signature is a collection of predicates and functions for the manipulation of geometric objects. 
-The objective is to facilitate the communication between different tools manipulating geometric statements.
+  This document describes the signature of the ADGlib library.
+  
+  The signature is a collection of predicates and functions for the
+  manipulation of geometric objects.
+  
+  The objective is to facilitate the communication between different
+  tools manipulating geometric statements. 
 
-The {\em core} predicate symbols has to be supported by any translation and here
-they are given in bold face.
+  The {\em core} predicate symbols has to be supported by any
+  translation and here they are given in bold face.
 
-
+  The axiom system used may assume if the geometry is planar,
+  Euclidean, etc.
+  
 \end{abstract}
+
+
 
 
 \section{General conventions}
@@ -168,12 +176,12 @@ Definition \\ \midrule
 & 
 points $A$, $B$ and $C$ are collinear and $B$ is strictly between $A$ and $C$ \\
 %-------------------------------------------------------------------
-between\_non\_strict(A,B,C) &  
+betweenNonStrict(A,B,C) &  
 $\bT{A}{B}{C}$ & 
 points $A$, $B$ and $C$ are collinear and $B$ is between $A$ and $C$, it can be the case the $A=B$ or $B=C$. & 
 \\
 %-------------------------------------------------------------------
-between\_4(A,B,C,D) & 
+between4(A,B,C,D) & 
 & 
 points $A$, $B$ $C$ and $D$ are collinear distinct and in this order. \\
 %-------------------------------------------------------------------
@@ -190,9 +198,9 @@ $\col{A}{B}{C}$ &
 points $A$, $B$ and $C$ are collinear & 
 $ \bT{A}{B}{C} \lor \bT{B}{A}{C} \lor \bT{A}{C}{B} $ \\
 %-------------------------------------------------------------------
-collinear\_strict(A,B,C) & 
-& 
-points $A$, $B$ and $C$ are distinct collinear points. \\
+%collinearStrict(A,B,C) & 
+%& 
+%points $A$, $B$ and $C$ are distinct collinear points. \\
 %-------------------------------------------------------------------
 {\bf concyclic(A,B,C,D)} &  
 & 
@@ -201,12 +209,12 @@ $Coplanar A B C D \land \exists O\; \congT{OA}{OB} \land \congT{OA}{OC}  \land \
 %-------------------------------------------------------------------
 \addlinespace
 %-------------------------------------------------------------------
-{\bf cong(A,B,C,D)} & 
+{\bf congruent(A,B,C,D)} & 
 $\congT{AB}{CD}$ & 
 the segments $AB$ and $CD$ are congruent (intuitively in the sense that they have 
 same length, but length measure is not assumed to exist) \\
 %-------------------------------------------------------------------
-{\bf congruent\_angles(A,B,C,D,E,F)} & 
+{\bf congruentAngles(A,B,C,D,E,F)} & 
 $ \conga{A}{B}{C}{D}{E}{F} $ & 
 the angles $\angle{ABC}$ and $\angle{DEF}$ are congruent & 
 $ A \neq B \land C \neq B \land D \neq E \land F \neq E \land $ \\
@@ -214,16 +222,16 @@ $ A \neq B \land C \neq B \land D \neq E \land F \neq E \land $ \\
 & & & $ \bT {B}{C}{C'} \land \congT {CC'}{EF} \land  \bT {E}{D}{D'} \land \congT {DD'}{BA} \land $\\
 & & & $ \bT {E}{F}{F'} \land \congT {FF'}{BC} \land  \congT {A'C'}{D'F'} $  \\
 %-------------------------------------------------------------------
-congruent\_circles(O,P,O',P') & 
+congruentCircles(O,P,O',P') & 
 & 
 the two circles are congruent. \\
 %-------------------------------------------------------------------
-{\bf congruent\_triangles(A,B,C,A',B',C')} & 
+{\bf congruentTriangles(A,B,C,A',B',C')} & 
 & 
 $ABC$ is congruent to $A'B'C'$ & 
 $ \congT{AB}{A'B'} \land \congT{AC}{A'C'} \land \congT{BC}{B'C'} $ \\
 %-------------------------------------------------------------------
-congruent\_rectangles(A,B,C,D,A',B',C',D') & 
+congruentRectangles(A,B,C,D,A',B',C',D') & 
 & 
 $ABCD$  and $A'B'C'D'$ are congruent rectangles & 
 $ \congT{AB}{A'B'} \land \congT{BC}{B'C'} \land Rectangle(A,B,C,D) \land Rectangle(A',B',C',D') $ \\
@@ -237,7 +245,7 @@ equilateral(A,B,C) &
 $ABC$ is an equilateral triangle & 
 $\congT{AB}{BC} \land \congT{BC}{CA}$\\
 %-------------------------------------------------------------------
-equilateral\_strict(A,B,C) & 
+equilateralStrict(A,B,C) & 
 & 
 $ABC$ is an equilateral triangle and the points are distinct and hence not collinear & 
 $equilateral A B C \land A \neq B$ \\
@@ -264,33 +272,33 @@ ADGLib &
 Intuitive meaning & 
 Definition \\ \midrule
 %-------------------------------------------------------------------
-inside\_circle(C,O,P) & 
+insideCircle(C,O,P) & 
 & 
 $C$ is strictly inside or on circle (or sphere) of center $O$ going through $P$.\\
 %-------------------------------------------------------------------
-inside\_circle\_non\_strict(C,O,P) & 
+insideCircleNonStrict(C,O,P) & 
 & 
 $C$ is inside the circle (or sphere) of center $O$ going through $P$.\\
 %-------------------------------------------------------------------
-inside\_angle(P,A,B,C) & 
+insideAngle(P,A,B,C) & 
 $ \inangleT{P}{A}{B}{C} $ & 
 the point $P$ is inside the angle $\angle{ABC}$ & 
 $A \neq B \land C \neq B \land P \neq B \land \exists X, \bT{A}{X}{C} \land$ \\
  & & & $ (X = B \lor \out{B}{X}{P}) $ \\
 %-------------------------------------------------------------------
-{\bf intersection\_line\_line(X,A,B,C,D)} & &
+{\bf intersectionLineLine(X,A,B,C,D)} & &
 $X$ is the intersection of lines $AB$ and $CD$ \\
 %-------------------------------------------------------------------
-intersection\_line\_segment(X,A,B,C,D) & &
+intersectionLineSegment(X,A,B,C,D) & &
 $X$ is the intersection of line $AB$ and segment $CD$ \\
 %-------------------------------------------------------------------
-{\bf intersection\_line\_circle(X,Y,A,B,O,P)} & &
+{\bf intersectionLineCircle(X,Y,A,B,O,P)} & &
 $X$ and $Y$ are the intersections of line $AB$ and circle $OP$ \\
 %-------------------------------------------------------------------
-intersection\_segment\_segment(X,A,B,C,D) & &
+intersectionSegmentSegment(X,A,B,C,D) & &
 $X$ is the intersection of segments $AB$ and $CD$ \\
 %-------------------------------------------------------------------
-{\bf intersection\_circle\_circle(X,Y,O,P,O',P')} & 
+{\bf intersectionCircleCircle(X,Y,O,P,O',P')} & 
 & 
 $X$ and $Y$ are the intersections of circles $OP$ and $O'P'$. \\
 %-------------------------------------------------------------------
@@ -299,7 +307,7 @@ isosceles(A,B,C) &
 $ABC$ is an isosceles triangle in $B$, points may be equal. & 
 $\congT{AB}{BC}$ \\
 %-------------------------------------------------------------------
-isosceles\_strict(A,B,C) & 
+isoscelesStrict(A,B,C) & 
 & 
 $ABC$ is an isosceles triangle in $B$, points are not collinear. & 
 $\congT{AB}{BC} \land \lnot \col{A}{B}{C} $  \\
@@ -319,31 +327,31 @@ $\midpoint{A}{M}{B}$ &
 $M$ is the midpoint of segment $AB$ & 
 $\bT{A}{M}{B} \land \congT{A M}{B M} $ \\
 %-------------------------------------------------------------------
-{\bf on\_angle\_bisector(P,A,O,B)} &  
+{\bf onAngleBisector(P,A,O,B)} &  
 & 
 $P$ belongs to the bisector of angle $AOB$ & 
 $P \neq O \land \angle{AOP}$ and $\angle{POB}$ are congruent \\
 %-------------------------------------------------------------------
-{\bf on\_circle(C,O,P)} & 
+{\bf onCircle(C,O,P)} & 
 & 
 $C$ is on circle (or sphere) of center $O$ going through $P$. \\
 %-------------------------------------------------------------------
-{\bf on\_line(P,A,B)} & 
+{\bf onLine(P,A,B)} & 
 & 
 points $P$ is on line $AB$ ($A\neq B$). \\
 %-------------------------------------------------------------------
 \addlinespace
-{\bf on\_parallel(P,B,C,D)} & 
+{\bf onParallel(P,B,C,D)} & 
  & 
 $P$ is on the parallel to line $CD$ through $B$ & 
 $ \para{A B}{C D} \land C \neq D $ \\
 %-------------------------------------------------------------------
-{\bf on\_perpendicular\_bisector(P,A,B)} &  
+{\bf onPerpendicularBisector(P,A,B)} &  
 & 
 $P$ belongs to the perpendicular bisector of segment $AB$ & 
 $P \neq midpoint(A,B)$ and $\congT{PA}{PB}$ \\
 %-------------------------------------------------------------------
-{\bf on\_ray(O,A,B)} & 
+{\bf onRay(O,A,B)} & 
 $\out{O}{A}{B}$ & 
 $B$ belongs to the half line $OA$ & $ O \neq A \land O  \neq B \land (\bT{O}{A}{B} \lor \bT{O}{B}{A}) $ \\
 %-------------------------------------------------------------------
@@ -361,28 +369,28 @@ ADGLib &
 Intuitive meaning & 
 Definition \\ \midrule
 %-------------------------------------------------------------------
-{\bf opposite\_sides(A,B,P,Q)} & 
+{\bf oppositeSides(A,B,P,Q)} & 
 $\tS{A}{B}{P}{Q}$ & 
 $P$ and $Q$ are on different sides of line $AB$ & 
 $ \lnot \col{P}{A}{B} \land \lnot \col{Q}{A}{B} \land \exists T, \col{T}{A}{B} \land \bT{P}{T}{Q} $ \\
 %-------------------------------------------------------------------
-outside\_circle(C,O,P) & 
+outsideCircle(C,O,P) & 
 & 
 $C$ is on or outside the circle (or sphere) of center $O$ going through $P$.\\
 %-------------------------------------------------------------------
-outside\_circle\_strict(C,O,P) & 
+outsideCircleStrict(C,O,P) & 
 & 
 $C$ is strictly outside the circle (or sphere) of center $O$ going through $P$.\\
 %-------------------------------------------------------------------
-{\bf meet\_line\_line(A,B,C,D)} & 
+{\bf meetLineLine(A,B,C,D)} & 
 & 
 The lines $AB$ and $CD$ intersect. \\
 %-------------------------------------------------------------------
-meet\_line\_segment(A,B,C,D) & 
+meetLineSegment(A,B,C,D) & 
 & 
 The line $AB$ and segment $CD$ intersect. \\
 %-------------------------------------------------------------------
-meet\_segment\_segment(A,B,C,D) & 
+meetSegmentSegment(A,B,C,D) & 
 & 
 The segment $AB$ and segment $CD$ intersect. \\
 %-------------------------------------------------------------------
@@ -395,7 +403,7 @@ $\perpT{A B}{C D} $ &
 line $AB$ is perpendicular to line $CD$ ($A\neq B$ and $C\neq D$) & 
 $ \exists P, \perpin{AB}{CD}{P} $ \\
 %-------------------------------------------------------------------
-perpendicular\_at(P,A,B,C,D) & 
+perpendicularAt(P,A,B,C,D) & 
 $\perpin{A B}{C D}{P}$ & 
 $AB \bot CD$ and $P$ is the intersection of $AB$ and $CD$ & 
 $A \neq B \; \land \; C \neq D \; \land \; \col {P} {A} {B} \; \land \; \col {P} {C} {D} \; \land \; 
@@ -414,18 +422,18 @@ line $AB$ is parallel to line $CD$ &
 $ \spara{A B}{C D} \lor (A \neq B \land C \neq D \land \col{A}{C}{D} \land \col{B}{C}{D}) $ \\
 %-------------------------------------------------------------------
 \addlinespace
-parallel\_non\_strict(A,B,C,D) & 
+parallelNonStrict(A,B,C,D) & 
  & 
 line $AB$ is parallel to line $CD$ or $A=B$ or $CD$ & 
 $ \para{A B}{C D} \lor (A=B \lor C=D) $ \\
 %-------------------------------------------------------------------
-parallel\_non\_reflexive(A,B,C,D) & 
+parallelNonReflexive(A,B,C,D) & 
 $\spara{A B}{C D} $ & 
 line $AB$ is parallel to line $CD$ and $AB \neq CD$ & 
 $A \neq B \land C \neq D \land \cp{A}{B}{C}{D} \land \lnot \exists X, \col{X}{A}{B} \land \col{X}{C}{D} $ \\
 %-------------------------------------------------------------------
 \addlinespace
-vertical\_angles(A,B,C,D,E,F) & 
+verticalAngles(A,B,C,D,E,F) & 
  & 
 $ABC$ and $DEF$ are vertical angles & 
 $ B=E \land \bH{A}{B}{D} \land \bH{C}{B}{F} $ \\
@@ -435,12 +443,12 @@ parallelogram(A,B,C,D) &
 $ABCD$ is a parallelogram, this includes a flat case defined as diagonals intersect in their midpoint & 
 $Parallelogram\_strict \, A \, B \, A' \, B' \; \lor \; Parallelogram\_flat \, A \, B \, A' \, B'$ \\
 %-------------------------------------------------------------------
-parallelogram\_strict(A,B,C,D) & 
+parallelogramStrict(A,B,C,D) & 
 & 
 $ABCD$ is a parallelogram. The points are not collinear & 
 $\oS {A} {A'} {B} {B'} \; \land \; AB \parallel A'B' \; \land \; \congT{AB}{A'B}'$ \\
 %-------------------------------------------------------------------
-parallelogram\_flat(A,B,C,D) & 
+parallelogramFlat(A,B,C,D) & 
 & 
 $ABCD$ is a flat parallelogram &
 $ \col {A} {B} {A'} \; \land \; \col {A} {B} {B'} \; \land \congT {AB} {A'B}' \; \land \; \congT {AB'} {A'B} \; \land \; (A \neq A' \; \lor \; B \neq B') $ \\
@@ -459,20 +467,20 @@ ADGLib &
 Intuitive meaning & 
 Definition \\ \midrule
 %-------------------------------------------------------------------
-{\bf perpendicular\_bisector(P,Q,A,B)} & 
+{\bf perpendicularBisector(P,Q,A,B)} & 
 & 
 $PQ$ is the perpendicular bisector of segment $AB$ &
 $ ReflectL\,A\,B\,P\,Q \land A \neq B$ \\
 %-------------------------------------------------------------------
 quadrilateral(A,B,C,D) & & \\
 %-------------------------------------------------------------------
-quadrilateral\_non\_crossed(A,B,C,D) & & \\
+quadrilateralNonCrossed(A,B,C,D) & & \\
 %-------------------------------------------------------------------
 rectangle(A,B,C,D) & 
 & 
 $ABCD$ is a rectangle (all points are distinct) & \\
 %-------------------------------------------------------------------
-reflection\_strict(P',P,A,B) & 
+reflectionStrict(P',P,A,B) & 
 & 
 $P'$ is the image of $P$ by reflection on line $AB$ & 
 $(\exists X\; \midpoint{X}{P}{P'} \land \col{A}{B}{X}) \land (\perpT{AB}{PP'} \lor P=P')$ \\
@@ -482,15 +490,15 @@ $(\exists X\; \midpoint{X}{P}{P'} \land \col{A}{B}{X}) \land (\perpT{AB}{PP'} \l
 $P'$ is the image of $P$ by reflection on line $AB$ if $A\neq B$ and $P'$ is the image of $P$ by the reflection on point $A$ if $A=B$  & 
 $(A\neq B \land ReflectL\,P'\,P\,A\, B) \lor (A=B \land \midpoint{A}{P}{P'})$ \\
 %-------------------------------------------------------------------
-regular\_pentagon(A,B,C,D,E) & & \\
+regularPentagon(A,B,C,D,E) & & \\
 %-------------------------------------------------------------------
-regular\_hexagon(A,B,C,D,E,F) & & \\
+regularHexagon(A,B,C,D,E,F) & & \\
 %-------------------------------------------------------------------
 rhombus(A,B,C,D) & 
 & 
 $ABCD$ is a rhombus & \\
 %-------------------------------------------------------------------
-right\_angle(A,B,C) & 
+rightAngle(A,B,C) & 
 $ \per{A}{B}{C} $ & 
 the triangle $ABC$ is a right triangle in $B$ & 
 $\exists C', \midpoint{C}{B}{C'} \land \congT{A C}{A C'} $ \\
@@ -500,12 +508,12 @@ saccheri(A,B,C,D) &
 $ABCD$ is a quadrilateral with two equal sides perpendicular to the base. In Euclidean geometry it is a rectangle. & 
 $\per{B}{A}{D} \land \per{A}{D}{C} \land \congT{AB}{CD} \land \oS{A}{D}{B}{C}$ \\
 %-------------------------------------------------------------------
-{\bf same\_side(A,B,X,Y)} & 
+{\bf sameSide(A,B,X,Y)} & 
 $\oS {A}{B}{X}{Y}$ & 
 $X$ and $Y$ are on the same side of line $AB$ & 
 $ \exists Z, \tS{A}{B}{X}{Z} \land \tS{A}{B}{Y}{Z}$ \\
 %-------------------------------------------------------------------
-{\bf similar\_triangles(A,B,C,A',B',C')} & 
+{\bf similarTriangles(A,B,C,A',B',C')} & 
 & 
 $ABC$ is similar to $A'B'C'$ & 
 $\conga{A}{B}{C}{A'}{B'}{C'} \land \conga{B}{C}{A}{B'}{C'}{A'} \land \conga{C}{A}{B}{C'}{A'}{B'}$ \\
@@ -523,11 +531,11 @@ trapezoid(A,B,C,D) &
 & 
 $ABCD$ is a trapezoid: $AB$ is parallel to $CD$ &\\
 %-------------------------------------------------------------------
-trapezoid\_per(A,B,C,D) & 
+trapezoidRight(A,B,C,D) & 
 & 
 $ABCD$ is a trapezium with a right angle in $A$. \\ 
 %-------------------------------------------------------------------
-trapezoid\_isosceles(A,B,C,D) & 
+trapezoidIsosceles(A,B,C,D) & 
 & 
 $ABCD$ is a trapezoid with congruent non necessary parallel sides: $AB$ is parallel to $CD$ and $\congT{BC}{DA}$\\
 %-------------------------------------------------------------------
@@ -552,43 +560,43 @@ ADGLib &
 Intuitive meaning & 
 Definition \\ \midrule
 %-------------------------------------------------------------------
-le(A,B,C,D) & 
+lessEqual(A,B,C,D) & 
 $ AB \leq CD $ & the length $AB$ is smaller or equal to length $CD$ & 
 $ \exists E, \bT{C}{Y}{D} \land \congT {AB}{CE} $ \\
 %-------------------------------------------------------------------
-lt(A,B,C,D) & 
+lessThan(A,B,C,D) & 
 $ AB < CD $ & 
 the length $AB$ is smaller to length $CD$ & 
 $ AB \leq CD \land \lnot \congT {AB}{CD} $ \\
 %-------------------------------------------------------------------
-ge(A,B,C,D) & 
+greaterEqual(A,B,C,D) & 
 $ AB \ge CD$ & 
 the length $AB$ is greater or equal to length $CD$ & 
 $ CD \leq AB $ \\
 %-------------------------------------------------------------------
-gt(A,B,C,D) & 
+greaterThan(A,B,C,D) & 
 $ AB > CD $ & 
 the length $AB$ is greater than length $CD$ & 
 $ CD < AB $ \\
 %-------------------------------------------------------------------
 \addlinespace
 %-------------------------------------------------------------------
-le\_angles(A,B,C,D,E,F) & 
+lessEqualAngles(A,B,C,D,E,F) & 
 $ \lea{A}{B}{C}{D}{E}{F} $ & 
 the angle $\angle{ABC}$ is smaller or equal than angle $\angle{DEF}$ & 
 $ \exists P, \inangleT{P}{D}{E}{F} \land \conga{A}{B}{C}{D}{E}{P} $ \\
 %-------------------------------------------------------------------
-lt\_angles(A,B,C,D,E,F) & 
+lessThanAngles(A,B,C,D,E,F) & 
 $ \lta{A}{B}{C}{D}{E}{F} $ & 
 the angle $\angle{ABC}$ is smaller than angle $\angle{DEF}$ & 
 $ \lea{A}{B}{C}{D}{E}{F} \land \lnot \conga{A}{B}{C}{D}{E}{F}  $ \\
 %-------------------------------------------------------------------
-gt\_angles(A,B,C,D,E,F) & 
+greaterThanAngles(A,B,C,D,E,F) & 
 $\gta{A}{B}{C}{D}{E}{F}$ & 
 the angle $\angle{ABC}$ is greater than angle $\angle{DEF}$ & 
 $ \lta{D}{E}{F}{A}{B}{C} $\\
 %-------------------------------------------------------------------
-ge\_angles(A,B,C,D,E,F) & 
+greaterEqualAngles(A,B,C,D,E,F) & 
 $\gea{A}{B}{C}{D}{E}{F}$ & 
 the angle $\angle{ABC}$ is greater than angle $\angle{DEF}$ & 
 $ \lea{D}{E}{F}{A}{B}{C} $\\
@@ -603,11 +611,11 @@ obtuse(A,B,C) &
 $\angle{ABC}$ is an obtuse angle (strictly) & 
 $ \exists A', \exists B', \exists C', \per{A'}{B'}{C'} \land \lta{A'}{B'}{C'}{A}{B}{C} $\\
 %-------------------------------------------------------------------
-acute\_triangle(A,B,C) & 
+acuteTriangle(A,B,C) & 
 & 
 $ABC$ is a triangle with three acute angles. \\
 %-------------------------------------------------------------------
-obtuse\_triangle(A,B,C) & 
+obtuseTriangle(A,B,C) & 
 & 
 $ABC$ is a triangle with one obtuse angle. \\
 %-------------------------------------------------------------------
@@ -616,33 +624,33 @@ supplementary(A,B,C,D,E,F) &
 the angles $\angle{ABC}$ and $\angle{DEF}$ are supplementary & 
 $ A \neq B \land \exists A', \bT{A}{B}{A'} \land \conga{D}{E}{F}{C}{B}{A'} $\\
 %-------------------------------------------------------------------
-sum\_segments(A,B,C,D,E,F) & 
+sumSegments(A,B,C,D,E,F) & 
 & 
 $EF$ is congruent to the sum of $AB$ and $CD$ \\ 
 %-------------------------------------------------------------------
-sum\_angles(A,B,C,D,E,F,G,H,I) & 
+sumAngles(A,B,C,D,E,F,G,H,I) & 
 $\suma{A}{B}{C}{D}{E}{F}{G}{H}{I}$ & 
 The sum of angles $\angle{ABC}$ and $\angle{DEF}$ is congruent to $\angle{GHI}$ & 
 $ \exists\,J\; \conga{C}{B}{J}{D}{E}{F} \land \lnot \oS{B}{C}{A}{J} \land \cp{A}{B}{C}{J} \land \conga{A}{B}{J}{G}{H}{I} $ \\
 %-------------------------------------------------------------------
-sum\_angles\_less\_than\_straight\_angle(A,B,C,D,E,F) & 
+sumAnglesLessThanStraightAngle(A,B,C,D,E,F) & 
 & 
 The sum of the angles $\angle{ABC}$ and $\angle{DEF}$ is smaller than the straight angle. & 
 $ A\neq B \land (Out E D F \lor \lnot \bT{A}{B}{C}) \land
   \exists\,J\; \conga{C}{B}{J}{D}{E}{F} \land \lnot \oS{B}{C}{A}{J} \land \lnot \tS{A}{B}{C}{J} \land \cp{A}{B}{C}{J} $ \\
 %-------------------------------------------------------------------
-sum\_angles\_triangle\_congruent(A,B,C,D,E,F) & 
+sumAnglesTriangleCongruent(A,B,C,D,E,F) & 
 $\trisuma{A}{B}{C}{D}{E}{F}$ & 
 The sum of the angles of the triangle $ABC$ is congruent to the angle $\angle{D}{E}{F}$ & 
 $\exists G\,H\,I\; SumA\; A\, B\, C\, B\, C\, A\, G\, H\, I \land SumA\; G\, H \,I\, C\, A\, B\, D\, E\, F $ \\
 %-------------------------------------------------------------------
-sum\_angles\_defect(A,B,C,D,E,F) & 
+sumAnglesDefect(A,B,C,D,E,F) & 
 & 
 The difference between the sum of angles of ABC and a straight angle. \\
 %-------------------------------------------------------------------
 \addlinespace
 %-------------------------------------------------------------------
-isosceles\_right(A,B,C) & 
+isoscelesRight(A,B,C) & 
 & 
 $ABC$ is a right and isosceles triangle in $B$. \\
 %-------------------------------------------------------------------
@@ -682,59 +690,59 @@ LtP(O,E,E',A,B) & & In the gird $OEE'$, A and B are positive \\
 \noindent\hspace{-75mm}
 \begin{tabularx}{270mm}{>{\ttfamily}llXX}
 \toprule
-\multicolumn{4}{l}{\Huge Points-only; function symbols} \\ \midrule
+\multicolumn{4}{l}{\Huge Points-only; deterministic function symbols} \\ \midrule
 ADGLib & 
 \LaTeX{} notation & 
 Intuitive meaning & 
 Definition \\ \midrule
 %-------------------------------------------------------------------
-fun\_another\_point(A,B) & 
+funAnotherPoint(A,B) & 
 &
 a point on line $AB$ different from $A$ and $B$ \\
 %-------------------------------------------------------------------
-fun\_centroid(A,B,C) & 
+funCentroid(A,B,C) & 
 &
 the centroid (gravity center) of triangle $ABC$ \\
 %-------------------------------------------------------------------
-fun\_circumcenter(A,B,C) & 
+funCircumcenter(A,B,C) & 
 &
 the circumcenter of triangle $ABC$ \\
 %-------------------------------------------------------------------
-fun\_equilateral\_from(A,B) & 
+funEquilateral\_from(A,B) & 
 &
 A point $C$ such that $ABC$ is an equilateral triangle. \\
 %-------------------------------------------------------------------
-fun\_equilateral\_from\_on\_side(A,B,P) & 
+funEquilateral\_from\_on\_side(A,B,P) & 
 &
 A point $C$ such that $ABC$ is an equilateral triangle, and $C$ and $P$ are on the same side of line $AB$. \\
 %-------------------------------------------------------------------
-fun\_extend(A,B) & &
+funExtend(A,B) & &
 a point on half-line $AB$ such that $B$ is between $A$ and the new point. \\
 %-------------------------------------------------------------------
-fun\_extend\_distance(A,B,P,Q) & &
+funExtendDistance(A,B,P,Q) & &
 a point $N$ on half-line $AB$ such that $B$ is between $A$ and $N$ and $BN$ is congruent to $PQ$. This corresponds to a compass. \\
 %-------------------------------------------------------------------
-fun\_foot(A,B,P) & 
+funFoot(A,B,P) & 
 &
 the foot of the perpendicular to $AB$ through $P$ \\
 %-------------------------------------------------------------------
-fun\_incenter(A,B,C) & 
+funIncenter(A,B,C) & 
 &
 the incenter of triangle $ABC$ \\
 %-------------------------------------------------------------------
-fun\_intersection\_line\_line(A,B,C,D) & 
+funIntersectionLineLine(A,B,C,D) & 
 &
 the intersection of lines AB and CD (assuming they do interesect ? ) \jn{undefined if they do not intersect ?}\\
 %-------------------------------------------------------------------
-fun\_intersection\_line\_segment(A,B,C,D) & 
+funIntersectionLineSegment(A,B,C,D) & 
 &
 intersection of line $AB$ and segment $CD$. \\
 %-------------------------------------------------------------------
-fun\_intersection\_line\_circle(A,B,O,P) & 
+funIntersectionLineCircle(A,B,O,P) & 
 &
 intersection of line $AB$ and circle of center $O$ going through $P$. \jn{what to do when there are two intersections ?} \\
 %-------------------------------------------------------------------
-fun\_intersection\_segment\_circle(A,B,O,P) & 
+funIntersectionSegment\_circle(A,B,O,P) & 
 &
 intersection of segment $AB$ and circle of center $O$ going through $P$. \jn{what to do when there are two intersections ?} \\
 %-------------------------------------------------------------------
@@ -742,37 +750,141 @@ fun\_intersection\_segment\_segment(A,B,C,D) &
 &
 intersection of segment $AB$ and segment $CD$. \\
 %-------------------------------------------------------------------
-fun\_isosceles\_from(A,B) & 
+funIsoscelesFrom(A,B) & 
 &
 A point $C$ such that $ABC$ is an isosceles triangle in $C$. \\
 %-------------------------------------------------------------------
-fun\_isosceles\_from\_on\_side(A,B,P) & 
+funIsoscelesFromOnSide(A,B,P) & 
 &
 A point $C$ such that $ABC$ is an isosceles triangle in $C$ and $C$ 
 is on the same side of line $AB$ as $P$. \\
 %-------------------------------------------------------------------
-fun\_midpoint(A,B) & 
+funMidpoint(A,B) & 
 &
 the midpoint of segment $AB$ \\
 %-------------------------------------------------------------------
-fun\_on\_line(A,B) & &
+funOnLine(A,B) & &
 a point on line $AB$. \\
 %-------------------------------------------------------------------
-fun\_on\_ray(A,B) & &
+funOnRay(A,B) & &
 a point on ray $AB$. \\
 %-------------------------------------------------------------------
-fun\_on\_segment(A,B) & &
+funOnSegment(A,B) & &
 a point segment $AB$. \\
 %-------------------------------------------------------------------
-fun\_orthocenter(A,B,C) & 
+funOrthocenter(A,B,C) & 
 &
 the orthocenter of triangle $ABC$ \\
 %-------------------------------------------------------------------
-fun\_symmetric(P,O) & 
+funSymmetric(P,O) & 
 &
 the symmetric of $P$ wrt. $O$. \\
 %-------------------------------------------------------------------
-fun\_symmetric(P,A,B) & 
+funSymmetric(P,A,B) & 
+&
+the symmetric of $P$ wrt. line $AB$. \\
+%-------------------------------------------------------------------
+\bottomrule
+\end{tabularx}
+
+% ******************************************************************
+% ******************************************************************
+% ******************************************************************
+
+\noindent\hspace{-75mm}
+\begin{tabularx}{270mm}{>{\ttfamily}llXX}
+\toprule
+\multicolumn{4}{l}{\Huge Points-only; non-deterministic function symbols} \\ \midrule
+ADGLib & 
+\LaTeX{} notation & 
+Intuitive meaning & 
+Definition \\ \midrule
+%-------------------------------------------------------------------
+funAnotherPoint(A,B) & 
+&
+a point on line $AB$ different from $A$ and $B$ \\
+%-------------------------------------------------------------------
+funCentroid(A,B,C) & 
+&
+the centroid (gravity center) of triangle $ABC$ \\
+%-------------------------------------------------------------------
+funCircumcenter(A,B,C) & 
+&
+the circumcenter of triangle $ABC$ \\
+%-------------------------------------------------------------------
+funEquilateral\_from(A,B) & 
+&
+A point $C$ such that $ABC$ is an equilateral triangle. \\
+%-------------------------------------------------------------------
+funEquilateral\_from\_on\_side(A,B,P) & 
+&
+A point $C$ such that $ABC$ is an equilateral triangle, and $C$ and $P$ are on the same side of line $AB$. \\
+%-------------------------------------------------------------------
+funExtend(A,B) & &
+a point on half-line $AB$ such that $B$ is between $A$ and the new point. \\
+%-------------------------------------------------------------------
+funExtendDistance(A,B,P,Q) & &
+a point $N$ on half-line $AB$ such that $B$ is between $A$ and $N$ and $BN$ is congruent to $PQ$. This corresponds to a compass. \\
+%-------------------------------------------------------------------
+funFoot(A,B,P) & 
+&
+the foot of the perpendicular to $AB$ through $P$ \\
+%-------------------------------------------------------------------
+funIncenter(A,B,C) & 
+&
+the incenter of triangle $ABC$ \\
+%-------------------------------------------------------------------
+funIntersectionLineLine(A,B,C,D) & 
+&
+the intersection of lines AB and CD (assuming they do interesect ? ) \jn{undefined if they do not intersect ?}\\
+%-------------------------------------------------------------------
+funIntersectionLineSegment(A,B,C,D) & 
+&
+intersection of line $AB$ and segment $CD$. \\
+%-------------------------------------------------------------------
+funIntersectionLineCircle(A,B,O,P) & 
+&
+intersection of line $AB$ and circle of center $O$ going through $P$. \jn{what to do when there are two intersections ?} \\
+%-------------------------------------------------------------------
+funIntersectionSegment\_circle(A,B,O,P) & 
+&
+intersection of segment $AB$ and circle of center $O$ going through $P$. \jn{what to do when there are two intersections ?} \\
+%-------------------------------------------------------------------
+fun\_intersection\_segment\_segment(A,B,C,D) & 
+&
+intersection of segment $AB$ and segment $CD$. \\
+%-------------------------------------------------------------------
+funIsoscelesFrom(A,B) & 
+&
+A point $C$ such that $ABC$ is an isosceles triangle in $C$. \\
+%-------------------------------------------------------------------
+funIsoscelesFromOnSide(A,B,P) & 
+&
+A point $C$ such that $ABC$ is an isosceles triangle in $C$ and $C$ 
+is on the same side of line $AB$ as $P$. \\
+%-------------------------------------------------------------------
+funMidpoint(A,B) & 
+&
+the midpoint of segment $AB$ \\
+%-------------------------------------------------------------------
+funOnLine(A,B) & &
+a point on line $AB$. \\
+%-------------------------------------------------------------------
+funOnRay(A,B) & &
+a point on ray $AB$. \\
+%-------------------------------------------------------------------
+funOnSegment(A,B) & &
+a point segment $AB$. \\
+%-------------------------------------------------------------------
+funOrthocenter(A,B,C) & 
+&
+the orthocenter of triangle $ABC$ \\
+%-------------------------------------------------------------------
+funSymmetric(P,O) & 
+&
+the symmetric of $P$ wrt. $O$. \\
+%-------------------------------------------------------------------
+funSymmetric(P,A,B) & 
 &
 the symmetric of $P$ wrt. line $AB$. \\
 %-------------------------------------------------------------------
@@ -835,8 +947,6 @@ Predrag Janičić,
 Julien Narboux,
 Filip Maric,
 Zoltan Kovács.
-
-
-
+Pedro Quaresma
 
 \end{document}
