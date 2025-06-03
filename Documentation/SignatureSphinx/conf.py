@@ -14,16 +14,21 @@ release = '0.1'
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ['sphinx.ext.mathjax']
+extensions = ['sphinx.ext.imgmath']
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
+adg_signature_path = "../Signature/adgsignature.sty"
+
 # -- Options for LaTeX output ------------------------------------------------
-latex_additional_files = ["../Signature/adgsignature.sty"]
+latex_additional_files = [ adg_signature_path ]
 latex_elements = {
     'extrapackages': r'\usepackage{adgsignature}'
 }
+
+# -- Options for imgmath html output ---------------------------------------------
+imgmath_latex_preamble = '\\usepackage{adgsignature}\n'
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
