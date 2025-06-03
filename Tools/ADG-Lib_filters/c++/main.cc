@@ -72,7 +72,7 @@ void print_tptp(const std::string& conjectureName,
 
   std::cout << std::endl;
   std::cout << "\t\t)" << std::endl;
-  
+
   std::cout << "\t)" << std::endl;
   std::cout << ")." << std::endl;
 }
@@ -130,7 +130,7 @@ int process_file(const std::string& fileName, driver& drv, bool trace_scanning, 
     return 0;
   }
 }
-                
+
 
 int main (int argc, char *argv[])
 {

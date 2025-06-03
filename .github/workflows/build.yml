@@ -8,8 +8,15 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: prerequisites-ubuntu
-      run: sudo apt update && sudo apt install build-essential swi-prolog-full xvfb zip
+      run: sudo apt update && sudo apt install build-essential swi-prolog-full xvfb zip flex bison
     - name: prerequisites-snap
       run: sudo snap install geogebra-discovery
     - name: test-geogebra
       run: xvfb-run -a -s "-screen 0 1024x768x24" ./test-geogebra.sh
+    - name: test-c++
+      run: |
+        cd Tools/ADG-Lib_filters/c++
+        mkdir build
+        cd build
+        cmake ..
+        make
