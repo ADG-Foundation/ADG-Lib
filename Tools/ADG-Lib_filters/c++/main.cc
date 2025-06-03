@@ -59,7 +59,7 @@ void print_tptp(const std::string& conjectureName,
 
   std::cout << std::endl;
   std::cout << "\t\t)" << std::endl;
-  
+
   std::cout << "\t)" << std::endl;
   std::cout << ")." << std::endl;
 }
@@ -113,14 +113,14 @@ int process_file(const std::string& file_name, driver& drv, bool trace_scanning,
           transformed_hypotheses.push_back(e);
       }
       drv.points.insert(drv.points.end(), eliminate_lines.auxiliaryPoints().begin(), eliminate_lines.auxiliaryPoints().end());
-      
+
       std::string conjectureName = getFilenameStem(file_name);
       print_ggb(conjectureName, drv.points, drv.lines, transformed_hypotheses, drv.conjectures);
     }
     return 0;
   }
 }
-                
+
 
 int main (int argc, char *argv[])
 {
@@ -145,7 +145,7 @@ int main (int argc, char *argv[])
         if (process_file(argv[i], drv, trace_scanning, trace_parsing) == 1)
           result = 1;
       } else {
-        std::cerr << "Unknow extension " << argv[i] << std::endl;
+        std::cerr << "Unknown extension " << argv[i] << std::endl;
       }
     }
   }
