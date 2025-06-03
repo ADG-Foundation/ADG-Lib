@@ -15,12 +15,21 @@ public:
   
   ExprPtr transformDrawPoint(const DrawPoint&) override;
   ExprPtr transformDrawSegment(const DrawSegment&) override;
+  ExprPtr transformDrawLine(const DrawLine&) override;
+  ExprPtr transformDrawLine_P(const DrawLine_P&) override;
+  ExprPtr transformLabelPoint(const LabelPoint&) override;
+  
   ExprPtr transformFunMidpoint(const FunMidpoint&) override;
+  ExprPtr transformFunSegmentBisector(const FunSegmentBisector&) override;
   ExprPtr transformFunParallel(const FunParallel& e) override;
+  ExprPtr transformFunPerpendicular(const FunPerpendicular& e) override;
   ExprPtr transformFunIntersectLL(const FunIntersectLL& e) override;
   ExprPtr transformFunIntersectLL_P(const FunIntersectLL_P& e) override;
 
   ExprPtr transformOnParallel(const OnParallel& e) override;
+  ExprPtr transformOnPerpendicular(const OnPerpendicular& e) override;
+
+  ExprPtr transformMidpoint(const Midpoint&) override;
   
   void addLines(const std::map<std::string, Line> newLines) {
     lines.insert(newLines.begin(), newLines.end());

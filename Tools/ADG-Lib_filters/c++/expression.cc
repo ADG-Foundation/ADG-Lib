@@ -121,6 +121,20 @@ ExprPtr DrawPoint::acceptTransformer(ExpressionTransformer& transformer) const {
   return transformer.transformDrawPoint(*this);
 }
 
+// LabelPoint implementation
+void LabelPoint::print(std::ostream& ostr) const  {
+  ostr << "(label_point " << point_ << ")" << std::endl;
+}
+
+void LabelPoint::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitLabelPoint(*this);
+}
+
+ExprPtr LabelPoint::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformLabelPoint(*this);
+}
+
+
 // DrawSegment implementation
 void DrawSegment::print(std::ostream& ostr) const  {
   ostr << "(draw_segment " << point1_ << "," << point2_ << ")" << std::endl;
@@ -134,11 +148,36 @@ ExprPtr DrawSegment::acceptTransformer(ExpressionTransformer& transformer) const
   return transformer.transformDrawSegment(*this);
 }
 
+// DrawLine implementation
+void DrawLine::print(std::ostream& ostr) const  {
+  ostr << "(draw_line " << line_ << ")" << std::endl;
+}
+
+void DrawLine::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitDrawLine(*this);
+}
+
+ExprPtr DrawLine::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformDrawLine(*this);
+}
+
+// DrawLine_P implementation
+void DrawLine_P::print(std::ostream& ostr) const  {
+  ostr << "(draw_line " << point1_ << "," << point2_ << ")" << std::endl;
+}
+
+void DrawLine_P::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitDrawLine_P(*this);
+}
+
+ExprPtr DrawLine_P::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformDrawLine_P(*this);
+}
 
 // FunMidpoint implementation
 
 void FunMidpoint::print(std::ostream& ostr) const {
-  ostr << "(midpoint " << new_point_ << "," << point1_ << "," << point2_ << ")";
+  ostr << "(fun_midpoint " << new_point_ << "," << point1_ << "," << point2_ << ")";
 }
 
 void FunMidpoint::acceptVisitor(ExpressionVisitor& visitor) const {
@@ -148,6 +187,36 @@ void FunMidpoint::acceptVisitor(ExpressionVisitor& visitor) const {
 ExprPtr FunMidpoint::acceptTransformer(ExpressionTransformer& transformer) const {
   return transformer.transformFunMidpoint(*this);
 }
+
+// Midpoint implementation
+
+void Midpoint::print(std::ostream& ostr) const {
+  ostr << "(midpoint " << midpoint_ << "," << point1_ << "," << point2_ << ")";
+}
+
+void Midpoint::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitMidpoint(*this);
+}
+
+ExprPtr Midpoint::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformMidpoint(*this);
+}
+
+
+// FunSegmentBisector implementation
+
+void FunSegmentBisector::print(std::ostream& ostr) const {
+  ostr << "(fun_segment_bisector " << new_line_ << "," << point1_ << "," << point2_ << ")";
+}
+
+void FunSegmentBisector::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitFunSegmentBisector(*this);
+}
+
+ExprPtr FunSegmentBisector::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformFunSegmentBisector(*this);
+}
+
 
 // FunParallel implementation
 
@@ -161,6 +230,20 @@ void FunParallel::acceptVisitor(ExpressionVisitor& visitor) const {
 
 ExprPtr FunParallel::acceptTransformer(ExpressionTransformer& transformer) const {
   return transformer.transformFunParallel(*this);
+}
+
+// FunPerpendicular implementation
+
+void FunPerpendicular::print(std::ostream& ostr) const {
+  ostr << "(fun_peprpendicular " << new_line_ << "," << point_ << "," << line_ << ")";
+}
+
+void FunPerpendicular::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitFunPerpendicular(*this);
+}
+
+ExprPtr FunPerpendicular::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformFunPerpendicular(*this);
 }
 
 // FunIntersectLL implementation
@@ -206,6 +289,19 @@ ExprPtr OnParallel::acceptTransformer(ExpressionTransformer& transformer) const 
   return transformer.transformOnParallel(*this);
 }
 
+// OnPerpendicular implementation
+
+void OnPerpendicular::print(std::ostream& ostr) const {
+  ostr << "(on_perpendicular " << X_ << "," << A_ << "," << B_ << "," << P_ << ")";
+}
+
+void OnPerpendicular::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitOnPerpendicular(*this);
+}
+
+ExprPtr OnPerpendicular::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformOnPerpendicular(*this);
+}
 
 // Operator overload
 std::ostream& operator<<(std::ostream& os, const Expression& expr) {
@@ -213,11 +309,3 @@ std::ostream& operator<<(std::ostream& os, const Expression& expr) {
     return os;
 }
 
-std::string to_uppercase(const std::string& input) {
-    std::string result(input);
-    std::transform(result.begin(), result.end(), result.begin(),
-        [](unsigned char c) {
-            return std::toupper(c);
-        });
-    return result;
-}

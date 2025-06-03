@@ -39,8 +39,11 @@ set(SOURCES
 
     eliminate_lines.cc eliminate_lines.hh
     expression.cc expression.hh
+    printer.hh
     printer_gcl.cc printer_gcl.hh
     printer_ggb.cc printer_ggb.hh
+    printer_tptp.cc printer_tptp.hh
+    printer_argodg.cc printer_argodg.hh
 )
 
 # Final binary

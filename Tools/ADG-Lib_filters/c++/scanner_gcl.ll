@@ -62,6 +62,8 @@ point                   { return parser_gcl::parser_gcl::make_POINT(loc); }
 line                    { return parser_gcl::parser_gcl::make_LINE(loc); }
 circle                  { return parser_gcl::parser_gcl::make_CIRCLE(loc); }
 midpoint                { return parser_gcl::parser_gcl::make_MIDPOINT(loc); }
+med                     { return parser_gcl::parser_gcl::make_MED(loc); }
+intersec                { return parser_gcl::parser_gcl::make_INTERSECTION(loc); }
 intersection            { return parser_gcl::parser_gcl::make_INTERSECTION(loc); }
 online                  { return parser_gcl::parser_gcl::make_ONLINE(loc); }
 prove                   { return parser_gcl::parser_gcl::make_PROVE(loc); }
@@ -70,9 +72,23 @@ sratio                  { return parser_gcl::parser_gcl::make_SRATIO(loc); }
 signed_area3            { return parser_gcl::parser_gcl::make_SA3(loc); }
 pythagoras_difference3  { return parser_gcl::parser_gcl::make_PD3(loc); }
 samelength              { return parser_gcl::parser_gcl::make_SAMELENGTH(loc); }
+perp                    { return parser_gcl::parser_gcl::make_PERP(loc); }
+perpendicular           { return parser_gcl::parser_gcl::make_PERPENDICULAR(loc); }
 parallel                { return parser_gcl::parser_gcl::make_PARALLEL(loc); }
-cmark_lt                { return parser_gcl::parser_gcl::make_CMARK(loc); }
+cmark_lt                { return parser_gcl::parser_gcl::make_CMARK_LABEL(loc); }
+cmark_rt                { return parser_gcl::parser_gcl::make_CMARK_LABEL(loc); }
+cmark_l                 { return parser_gcl::parser_gcl::make_CMARK_LABEL(loc); }
+cmark_r                 { return parser_gcl::parser_gcl::make_CMARK_LABEL(loc); }
+cmark_t                 { return parser_gcl::parser_gcl::make_CMARK_LABEL(loc); }
+cmark_b                 { return parser_gcl::parser_gcl::make_CMARK_LABEL(loc); }
+cmark_lb                { return parser_gcl::parser_gcl::make_CMARK_LABEL(loc); }
+cmark_rb                { return parser_gcl::parser_gcl::make_CMARK_LABEL(loc); }
+cmark                   { return parser_gcl::parser_gcl::make_CMARK_LABEL(loc); }
 drawsegment             { return parser_gcl::parser_gcl::make_DRAWSEGMENT(loc); }
+drawdashsegment         { return parser_gcl::parser_gcl::make_DRAWDASHSEGMENT(loc); }
+drawline                { return parser_gcl::parser_gcl::make_DRAWLINE(loc); }
+drawdashline            { return parser_gcl::parser_gcl::make_DRAWDASHLINE(loc); }
+dim                     { return parser_gcl::parser_gcl::make_DIM(loc); }
 
  /* Variables */
 [a-zA-Z_][a-zA-Z0-9_']* {
@@ -85,6 +101,10 @@ drawsegment             { return parser_gcl::parser_gcl::make_DRAWSEGMENT(loc); 
  /* End of input */
 <<EOF>>  { return parser_gcl::parser_gcl::make_END(loc); }
 
+
+ /* Comments */
+%.* {
+}
 
   /* Any other character causes an error */
 .  {

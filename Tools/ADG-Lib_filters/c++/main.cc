@@ -4,8 +4,21 @@
 #include "driver_gcl.hh"
 #include "printer_gcl.hh"
 #include "printer_ggb.hh"
+#include "printer_argodg.hh"
 
 #include "eliminate_lines.hh"
+
+enum Format {UNKNOWN = -1, GCL, JGEX, GGB, ArgoDG, TPTP};
+
+// TODO:
+// add flags for options
+//    - eliminate lines
+//    - eliminate functions
+//    - check syntax
+//    - guess syntax
+//    - declaration to procedural
+//    - compare two files
+//    - ...
 
 // TODO: replace with <filesystem> once it becomes stable
 std::string getFilenameStem(const std::string& path) {
@@ -64,26 +77,6 @@ void print_tptp(const std::string& conjectureName,
   std::cout << ")." << std::endl;
 }
 
-void print_gcl(const std::string& conjectureName,
-               std::vector<FreePoint>& points,
-               const std::map<std::string, Line> lines,
-               const std::vector<ExprPtr>& hypotheses,
-               const std::vector<ExprPtr>& conjectures) {
-  PrinterGCL printer(std::cout);
-  for (ExprPtr h : hypotheses)
-    h->acceptVisitor(printer);
-}
-
-void print_ggb(const std::string& conjectureName,
-               std::vector<FreePoint>& points,
-               const std::map<std::string, Line> lines,
-               const std::vector<ExprPtr>& hypotheses,
-               const std::vector<ExprPtr>& conjectures) {
-  PrinterGGB printer(std::cout);
-  for (ExprPtr h : hypotheses)
-    h->acceptVisitor(printer);
-}
-
 
 inline bool ends_with(std::string const & value, std::string const & ending)
 {
@@ -91,18 +84,17 @@ inline bool ends_with(std::string const & value, std::string const & ending)
     return std::equal(ending.rbegin(), ending.rend(), value.rbegin());
 }
 
-int process_file(const std::string& file_name, driver& drv, bool trace_scanning, bool trace_parsing) {
+int process_file(const std::string& fileName, driver& drv, bool trace_scanning, bool trace_parsing, Format outputFormat) {
   drv.trace_scanning = trace_scanning;
   drv.trace_parsing = trace_parsing;
 
-  int parse_result = drv.parse(file_name);
+  int parse_result = drv.parse(fileName);
   if (parse_result != 0)
     return 1;
   else {
     if (drv.conjectures.size() == 0) {
       std::cerr << "Error: no conjectures found" << std::endl;
     } else {
-
       EliminateLinesTransformer eliminate_lines;
       eliminate_lines.addLines(drv.lines);
       std::vector<ExprPtr> transformed_hypotheses;
@@ -114,8 +106,26 @@ int process_file(const std::string& file_name, driver& drv, bool trace_scanning,
       }
       drv.points.insert(drv.points.end(), eliminate_lines.auxiliaryPoints().begin(), eliminate_lines.auxiliaryPoints().end());
       
-      std::string conjectureName = getFilenameStem(file_name);
-      print_ggb(conjectureName, drv.points, drv.lines, transformed_hypotheses, drv.conjectures);
+      std::string conjectureName = getFilenameStem(fileName);
+
+      PrinterGCL printerGCL(std::cout, conjectureName);
+      PrinterGGB printerGGB(std::cout, conjectureName);
+      PrinterArgoDG printerArgoDG(std::cout, conjectureName);
+
+      Printer* printer;
+      
+      if (outputFormat == ArgoDG)
+        printer = &printerArgoDG;
+      else if (outputFormat == GCL)
+        printer = &printerGCL;
+      else if (outputFormat == GGB)
+        printer = &printerGGB;
+
+      printer->printHeader();
+      for (ExprPtr h : transformed_hypotheses)
+        h->acceptVisitor(*printer);
+      printer->printFooter();
+      
     }
     return 0;
   }
@@ -125,31 +135,63 @@ int process_file(const std::string& file_name, driver& drv, bool trace_scanning,
 int main (int argc, char *argv[])
 {
   try {
-  int result = 0;
-  bool trace_parsing = false;
-  bool trace_scanning = false;
-  for (int i = 1; i < argc; ++i) {
-    std::cout << argv[i] << std::endl;
-    if (std::string(argv[i]) == "-p")
-      trace_parsing = true;
-    else if (std::string(argv[i]) == "-s") {
-      trace_scanning = true;
-    } else {
-      std::string file_name{argv[i]};
-      if (ends_with(file_name, ".gcl")) {
-        driver_gcl drv;
-        if (process_file(argv[i], drv, trace_scanning, trace_parsing) == 1)
-          result = 1;
-      } else if (ends_with(file_name, ".jgex") || ends_with(file_name, ".gex")) {
-        driver_jgex drv;
-        if (process_file(argv[i], drv, trace_scanning, trace_parsing) == 1)
-          result = 1;
+    std::vector<std::string> inputFiles;
+    int result = 0;
+    bool trace_parsing = false;
+    bool trace_scanning = false;
+
+    Format outputFormat = UNKNOWN;
+    
+    for (int i = 1; i < argc; ++i) {
+      if (std::string(argv[i]) == "-p")
+        trace_parsing = true;
+      else if (std::string(argv[i]) == "-s") {
+        trace_scanning = true;
+      } else if (std::string(argv[i]) == "-o") {
+        if (i + 1 < argc) {
+          std::string format_str{argv[i+1]};
+          if (format_str == "gcl") {
+            outputFormat = GCL;
+          } else if (format_str == "jgex" || format_str == "gex") {
+            outputFormat = JGEX;
+          } else if (format_str == "ggb") {
+            outputFormat = GGB;
+          } else if (format_str == "argodg") {
+            outputFormat = ArgoDG;
+          } else if (format_str == "tptp") {
+            outputFormat == TPTP;
+          } else {
+            std::cerr << "output format " << format_str << " unknown" << std::endl;
+          }
+          i++;
+        } else {
+          std::cerr << "format must be specified after -o" << std::endl;
+        }
       } else {
-        std::cerr << "Unknow extension " << argv[i] << std::endl;
+        inputFiles.push_back(argv[i]);
       }
     }
-  }
-  return result;
+
+    if (outputFormat == UNKNOWN) {
+      std::cerr << "output format must be set (-o format)" << std::endl;
+      return 1;
+    }
+
+    for (const std::string& fileName : inputFiles) {
+      if (ends_with(fileName, ".gcl")) {
+        driver_gcl drv;
+        if (process_file(fileName, drv, trace_scanning, trace_parsing, outputFormat) == 1)
+          result = 1;
+      } else if (ends_with(fileName, ".jgex") || ends_with(fileName, ".gex")) {
+        driver_jgex drv;
+        if (process_file(fileName, drv, trace_scanning, trace_parsing, outputFormat) == 1)
+          result = 1;
+      } else {
+        std::cerr << "Unknown input format extension " << fileName << std::endl;
+      }
+    }
+    
+    return result;
   } catch (const std::string& message) {
     std::cerr << message << std::endl;
   }

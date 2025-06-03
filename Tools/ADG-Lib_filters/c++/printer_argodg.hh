@@ -1,16 +1,15 @@
-#ifndef __PRINTER_GCL__
-#define __PRINTER_GCL__
+#ifndef __PRINTER_ARGO_DG_HH__
+#define __PRINTER_ARGO_DG_HH__
 
 #include "printer.hh"
 
-class PrinterGCL : public Printer {
+class PrinterArgoDG : public Printer {
 public:
-  PrinterGCL(std::ostream& ostr, const std::string& conjectureName) : Printer(ostr, conjectureName) {
+  PrinterArgoDG(std::ostream& ostr, const std::string& conjectureName) : Printer(ostr, conjectureName) {
   }
 
-  void printHeader() override {
-    ostr_ << "% generated from " << conjectureName_ << " using ADG-Lib tools" << std::endl;
-  }
+  void printHeader() override;
+  void printFooter() override;
 
   void visitConstant(const Constant&) override; 
   void visitVariable(const Variable&) override; 
@@ -40,5 +39,5 @@ public:
   void visitOnPerpendicular(const OnPerpendicular&) override;  
 };
 
-#endif
 
+#endif

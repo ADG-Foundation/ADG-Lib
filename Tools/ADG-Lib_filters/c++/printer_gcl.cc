@@ -1,6 +1,5 @@
 #include "printer_gcl.hh"
 
-
 void PrinterGCL::visitConstant(const Constant&) {
 }
 
@@ -9,12 +8,10 @@ void PrinterGCL::visitVariable(const Variable& v) {
 }
 
 void PrinterGCL::visitNaryExpression(const NaryExpression& e) {
-  ostr_ << e.op() << " ";
-  for (ExprPtr operand : e.operands()) {
-    operand->acceptVisitor(*this);
-    ostr_ << " ";
+  if (e.op() == "&") {
+    for (ExprPtr operand : e.operands())
+      operand->acceptVisitor(*this);
   }
-  ostr_ << std::endl;
 }
 
 void PrinterGCL::visitFreePoint(const FreePoint& p) {
@@ -29,19 +26,61 @@ void PrinterGCL::visitDrawPoint(const DrawPoint& e) {
   ostr_ << "cmark " << e.point() << std::endl;
 }
 
+void PrinterGCL::visitLabelPoint(const LabelPoint& e) {
+  ostr_ << "mark_lt " << e.point() << std::endl;
+}
+
 void PrinterGCL::visitDrawSegment(const DrawSegment& e) {
-  ostr_ << "drawsegment " << e.point1() << " " << e.point2() << std::endl;
+  switch(e.style()) {
+  case SOLID:
+  case BOLD:
+    ostr_ << "drawsegment " << e.point1() << " " << e.point2() << std::endl;
+    break;
+  case DASHED:
+    ostr_ << "drawdashsegment " << e.point1() << " " << e.point2() << std::endl;
+    break;
+  }
+}
+
+void PrinterGCL::visitDrawLine(const DrawLine& e) {
+  switch(e.style()) {
+  case SOLID:
+  case BOLD:
+    ostr_ << "drawline " << e.line() << std::endl;
+    break;
+  case DASHED:
+    ostr_ << "drawdashline " << e.line() << std::endl;
+    break;
+  }
+}
+
+void PrinterGCL::visitDrawLine_P(const DrawLine_P& e) {
+  switch(e.style()) {
+  case SOLID:
+  case BOLD:
+    ostr_ << "drawline " << e.point1() << " " << e.point2() << std::endl;
+    break;
+  case DASHED:
+    ostr_ << "drawdashline " << e.point1() << " " << e.point2() << std::endl;
+    break;
+  }
 }
 
 
 void PrinterGCL::visitFunMidpoint(const FunMidpoint& e) {
   ostr_ << "midpoint " << e.newPoint() << " " << e.point1() << " " << e.point2() << std::endl;
-  
+}
+
+void PrinterGCL::visitFunSegmentBisector(const FunSegmentBisector& e) {
+  ostr_ << "med " << e.newLine() << " " << e.point1() << " " << e.point2() << std::endl;
 }
 
 void PrinterGCL::visitFunParallel(const FunParallel& e) {
-  ostr_ << "parallel " << e.newLine() << " " << e.point() << " " << e.line() << std::endl;
-  
+  ostr_ << "parallel " << e.newLine() << " " << e.point() << " " << e.line() << std::endl;  
+}
+
+void PrinterGCL::visitFunPerpendicular(const FunPerpendicular& e) {
+  ostr_ << "perp " << e.newLine() << " " << e.point() << " " << e.line() << std::endl;  
 }
 
 void PrinterGCL::visitFunIntersectLL(const FunIntersectLL& e) {
@@ -54,4 +93,14 @@ void PrinterGCL::visitFunIntersectLL_P(const FunIntersectLL_P& e) {
 
 void PrinterGCL::visitOnParallel(const OnParallel& e) {
   ostr_ << "translate " << e.B1() << " " << e.A() << " " << e.B() << " " << e.A1() << std::endl;
+}
+
+void PrinterGCL::visitOnPerpendicular(const OnPerpendicular& e) {
+  std::string l = AuxiliaryLines::get();
+  ostr_ << "line " << l << " " << e.A() << " " << e.B() << std::endl;
+  std::string p = AuxiliaryLines::get();
+  ostr_ << "perp " << p << " " << e.P() << " " << l << std::endl;
+  std::string N = AuxiliaryPoints::get();
+  ostr_ << "intersec " << N << " " << l << " " << p << std::endl;
+  ostr_ << "translate " << e.X() << " " << N << " " << e.P() << " " << e.P() << std::endl;
 }

@@ -43,6 +43,7 @@ extern int scanner_gcl_lex(void);  // tell Bison to call this instead of yylex
   LINE "line"
   CIRCLE "circle"
   MIDPOINT "midpoint"
+  MED "med"
   INTERSECTION "intersection"
   ONLINE "on line"                      
   PROVE "prove"
@@ -52,8 +53,15 @@ extern int scanner_gcl_lex(void);  // tell Bison to call this instead of yylex
   SRATIO "signed ratio"
   SAMELENGTH "same_length"
   PARALLEL "parallel"
+  PERPENDICULAR "perp"
+  PERP "perpendicular"
   CMARK "cmark"
+  CMARK_LABEL "cmark_label"
   DRAWSEGMENT "drawsegment"
+  DRAWDASHSEGMENT "drawdashsegment"
+  DRAWLINE "drawline"
+  DRAWDASHLINE "drawdashline"
+  DIM "dim"
                         
 %token <std::string> VARIABLE "variable"
 %token <std::string> STRING "string"
@@ -79,6 +87,7 @@ input:
 text_line: %empty
     | text_line hypothesis { drv.hypotheses.push_back($2); }
     | text_line conjecture { drv.conjectures.push_back($2); }
+    | text_line other { /* other commands are ignored */ }
     ;
 
 
@@ -94,11 +103,17 @@ hypothesis:
 | MIDPOINT VARIABLE VARIABLE VARIABLE {
     $$ = std::make_shared<FunMidpoint>($2, $3, $4);
 }
+| MED VARIABLE VARIABLE VARIABLE {
+    $$ = std::make_shared<FunSegmentBisector>($2, $3, $4);
+}
 | ONLINE VARIABLE VARIABLE VARIABLE {
     $$ = make_expression("coll", $2, $3, $4);
 }
 | PARALLEL VARIABLE VARIABLE VARIABLE {
     $$ = std::make_shared<FunParallel>($2, $3, $4);
+}
+| PERP VARIABLE VARIABLE VARIABLE {
+    $$ = std::make_shared<FunPerpendicular>($2, $3, $4);
 }
 | CIRCLE VARIABLE VARIABLE VARIABLE {
     // FIXME: $1 - circle id is not used?
@@ -119,8 +134,28 @@ hypothesis:
 | CMARK VARIABLE {
   $$ = std::make_shared<DrawPoint>($2);
 }
+| CMARK_LABEL VARIABLE {
+  $$ = make_expression("&",
+                       std::make_shared<LabelPoint>($2),
+                       std::make_shared<DrawPoint>($2));
+}
 | DRAWSEGMENT VARIABLE VARIABLE {
   $$ = std::make_shared<DrawSegment>($2, $3);
+}
+| DRAWDASHSEGMENT VARIABLE VARIABLE {
+  $$ = std::make_shared<DrawSegment>($2, $3, DASHED);
+}
+| DRAWLINE VARIABLE {
+  $$ = std::make_shared<DrawLine>($2);
+}
+| DRAWLINE VARIABLE VARIABLE {
+  $$ = std::make_shared<DrawLine_P>($2, $3);
+}
+| DRAWDASHLINE VARIABLE {
+  $$ = std::make_shared<DrawLine>($2, DASHED);
+}
+| DRAWDASHLINE VARIABLE VARIABLE {
+  $$ = std::make_shared<DrawLine_P>($2, $3, DASHED);
 }
 ;
 
@@ -131,7 +166,9 @@ conjecture:
 | PROVE '{' PARALLEL VARIABLE VARIABLE VARIABLE VARIABLE '}' {
   $$ = make_expression("parallel", $4, $5, $6, $7);
 }
-
+| PROVE '{' PERPENDICULAR VARIABLE VARIABLE VARIABLE VARIABLE '}' {
+  $$ = make_expression("perpendicular", $4, $5, $6, $7);
+}
 // P_ACD = P_BCD, AB perpendicular to CD
 | PROVE '{' EQUAL '{' PD3 VARIABLE VARIABLE VARIABLE '}' '{' PD3 VARIABLE VARIABLE VARIABLE '}' '}'  {
   // FIXME: strange
@@ -153,8 +190,8 @@ conjecture:
 }
 ;
 
-
-
+other: DIM NUMBER NUMBER
+;
 
                 
 %%
