@@ -191,7 +191,7 @@ $H$ is the centroid/gravity center of triangle $ABC$. \\
 %-------------------------------------------------------------------
 circumcenter(G,A,B,C) & 
 & 
-$G$ is the circum-center of triangle $ABC$. \\
+$G$ is the circum-center of the three points $ABC$. \\
 %-------------------------------------------------------------------
 {\bf collinear(A,B,C)} & 
 $\col{A}{B}{C}$ & 
@@ -245,7 +245,7 @@ equilateral(A,B,C) &
 $ABC$ is an equilateral triangle & 
 $\congT{AB}{BC} \land \congT{BC}{CA}$\\
 %-------------------------------------------------------------------
-equilateralStrict(A,B,C) & 
+equilateralNdg(A,B,C) & 
 & 
 $ABC$ is an equilateral triangle and the points are distinct and hence not collinear & 
 $equilateral A B C \land A \neq B$ \\
@@ -254,9 +254,9 @@ harmonic(A,B,C,D) &
 & 
 Points $A$, $B$, $C$, $D$ are on the same line and $AC/CB=DA/DB$. \\
 %-------------------------------------------------------------------
-incenter(G,A,B,C) & 
+incenterNdg(G,A,B,C) & 
 & 
-$G$ is the in-center of triangle $ABC$. \\
+$G$ is the in-center of ndg triangle $ABC$. \\
 %-------------------------------------------------------------------
 \bottomrule
 \end{tabularx}
@@ -272,11 +272,11 @@ ADGLib &
 Intuitive meaning & 
 Definition \\ \midrule
 %-------------------------------------------------------------------
-insideCircle(C,O,P) & 
+insideCircleStrict(C,O,P) & 
 & 
 $C$ is strictly inside or on circle (or sphere) of center $O$ going through $P$.\\
 %-------------------------------------------------------------------
-insideCircleNonStrict(C,O,P) & 
+insideCircle(C,O,P) & 
 & 
 $C$ is inside the circle (or sphere) of center $O$ going through $P$.\\
 %-------------------------------------------------------------------
@@ -307,7 +307,7 @@ isosceles(A,B,C) &
 $ABC$ is an isosceles triangle in $B$, points may be equal. & 
 $\congT{AB}{BC}$ \\
 %-------------------------------------------------------------------
-isoscelesStrict(A,B,C) & 
+isoscelesNdg(A,B,C) & 
 & 
 $ABC$ is an isosceles triangle in $B$, points are not collinear. & 
 $\congT{AB}{BC} \land \lnot \col{A}{B}{C} $  \\
@@ -424,7 +424,7 @@ $ \spara{A B}{C D} \lor (A \neq B \land C \neq D \land \col{A}{C}{D} \land \col{
 \addlinespace
 parallelNonStrict(A,B,C,D) & 
  & 
-line $AB$ is parallel to line $CD$ or $A=B$ or $CD$ & 
+line $AB$ is parallel to line $CD$ or $A=B$ or $C=D$ & 
 $ \para{A B}{C D} \lor (A=B \lor C=D) $ \\
 %-------------------------------------------------------------------
 parallelNonReflexive(A,B,C,D) & 
@@ -443,7 +443,7 @@ parallelogram(A,B,C,D) &
 $ABCD$ is a parallelogram, this includes a flat case defined as diagonals intersect in their midpoint & 
 $Parallelogram\_strict \, A \, B \, A' \, B' \; \lor \; Parallelogram\_flat \, A \, B \, A' \, B'$ \\
 %-------------------------------------------------------------------
-parallelogramStrict(A,B,C,D) & 
+parallelogramNdg(A,B,C,D) & 
 & 
 $ABCD$ is a parallelogram. The points are not collinear & 
 $\oS {A} {A'} {B} {B'} \; \land \; AB \parallel A'B' \; \land \; \congT{AB}{A'B}'$ \\
