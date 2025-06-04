@@ -1,16 +1,45 @@
+% This file is provided by the ADG Foundation to be used with the ADG Signature.
+% This provides the LaTeX commands for the ADG Signature.
+% It is free software, distributed under the GNU General Public License (GPL) version 3 or later.
+% Contributors: Pierre Boutry, Julien Narboux
+
+\DeclareMathOperator{\leaa}{\mathbin{\widehat{\leq}}}
+\DeclareMathOperator{\geaa}{\mathbin{\widehat{\geq}}}
+\DeclareMathOperator{\gtaa}{\mathbin{\widehat{\gtq}}}
+\DeclareMathOperator{\ltaa}{\mathbin{\widehat{<}}}
+\DeclareMathOperator{\sumaa}{\mathbin{\widehat{+}}}
+\DeclareMathOperator{\eqaa}{\mathbin{\widehat{=}}}
+
 \newcommand{\angleT}[3]{{#1} \, {#2} \, {#3}}
 \newcommand{\betweenNonStrict}[3]{{#1} - {#2} - {#3}}
 \newcommand{\betweenStrict}[3]{{#1} -/- {#2} -/- {#3}}
-\newcommand{\congruentSegments}[2]{{#1} \mathbin{\equiv} {#2}}
+%conguent is already defined in Latex
+\newcommand{\congruentSegments}[4]{{#1}{#2} \mathbin{\equiv} {#3}{#4}}
 \newcommand{\collinear}[3]{ \mathrm{Col} {#1} {#2} {#3} }
+\newcommand{\midpoint}[3]{ \mathrm{Midpoint} {#1} {#2} {#3} }
 \newcommand{\congruentAngles}[6]{ \angleT{#1}{#2}{#3} \mathbin{\equiv} \angleT{#4}{#5}{#6}}
-\newcommand{\rightAngle}[3]{RightAngle {#1} {#2} {#3} }
+\newcommand{\rightAngle}[3]{ \mathrm{RightAngle} {#1} {#2} {#3} }
 \newcommand{\perpendicular}[4]{ {#1}{#2} \mathbin{\perp} {#3}{#4} }
 \newcommand{\perpendicularAt}[5]{{#1}{#2} \mathbin{\underset{#5}{\perp}} {#4}{#5}}
 \newcommand{\parallelADG}[4]{{#1}{#2} \mathbin{\parallel} {#3}{#4}}
+%parallel is already defined in Latex
+
 \newcommand{\lea}[6]{\angleT{#1}{#2}{#3} \leaa \angleT{#4}{#5}{#6}}
 \newcommand{\lta}[6]{\angleT{#1}{#2}{#3} \ltaa \angleT{#4}{#5}{#6}}
 \newcommand{\gea}[6]{\angleT{#1}{#2}{#3} \leaa \angleT{#4}{#5}{#6}}
 \newcommand{\gta}[6]{\angleT{#1}{#2}{#3} \ltaa \angleT{#4}{#5}{#6}}
 \newcommand{\insideAngle}[4]{\mathrm{InsideAngle} {#1} {#2} {#3} {#4} }
 \newcommand{\coplanar}[4]{\mathrm{Coplanar} {#1} {#2} {#3} {#4} }
+\newcommand{\sameSide}[4]{\mathrm{SameSide} {#1} {#2} {#3} {#4} }
+\newcommand{\oppositeSides}[4]{\mathrm{OppositeSides} {#1} {#2} {#3} {#4} }
+\newcommand{\sumAngles}[9]{\angleT{#1}{#2}{#3} \sumaa \angleT{#4}{#5}{#6} \eqaa \angleT{#7}{#8}{#9}}
+\DeclareMathOperator{\trisum}{\mathcal{S}}
+\newcommand{\sumAnglesTriangleCongruent}[6]{\trisum(\bigtriangleup{#1}{#2}{#3}) \eqaa \angleT{#4}{#5}{#6}}
+
+% some notations related to the area method
+\newcommand{\signedDistance}[2]{\overline{{#1}{#2}}}
+\newcommand{\signedRatio}[4]{\frac{\signedDistance{#1}{#2}}{\signedDistance{#3}{#4}}}
+\newcommand{\signedAreaTriangle}[3]{\mathcal{S}_{{#1}{#2}{#3}}}
+\newcommand{\signedAreaQuadrilateral}[4]{\mathcal{S}_{{#1}{#2}{#3}{#4}}}
+\newcommand{\pythagorasDifference}[3]{\mathcal{P}_{{#1}{#2}{#3}}}
+\newcommand{\pythagorasDifferenceQuadrilateral}[4]{\mathcal{P}_{{#1}{#2}{#3}{#4}}}
