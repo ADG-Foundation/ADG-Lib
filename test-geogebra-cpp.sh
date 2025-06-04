@@ -6,7 +6,7 @@
 
 GEOGEBRA=`which geogebra-discovery`
 TIMEOUT=20
-OUT_DIR=`pwd`/Generated/cpp
+OUT_DIR=`pwd`/Generated
 
 # Above this point the variables can be freely edited.
 

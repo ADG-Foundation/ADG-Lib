@@ -20,6 +20,8 @@ jobs:
     - uses: actions/checkout@v1
     - name: prerequisites-ubuntu
       run: sudo apt update && sudo apt install build-essential flex bison libzip-dev zipcmp zipmerge ziptool xvfb
+    - name: prerequisites-snap
+      run: sudo snap install geogebra-discovery
     - name: test-c++
       run: |
         cd Tools/ADG-Lib_filters/c++
