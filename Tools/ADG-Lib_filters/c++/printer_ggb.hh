@@ -48,9 +48,7 @@ public:
       throw std::string("Predicates are not supported");
   }
   
-  void visitCollinear(const Collinear& e) override {
-      throw std::string("Predicates are not supported");
-  }
+  void visitCollinear(const Collinear& e) override;
 
   void visitCongruent(const Congruent& e) override {
       throw std::string("Predicates are not supported");

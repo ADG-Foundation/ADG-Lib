@@ -140,3 +140,25 @@ void PrinterGGB::visitOnPerpendicular(const OnPerpendicular& e) {
   // FIXME
   ostr_ << "OnPerpendicular " << std::endl;
 }
+
+void PrinterGGB::visitCollinear(const Collinear& e) {
+  if (!printingConjectures_)
+    throw std::string("Predicates in hypotheses are not supported");
+  else
+    ostr_ << "<command name=\"Prove\">\n"
+      "  <input a0=\"AreCollinear[" << e.A() << ", " << e.B() << ", " << e.C() << "]\"/>\n" <<
+      "  <output a0=\"" << AuxiliaryObjects::get() << "\"/>\n" <<
+      "</command>\n";
+}
+
+/*
+<command name="Prove">
+  <input a0="Segment[D,E]+Segment[D,F]+Segment[C,H]==0"/>
+<output a0="a"/>
+</command>
+<element type="boolean" label="a">
+  <value val="true"/>
+  <show object="false" label="true"/>
+</element>
+*/
+
