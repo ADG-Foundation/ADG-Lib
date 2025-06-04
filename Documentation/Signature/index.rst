@@ -10,7 +10,8 @@ ADGLib-signature documentation
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-
+   
+   preface
    introduction
    onlypoints
    contributing

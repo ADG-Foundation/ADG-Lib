@@ -19,7 +19,7 @@ extensions = ['sphinx.ext.imgmath']
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
-adg_signature_path = "../Signature/adgsignature.sty"
+adg_signature_path = "../LatexStyleFile/adgsignature.sty"
 
 # -- Options for LaTeX output ------------------------------------------------
 latex_additional_files = [ adg_signature_path ]
