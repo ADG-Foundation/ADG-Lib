@@ -29,6 +29,9 @@ public:
     for (ExprPtr c : conjectures)
       c->acceptVisitor(*this);
   }
+
+  virtual void postprocess() {
+  }
   
 protected:
   std::ostream& ostr_;

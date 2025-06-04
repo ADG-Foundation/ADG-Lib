@@ -1,7 +1,5 @@
 #include <iostream>
-#include <fstream>
 #include <vector>
-#include <zip.h>
 
 #include "driver_jgex.hh"
 #include "driver_gcl.hh"
@@ -14,8 +12,6 @@
 #include "eliminate_lines.hh"
 #include "eliminate_functions.hh"
 #include "eliminate_dg.hh"
-
-#define GEOGEBRA_XML "geogebra.xml"
 
 enum Format {UNKNOWN = -1, GCL, JGEX, GGB, ArgoDG, TPTP};
 
@@ -158,29 +154,15 @@ int process_file(const std::string& fileName, driver& drv,
     
 
     // print in the chosen format
-    std::string conjectureName = getFilenameStem(fileName);
+    std::string conjectureName = getFilenameStem(fileName);    
 
     std::unique_ptr<Printer> printer;
-
-    std::ifstream gxml_existing(GEOGEBRA_XML);
-    if (gxml_existing.good()) {
-      std::cerr << "The file " << GEOGEBRA_XML << " exists, remove it first" << std::endl;
-      return 1;
-    }
-    std::ofstream gxml;
-
     if (outputFormat == ArgoDG)
       printer = std::make_unique<PrinterArgoDG>(std::cout, conjectureName);
     else if (outputFormat == GCL)
       printer = std::make_unique<PrinterGCL>(std::cout, conjectureName);
-    else if (outputFormat == GGB) {
-      if (zipOutput) {
-        gxml.open(GEOGEBRA_XML);
-        printer = std::make_unique<PrinterGGB>(gxml, conjectureName);
-        }
-      else
-        printer = std::make_unique<PrinterGGB>(std::cout, conjectureName);
-      }
+    else if (outputFormat == GGB)
+      printer = std::make_unique<PrinterGGB>(conjectureName, zipOutput);
     else if (outputFormat == TPTP)
       printer = std::make_unique<PrinterTPTP>(std::cout, conjectureName);
 
@@ -190,22 +172,7 @@ int process_file(const std::string& fileName, driver& drv,
     printer->printHypotheses(hypotheses);
     printer->printConjectures(conjectures);
     printer->printFooter();
-
-    if (outputFormat == GGB && zipOutput) {
-      gxml.close();
-      zip_error *zerr;
-      int err;
-      zip_t *archive = zip_open((conjectureName + ".ggb").data(), ZIP_CREATE | ZIP_TRUNCATE, &err);
-      if (archive == NULL) {
-        std::cerr << "Cannot open " << conjectureName << ".ggb for writing" << std::endl;
-        return 1;
-      }
-      zip_source_t *source = zip_source_file_create(GEOGEBRA_XML, 0, -1, zerr); // TODO: add error handling
-      zip_file_add(archive, GEOGEBRA_XML, source, ZIP_FL_ENC_UTF_8);
-      zip_close(archive);
-      std::remove(GEOGEBRA_XML);
-      }
-
+    printer->postprocess();
   }
   return 0;
 }
@@ -233,15 +200,14 @@ int main (int argc, char *argv[])
       } else if (arg == "-o") {
         if (i + 1 < argc) {
           std::string format_str{argv[i+1]};
-          if (format_str == "ggb") {
-            zip_output = true;
-          }
           if (format_str == "gcl") {
             outputFormat = GCL;
           } else if (format_str == "jgex" || format_str == "gex") {
             outputFormat = JGEX;
           } else if (format_str == "ggb" || format_str == "ggbxml") {
             outputFormat = GGB;
+            if (format_str == "ggb")
+              zip_output = true;
           } else if (format_str == "argodg") {
             outputFormat = ArgoDG;
           } else if (format_str == "tptp") {

@@ -162,6 +162,7 @@ void PrinterGGB::visitParallel_P(const Parallel_P& e) {
       "</command>\n";
 }
 
+
 void PrinterGGB::visitPerpendicular_P(const Perpendicular_P& e) {
   if (!printingConjectures_)
     throw std::string("Predicates in hypotheses are not supported");
