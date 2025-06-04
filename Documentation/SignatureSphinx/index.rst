@@ -13,3 +13,4 @@ ADGLib-signature documentation
 
    introduction
    onlypoints
+   contributing

@@ -181,3 +181,6 @@ ___________
     "onLineRatio(Y,A,B,r)"#""#":math:`Y`` is a point on the line :math:`AB` such that :math:`\signedDistance{A}{Y}=r\signedDistance{A}{B}`"
     "onParallelRatio(Y,W,U,V,r)"#""#":math:`Y` is a point on the parallel to line :math:`UV` going through :math:`W` such that :math:`\signedDistance{W}{Y}=r\signedDistance{U}{V}` "
     "onPerpenticularRatio(Y,W,U,V,r)"#""#":math:`Y` is a point on the perpendicular to line :math:`UV` going through :math:`W` such that :math:`4 \signedAreaTriangle{U}{V}{Y}=\pythagorasDifference{U}{V}{U}` "
+
+
+
