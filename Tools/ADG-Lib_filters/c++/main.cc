@@ -154,7 +154,13 @@ int process_file(const std::string& fileName, driver& drv,
     std::string conjectureName = getFilenameStem(fileName);
 
     std::unique_ptr<Printer> printer;
-    std::ofstream gxml("geogebra.xml"); // TODO: Check if this file already exists,
+
+    std::ifstream gxml_existing("geogebra.xml");
+    if (gxml_existing.good()) {
+      std::cerr << "The file geogebra.xml exists, remove it first" << std::endl;
+      return 1;
+    }
+    std::ofstream gxml("geogebra.xml"); // TODO:
     // do not create it if the export is not related to GeoGebra.
 
     if (outputFormat == ArgoDG)
