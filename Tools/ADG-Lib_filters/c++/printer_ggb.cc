@@ -125,8 +125,10 @@ void PrinterGGB::visitFunIntersectLL_P(const FunIntersectLL_P& e) {
 }
 
 void PrinterGGB::visitOnLine(const OnLine& e) {
-  // FIXME
-  ostr_ << "OnLine " << std::endl;
+  ostr_ << "<command name=\"Point\">" << std::endl;
+  ostr_ << "   <input a0=\"Line[" << e.A() << ", " << e.B() << "]\"/>" << std::endl;
+  ostr_ << "   <output a0=\"" << e.X() << "\"/>" << std::endl;
+  ostr_ << "</command>" << std::endl;
 }
 
 void PrinterGGB::visitOnParallel(const OnParallel& e) {
