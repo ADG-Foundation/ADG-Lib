@@ -202,6 +202,64 @@ ExprPtr Midpoint::acceptTransformer(ExpressionTransformer& transformer) const {
   return transformer.transformMidpoint(*this);
 }
 
+// Parallel_P implementation
+
+void Parallel_P::print(std::ostream& ostr) const {
+  ostr << "(parallel_p " << A1_ << "," << B1_ << "," << A2_ << "," << B2_ << ")";
+}
+
+void Parallel_P::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitParallel_P(*this);
+}
+
+ExprPtr Parallel_P::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformParallel_P(*this);
+}
+
+// Perpendicular_P implementation
+
+void Perpendicular_P::print(std::ostream& ostr) const {
+  ostr << "(perpendicular_p " << A1_ << "," << B1_ << "," << A2_ << "," << B2_ << ")";
+}
+
+void Perpendicular_P::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitPerpendicular_P(*this);
+}
+
+ExprPtr Perpendicular_P::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformPerpendicular_P(*this);
+}
+
+// Congruent implementation
+
+void Congruent::print(std::ostream& ostr) const {
+  ostr << "(congruent " << A1_ << "," << B1_ << "," << A2_ << ", " << B2_ << ")";
+}
+
+void Congruent::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitCongruent(*this);
+}
+
+ExprPtr Congruent::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformCongruent(*this);
+}
+
+// Collinear implementation
+
+void Collinear::print(std::ostream& ostr) const {
+  ostr << "(collinear " << A_ << "," << B_ << "," << C_ << ")";
+}
+
+void Collinear::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitCollinear(*this);
+}
+
+ExprPtr Collinear::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformCollinear(*this);
+}
+
+
+
 
 // FunSegmentBisector implementation
 
@@ -274,11 +332,25 @@ ExprPtr FunIntersectLL_P::acceptTransformer(ExpressionTransformer& transformer) 
   return transformer.transformFunIntersectLL_P(*this);
 }
 
+// OnLine implementation
+
+void OnLine::print(std::ostream& ostr) const {
+  ostr << "(on_line " << X_ << "," << A_ << "," << B_ << ")";
+}
+
+void OnLine::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitOnLine(*this);
+}
+
+ExprPtr OnLine::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformOnLine(*this);
+}
+
 
 // OnParallel implementation
 
 void OnParallel::print(std::ostream& ostr) const {
-  ostr << "(on_parallel " << A_ << "," << B_ << "," << A1_ << "," << B1_ << ")";
+  ostr << "(on_parallel " << X_ << "," << A_ << "," << B_ << "," << P_ << ")";
 }
 
 void OnParallel::acceptVisitor(ExpressionVisitor& visitor) const {

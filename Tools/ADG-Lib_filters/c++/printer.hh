@@ -6,15 +6,31 @@
 class Printer : public ExpressionVisitor {
 public:
   Printer(std::ostream& ostr, const std::string& conjectureName) :
-    ostr_(ostr), conjectureName_(conjectureName) {
+    ostr_(ostr), conjectureName_(conjectureName), printingConjectures_(false) {
   }
 
   virtual void printHeader() { }
   virtual void printFooter() { }
+
+  virtual void printComment(const std::string& comment) {
+    // by default, comments are ignored
+  }
+  
+  virtual void printHypotheses(const std::vector<ExprPtr>& hypotheses) {
+    for (ExprPtr h : hypotheses)
+      h->acceptVisitor(*this);
+  }
+  
+  virtual void printConjectures(const std::vector<ExprPtr>& conjectures) {
+    printingConjectures_ = true;
+    for (ExprPtr c : conjectures)
+      c->acceptVisitor(*this);
+  }
   
 protected:
   std::ostream& ostr_;
   std::string conjectureName_;
+  bool printingConjectures_;
 };
 
 #endif

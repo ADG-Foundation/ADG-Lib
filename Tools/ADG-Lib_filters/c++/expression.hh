@@ -254,6 +254,90 @@ private:
   Variable midpoint_, point1_, point2_;
 };
 
+// Represents a predicate that checks if the two segments given by
+// pairs of points are congruent
+class Congruent : public Expression {
+public:
+  Congruent(const std::string& A1, const std::string& B1,
+            const std::string& A2, const std::string& B2)
+    : A1_(Variable(A1)), B1_(Variable(B1)),
+      A2_(Variable(A2)), B2_(Variable(B2)) {
+  }
+
+  const Variable& A1() const { return A1_; }
+  const Variable& B1() const { return B1_; }
+  const Variable& A2() const { return A2_; }
+  const Variable& B2() const { return B2_; }
+
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+private:
+  Variable A1_, B1_, A2_, B2_;
+};
+
+// Represents a predicate that checks if the points are collinear
+class Collinear : public Expression {
+public:
+  Collinear(const std::string& A, const std::string& B, const std::string& C)
+    : A_(Variable(A)), B_(Variable(B)), C_(Variable(C)) {
+  }
+
+  const Variable& A() const { return A_; }
+  const Variable& B() const { return B_; }
+  const Variable& C() const { return C_; }
+
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+private:
+  Variable A_, B_, C_;
+};
+
+
+// Represents a predicate that checks if the lines given by two pairs of points are parallel
+class Parallel_P : public Expression {
+public:
+  Parallel_P(const std::string& A1, const std::string& B1, const std::string& A2, const std::string& B2)
+    : A1_(Variable(A1)), B1_(Variable(B1)), A2_(Variable(A2)), B2_(Variable(B2)) {
+  }
+
+  const Variable& A1() const { return A1_; }
+  const Variable& B1() const { return B1_; }
+  const Variable& A2() const { return A2_; }
+  const Variable& B2() const { return B2_; }
+
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+private:
+  Variable A1_, B1_, A2_, B2_;
+};
+
+// Represents a predicate that checks if the lines given by two pairs
+// of points are perpendicular
+class Perpendicular_P : public Expression {
+public:
+  Perpendicular_P(const std::string& A1, const std::string& B1, const std::string& A2, const std::string& B2)
+    : A1_(Variable(A1)), B1_(Variable(B1)), A2_(Variable(A2)), B2_(Variable(B2)) {
+  }
+
+  const Variable& A1() const { return A1_; }
+  const Variable& B1() const { return B1_; }
+  const Variable& A2() const { return A2_; }
+  const Variable& B2() const { return B2_; }
+
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+private:
+  Variable A1_, B1_, A2_, B2_;
+};
+
 
 // Represents a function that constructs the perpendicular bisector of a segment
 class FunSegmentBisector : public Expression {
@@ -357,23 +441,42 @@ private:
   Variable new_point_, A1_, B1_, A2_, B2_;
 };
 
-class OnParallel: public Expression {
+class OnLine: public Expression {
 public:
-  OnParallel(const std::string& A, const std::string& B,
-             const std::string& A1, const std::string& B1) :
-    A_(Variable(A)), B_(Variable(B)), A1_(Variable(A1)), B1_(Variable(B1)) {
+  OnLine(const std::string& X, const std::string& A, const std::string& B) :
+    X_(Variable(X)), A_(Variable(A)), B_(Variable(B)) {
   }
 
   void print(std::ostream&) const override;
   void acceptVisitor(ExpressionVisitor&) const override;
   ExprPtr acceptTransformer(ExpressionTransformer&) const override;
   
+  const Variable& X() const { return X_; }
   const Variable& A() const { return A_; }
   const Variable& B() const { return B_; }
-  const Variable& A1() const { return A1_; }
-  const Variable& B1() const { return B1_; }
 private:
-  Variable A_, B_, A1_, B1_;
+  Variable X_, A_, B_;
+};
+
+
+class OnParallel: public Expression {
+public:
+  OnParallel(const std::string& X,
+             const std::string& A, const std::string& B,
+             const std::string& P) :
+    X_(Variable(X)), A_(Variable(A)), B_(Variable(B)), P_(Variable(P)) {
+  }
+
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+  const Variable& X() const { return X_; }
+  const Variable& A() const { return A_; }
+  const Variable& B() const { return B_; }
+  const Variable& P() const { return P_; }
+private:
+  Variable X_, A_, B_, P_;
 };
 
 class OnPerpendicular: public Expression {
@@ -420,10 +523,15 @@ public:
   virtual void visitFunIntersectLL(const FunIntersectLL&) = 0;
   virtual void visitFunIntersectLL_P(const FunIntersectLL_P&) = 0;
 
+  virtual void visitOnLine(const OnLine&) = 0;
   virtual void visitOnParallel(const OnParallel&) = 0;
   virtual void visitOnPerpendicular(const OnPerpendicular&) = 0;
 
   virtual void visitMidpoint(const Midpoint&) = 0;
+  virtual void visitParallel_P(const Parallel_P&) = 0;
+  virtual void visitPerpendicular_P(const Perpendicular_P&) = 0;
+  virtual void visitCongruent(const Congruent&) = 0;
+  virtual void visitCollinear(const Collinear&) = 0;
   
   virtual ~ExpressionVisitor() = default;
 };
@@ -451,10 +559,15 @@ public:
   virtual ExprPtr transformFunIntersectLL(const FunIntersectLL&) = 0;
   virtual ExprPtr transformFunIntersectLL_P(const FunIntersectLL_P&) = 0;
 
+  virtual ExprPtr transformOnLine(const OnLine&) = 0;
   virtual ExprPtr transformOnParallel(const OnParallel&) = 0;
   virtual ExprPtr transformOnPerpendicular(const OnPerpendicular&) = 0;
 
   virtual ExprPtr transformMidpoint(const Midpoint&) = 0;
+  virtual ExprPtr transformParallel_P(const Parallel_P&) = 0;
+  virtual ExprPtr transformPerpendicular_P(const Perpendicular_P&) = 0;
+  virtual ExprPtr transformCongruent(const Congruent&) = 0;
+  virtual ExprPtr transformCollinear(const Collinear&) = 0;
   
   virtual ~ExpressionTransformer() = default;
 };

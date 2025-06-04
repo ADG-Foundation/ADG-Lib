@@ -108,6 +108,11 @@ void PrinterGGB::visitFunIntersectLL_P(const FunIntersectLL_P& e) {
   */
 }
 
+void PrinterGGB::visitOnLine(const OnLine& e) {
+  // FIXME
+  ostr_ << "OnLine " << std::endl;
+}
+
 void PrinterGGB::visitOnParallel(const OnParallel& e) {
   // FIXME
   ostr_ << "OnParallel " << std::endl;

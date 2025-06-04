@@ -53,6 +53,7 @@ extern int scanner_gcl_lex(void);  // tell Bison to call this instead of yylex
   SRATIO "signed ratio"
   SAMELENGTH "same_length"
   PARALLEL "parallel"
+  COLLINEAR "collinear"
   PERPENDICULAR "perp"
   PERP "perpendicular"
   CMARK "cmark"
@@ -62,6 +63,7 @@ extern int scanner_gcl_lex(void);  // tell Bison to call this instead of yylex
   DRAWLINE "drawline"
   DRAWDASHLINE "drawdashline"
   DIM "dim"
+  COLOR "color"
                         
 %token <std::string> VARIABLE "variable"
 %token <std::string> STRING "string"
@@ -107,7 +109,7 @@ hypothesis:
     $$ = std::make_shared<FunSegmentBisector>($2, $3, $4);
 }
 | ONLINE VARIABLE VARIABLE VARIABLE {
-    $$ = make_expression("coll", $2, $3, $4);
+  $$ = std::make_shared<OnLine>($2, $3, $4);
 }
 | PARALLEL VARIABLE VARIABLE VARIABLE {
     $$ = std::make_shared<FunParallel>($2, $3, $4);
@@ -161,13 +163,16 @@ hypothesis:
 
 conjecture:
  PROVE '{' SAMELENGTH VARIABLE VARIABLE VARIABLE VARIABLE '}'  {
-   $$ = make_expression("cong", $4, $5, $6, $7);
+   $$ = std::make_shared<Congruent>($4, $5, $6, $7);
+}
+| PROVE '{' COLLINEAR VARIABLE VARIABLE VARIABLE '}' {
+  $$ = std::make_shared<Collinear>($4, $5, $6);
 }
 | PROVE '{' PARALLEL VARIABLE VARIABLE VARIABLE VARIABLE '}' {
-  $$ = make_expression("parallel", $4, $5, $6, $7);
+  $$ = std::make_shared<Parallel_P>($4, $5, $6, $7);
 }
 | PROVE '{' PERPENDICULAR VARIABLE VARIABLE VARIABLE VARIABLE '}' {
-  $$ = make_expression("perpendicular", $4, $5, $6, $7);
+  $$ = std::make_shared<Perpendicular_P>($4, $5, $6, $7);
 }
 // P_ACD = P_BCD, AB perpendicular to CD
 | PROVE '{' EQUAL '{' PD3 VARIABLE VARIABLE VARIABLE '}' '{' PD3 VARIABLE VARIABLE VARIABLE '}' '}'  {
@@ -190,7 +195,9 @@ conjecture:
 }
 ;
 
-other: DIM NUMBER NUMBER
+other:
+  DIM NUMBER NUMBER
+| COLOR NUMBER NUMBER NUMBER
 ;
 
                 

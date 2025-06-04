@@ -91,11 +91,18 @@ void PrinterGCL::visitFunIntersectLL_P(const FunIntersectLL_P& e) {
   ostr_ << "intersec " << e.newPoint() << " " << e.A1() << " " << e.B1() << " " << e.A2() << " " << e.B2() << std::endl;
 }
 
+void PrinterGCL::visitOnLine(const OnLine& e) {
+  ostr_ << "online " << e.X() << " " << e.A() << " " << e.B() << std::endl;
+}
+
 void PrinterGCL::visitOnParallel(const OnParallel& e) {
-  ostr_ << "translate " << e.B1() << " " << e.A() << " " << e.B() << " " << e.A1() << std::endl;
+  ostr_ << "translate " << e.X() << " " << e.A() << " " << e.B() << " " << e.P() << std::endl;
 }
 
 void PrinterGCL::visitOnPerpendicular(const OnPerpendicular& e) {
+  ostr_ << "%";
+  e.print(ostr_);
+  ostr_ << std::endl;
   std::string l = AuxiliaryLines::get();
   ostr_ << "line " << l << " " << e.A() << " " << e.B() << std::endl;
   std::string p = AuxiliaryLines::get();
@@ -103,4 +110,37 @@ void PrinterGCL::visitOnPerpendicular(const OnPerpendicular& e) {
   std::string N = AuxiliaryPoints::get();
   ostr_ << "intersec " << N << " " << l << " " << p << std::endl;
   ostr_ << "translate " << e.X() << " " << N << " " << e.P() << " " << e.P() << std::endl;
+}
+
+
+void PrinterGCL::visitMidpoint(const Midpoint&) {
+  throw std::string("Predicates in hypotheses are not supported");
+}
+
+void PrinterGCL::visitParallel_P(const Parallel_P& e) {
+  if (!printingConjectures_)
+    throw std::string("Predicates in hypotheses are not supported");
+  else
+    ostr_ << "prove { " << "parallel " << e.A1() << " " << e.B1() << " " << e.A2() << " " << e.B2() << " } ";
+}
+
+void PrinterGCL::visitPerpendicular_P(const Perpendicular_P& e) {
+  if (!printingConjectures_)
+    throw std::string("Predicates in hypotheses are not supported");
+  else
+    ostr_ << "prove { " << "perpendicular " << e.A1() << " " << e.B1() << " " << e.A2() << " " << e.B2() << " } ";
+}
+
+void PrinterGCL::visitCongruent(const Congruent& e) {
+  if (!printingConjectures_)
+    throw std::string("Predicates hypotheses are not supported");
+  else
+    ostr_ << "prove { " << "samelength " << e.A1() << " " << e.B1() << " " << e.A2() << " " << e.B2() << " } ";
+}
+  
+void PrinterGCL::visitCollinear(const Collinear& e) {
+  if (!printingConjectures_)
+    throw std::string("Predicates in hypotheses are not supported");
+  else
+    ostr_ << "prove { " << "collinear " << e.A() << " " << e.B() << " " << e.C() << " } ";
 }

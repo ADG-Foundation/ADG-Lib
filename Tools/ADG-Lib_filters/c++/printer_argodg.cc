@@ -39,7 +39,7 @@ void PrinterArgoDG::visitNaryExpression(const NaryExpression& e) {
 }
 
 void PrinterArgoDG::visitFreePoint(const FreePoint& p) {
-  ostr_ << p.id() << " = RC.point(" << p.x() << ", " << p.y() << ").hide();" << std::endl;
+  ostr_ << p.id() << " = RC.point(" << p.x() << ", " << p.y() << ").color(\"blue\").hide();" << std::endl;
 }
 
 void PrinterArgoDG::visitLine(const Line& l) {
@@ -118,8 +118,18 @@ void PrinterArgoDG::visitFunIntersectLL_P(const FunIntersectLL_P& e) {
         << std::endl;
 }
 
+void PrinterArgoDG::visitOnLine(const OnLine& e) {
+  ostr_ << e.X() << " = RC.free_point_on_line("
+        << "RC.line(" <<  e.A() << ", " << e.B() << ").hide()" << ", "
+        << "0, 0).color(\"red\").hide();"
+        << std::endl;
+}
+
 void PrinterArgoDG::visitOnParallel(const OnParallel& e) {
-  ostr_ << "onParallel" << std::endl;
+  ostr_ << e.X() << " = RC.free_point_on_parallel("
+        << "RC.line(" <<  e.A() << ", " << e.B() << ").hide()" << ", "
+        << e.P() << ", 0, 0).color(\"red\").hide();"
+        << std::endl;
 }
 
 void PrinterArgoDG::visitOnPerpendicular(const OnPerpendicular& e) {

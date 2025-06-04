@@ -9,7 +9,10 @@ public:
   }
 
   void printHeader() override {
-    ostr_ << "% generated from " << conjectureName_ << " using ADG-Lib tools" << std::endl;
+  }
+
+  void printComment(const std::string& comment) {
+    ostr_ << "% " << comment << std::endl;
   }
 
   void visitConstant(const Constant&) override; 
@@ -32,12 +35,15 @@ public:
   void visitFunIntersectLL(const FunIntersectLL&) override;
   void visitFunIntersectLL_P(const FunIntersectLL_P&) override;
 
-  void visitMidpoint(const Midpoint&) {
-    throw std::string("Predicates are not supported");
-  }
+  void visitMidpoint(const Midpoint&) override;
+  void visitParallel_P(const Parallel_P& e) override;
+  void visitPerpendicular_P(const Perpendicular_P& e) override;
+  void visitCongruent(const Congruent& e) override;
+  void visitCollinear(const Collinear& e) override; 
   
+  void visitOnLine(const OnLine&) override;  
   void visitOnParallel(const OnParallel&) override;  
-  void visitOnPerpendicular(const OnPerpendicular&) override;  
+  void visitOnPerpendicular(const OnPerpendicular&) override;
 };
 
 #endif

@@ -75,6 +75,7 @@ samelength              { return parser_gcl::parser_gcl::make_SAMELENGTH(loc); }
 perp                    { return parser_gcl::parser_gcl::make_PERP(loc); }
 perpendicular           { return parser_gcl::parser_gcl::make_PERPENDICULAR(loc); }
 parallel                { return parser_gcl::parser_gcl::make_PARALLEL(loc); }
+collinear               { return parser_gcl::parser_gcl::make_COLLINEAR(loc); }
 cmark_lt                { return parser_gcl::parser_gcl::make_CMARK_LABEL(loc); }
 cmark_rt                { return parser_gcl::parser_gcl::make_CMARK_LABEL(loc); }
 cmark_l                 { return parser_gcl::parser_gcl::make_CMARK_LABEL(loc); }
@@ -89,6 +90,7 @@ drawdashsegment         { return parser_gcl::parser_gcl::make_DRAWDASHSEGMENT(lo
 drawline                { return parser_gcl::parser_gcl::make_DRAWLINE(loc); }
 drawdashline            { return parser_gcl::parser_gcl::make_DRAWDASHLINE(loc); }
 dim                     { return parser_gcl::parser_gcl::make_DIM(loc); }
+color                   { return parser_gcl::parser_gcl::make_COLOR(loc); }
 
  /* Variables */
 [a-zA-Z_][a-zA-Z0-9_']* {

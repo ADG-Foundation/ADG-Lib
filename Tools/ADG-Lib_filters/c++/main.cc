@@ -2,11 +2,14 @@
 #include <vector>
 #include "driver_jgex.hh"
 #include "driver_gcl.hh"
+
 #include "printer_gcl.hh"
 #include "printer_ggb.hh"
 #include "printer_argodg.hh"
+#include "printer_tptp.hh"
 
 #include "eliminate_lines.hh"
+#include "eliminate_functions.hh"
 
 enum Format {UNKNOWN = -1, GCL, JGEX, GGB, ArgoDG, TPTP};
 
@@ -84,51 +87,86 @@ inline bool ends_with(std::string const & value, std::string const & ending)
     return std::equal(ending.rbegin(), ending.rend(), value.rbegin());
 }
 
-int process_file(const std::string& fileName, driver& drv, bool trace_scanning, bool trace_parsing, Format outputFormat) {
-  drv.trace_scanning = trace_scanning;
-  drv.trace_parsing = trace_parsing;
-
-  int parse_result = drv.parse(fileName);
-  if (parse_result != 0)
+int process_file(const std::string& fileName, driver& drv,
+                 bool traceScanning, bool traceParsing,
+                 bool eliminateLines, bool eliminateFunctions, Format outputFormat) {
+  drv.trace_scanning = traceScanning;
+  drv.trace_parsing = traceParsing;
+  int parseResult = drv.parse(fileName);
+  if (parseResult != 0)
     return 1;
   else {
     if (drv.conjectures.size() == 0) {
       std::cerr << "Error: no conjectures found" << std::endl;
-    } else {
-      EliminateLinesTransformer eliminate_lines;
-      eliminate_lines.addLines(drv.lines);
-      std::vector<ExprPtr> transformed_hypotheses;
-      transformed_hypotheses.reserve(drv.hypotheses.size());
-      for (int i = 0; i < drv.hypotheses.size(); i++) {
-        ExprPtr e = drv.hypotheses[i]->acceptTransformer(eliminate_lines);
-        if (e != nullptr)
-          transformed_hypotheses.push_back(e);
-      }
-      drv.points.insert(drv.points.end(), eliminate_lines.auxiliaryPoints().begin(), eliminate_lines.auxiliaryPoints().end());
-      
-      std::string conjectureName = getFilenameStem(fileName);
-
-      PrinterGCL printerGCL(std::cout, conjectureName);
-      PrinterGGB printerGGB(std::cout, conjectureName);
-      PrinterArgoDG printerArgoDG(std::cout, conjectureName);
-
-      Printer* printer;
-      
-      if (outputFormat == ArgoDG)
-        printer = &printerArgoDG;
-      else if (outputFormat == GCL)
-        printer = &printerGCL;
-      else if (outputFormat == GGB)
-        printer = &printerGGB;
-
-      printer->printHeader();
-      for (ExprPtr h : transformed_hypotheses)
-        h->acceptVisitor(*printer);
-      printer->printFooter();
-      
+      return 1;
     }
-    return 0;
+
+    std::vector<ExprPtr> hypotheses(drv.hypotheses);
+    std::vector<ExprPtr> conjectures(drv.conjectures);
+    std::vector<FreePoint> points(drv.points);
+    std::map<std::string, Line> lines(drv.lines);
+
+    if (eliminateLines) {
+      // lines elimination
+      EliminateLinesTransformer transformer;
+      transformer.addLines(lines);
+      
+      std::vector<ExprPtr> hypothesesNoLines;
+      hypothesesNoLines.reserve(hypotheses.size());
+      for (int i = 0; i < hypotheses.size(); i++) {
+        ExprPtr e = hypotheses[i]->acceptTransformer(transformer);
+        if (e != nullptr)
+          hypothesesNoLines.push_back(e);
+      }
+      hypotheses = hypothesesNoLines;
+
+      std::vector<ExprPtr> conjecturesNoLines;
+      conjecturesNoLines.reserve(conjectures.size());
+      for (int i = 0; i < conjectures.size(); i++) {
+        ExprPtr e = conjectures[i]->acceptTransformer(transformer);
+        if (e != nullptr)
+          conjecturesNoLines.push_back(e);
+      }
+      conjectures = conjecturesNoLines;
+      points.insert(points.end(), transformer.auxiliaryPoints().begin(), transformer.auxiliaryPoints().end());
+      lines = transformer.lines();
+    }
+
+    if (eliminateFunctions) {
+      // functions elimination
+      std::vector<ExprPtr> hypothesesNoFunctions;
+      hypothesesNoFunctions.reserve(hypotheses.size());
+      
+      EliminateFunctionsTransformer transformer;
+      for (int i = 0; i < hypotheses.size(); i++) {
+        ExprPtr e = hypotheses[i]->acceptTransformer(transformer);
+        if (e != nullptr) 
+          hypothesesNoFunctions.push_back(e);
+      }
+      hypotheses = hypothesesNoFunctions;
+    }
+
+    // print in the chosen format
+      
+    std::string conjectureName = getFilenameStem(fileName);
+
+    std::unique_ptr<Printer> printer;      
+    if (outputFormat == ArgoDG)
+      printer = std::make_unique<PrinterArgoDG>(std::cout, conjectureName);
+    else if (outputFormat == GCL)
+      printer = std::make_unique<PrinterGCL>(std::cout, conjectureName);
+    else if (outputFormat == GGB)
+      printer = std::make_unique<PrinterGGB>(std::cout, conjectureName);
+    else if (outputFormat == TPTP)
+      printer = std::make_unique<PrinterTPTP>(std::cout, conjectureName);
+
+    printer->printComment(std::string("generated from ") + conjectureName + std::string(" using ADG-Lib tools"));
+    printer->printHeader();
+    printer->printHypotheses(hypotheses);
+    printer->printConjectures(conjectures);
+    printer->printFooter();
   }
+  return 0;
 }
 
 
@@ -139,15 +177,18 @@ int main (int argc, char *argv[])
     int result = 0;
     bool trace_parsing = false;
     bool trace_scanning = false;
+    bool eliminate_lines = false;
+    bool eliminate_functions = false;
 
     Format outputFormat = UNKNOWN;
     
     for (int i = 1; i < argc; ++i) {
-      if (std::string(argv[i]) == "-p")
+      std::string arg(argv[i]);
+      if (arg == "-p")
         trace_parsing = true;
-      else if (std::string(argv[i]) == "-s") {
+      else if (arg == "-s") {
         trace_scanning = true;
-      } else if (std::string(argv[i]) == "-o") {
+      } else if (arg == "-o") {
         if (i + 1 < argc) {
           std::string format_str{argv[i+1]};
           if (format_str == "gcl") {
@@ -159,7 +200,7 @@ int main (int argc, char *argv[])
           } else if (format_str == "argodg") {
             outputFormat = ArgoDG;
           } else if (format_str == "tptp") {
-            outputFormat == TPTP;
+            outputFormat = TPTP;
           } else {
             std::cerr << "output format " << format_str << " unknown" << std::endl;
           }
@@ -167,6 +208,10 @@ int main (int argc, char *argv[])
         } else {
           std::cerr << "format must be specified after -o" << std::endl;
         }
+      } else if (arg == "-el") {
+        eliminate_lines = true;
+      } else if (arg == "-ef") {
+        eliminate_functions = true;
       } else {
         inputFiles.push_back(argv[i]);
       }
@@ -180,11 +225,11 @@ int main (int argc, char *argv[])
     for (const std::string& fileName : inputFiles) {
       if (ends_with(fileName, ".gcl")) {
         driver_gcl drv;
-        if (process_file(fileName, drv, trace_scanning, trace_parsing, outputFormat) == 1)
+        if (process_file(fileName, drv, trace_scanning, trace_parsing, eliminate_lines, eliminate_functions, outputFormat) == 1)
           result = 1;
       } else if (ends_with(fileName, ".jgex") || ends_with(fileName, ".gex")) {
         driver_jgex drv;
-        if (process_file(fileName, drv, trace_scanning, trace_parsing, outputFormat) == 1)
+        if (process_file(fileName, drv, trace_scanning, trace_parsing, eliminate_lines, eliminate_functions, outputFormat) == 1)
           result = 1;
       } else {
         std::cerr << "Unknown input format extension " << fileName << std::endl;

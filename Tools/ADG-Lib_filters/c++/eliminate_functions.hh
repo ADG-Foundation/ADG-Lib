@@ -1,10 +1,9 @@
-#ifndef __ELIMINATE_LINES_HH__
-#define __ELIMINATE_LINES_HH__
+#ifndef __ELIMINATE_FUNCTIONS_HH__
+#define __ELIMINATE_FUNCTIONS_HH__
 
 #include "expression.hh"
-#include <map>
 
-class EliminateLinesTransformer : public ExpressionTransformer {
+class EliminateFunctionsTransformer : public ExpressionTransformer {
 public:
   ExprPtr transformConstant(const Constant&) override;
   ExprPtr transformVariable(const Variable&) override;
@@ -35,22 +34,6 @@ public:
   ExprPtr transformPerpendicular_P(const Perpendicular_P&) override;
   ExprPtr transformCongruent(const Congruent&) override;
   ExprPtr transformCollinear(const Collinear&) override;
-  
-  void addLines(const std::map<std::string, Line> newLines) {
-    lines_.insert(newLines.begin(), newLines.end());
-  }
-
-  const std::vector<std::string>& auxiliaryPoints() {
-    return auxiliaryPoints_;
-  }
-
-  const std::map<std::string, Line>& lines() {
-    return lines_;
-  }
-  
-private:
-  std::map<std::string, Line> lines_;
-  std::vector<std::string> auxiliaryPoints_;
 };
 
 #endif
