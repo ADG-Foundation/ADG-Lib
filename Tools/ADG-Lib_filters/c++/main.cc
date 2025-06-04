@@ -14,6 +14,8 @@
 #include "eliminate_lines.hh"
 #include "eliminate_functions.hh"
 
+#define GEOGEBRA_XML "geogebra.xml"
+
 enum Format {UNKNOWN = -1, GCL, JGEX, GGB, ArgoDG, TPTP};
 
 // TODO:
@@ -155,13 +157,12 @@ int process_file(const std::string& fileName, driver& drv,
 
     std::unique_ptr<Printer> printer;
 
-    std::ifstream gxml_existing("geogebra.xml");
+    std::ifstream gxml_existing(GEOGEBRA_XML);
     if (gxml_existing.good()) {
-      std::cerr << "The file geogebra.xml exists, remove it first" << std::endl;
+      std::cerr << "The file " << GEOGEBRA_XML << " exists, remove it first" << std::endl;
       return 1;
     }
-    std::ofstream gxml("geogebra.xml"); // TODO:
-    // do not create it if the export is not related to GeoGebra.
+    std::ofstream gxml;
 
     if (outputFormat == ArgoDG)
       printer = std::make_unique<PrinterArgoDG>(std::cout, conjectureName);
@@ -169,6 +170,7 @@ int process_file(const std::string& fileName, driver& drv,
       printer = std::make_unique<PrinterGCL>(std::cout, conjectureName);
     else if (outputFormat == GGB) {
       if (zipOutput) {
+        gxml.open(GEOGEBRA_XML);
         printer = std::make_unique<PrinterGGB>(gxml, conjectureName);
         }
       else
@@ -192,11 +194,11 @@ int process_file(const std::string& fileName, driver& drv,
         std::cerr << "Cannot open " << conjectureName << ".ggb for writing" << std::endl;
         return 1;
       }
-      zip_source_t *source = zip_source_file_create("geogebra.xml", 0, -1, zerr); // TODO: add error handling
-      zip_file_add(archive, "geogebra.xml", source, ZIP_FL_ENC_UTF_8);
+      zip_source_t *source = zip_source_file_create(GEOGEBRA_XML, 0, -1, zerr); // TODO: add error handling
+      zip_file_add(archive, GEOGEBRA_XML, source, ZIP_FL_ENC_UTF_8);
       zip_close(archive);
+      std::remove(GEOGEBRA_XML);
       }
-  std::remove("geogebra.xml"); // TODO: do this only for GGB
 
   }
   return 0;
