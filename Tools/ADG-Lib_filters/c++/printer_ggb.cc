@@ -151,14 +151,13 @@ void PrinterGGB::visitCollinear(const Collinear& e) {
       "</command>\n";
 }
 
-/*
-<command name="Prove">
-  <input a0="Segment[D,E]+Segment[D,F]+Segment[C,H]==0"/>
-<output a0="a"/>
-</command>
-<element type="boolean" label="a">
-  <value val="true"/>
-  <show object="false" label="true"/>
-</element>
-*/
-
+void PrinterGGB::visitParallel_P(const Parallel_P& e) {
+  if (!printingConjectures_)
+    throw std::string("Predicates in hypotheses are not supported");
+  else
+    ostr_ << "<command name=\"Prove\">\n"
+      "  <input a0=\"AreParallel[Line[" << e.A1() << ", " << e.B1()
+      << "], Line[" << e.A2() << ", " << e.B2() << "]]\"/>\n" <<
+      "  <output a0=\"" << AuxiliaryObjects::get() << "\"/>\n" <<
+      "</command>\n";
+}

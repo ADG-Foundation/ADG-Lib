@@ -33,21 +33,18 @@ public:
 
   void visitOnLine(const OnLine&) override;
   void visitOnParallel(const OnParallel&) override;
-  void visitOnPerpendicular(const OnPerpendicular&) override;  
-  
+  void visitOnPerpendicular(const OnPerpendicular&) override;
 
   void visitMidpoint(const Midpoint&) override {
     throw std::string("Predicates are not supported");
   }
 
-  void visitParallel_P(const Parallel_P& e) override {
-      throw std::string("Predicates are not supported");
-  }
+  void visitParallel_P(const Parallel_P& e) override;
 
   void visitPerpendicular_P(const Perpendicular_P& e) override {
       throw std::string("Predicates are not supported");
   }
-  
+
   void visitCollinear(const Collinear& e) override;
 
   void visitCongruent(const Congruent& e) override {
