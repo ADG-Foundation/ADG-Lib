@@ -1,4 +1,4 @@
 *~
 *.o
 lex.yy.*
-Documentation/Signature/ADG-Lib-Doc.synctex.gz
+*.synctex.gz
