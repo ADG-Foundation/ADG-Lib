@@ -876,4 +876,22 @@ public:
   }
 };
 
+class AuxiliaryObjects {
+private:
+  // Private constructor
+  AuxiliaryObjects() = default;
+  
+  int num = 0;
+  
+public:
+  // Delete copy constructor and assignment to enforce singleton
+  AuxiliaryObjects(const AuxiliaryObjects&) = delete;
+  AuxiliaryObjects& operator=(const AuxiliaryObjects&) = delete;
+  
+  static std::string get() {
+    static AuxiliaryObjects instance;
+    return "obj_" + std::to_string(instance.num++);
+  }
+};
+
 #endif // EXPRESSION_HPP

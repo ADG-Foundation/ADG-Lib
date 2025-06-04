@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Require Bison and Flex
 find_package(BISON REQUIRED)
 find_package(FLEX REQUIRED)
+find_package(LIBZIP REQUIRED)
 
 # GCL parser and scanner
 BISON_TARGET(ParserGCL parser_gcl.yy ${CMAKE_CURRENT_BINARY_DIR}/parser_gcl.cc
@@ -50,3 +51,5 @@ set(SOURCES
 
 # Final binary
 add_executable(adg_lib_converter ${SOURCES})
+include_directories(${ZIP_INCLUDE_DIR})
+target_link_libraries(adg_lib_converter libzip::zip)
