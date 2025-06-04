@@ -196,6 +196,7 @@ int process_file(const std::string& fileName, driver& drv,
       zip_file_add(archive, "geogebra.xml", source, ZIP_FL_ENC_UTF_8);
       zip_close(archive);
       }
+  std::remove("geogebra.xml"); // TODO: do this only for GGB
 
   }
   return 0;
