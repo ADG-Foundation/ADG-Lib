@@ -39,6 +39,7 @@ set(SOURCES
 
     eliminate_lines.cc eliminate_lines.hh
     eliminate_functions.cc eliminate_functions.hh
+    eliminate_dg.cc eliminate_dg.hh
     expression.cc expression.hh
     printer.hh
     printer_gcl.cc printer_gcl.hh

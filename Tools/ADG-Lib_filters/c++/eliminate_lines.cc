@@ -1,40 +1,11 @@
 #include "eliminate_lines.hh"
 
 
-ExprPtr EliminateLinesTransformer::transformConstant(const Constant& c) {
-  return std::make_shared<Constant>(c.value());
-}
-
-ExprPtr EliminateLinesTransformer::transformVariable(const Variable& v) {
-    return std::make_shared<Variable>(v.name());
-}
-
 ExprPtr EliminateLinesTransformer::transformNaryExpression(const NaryExpression& e) {
   std::vector<ExprPtr> operands;
   for (ExprPtr op : e.operands())
     operands.push_back(op->acceptTransformer(*this));
   return std::make_shared<NaryExpression>(e.op(), operands);
-}
-
-
-ExprPtr EliminateLinesTransformer::transformFreePoint(const FreePoint& e) {
-  return std::make_shared<FreePoint>(e.id(), e.x(), e.y());
-}
-
-ExprPtr EliminateLinesTransformer::transformLine(const Line&) {
-  return nullptr;
-}
-
-ExprPtr EliminateLinesTransformer::transformDrawPoint(const DrawPoint& e) {
-  return std::make_shared<DrawPoint>(e.point().name());
-}
-
-ExprPtr EliminateLinesTransformer::transformLabelPoint(const LabelPoint& e) {
-  return std::make_shared<LabelPoint>(e.point().name());
-}
-
-ExprPtr EliminateLinesTransformer::transformDrawSegment(const DrawSegment& e) {
-  return std::make_shared<DrawSegment>(e.point1().name(), e.point2().name());
 }
 
 ExprPtr EliminateLinesTransformer::transformDrawLine(const DrawLine& e) {
@@ -49,24 +20,17 @@ ExprPtr EliminateLinesTransformer::transformDrawLine(const DrawLine& e) {
   }
 }
 
-ExprPtr EliminateLinesTransformer::transformDrawLine_P(const DrawLine_P& e) {
-  return std::make_shared<DrawLine_P>(e.point1().name(), e.point2().name(), e.style());
-}
-
-
-ExprPtr EliminateLinesTransformer::transformFunMidpoint(const FunMidpoint& e) {
-  return std::make_shared<FunMidpoint>(e.newPoint().name(), e.point1().name(), e.point2().name());
-}
-
 ExprPtr EliminateLinesTransformer::transformFunSegmentBisector(const FunSegmentBisector& e) {
   std::string A = e.point1().name();
-  std::string B = e.point1().name();
+  std::string B = e.point2().name();
   
   std::string M = AuxiliaryPoints::get();
-  ExprPtr m = std::make_shared<FunMidpoint>(M, A, B);
+  points_.push_back(M);
+  ExprPtr midpoint = std::make_shared<FunMidpoint>(M, A, B);
   std::string l = AuxiliaryLines::get();
-  std::string p = AuxiliaryLines::get();
-  return std::make_shared<FunPerpendicular>(p, M, l)->acceptTransformer(*this);
+  lines_.emplace(l, Line{l, A, B});
+  ExprPtr perp = std::make_shared<FunPerpendicular>(e.newLine().name(), M, l)->acceptTransformer(*this);
+  return make_expression("&", midpoint, perp);
 }
 
 ExprPtr EliminateLinesTransformer::transformFunParallel(const FunParallel& e) {
@@ -79,7 +43,7 @@ ExprPtr EliminateLinesTransformer::transformFunParallel(const FunParallel& e) {
     std::string B = it1->second.point2();
     std::string P = e.point().name();
     std::string X = AuxiliaryPoints::get();
-    auxiliaryPoints_.push_back(X);
+    points_.push_back(X);
     std::string nl = e.newLine().name();
     lines_.emplace(nl, Line{nl, P, X});
     return std::make_shared<OnParallel>(X, A, B, P);
@@ -95,7 +59,7 @@ ExprPtr EliminateLinesTransformer::transformFunPerpendicular(const FunPerpendicu
     std::string A = it->second.point1();
     std::string B = it->second.point2();
     std::string X = AuxiliaryPoints::get();
-    auxiliaryPoints_.push_back(X);
+    points_.push_back(X);
     std::string M = e.point().name();
     std::string p = e.newLine().name();
     lines_.emplace(p, Line{p, M, X});
@@ -117,41 +81,4 @@ ExprPtr EliminateLinesTransformer::transformFunIntersectLL(const FunIntersectLL&
   } else {
     return std::make_shared<FunIntersectLL_P>(pointId, it1->second.point1(), it1->second.point2(), it2->second.point1(), it2->second.point2());
   }
-}
-
-ExprPtr EliminateLinesTransformer::transformFunIntersectLL_P(const FunIntersectLL_P& e) {
-  return std::make_shared<FunIntersectLL_P>(e.newPoint().name(), e.A1().name(), e.B1().name(), e.A2().name(), e.B2().name());
-}
-
-ExprPtr EliminateLinesTransformer::transformOnLine(const OnLine& e) {
-  return std::make_shared<OnLine>(e.X().name(), e.A().name(), e.B().name());
-}
-
-ExprPtr EliminateLinesTransformer::transformOnParallel(const OnParallel& e) {
-  return std::make_shared<OnParallel>(e.X().name(), e.A().name(), e.B().name(), e.P().name());
-}
-
-ExprPtr EliminateLinesTransformer::transformOnPerpendicular(const OnPerpendicular& e) {
-  return std::make_shared<OnPerpendicular>(e.X().name(), e.A().name(), e.B().name(), e.P().name());
-}
-
-
-ExprPtr EliminateLinesTransformer::transformMidpoint(const Midpoint& e) {
-  return std::make_shared<Midpoint>(e.midpoint().name(), e.point1().name(), e.point2().name());
-}
-
-ExprPtr EliminateLinesTransformer::transformParallel_P(const Parallel_P& e) {
-  return std::make_shared<Parallel_P>(e.A1().name(), e.B1().name(), e.A2().name(), e.B2().name());
-}
-
-ExprPtr EliminateLinesTransformer::transformPerpendicular_P(const Perpendicular_P& e) {
-  return std::make_shared<Perpendicular_P>(e.A1().name(), e.B1().name(), e.A2().name(), e.B2().name());
-}
-
-ExprPtr EliminateLinesTransformer::transformCongruent(const Congruent& e) {
-  return std::make_shared<Congruent>(e.A1().name(), e.B1().name(), e.A2().name(), e.B2().name());
-}
-
-ExprPtr EliminateLinesTransformer::transformCollinear(const Collinear& e) {
-  return std::make_shared<Collinear>(e.A().name(), e.B().name(), e.C().name());
 }

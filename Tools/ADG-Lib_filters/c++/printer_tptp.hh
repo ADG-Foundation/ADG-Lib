@@ -1,6 +1,8 @@
 #ifndef __PRINTER_TPTP_HH__
 #define __PRINTER_TPTP_HH__
 
+#include <sstream>
+
 #include "printer.hh"
 
 class PrinterTPTP : public Printer {
@@ -8,26 +10,53 @@ public:
   PrinterTPTP(std::ostream& ostr, const std::string& conjectureName) : Printer(ostr, conjectureName) {
   }
 
+  void printHeader() override {
+    ostr_ << "%----Include appropriate geometry axioms" << std::endl;
+    ostr_ << "include('geometry.ax')." << std::endl;
+    ostr_ << "fof(" << conjectureName_ << ", conjecture, (" << std::endl;    
+  }
+
+  void printFooter() override {
+    ostr_ << "))." << std::endl;
+  }
+
+  void printComment(const std::string& comment) override {
+    ostr_ << "% " << comment << std::endl;
+  }
+  
+  void printQuantifiers(const std::vector<Point>& points) override {
+    if (points.empty()) return;
+    ostr_ << "! [";
+    ostr_ << points[0].id();
+    for (int i = 1; i < points.size(); i++)
+      ostr_ << ", " << points[i].id();
+    ostr_ << "]:" << std::endl;
+  }
+  
+  // TODO: Be carefull about the top level connectives
   void printHypotheses(const std::vector<ExprPtr>& hypotheses) override {
-    if (hypotheses.empty()) return;
-    hypotheses[0] -> acceptVisitor(*this);
-    for (int i = 1; i < hypotheses.size(); i++) {
-      ostr_ << " &" << std::endl;
-      hypotheses[i] -> acceptVisitor(*this);
-    }
+    conjuncts_.clear();
+    
+    for (ExprPtr h : hypotheses)
+      h->acceptVisitor(*this);
+    
+    if (conjuncts_.empty())
+      ostr_ << "true";
+    else
+      printConjuncts("&");
   }
 
   void printConjectures(const std::vector<ExprPtr>& conjectures) override {
+    conjuncts_.clear();
     ostr_ << " => ";
-    if (conjectures.empty()) {
-      ostr_ << "true" << std::endl;
-      return;
-    }
-    conjectures[0] -> acceptVisitor(*this);
-    for (int i = 1; i < conjectures.size(); i++) {
-      ostr_ << " &" << std::endl;
-      conjectures[i] -> acceptVisitor(*this);
-    }
+    
+    for (ExprPtr c : conjectures)
+      c->acceptVisitor(*this);
+    
+    if (conjuncts_.empty())
+      ostr_ << "true";
+    else
+      printConjuncts("|");
   }
   
   
@@ -53,13 +82,30 @@ public:
 
   void visitMidpoint(const Midpoint&) override;
   void visitParallel_P(const Parallel_P& e) override;
+  void visitParallelDG_P(const ParallelDG_P& e) override;
   void visitPerpendicular_P(const Perpendicular_P& e) override;
+  void visitPerpendicularDG_P(const PerpendicularDG_P& e) override;
   void visitCongruent(const Congruent& e) override;
   void visitCollinear(const Collinear& e) override; 
-  
+  void visitEqual(const Equal& e) override;
+  void visitIdentical(const Identical& e) override;
+  void visitHarmonic(const Harmonic& e) override;
+
   void visitOnLine(const OnLine&) override;  
   void visitOnParallel(const OnParallel&) override;  
   void visitOnPerpendicular(const OnPerpendicular&) override;
+
+private:
+  void printConjuncts(const std::string& separator) const {
+    ostr_ << "(";
+    ostr_ << conjuncts_[0];
+    for (int i = 1; i < conjuncts_.size(); i++)
+      ostr_ << " " << separator << std::endl << conjuncts_[i];
+    ostr_ << ")";
+  }
+
+  std::ostringstream current_;
+  std::vector<std::string> conjuncts_;
 };
 
 #endif

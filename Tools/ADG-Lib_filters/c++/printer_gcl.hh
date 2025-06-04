@@ -37,9 +37,14 @@ public:
 
   void visitMidpoint(const Midpoint&) override;
   void visitParallel_P(const Parallel_P& e) override;
+  void visitParallelDG_P(const ParallelDG_P& e) override;
   void visitPerpendicular_P(const Perpendicular_P& e) override;
+  void visitPerpendicularDG_P(const PerpendicularDG_P& e) override;
   void visitCongruent(const Congruent& e) override;
   void visitCollinear(const Collinear& e) override; 
+  void visitEqual(const Equal& e) override;
+  void visitIdentical(const Identical& e) override;
+  void visitHarmonic(const Harmonic& e) override;
   
   void visitOnLine(const OnLine&) override;  
   void visitOnParallel(const OnParallel&) override;  

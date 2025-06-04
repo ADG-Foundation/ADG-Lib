@@ -51,6 +51,8 @@ extern int scanner_gcl_lex(void);  // tell Bison to call this instead of yylex
   PD3 "pythagoras difference 3"
   SA3 "signed area 3"
   SRATIO "signed ratio"
+  HARMONIC "harmonic"
+  IDENTICAL "identical"
   SAMELENGTH "same_length"
   PARALLEL "parallel"
   COLLINEAR "collinear"
@@ -62,14 +64,19 @@ extern int scanner_gcl_lex(void);  // tell Bison to call this instead of yylex
   DRAWDASHSEGMENT "drawdashsegment"
   DRAWLINE "drawline"
   DRAWDASHLINE "drawdashline"
+  DRAWCIRCLE "drawcircle"
+  MULT "mult"
+  ADD "add"
   DIM "dim"
+  AREA "area"
   COLOR "color"
-                        
+  PROOFLEVEL "prooflevel"
+
 %token <std::string> VARIABLE "variable"
 %token <std::string> STRING "string"
 %token <int> NUMBER "number"
 
-%nterm <ExprPtr> hypothesis conjecture
+%nterm <ExprPtr> hypothesis conjecture term
 
 %printer { yyo << $$; } <*>;
 
@@ -95,7 +102,7 @@ text_line: %empty
 
 hypothesis:
  POINT VARIABLE NUMBER NUMBER {
-   drv.points.push_back(FreePoint{$2, $3, $4});
+   drv.points.push_back(Point{$2, $3, $4});
    $$ = std::make_shared<FreePoint>($2, $3, $4);
 }
 | LINE VARIABLE VARIABLE VARIABLE {
@@ -103,12 +110,14 @@ hypothesis:
    $$ = std::make_shared<Line>($2, $3, $4);
 }
 | MIDPOINT VARIABLE VARIABLE VARIABLE {
+    drv.points.push_back(FreePoint{$2});
     $$ = std::make_shared<FunMidpoint>($2, $3, $4);
 }
 | MED VARIABLE VARIABLE VARIABLE {
     $$ = std::make_shared<FunSegmentBisector>($2, $3, $4);
 }
 | ONLINE VARIABLE VARIABLE VARIABLE {
+   drv.points.push_back(Point{$2});
   $$ = std::make_shared<OnLine>($2, $3, $4);
 }
 | PARALLEL VARIABLE VARIABLE VARIABLE {
@@ -118,19 +127,15 @@ hypothesis:
     $$ = std::make_shared<FunPerpendicular>($2, $3, $4);
 }
 | CIRCLE VARIABLE VARIABLE VARIABLE {
-    // FIXME: $1 - circle id is not used?
-    std::string aux_point1 = AuxiliaryPoints::get();
-    drv.points.push_back(aux_point1);
-    std::string aux_point2 = AuxiliaryPoints::get();
-    drv.points.push_back(aux_point2);
-    $$ = make_expression("circle", $3, $4, aux_point1, aux_point2);
+    // FIXME
+    $$ = nullptr;
 }
 | INTERSECTION VARIABLE VARIABLE VARIABLE VARIABLE VARIABLE {
-  ExprPtr coll1 = make_expression("coll", $3, $4, $2);
-  ExprPtr coll2 = make_expression("coll", $5, $6, $2);
-  $$ = make_expression("&", coll1, coll2);
+  drv.points.push_back(Point{$2});
+  $$ = std::make_shared<FunIntersectLL_P>($2, $3, $4, $5, $5);
 }
 | INTERSECTION VARIABLE VARIABLE VARIABLE {
+  drv.points.push_back(Point{$2});
   $$ = std::make_shared<FunIntersectLL>($2, $3, $4);
 }
 | CMARK VARIABLE {
@@ -149,6 +154,10 @@ hypothesis:
 }
 | DRAWLINE VARIABLE {
   $$ = std::make_shared<DrawLine>($2);
+}
+| DRAWCIRCLE VARIABLE VARIABLE {
+  // FIXME: DRAWLINE -> DRAWCIRCLE
+  $$ = std::make_shared<DrawLine_P>($2, $3);
 }
 | DRAWLINE VARIABLE VARIABLE {
   $$ = std::make_shared<DrawLine_P>($2, $3);
@@ -169,35 +178,51 @@ conjecture:
   $$ = std::make_shared<Collinear>($4, $5, $6);
 }
 | PROVE '{' PARALLEL VARIABLE VARIABLE VARIABLE VARIABLE '}' {
-  $$ = std::make_shared<Parallel_P>($4, $5, $6, $7);
+  $$ = std::make_shared<ParallelDG_P>($4, $5, $6, $7);
 }
 | PROVE '{' PERPENDICULAR VARIABLE VARIABLE VARIABLE VARIABLE '}' {
   $$ = std::make_shared<Perpendicular_P>($4, $5, $6, $7);
 }
-// P_ACD = P_BCD, AB perpendicular to CD
-| PROVE '{' EQUAL '{' PD3 VARIABLE VARIABLE VARIABLE '}' '{' PD3 VARIABLE VARIABLE VARIABLE '}' '}'  {
-  // FIXME: strange
-  // sprintf(tptpConjectures[numConj++].conjecture,"pythagoras_difference3 %s %s %s  pythagoras_difference3 %s %s %s ",$6,$7,$8,$12,$13,$14);
+| PROVE '{' HARMONIC VARIABLE VARIABLE VARIABLE VARIABLE '}' {
+  $$ = std::make_shared<Harmonic>($4, $5, $6, $7);
+  }
+| PROVE '{' IDENTICAL VARIABLE VARIABLE '}' {
+  $$ = std::make_shared<Identical>($4, $5);
+  }
+| PROVE '{' EQUAL term term '}'  {
+  $$ = std::make_shared<Equal>($4, $5);
 }
-// S_ABC=0, points A,B,C are collinear
-| PROVE '{' EQUAL '{' SA3 VARIABLE VARIABLE VARIABLE '}' '{' NUMBER '}' '}'  {
-  // FIXME: shouldn't number be zero?
-  $$ = make_expression("coll", $6,$7,$8);
-}
-// S_ABC=0, points A,B,C are collinear
-| PROVE '{' EQUAL '{' SA3 VARIABLE VARIABLE VARIABLE '}' NUMBER '}'  {
-  // FIXME: shouldn't number be zero?
-  $$ = make_expression("coll", $6,$7,$8);
-}
-// sratio_ABCD = sratio_EFGH
-| PROVE '{' EQUAL '{' SRATIO VARIABLE VARIABLE VARIABLE VARIABLE '}' '{'  SRATIO VARIABLE VARIABLE VARIABLE VARIABLE '}' '}' {
-  $$ = make_expression("eqratio",$6,$7,$8,$9,$13,$14,$15,$16);
-}
+;
+
+term :
+  '{' SRATIO VARIABLE VARIABLE VARIABLE VARIABLE '}' {
+    $$ = make_expression("sratio", $3, $4, $5, $6);
+  }
+| '{' SA3 VARIABLE VARIABLE VARIABLE '}' {
+    $$ = make_expression("sa3", $3, $4, $5);
+  }
+| '{' PD3 VARIABLE VARIABLE VARIABLE '}' {
+    $$ = make_expression("pd3", $3, $4, $5);
+  }
+| '{' MULT term term '}' {
+  $$ = make_expression("*", $3, $4);
+  }
+| '{' ADD term term '}' {
+  $$ = make_expression("+", $3, $4);
+  }
+| NUMBER {
+  $$ = std::make_shared<Constant>($1);
+  }
+| '{' VARIABLE '}' {
+  $$ = std::make_shared<Variable>($2);
+  }
 ;
 
 other:
   DIM NUMBER NUMBER
+| AREA NUMBER NUMBER NUMBER NUMBER
 | COLOR NUMBER NUMBER NUMBER
+| PROOFLEVEL NUMBER
 ;
 
                 

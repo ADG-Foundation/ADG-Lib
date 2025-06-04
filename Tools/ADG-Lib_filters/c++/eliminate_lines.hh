@@ -6,51 +6,22 @@
 
 class EliminateLinesTransformer : public ExpressionTransformer {
 public:
-  ExprPtr transformConstant(const Constant&) override;
-  ExprPtr transformVariable(const Variable&) override;
-  ExprPtr transformNaryExpression(const NaryExpression& e) override;
 
-  ExprPtr transformFreePoint(const FreePoint&) override;
-  ExprPtr transformLine(const Line&) override;
+  EliminateLinesTransformer(std::vector<Point>& points,
+                            std::map<std::string, Line>& lines)
+    : points_(points), lines_(lines) {
+  }
   
-  ExprPtr transformDrawPoint(const DrawPoint&) override;
-  ExprPtr transformDrawSegment(const DrawSegment&) override;
+  ExprPtr transformNaryExpression(const NaryExpression& e) override;
   ExprPtr transformDrawLine(const DrawLine&) override;
-  ExprPtr transformDrawLine_P(const DrawLine_P&) override;
-  ExprPtr transformLabelPoint(const LabelPoint&) override;
-  
-  ExprPtr transformFunMidpoint(const FunMidpoint&) override;
   ExprPtr transformFunSegmentBisector(const FunSegmentBisector&) override;
   ExprPtr transformFunParallel(const FunParallel& e) override;
   ExprPtr transformFunPerpendicular(const FunPerpendicular& e) override;
   ExprPtr transformFunIntersectLL(const FunIntersectLL& e) override;
-  ExprPtr transformFunIntersectLL_P(const FunIntersectLL_P& e) override;
-
-  ExprPtr transformOnLine(const OnLine& e) override;
-  ExprPtr transformOnParallel(const OnParallel& e) override;
-  ExprPtr transformOnPerpendicular(const OnPerpendicular& e) override;
-
-  ExprPtr transformMidpoint(const Midpoint&) override;
-  ExprPtr transformParallel_P(const Parallel_P&) override;
-  ExprPtr transformPerpendicular_P(const Perpendicular_P&) override;
-  ExprPtr transformCongruent(const Congruent&) override;
-  ExprPtr transformCollinear(const Collinear&) override;
-  
-  void addLines(const std::map<std::string, Line> newLines) {
-    lines_.insert(newLines.begin(), newLines.end());
-  }
-
-  const std::vector<std::string>& auxiliaryPoints() {
-    return auxiliaryPoints_;
-  }
-
-  const std::map<std::string, Line>& lines() {
-    return lines_;
-  }
   
 private:
   std::map<std::string, Line> lines_;
-  std::vector<std::string> auxiliaryPoints_;
+  std::vector<Point>& points_;
 };
 
 #endif

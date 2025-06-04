@@ -40,9 +40,20 @@ ExprPtr Variable::acceptTransformer(ExpressionTransformer& transformer) const {
 
 
 // NaryExpression implementation
+void NaryExpression::setInfix(Operator op) {
+  infix_ = op_ == "&" || op_ == "|" || op == "=" || op == "*" || op == "+";
+}
+
 NaryExpression::NaryExpression(Operator op, std::vector<ExprPtr> operands)
     : op_(op), operands_(std::move(operands)) {
-  infix_ = op_ == "&" || op_ == "|";
+  setInfix(op);
+}
+
+NaryExpression::NaryExpression(Operator op, ExprPtr op1, ExprPtr op2)
+    : op_(op) {
+  operands_.push_back(op1);
+  operands_.push_back(op2);
+  setInfix(op);
 }
 
 void NaryExpression::print(std::ostream& os) const {
@@ -82,7 +93,7 @@ ExprPtr NaryExpression::acceptTransformer(ExpressionTransformer& transformer) co
 // FreePoint implementation
 
 void FreePoint::print(std::ostream& ostr) const  {
-  ostr << "(free_point " << id_ << ")" << std::endl;
+  ostr << "(free_point " << id() << ")" << std::endl;
 }
 
 void FreePoint::acceptVisitor(ExpressionVisitor& visitor) const {
@@ -216,6 +227,21 @@ ExprPtr Parallel_P::acceptTransformer(ExpressionTransformer& transformer) const 
   return transformer.transformParallel_P(*this);
 }
 
+// ParallelDG_P implementation
+
+void ParallelDG_P::print(std::ostream& ostr) const {
+  ostr << "(paralleldg_p " << A1_ << "," << B1_ << "," << A2_ << "," << B2_ << ")";
+}
+
+void ParallelDG_P::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitParallelDG_P(*this);
+}
+
+ExprPtr ParallelDG_P::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformParallelDG_P(*this);
+}
+
+
 // Perpendicular_P implementation
 
 void Perpendicular_P::print(std::ostream& ostr) const {
@@ -228,6 +254,20 @@ void Perpendicular_P::acceptVisitor(ExpressionVisitor& visitor) const {
 
 ExprPtr Perpendicular_P::acceptTransformer(ExpressionTransformer& transformer) const {
   return transformer.transformPerpendicular_P(*this);
+}
+
+// PerpendicularDG_P implementation
+
+void PerpendicularDG_P::print(std::ostream& ostr) const {
+  ostr << "(perpendiculardg_p " << A1_ << "," << B1_ << "," << A2_ << "," << B2_ << ")";
+}
+
+void PerpendicularDG_P::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitPerpendicularDG_P(*this);
+}
+
+ExprPtr PerpendicularDG_P::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformPerpendicularDG_P(*this);
 }
 
 // Congruent implementation
@@ -244,6 +284,20 @@ ExprPtr Congruent::acceptTransformer(ExpressionTransformer& transformer) const {
   return transformer.transformCongruent(*this);
 }
 
+// Harmonic implementation
+
+void Harmonic::print(std::ostream& ostr) const {
+  ostr << "(harmonic " << A_ << "," << B_ << "," << C_ << ", " << D_ << ")";
+}
+
+void Harmonic::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitHarmonic(*this);
+}
+
+ExprPtr Harmonic::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformHarmonic(*this);
+}
+
 // Collinear implementation
 
 void Collinear::print(std::ostream& ostr) const {
@@ -258,8 +312,29 @@ ExprPtr Collinear::acceptTransformer(ExpressionTransformer& transformer) const {
   return transformer.transformCollinear(*this);
 }
 
+// Equal implementation
 
+void Equal::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitEqual(*this);
+}
 
+ExprPtr Equal::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformEqual(*this);
+}
+
+// Identical implementation
+
+void Identical::print(std::ostream& ostr) const {
+  ostr << "(identical " << A_ << "," << B_ << ")";
+}
+
+void Identical::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitIdentical(*this);
+}
+
+ExprPtr Identical::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformIdentical(*this);
+}
 
 // FunSegmentBisector implementation
 

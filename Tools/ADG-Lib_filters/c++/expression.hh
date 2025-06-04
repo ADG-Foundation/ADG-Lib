@@ -28,6 +28,7 @@ public:
 class Constant : public Expression {
 public:
   explicit Constant(double value);
+  Constant(const Constant&) = default;
   void print(std::ostream&) const override;
   double value() const;
   void acceptVisitor(ExpressionVisitor&) const;
@@ -41,6 +42,7 @@ private:
 class Variable : public Expression {
 public:
   explicit Variable(std::string name);
+  Variable(const Variable&) = default;
   void print(std::ostream& os) const override;
   const std::string& name() const;
   void acceptVisitor(ExpressionVisitor& visitor) const;
@@ -56,6 +58,8 @@ typedef std::string Operator;
 class NaryExpression : public Expression {
 public:
   NaryExpression(Operator op, std::vector<ExprPtr> operands);
+  NaryExpression(Operator op, ExprPtr op1, ExprPtr op2);
+  NaryExpression(const NaryExpression&) = default;
   void print(std::ostream&) const override;
   void acceptVisitor(ExpressionVisitor&) const override;
   ExprPtr acceptTransformer(ExpressionTransformer&) const override;
@@ -64,29 +68,40 @@ public:
   Operator op() const;
 
 private:
+  void setInfix(Operator op);
+  
   Operator op_;
   bool infix_;
   std::vector<ExprPtr> operands_;
 };
 
-
-class FreePoint : public Expression {
+class Point {
 public:
-  FreePoint(const std::string& id, int x=0, int y=0) :
+  Point(const std::string& id, int x=0, int y=0) :
     id_(id), x_(x), y_(y) {
   }
+  Point(const Point& other) = default;
 
   const std::string& id() const { return id_; }
   int x() const { return x_; }
   int y() const { return y_; }
-
-  void print(std::ostream&) const override;
-  void acceptVisitor(ExpressionVisitor&) const override;
-  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
   
 private:
   std::string id_;
   int x_, y_;
+};
+
+class FreePoint : public Point, public Expression {
+public:
+  FreePoint(const std::string& id, int x=0, int y=0) :
+    Point(id, x, y) {
+  }
+  FreePoint(const FreePoint& other) = default;
+  
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
 };
 
 class Line : public Expression {
@@ -96,6 +111,7 @@ public:
     this->points_[0] = point1;
     this->points_[1] = point2;
   }  
+  Line(const Line& other) = default;
 
   const std::string& id() const { return id_; }
   const std::string& point1() const { return points_[0]; }
@@ -118,6 +134,7 @@ public:
   DrawPoint(const std::string& point) :
     point_(Variable(point)) {
   }
+  DrawPoint(const DrawPoint& other) = default;
 
   const Variable& point() const { return point_; }
       
@@ -135,6 +152,7 @@ public:
   LabelPoint(const std::string& point) :
     point_(Variable(point)) {
   }
+  LabelPoint(const LabelPoint& other) = default;
 
   const Variable& point() const { return point_; }
       
@@ -156,6 +174,7 @@ public:
   DrawSegment(const std::string& point1, const std::string& point2, DrawingStyle style = SOLID) :
     point1_(Variable(point1)), point2_(Variable(point2)) {
   }
+  DrawSegment(const DrawSegment& other) = default;
 
   const Variable& point1() const { return point1_; }
   const Variable& point2() const { return point2_; }
@@ -178,6 +197,7 @@ public:
   DrawLine(const std::string& line, DrawingStyle style = SOLID) :
     line_(Variable(line)) {
   }
+  DrawLine(const DrawLine& other) = default;
 
   const Variable& line() const { return line_; }
   const DrawingStyle& style() const { return style_; }
@@ -192,11 +212,51 @@ private:
   DrawingStyle style_;
 };
 
+// Represents a command that draws a circle
+class DrawCircle : public Expression {
+public:
+  DrawCircle(const std::string& circle, DrawingStyle style = SOLID) :
+    circle_(Variable(circle)) {
+  }
+  DrawCircle(const DrawCircle& other) = default;
+
+  const Variable& circle() const { return circle_; }
+  const DrawingStyle& style() const { return style_; }
+    
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+private:
+  Variable circle_;
+  DrawingStyle style_;
+};
+
 // Represents a command that draws a line given by two points
 class DrawLine_P : public Expression {
-public:
-  
+public:  
   DrawLine_P(const std::string& point1, const std::string& point2, DrawingStyle style = SOLID) :
+    point1_(Variable(point1)), point2_(Variable(point2)) {
+  }
+
+  const Variable& point1() const { return point1_; }
+  const Variable& point2() const { return point2_; }
+  const DrawingStyle& style() const { return style_; }
+    
+  
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+private:
+  Variable point1_, point2_;
+  DrawingStyle style_;
+};
+
+// Represents a command that draws a circle given by the center and a point
+class DrawCircle_P : public Expression {
+public:
+  DrawCircle_P(const std::string& point1, const std::string& point2, DrawingStyle style = SOLID) :
     point1_(Variable(point1)), point2_(Variable(point2)) {
   }
 
@@ -222,6 +282,7 @@ public:
   FunMidpoint(const std::string& new_point, const std::string& point1, const std::string& point2)
     : new_point_(Variable(new_point)), point1_(Variable(point1)), point2_(Variable(point2)) {
   }
+  FunMidpoint(const FunMidpoint&) = default;
 
   const Variable& newPoint() const { return new_point_; }
   const Variable& point1() const { return point1_; }
@@ -241,6 +302,7 @@ public:
   Midpoint(const std::string& midpoint, const std::string& point1, const std::string& point2)
     : midpoint_(Variable(midpoint)), point1_(Variable(point1)), point2_(Variable(point2)) {
   }
+  Midpoint(const Midpoint&) = default;
 
   const Variable& midpoint() const { return midpoint_; }
   const Variable& point1() const { return point1_; }
@@ -317,6 +379,27 @@ private:
   Variable A1_, B1_, A2_, B2_;
 };
 
+// Represents a predicate that checks if the lines given by two pairs of points are parallel, allowing that pairs of points are the same (degenerate case)
+class ParallelDG_P : public Expression {
+public:
+  ParallelDG_P(const std::string& A1, const std::string& B1, const std::string& A2, const std::string& B2)
+    : A1_(Variable(A1)), B1_(Variable(B1)), A2_(Variable(A2)), B2_(Variable(B2)) {
+  }
+
+  const Variable& A1() const { return A1_; }
+  const Variable& B1() const { return B1_; }
+  const Variable& A2() const { return A2_; }
+  const Variable& B2() const { return B2_; }
+
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+private:
+  Variable A1_, B1_, A2_, B2_;
+};
+
+
 // Represents a predicate that checks if the lines given by two pairs
 // of points are perpendicular
 class Perpendicular_P : public Expression {
@@ -336,6 +419,78 @@ public:
   
 private:
   Variable A1_, B1_, A2_, B2_;
+};
+
+// Represents a predicate that checks if the lines given by two pairs
+// of points are perpendicular, allowing that points are equal (degenerate case)
+class PerpendicularDG_P : public Expression {
+public:
+  PerpendicularDG_P(const std::string& A1, const std::string& B1, const std::string& A2, const std::string& B2)
+    : A1_(Variable(A1)), B1_(Variable(B1)), A2_(Variable(A2)), B2_(Variable(B2)) {
+  }
+
+  const Variable& A1() const { return A1_; }
+  const Variable& B1() const { return B1_; }
+  const Variable& A2() const { return A2_; }
+  const Variable& B2() const { return B2_; }
+
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+private:
+  Variable A1_, B1_, A2_, B2_;
+};
+
+
+// Represents equality of two terms
+class Equal : public NaryExpression {
+public:
+  Equal(ExprPtr op1, ExprPtr op2) : NaryExpression("=", op1, op2) {
+  }
+
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+};
+
+// Represents equality of two points
+class Identical : public Expression {
+public:
+  Identical(const std::string& A, const std::string& B) :
+    A_(Variable(A)), B_(Variable(B)) {
+  }
+  Identical(const Identical&) = default;
+
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+
+  const Variable& A() const { return A_; }
+  const Variable& B() const { return B_; }
+  
+private:
+  Variable A_, B_;
+};
+
+// Represents that 4 points are harmonically conjugated
+class Harmonic : public Expression {
+public:
+  Harmonic(const std::string& A, const std::string& B, const std::string& C, const std::string& D) :
+    A_(Variable(A)), B_(Variable(B)), C_(Variable(C)), D_(Variable(D)) {
+  }
+  Harmonic(const Harmonic&) = default;
+  
+  const Variable& A() const { return A_; }
+  const Variable& B() const { return B_; }
+  const Variable& C() const { return C_; }
+  const Variable& D() const { return D_; }
+
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+private:
+  Variable A_, B_, C_, D_;
 };
 
 
@@ -529,9 +684,14 @@ public:
 
   virtual void visitMidpoint(const Midpoint&) = 0;
   virtual void visitParallel_P(const Parallel_P&) = 0;
+  virtual void visitParallelDG_P(const ParallelDG_P&) = 0;
   virtual void visitPerpendicular_P(const Perpendicular_P&) = 0;
+  virtual void visitPerpendicularDG_P(const PerpendicularDG_P&) = 0;
   virtual void visitCongruent(const Congruent&) = 0;
   virtual void visitCollinear(const Collinear&) = 0;
+  virtual void visitEqual(const Equal& e) = 0;
+  virtual void visitIdentical(const Identical& e) = 0;
+  virtual void visitHarmonic(const Harmonic& e) = 0;
   
   virtual ~ExpressionVisitor() = default;
 };
@@ -539,35 +699,122 @@ public:
 // Base class for expression transformers
 class ExpressionTransformer {
 public:
-  virtual ExprPtr transformConstant(const Constant&) = 0;
-  virtual ExprPtr transformVariable(const Variable&) = 0;
-  virtual ExprPtr transformNaryExpression(const NaryExpression&) = 0;
-
-  virtual ExprPtr transformFreePoint(const FreePoint&) = 0;
-  virtual ExprPtr transformLine(const Line&) = 0;
+  virtual ExprPtr transformConstant(const Constant& e) {
+    return std::make_shared<Constant>(e);
+  }
   
-  virtual ExprPtr transformDrawPoint(const DrawPoint&) = 0;
-  virtual ExprPtr transformDrawSegment(const DrawSegment&) = 0;
-  virtual ExprPtr transformDrawLine(const DrawLine&) = 0;
-  virtual ExprPtr transformDrawLine_P(const DrawLine_P&) = 0;
-  virtual ExprPtr transformLabelPoint(const LabelPoint&) = 0;
+  virtual ExprPtr transformVariable(const Variable& e) {
+    return std::make_shared<Variable>(e);
+  }
   
-  virtual ExprPtr transformFunMidpoint(const FunMidpoint&) = 0;
-  virtual ExprPtr transformFunSegmentBisector(const FunSegmentBisector&) = 0;
-  virtual ExprPtr transformFunParallel(const FunParallel&) = 0;
-  virtual ExprPtr transformFunPerpendicular(const FunPerpendicular&) = 0;
-  virtual ExprPtr transformFunIntersectLL(const FunIntersectLL&) = 0;
-  virtual ExprPtr transformFunIntersectLL_P(const FunIntersectLL_P&) = 0;
+  virtual ExprPtr transformNaryExpression(const NaryExpression& e) {
+    return std::make_shared<NaryExpression>(e);
+  }
 
-  virtual ExprPtr transformOnLine(const OnLine&) = 0;
-  virtual ExprPtr transformOnParallel(const OnParallel&) = 0;
-  virtual ExprPtr transformOnPerpendicular(const OnPerpendicular&) = 0;
+  virtual ExprPtr transformFreePoint(const FreePoint& e) {
+    return std::make_shared<FreePoint>(e);
+  }
+  
+  virtual ExprPtr transformLine(const Line& e) {
+    return std::make_shared<Line>(e);
+  }
+  
+  virtual ExprPtr transformDrawPoint(const DrawPoint& e) {
+    return std::make_shared<DrawPoint>(e);
+  }
+  
+  virtual ExprPtr transformDrawSegment(const DrawSegment& e) {
+    return std::make_shared<DrawSegment>(e);
+  }
+  
+  virtual ExprPtr transformDrawLine(const DrawLine& e) {
+    return std::make_shared<DrawLine>(e);
+  }
+  
+  virtual ExprPtr transformDrawLine_P(const DrawLine_P& e) {
+    return std::make_shared<DrawLine_P>(e);
+  }
+  
+  virtual ExprPtr transformLabelPoint(const LabelPoint& e) {
+    return std::make_shared<LabelPoint>(e);
+  }
+  
+  virtual ExprPtr transformFunMidpoint(const FunMidpoint& e) {
+    return std::make_shared<FunMidpoint>(e);
+  }
+  
+  virtual ExprPtr transformFunSegmentBisector(const FunSegmentBisector& e) {
+    return std::make_shared<FunSegmentBisector>(e);
+  }
+  
+  virtual ExprPtr transformFunParallel(const FunParallel& e) {
+    return std::make_shared<FunParallel>(e);
+  }
+  
+  virtual ExprPtr transformFunPerpendicular(const FunPerpendicular& e) {
+    return std::make_shared<FunPerpendicular>(e);
+  }
+  
+  virtual ExprPtr transformFunIntersectLL(const FunIntersectLL& e) {
+    return std::make_shared<FunIntersectLL>(e);
+  }
+  
+  virtual ExprPtr transformFunIntersectLL_P(const FunIntersectLL_P& e) {
+    return std::make_shared<FunIntersectLL_P>(e);
+  }
 
-  virtual ExprPtr transformMidpoint(const Midpoint&) = 0;
-  virtual ExprPtr transformParallel_P(const Parallel_P&) = 0;
-  virtual ExprPtr transformPerpendicular_P(const Perpendicular_P&) = 0;
-  virtual ExprPtr transformCongruent(const Congruent&) = 0;
-  virtual ExprPtr transformCollinear(const Collinear&) = 0;
+  virtual ExprPtr transformOnLine(const OnLine& e) {
+    return std::make_shared<OnLine>(e);
+  }
+  
+  virtual ExprPtr transformOnParallel(const OnParallel& e) {
+    return std::make_shared<OnParallel>(e);
+  }
+  
+  virtual ExprPtr transformOnPerpendicular(const OnPerpendicular& e) {
+    return std::make_shared<OnPerpendicular>(e);
+  }
+
+  virtual ExprPtr transformMidpoint(const Midpoint& e) {
+    return std::make_shared<Midpoint>(e);
+  }
+  
+  virtual ExprPtr transformParallel_P(const Parallel_P& e) {
+    return std::make_shared<Parallel_P>(e);
+  }
+  
+  virtual ExprPtr transformParallelDG_P(const ParallelDG_P& e) {
+    return std::make_shared<ParallelDG_P>(e);
+  }
+  
+  virtual ExprPtr transformPerpendicular_P(const Perpendicular_P& e) {
+    return std::make_shared<Perpendicular_P>(e);
+  }
+  
+  virtual ExprPtr transformPerpendicularDG_P(const PerpendicularDG_P& e) {
+    return std::make_shared<PerpendicularDG_P>(e);
+  }
+  
+  virtual ExprPtr transformCongruent(const Congruent& e) {
+    return std::make_shared<Congruent>(e);
+  }
+  
+  virtual ExprPtr transformCollinear(const Collinear& e) {
+    return std::make_shared<Collinear>(e);
+  }
+  
+  virtual ExprPtr transformEqual(const Equal& e) {
+    return std::make_shared<Equal>(e);
+  }
+
+  virtual ExprPtr transformIdentical(const Identical& e) {
+    return std::make_shared<Identical>(e);
+  }
+
+  virtual ExprPtr transformHarmonic(const Harmonic& e) {
+    return std::make_shared<Harmonic>(e);
+  }
+  
   
   virtual ~ExpressionTransformer() = default;
 };

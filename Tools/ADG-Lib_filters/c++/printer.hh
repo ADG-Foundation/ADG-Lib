@@ -15,6 +15,9 @@ public:
   virtual void printComment(const std::string& comment) {
     // by default, comments are ignored
   }
+
+  virtual void printQuantifiers(const std::vector<Point>& points) {
+  }
   
   virtual void printHypotheses(const std::vector<ExprPtr>& hypotheses) {
     for (ExprPtr h : hypotheses)

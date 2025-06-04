@@ -14,7 +14,7 @@ void PrinterArgoDG::printHeader() {
     "  <div id=\"mycanvas\"></div>\n"
     "  <script>\n"
     "     DG.setup(\"mycanvas\", { width: 500, height: 500, border: \"1px solid #ccc\"}, 0, 100, 0, 100);";
-  std::cout << header << std::endl;
+  ostr_ << header << std::endl;
 }
 
 void PrinterArgoDG::printFooter() {
@@ -22,7 +22,7 @@ void PrinterArgoDG::printFooter() {
     "    </script>\n"
     "  </body>\n"
     "</html>\n";
-  std::cout << footer << std::endl;
+  ostr_ << footer << std::endl;
 }
 
 void PrinterArgoDG::visitConstant(const Constant&) {
@@ -104,11 +104,11 @@ void PrinterArgoDG::visitFunParallel(const FunParallel& e) {
 }
 
 void PrinterArgoDG::visitFunPerpendicular(const FunPerpendicular& e) {
-  ostr_ << e.newLine() << "= RC.drop_perp(" << e.line() << " " << e.point() << ").hide();" << std::endl;  
+  ostr_ << e.newLine() << " = RC.drop_perp(" << e.line() << " " << e.point() << ").hide();" << std::endl;  
 }
 
 void PrinterArgoDG::visitFunIntersectLL(const FunIntersectLL& e) {
-  ostr_ << e.newPoint() << "RC.intersectLL(" <<  e.line1() << ", " << e.line2() << ").hide();" << std::endl;
+  ostr_ << e.newPoint() << " = RC.intersectLL(" <<  e.line1() << ", " << e.line2() << ").hide();" << std::endl;
 }
 
 void PrinterArgoDG::visitFunIntersectLL_P(const FunIntersectLL_P& e) {

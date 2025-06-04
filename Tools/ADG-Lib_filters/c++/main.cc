@@ -10,6 +10,7 @@
 
 #include "eliminate_lines.hh"
 #include "eliminate_functions.hh"
+#include "eliminate_dg.hh"
 
 enum Format {UNKNOWN = -1, GCL, JGEX, GGB, ArgoDG, TPTP};
 
@@ -34,7 +35,7 @@ std::string getFilenameStem(const std::string& path) {
 }
 
 void print_tptp(const std::string& conjectureName,
-                std::vector<FreePoint>& points,
+                std::vector<Point>& points,
                 const std::map<std::string, Line> lines,
                 const std::vector<ExprPtr>& hypotheses,
                 const std::vector<ExprPtr>& conjectures) {
@@ -103,13 +104,12 @@ int process_file(const std::string& fileName, driver& drv,
 
     std::vector<ExprPtr> hypotheses(drv.hypotheses);
     std::vector<ExprPtr> conjectures(drv.conjectures);
-    std::vector<FreePoint> points(drv.points);
+    std::vector<Point> points(drv.points);
     std::map<std::string, Line> lines(drv.lines);
 
     if (eliminateLines) {
       // lines elimination
-      EliminateLinesTransformer transformer;
-      transformer.addLines(lines);
+      EliminateLinesTransformer transformer(points, lines);
       
       std::vector<ExprPtr> hypothesesNoLines;
       hypothesesNoLines.reserve(hypotheses.size());
@@ -128,8 +128,6 @@ int process_file(const std::string& fileName, driver& drv,
           conjecturesNoLines.push_back(e);
       }
       conjectures = conjecturesNoLines;
-      points.insert(points.end(), transformer.auxiliaryPoints().begin(), transformer.auxiliaryPoints().end());
-      lines = transformer.lines();
     }
 
     if (eliminateFunctions) {
@@ -140,14 +138,21 @@ int process_file(const std::string& fileName, driver& drv,
       EliminateFunctionsTransformer transformer;
       for (int i = 0; i < hypotheses.size(); i++) {
         ExprPtr e = hypotheses[i]->acceptTransformer(transformer);
-        if (e != nullptr) 
+        if (e != nullptr)  {
           hypothesesNoFunctions.push_back(e);
+        }
       }
       hypotheses = hypothesesNoFunctions;
     }
 
+    { 
+      EliminateDGTransformer transformer(hypotheses);
+      for (int i = 0; i < conjectures.size(); i++)
+        conjectures[i] = conjectures[i]->acceptTransformer(transformer);
+    }
+    
+
     // print in the chosen format
-      
     std::string conjectureName = getFilenameStem(fileName);
 
     std::unique_ptr<Printer> printer;      
@@ -162,6 +167,7 @@ int process_file(const std::string& fileName, driver& drv,
 
     printer->printComment(std::string("generated from ") + conjectureName + std::string(" using ADG-Lib tools"));
     printer->printHeader();
+    printer->printQuantifiers(points);
     printer->printHypotheses(hypotheses);
     printer->printConjectures(conjectures);
     printer->printFooter();

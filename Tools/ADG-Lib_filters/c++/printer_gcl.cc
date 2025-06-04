@@ -1,6 +1,8 @@
 #include "printer_gcl.hh"
+#include <map>
 
-void PrinterGCL::visitConstant(const Constant&) {
+void PrinterGCL::visitConstant(const Constant& c) {
+  ostr_ << c.value();
 }
 
 void PrinterGCL::visitVariable(const Variable& v) {
@@ -11,6 +13,18 @@ void PrinterGCL::visitNaryExpression(const NaryExpression& e) {
   if (e.op() == "&") {
     for (ExprPtr operand : e.operands())
       operand->acceptVisitor(*this);
+  } else {
+    std::string op = e.op();
+    std::map<std::string, std::string> longNames {{"*", "mult"}, {"+", "add"}};
+    if (longNames.count(op))
+      op = longNames[op];
+    
+    ostr_ << "{ " << op << " ";
+    for (ExprPtr operand : e.operands()) {
+      operand->acceptVisitor(*this);
+      ostr_ << " ";
+    }
+    ostr_ << " }";
   }
 }
 
@@ -121,10 +135,25 @@ void PrinterGCL::visitParallel_P(const Parallel_P& e) {
   if (!printingConjectures_)
     throw std::string("Predicates in hypotheses are not supported");
   else
+    throw std::string("Non-degenerate parallel is not supported by GCL");
+}
+
+void PrinterGCL::visitParallelDG_P(const ParallelDG_P& e) {
+  if (!printingConjectures_)
+    throw std::string("Predicates in hypotheses are not supported");
+  else
     ostr_ << "prove { " << "parallel " << e.A1() << " " << e.B1() << " " << e.A2() << " " << e.B2() << " } ";
 }
 
 void PrinterGCL::visitPerpendicular_P(const Perpendicular_P& e) {
+  if (!printingConjectures_)
+    throw std::string("Predicates in hypotheses are not supported");
+  else
+    throw std::string("Non-degenerate perpendicular is not supported by GCL");
+}
+
+
+void PrinterGCL::visitPerpendicularDG_P(const PerpendicularDG_P& e) {
   if (!printingConjectures_)
     throw std::string("Predicates in hypotheses are not supported");
   else
@@ -143,4 +172,44 @@ void PrinterGCL::visitCollinear(const Collinear& e) {
     throw std::string("Predicates in hypotheses are not supported");
   else
     ostr_ << "prove { " << "collinear " << e.A() << " " << e.B() << " " << e.C() << " } ";
+}
+
+void PrinterGCL::visitEqual(const Equal& e) {
+  if (!printingConjectures_)
+    throw std::string("Predicates in hypotheses are not supported");
+  else {
+    ostr_ << "prove { " << "equal ";
+    e.operands()[0]->acceptVisitor(*this);
+    ostr_ << " ";
+    e.operands()[1]->acceptVisitor(*this);
+    ostr_ << " } ";
+  }
+}
+
+void PrinterGCL::visitIdentical(const Identical& e) {
+  if (!printingConjectures_)
+    throw std::string("Predicates in hypotheses are not supported");
+  else {
+    ostr_ << "prove { " << "identical ";
+    e.A().acceptVisitor(*this);
+    ostr_ << " ";
+    e.B().acceptVisitor(*this);
+    ostr_ << " } ";
+  }
+}
+
+void PrinterGCL::visitHarmonic(const Harmonic& e) {
+  if (!printingConjectures_)
+    throw std::string("Predicates in hypotheses are not supported");
+  else {
+    ostr_ << "prove { " << "harmonic ";
+    e.A().acceptVisitor(*this);
+    ostr_ << " ";
+    e.B().acceptVisitor(*this);
+    ostr_ << " ";
+    e.C().acceptVisitor(*this);
+    ostr_ << " ";
+    e.D().acceptVisitor(*this);
+    ostr_ << " } ";
+  }
 }

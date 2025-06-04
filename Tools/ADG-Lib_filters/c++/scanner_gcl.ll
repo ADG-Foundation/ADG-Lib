@@ -42,7 +42,7 @@
 \n+     { loc.lines(yyleng); loc.step(); }
 
  /* Numbers */
-(([0-9]+)|([0-9]*\.[0-9]+)) { return parser_gcl::parser_gcl::make_NUMBER(std::stod(yytext), loc); }
+(-?([0-9]+)|([0-9]*\.[0-9]+)) { return parser_gcl::parser_gcl::make_NUMBER(std::stod(yytext), loc); }
 
  /* Strings */
 \"[^\"\n]*[\"\n] {
@@ -71,6 +71,8 @@ equal                   { return parser_gcl::parser_gcl::make_EQUAL(loc); }
 sratio                  { return parser_gcl::parser_gcl::make_SRATIO(loc); }
 signed_area3            { return parser_gcl::parser_gcl::make_SA3(loc); }
 pythagoras_difference3  { return parser_gcl::parser_gcl::make_PD3(loc); }
+harmonic                { return parser_gcl::parser_gcl::make_HARMONIC(loc); }
+identical               { return parser_gcl::parser_gcl::make_IDENTICAL(loc); }
 samelength              { return parser_gcl::parser_gcl::make_SAMELENGTH(loc); }
 perp                    { return parser_gcl::parser_gcl::make_PERP(loc); }
 perpendicular           { return parser_gcl::parser_gcl::make_PERPENDICULAR(loc); }
@@ -88,9 +90,14 @@ cmark                   { return parser_gcl::parser_gcl::make_CMARK_LABEL(loc); 
 drawsegment             { return parser_gcl::parser_gcl::make_DRAWSEGMENT(loc); }
 drawdashsegment         { return parser_gcl::parser_gcl::make_DRAWDASHSEGMENT(loc); }
 drawline                { return parser_gcl::parser_gcl::make_DRAWLINE(loc); }
+drawcircle              { return parser_gcl::parser_gcl::make_DRAWCIRCLE(loc); }
 drawdashline            { return parser_gcl::parser_gcl::make_DRAWDASHLINE(loc); }
+mult                    { return parser_gcl::parser_gcl::make_MULT(loc); }
+sum                     { return parser_gcl::parser_gcl::make_ADD(loc); }
 dim                     { return parser_gcl::parser_gcl::make_DIM(loc); }
+area                    { return parser_gcl::parser_gcl::make_AREA(loc); }
 color                   { return parser_gcl::parser_gcl::make_COLOR(loc); }
+prooflevel              { return parser_gcl::parser_gcl::make_PROOFLEVEL(loc); }
 
  /* Variables */
 [a-zA-Z_][a-zA-Z0-9_']* {
