@@ -51,44 +51,13 @@ Only points
     "orthocenter(H,A,B,C)"#""#":math:`H` is the ortho-center of triangle :math:`ABC`"#
     "perpendicular(A,B,C,D)"#":math:`\perpendicular{A}{B}{C}{D}`"#"line :math:`AB` is perpendicular to line :math:`CD` (:math:`A\neq B` and :math:`C\neq D`)"
     "perpendicularAt(P,A,B,C,D)"#":math:`\perpendicularAt{P}{A}{B}{C}{D}`"#"line :math:`AB` is perpendicular to line :math:`CD` at point :math:`P`"#":math:`\collinear{P}{A}{B} \land \collinear{P}{C}{D} \land (\forall U, V, \collinear{U}{A}{B} \Rightarrow \collinear{V}{C}{D} \Rightarrow \perpendicular{U}{P}{V})`"
-.. :math:`perpin{A B}{C D}{P}$ # 
-.. $AB \bot CD$ and math:`P` is the intersection of math:`AB` and math:`CD` # 
-.. $A \neq B \; \land \; C \neq D \; \land \; \col {P} {A} {B} \; \land \; \col {P} {C} {D} \; \land \; 
-.. (\forall U \, V, \col {U} {A} {B} \imp \col {V} {C} {D} \imp \per{U}{P}{V})$ \\
-.. \addlinespace
-.. perpendicular2(A,B,C,D,P) # 
-.. :math:`perpTwo{A B}{C D}{P}$ # 
-.. the line math:`AB` and math:`CD` have a common perpendicular through math:`P` # 
-.. $ \exists X, \exists Y, \col{P}{X}{Y} \land \perpT{XY}{AB} \land \perpT{XY}{CD} $ \\
-.. \addlinespace
-..  parallel(A,B,C,D)} # 
-.. $ \para{A B}{C D} $ # 
-.. line math:`AB` is parallel to line math:`CD` # 
-.. $ \spara{A B}{C D} \lor (A \neq B \land C \neq D \land \col{A}{C}{D} \land \col{B}{C}{D}) $ \\
-.. \addlinespace
-.. parallelNonStrict(A,B,C,D) # 
-..  # 
-.. line math:`AB` is parallel to line math:`CD` or math:`A=B` or math:`C=D` # 
-.. $ \para{A B}{C D} \lor (A=B \lor C=D) $ \\
-.. parallelNonReflexive(A,B,C,D) # 
-.. :math:`spara{A B}{C D} $ # 
-.. line math:`AB` is parallel to line math:`CD` and :math:`AB \neq CD`` # 
-.. $A \neq B \land C \neq D \land \cp{A}{B}{C}{D} \land \lnot \exists X, \col{X}{A}{B} \land \col{X}{C}{D} $ \\
-.. \addlinespace
-.. verticalAngles(A,B,C,D,E,F) # 
-..  # 
-.. math:`ABC` and $DEF$ are vertical angles # 
-.. $ B=E \land \bH{A}{B}{D} \land \bH{C}{B}{F} $ \\
-.. parallelogram(A,B,C,D) # 
-.. # 
-.. $ABCD$ is a parallelogram, this includes a flat case defined as diagonals intersect in their midpoint # 
-.. $Parallelogram\_strict \, A \, B \, A' \, B' \; \lor \; Parallelogram\_flat \, A \, B \, A' \, B'$ \\
-.. parallelogramNdg(A,B,C,D) # 
-.. # 
-.. $ABCD$ is a parallelogram. The points are not collinear # 
-.. :math:`oS {A} {A'} {B} {B'} \; \land \; AB \parallel A'B' \; \land \; \congT{AB}{A'B}'$ \\
-.. parallelogramFlat(A,B,C,D) # 
-.. # 
-.. $ABCD$ is a flat parallelogram #
-.. $ \col {A} {B} {A'} \; \land \; \col {A} {B} {B'} \; \land \congT {AB} {A'B}' \; \land \; \congT {AB'} {A'B} \; \land \; (A \neq A' \; \lor \; B \neq B') $ \\
+    "perpendicular2(A,B,C,D,P)"#":math:`perpTwo{AB}{CD}{P}`"#"the line :math:`AB` and :math:`CD` have a common perpendicular through :math:`P` "#":math:`\exists X, \exists Y, \collinear{P}{X}{Y} \land \perpendicular{X}{Y}{A}{B} \land \perpendicular{X}{Y}{C}{D}`"
+    "parallel(A,B,C,D)"#":math:`\parallelADG{A}{B}{C}{D}`"#"line :math:`AB` is parallel to line :math:`CD` "#" :math:`spara{AB}{CD} \lor (A \neq B \land C \neq D \land \collinear{A}{C}{D} \land \collinear{B}{C}{D})`"
+    "parallelNonStrict(A,B,C,D)"#""#"line :math:`AB` is parallel to line :math:`CD` or :math:`A=B` or :math:`C=D` "#" :math:`\parallelADG{A}{B}{C}{D} \lor (A=B \lor C=D)`"
+    "parallelNonReflexive(A,B,C,D)"#""#"line :math:`AB` is parallel to line :math:`CD` and :math:`AB \neq CD`"#" :math:`A \neq B \land C \neq D \land \coplanar{A}{B}{C}{D} \land \lnot \exists X, \collinear{X}{A}{B} \land \collinear{X}{C}{D}`"
+    "verticalAngles(A,B,C,D,E,F)"#""#":math:`ABC` and :math:`DEF` are vertical angles"#":math:`B=E \land \betweenStrict{A}{B}{D} \land \betweenStrict{C}{B}{F}`"
+    "parallelogram(A,B,C,D)"#""#":math:`ABCD` is a parallelogram, this includes a flat case defined as diagonals intersect in their midpoint" 
+    "parallelogramNdg(A,B,C,D)"#""#":math:`ABCD` is a parallelogram. The points are not collinear"#
+    "parallelogramFlat(A,B,C,D)"#""#":math:`ABCD` is a flat parallelogram. The four points are on the same line and the diagonals intersect in their midpoints"#":math:`\collinear{A}{B}{A'} \land \collinear{A}{B}{B'} \land \congruentSegments{AB}{A'B'} \land \congruentSegments{AB'}{A'B} \land (A \neq A' \lor B \neq B')`" 
+
 
