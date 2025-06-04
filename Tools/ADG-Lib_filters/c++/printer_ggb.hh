@@ -7,14 +7,17 @@ class PrinterGGB : public Printer {
 public:
   PrinterGGB(std::ostream& ostr, const std::string& conjectureName) : Printer(ostr, conjectureName) {
   }
-  
+
+  void printHeader() override;
+  void printFooter() override;
+
   void visitConstant(const Constant&) override; 
   void visitVariable(const Variable&) override; 
   void visitNaryExpression(const NaryExpression&) override;
 
   void visitFreePoint(const FreePoint&) override;
   void visitLine(const Line&) override;
-  
+
   void visitDrawPoint(const DrawPoint&) override;
   void visitDrawSegment(const DrawSegment&) override;
   void visitDrawLine(const DrawLine&) override;

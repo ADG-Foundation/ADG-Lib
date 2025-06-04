@@ -1,5 +1,21 @@
 #include "printer_ggb.hh"
 
+void PrinterGGB::printHeader() {
+  std::string header =
+    "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
+    "<geogebra format=\"5.0\" xsi:noNamespaceSchemaLocation=\"http://www.geogebra.org/apps/xsd/ggb.xsd\""
+    " xmlns=\"\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" >\n"
+    "<construction>\n";
+  ostr_ << header << std::endl;
+}
+
+void PrinterGGB::printFooter() {
+  std::string footer =
+    "</construction>\n"
+    "</geogebra>\n";
+  ostr_ << footer << std::endl;
+}
+
 void PrinterGGB::visitConstant(const Constant&) {
 }
 

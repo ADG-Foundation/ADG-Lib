@@ -1,5 +1,8 @@
 #include <iostream>
+#include <fstream>
 #include <vector>
+#include <zip.h>
+
 #include "driver_jgex.hh"
 #include "driver_gcl.hh"
 
@@ -89,7 +92,7 @@ inline bool ends_with(std::string const & value, std::string const & ending)
 
 int process_file(const std::string& fileName, driver& drv,
                  bool traceScanning, bool traceParsing,
-                 bool eliminateLines, bool eliminateFunctions, Format outputFormat) {
+                 bool eliminateLines, bool eliminateFunctions, Format outputFormat, bool zipOutput) {
   drv.trace_scanning = traceScanning;
   drv.trace_parsing = traceParsing;
   int parseResult = drv.parse(fileName);
@@ -147,16 +150,24 @@ int process_file(const std::string& fileName, driver& drv,
     }
 
     // print in the chosen format
-      
+
     std::string conjectureName = getFilenameStem(fileName);
 
-    std::unique_ptr<Printer> printer;      
+    std::unique_ptr<Printer> printer;
+    std::ofstream gxml("geogebra.xml"); // TODO: Check if this file already exists,
+    // do not create it if the export is not related to GeoGebra.
+
     if (outputFormat == ArgoDG)
       printer = std::make_unique<PrinterArgoDG>(std::cout, conjectureName);
     else if (outputFormat == GCL)
       printer = std::make_unique<PrinterGCL>(std::cout, conjectureName);
-    else if (outputFormat == GGB)
-      printer = std::make_unique<PrinterGGB>(std::cout, conjectureName);
+    else if (outputFormat == GGB) {
+      if (zipOutput) {
+        printer = std::make_unique<PrinterGGB>(gxml, conjectureName);
+        }
+      else
+        printer = std::make_unique<PrinterGGB>(std::cout, conjectureName);
+      }
     else if (outputFormat == TPTP)
       printer = std::make_unique<PrinterTPTP>(std::cout, conjectureName);
 
@@ -165,6 +176,21 @@ int process_file(const std::string& fileName, driver& drv,
     printer->printHypotheses(hypotheses);
     printer->printConjectures(conjectures);
     printer->printFooter();
+
+    if (outputFormat == GGB && zipOutput) {
+      gxml.close();
+      zip_error *zerr;
+      int err;
+      zip_t *archive = zip_open((conjectureName + ".ggb").data(), ZIP_CREATE | ZIP_TRUNCATE, &err);
+      if (archive == NULL) {
+        std::cerr << "Cannot open " << conjectureName << ".ggb for writing" << std::endl;
+        return 1;
+      }
+      zip_source_t *source = zip_source_file_create("geogebra.xml", 0, -1, zerr); // TODO: add error handling
+      zip_file_add(archive, "geogebra.xml", source, ZIP_FL_ENC_UTF_8);
+      zip_close(archive);
+      }
+
   }
   return 0;
 }
@@ -179,6 +205,7 @@ int main (int argc, char *argv[])
     bool trace_scanning = false;
     bool eliminate_lines = false;
     bool eliminate_functions = false;
+    bool zip_output = false;
 
     Format outputFormat = UNKNOWN;
     
@@ -191,11 +218,14 @@ int main (int argc, char *argv[])
       } else if (arg == "-o") {
         if (i + 1 < argc) {
           std::string format_str{argv[i+1]};
+          if (format_str == "ggb") {
+            zip_output = true;
+          }
           if (format_str == "gcl") {
             outputFormat = GCL;
           } else if (format_str == "jgex" || format_str == "gex") {
             outputFormat = JGEX;
-          } else if (format_str == "ggb") {
+          } else if (format_str == "ggb" || format_str == "ggbxml") {
             outputFormat = GGB;
           } else if (format_str == "argodg") {
             outputFormat = ArgoDG;
@@ -225,11 +255,11 @@ int main (int argc, char *argv[])
     for (const std::string& fileName : inputFiles) {
       if (ends_with(fileName, ".gcl")) {
         driver_gcl drv;
-        if (process_file(fileName, drv, trace_scanning, trace_parsing, eliminate_lines, eliminate_functions, outputFormat) == 1)
+        if (process_file(fileName, drv, trace_scanning, trace_parsing, eliminate_lines, eliminate_functions, outputFormat, zip_output) == 1)
           result = 1;
       } else if (ends_with(fileName, ".jgex") || ends_with(fileName, ".gex")) {
         driver_jgex drv;
-        if (process_file(fileName, drv, trace_scanning, trace_parsing, eliminate_lines, eliminate_functions, outputFormat) == 1)
+        if (process_file(fileName, drv, trace_scanning, trace_parsing, eliminate_lines, eliminate_functions, outputFormat, zip_output) == 1)
           result = 1;
       } else {
         std::cerr << "Unknown input format extension " << fileName << std::endl;
