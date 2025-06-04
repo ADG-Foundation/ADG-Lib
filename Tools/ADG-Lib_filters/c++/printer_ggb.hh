@@ -41,9 +41,7 @@ public:
 
   void visitParallel_P(const Parallel_P& e) override;
 
-  void visitPerpendicular_P(const Perpendicular_P& e) override {
-      throw std::string("Predicates are not supported");
-  }
+  void visitPerpendicular_P(const Perpendicular_P& e) override;
 
   void visitCollinear(const Collinear& e) override;
 

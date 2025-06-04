@@ -161,3 +161,14 @@ void PrinterGGB::visitParallel_P(const Parallel_P& e) {
       "  <output a0=\"" << AuxiliaryObjects::get() << "\"/>\n" <<
       "</command>\n";
 }
+
+void PrinterGGB::visitPerpendicular_P(const Perpendicular_P& e) {
+  if (!printingConjectures_)
+    throw std::string("Predicates in hypotheses are not supported");
+  else
+    ostr_ << "<command name=\"Prove\">\n"
+      "  <input a0=\"ArePerpendicular[Line[" << e.A1() << ", " << e.B1()
+      << "], Line[" << e.A2() << ", " << e.B2() << "]]\"/>\n" <<
+      "  <output a0=\"" << AuxiliaryObjects::get() << "\"/>\n" <<
+      "</command>\n";
+}
