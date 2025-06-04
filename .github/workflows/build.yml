@@ -14,12 +14,12 @@ jobs:
     - name: test-geogebra
       run: xvfb-run -a -s "-screen 0 1024x768x24" ./test-geogebra.sh
 
-  check-cpp:
+  check-cpp-ggb:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
     - name: prerequisites-ubuntu
-      run: sudo apt update && sudo apt install build-essential flex bison libzip-dev zipcmp zipmerge ziptool
+      run: sudo apt update && sudo apt install build-essential flex bison libzip-dev zipcmp zipmerge ziptool xvfb
     - name: test-c++
       run: |
         cd Tools/ADG-Lib_filters/c++
@@ -27,3 +27,5 @@ jobs:
         cd build
         cmake ..
         make
+    - name: test-geogebra
+      run: xvfb-run -a -s "-screen 0 1024x768x24" ./test-geogebra-cpp.sh
