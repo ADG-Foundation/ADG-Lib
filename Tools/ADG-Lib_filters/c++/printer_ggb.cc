@@ -251,6 +251,27 @@ void PrinterGGB::visitPerpendicular_P(const Perpendicular_P& e) {
       "</command>\n";
 }
 
+void PrinterGGB::visitIdentical(const Identical& e) {
+  if (!printingConjectures_)
+    throw std::string("Predicates in hypotheses are not supported");
+  else {
+    ostr_ << "prove { " << "identical ";
+    e.A().acceptVisitor(*this);
+    ostr_ << " ";
+    e.B().acceptVisitor(*this);
+    ostr_ << " } ";
+
+    ostr_ << "<command name=\"Prove\">\n"
+      "  <input a0=\"AreEqual[";
+    e.A().acceptVisitor(*this);
+    ostr_ << ", ";
+    e.B().acceptVisitor(*this);
+    ostr_ << "]\"/>\n" <<
+      "  <output a0=\"" << AuxiliaryObjects::get() << "\"/>\n" <<
+      "</command>\n";
+  }
+}
+
 void PrinterGGB::visitHarmonic(const Harmonic& e) {
   if (!printingConjectures_)
     throw std::string("Predicates in hypotheses are not supported");
