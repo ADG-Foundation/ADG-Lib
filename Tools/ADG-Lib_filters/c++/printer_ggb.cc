@@ -147,7 +147,7 @@ void PrinterGGB::visitFunParallel(const FunParallel& e) {
 }
 
 void PrinterGGB::visitFunPerpendicular(const FunPerpendicular& e) {
-  ostr_ << "<command name=\"OthogonalLine\">" << std::endl;
+  ostr_ << "<command name=\"OrthogonalLine\">" << std::endl;
   ostr_ << "  <input a0=\"" << e.point() << "\" a1=\"" << e.line() << "\"/>" << std::endl;
   ostr_ << "  <output a0=\"" << e.newLine() << "\"/>" << std::endl;
   ostr_ << "</command>" << std::endl;
