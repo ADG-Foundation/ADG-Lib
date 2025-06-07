@@ -47,6 +47,24 @@ void PrinterGGB::visitNaryExpression(const NaryExpression& e) {
       ostr_ << ", ";
       e.operands()[3]->acceptVisitor(*this);
       ostr_ << "])";
+    } else if (op == "sa3") {
+      ostr_ << "Area[";
+      e.operands()[0]->acceptVisitor(*this);
+      ostr_ << ", ";
+      e.operands()[1]->acceptVisitor(*this);
+      ostr_ << ", ";
+      e.operands()[2]->acceptVisitor(*this);
+      ostr_ << "]";
+    } else if (op == "sa4") {
+      ostr_ << "Area[";
+      e.operands()[0]->acceptVisitor(*this);
+      ostr_ << ", ";
+      e.operands()[1]->acceptVisitor(*this);
+      ostr_ << ", ";
+      e.operands()[2]->acceptVisitor(*this);
+      ostr_ << ", ";
+      e.operands()[3]->acceptVisitor(*this);
+      ostr_ << "]";
     } else {
       throw std::string("Unsupported operation: " + op);
     }
@@ -185,7 +203,7 @@ void PrinterGGB::visitEqual(const Equal& e) {
   else {
 
     /*
-    // Functional form:
+    // Functional form (it is required currently if the arguments are Area[...], FIXME):
     ostr_ << "<command name=\"Prove\">\n"
       "  <input a0=\"AreEqual[";
     e.operands()[0]->acceptVisitor(*this);

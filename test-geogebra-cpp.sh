@@ -37,6 +37,12 @@ for i in *.gcl; do
   "$TOOLKIT_DIR/adg_lib_converter" "$P_DIR/$i" -o ggb \
     > "$TESTNAME.adg_lib_converter.out" 2> "$TESTNAME.adg_lib_converter.err"
   rm -f geogebra.xml
+  test -s $TESTNAME.adg_lib_converter.err && {
+   cat $TESTNAME.adg_lib_converter.err | grep --silent : && \
+     (cat $TESTNAME.adg_lib_converter.err | cut -d: -f3) || \
+     (echo -n " "; cat $TESTNAME.adg_lib_converter.err)
+   continue
+   }
   # Create geogebra.xml directly and check its form:
  "$TOOLKIT_DIR/adg_lib_converter" "$P_DIR/$i" -o ggbxml 2>/dev/null | grep --silent Prove || {
    echo " hypotheses incomplete"
