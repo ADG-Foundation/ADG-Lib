@@ -24,11 +24,12 @@ TOOLKIT_DIR=`pwd`
 cmake ..
 make -s || exit 1
 
-cd ../../../../CustomFormats/GCLC/GoranPredovicCollection/points_only
+cd ../../../../CustomFormats/GCLC
 P_DIR=`pwd`
 SUCCESS=0
 ALL=0
-for i in *.gcl; do
+FILES=`find . -name '*.gcl'`
+for i in $FILES; do
   ALL=$((ALL+1))
   cd "$OUT_DIR"
   TESTNAME=`basename $i .gcl`
