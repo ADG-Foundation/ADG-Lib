@@ -71,10 +71,7 @@ public:
   
   void visitCollinear(const Collinear& e) override;
   
-  void visitEqual(const Equal& e) override {
-      throw std::string("Predicates are not supported");
-  }
-
+  void visitEqual(const Equal& e) override;
   void visitIdentical(const Identical& e) override {
       throw std::string("Predicates are not supported");
   }

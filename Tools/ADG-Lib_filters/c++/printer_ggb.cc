@@ -16,13 +16,41 @@ void PrinterGGB::printFooter() {
   ostr_ << footer << std::endl;
 }
 
-void PrinterGGB::visitConstant(const Constant&) {
+void PrinterGGB::visitConstant(const Constant& c) {
+  ostr_ << c.value();
 }
 
 void PrinterGGB::visitVariable(const Variable& v) {
+  ostr_ << v.name();
 }
 
 void PrinterGGB::visitNaryExpression(const NaryExpression& e) {
+  if (e.op() == "&") {
+    for (ExprPtr operand : e.operands())
+      operand->acceptVisitor(*this);
+  } else {
+    std::string op = e.op();
+    if (e.operands().size() == 2) {
+      ostr_ << "( ";
+      e.operands()[0]->acceptVisitor(*this);
+      ostr_ << ") " << op << " ";
+      ostr_ << "( ";
+      e.operands()[1]->acceptVisitor(*this);
+      ostr_ << ")";
+    } else if (op == "sratio") {
+      ostr_ << "(Segment[";
+      e.operands()[0]->acceptVisitor(*this);
+      ostr_ << ", ";
+      e.operands()[1]->acceptVisitor(*this);
+      ostr_ << "]/Segment[";
+      e.operands()[2]->acceptVisitor(*this);
+      ostr_ << ", ";
+      e.operands()[3]->acceptVisitor(*this);
+      ostr_ << "])";
+    } else {
+      throw std::string("Unsupported operation: " + op);
+    }
+  }
 }
 
 void PrinterGGB::visitFreePoint(const FreePoint& p) {
@@ -149,6 +177,37 @@ void PrinterGGB::visitCollinear(const Collinear& e) {
       "  <input a0=\"AreCollinear[" << e.A() << ", " << e.B() << ", " << e.C() << "]\"/>\n" <<
       "  <output a0=\"" << AuxiliaryObjects::get() << "\"/>\n" <<
       "</command>\n";
+}
+
+void PrinterGGB::visitEqual(const Equal& e) {
+  if (!printingConjectures_)
+    throw std::string("Predicates in hypotheses are not supported");
+  else {
+
+    /*
+    // Functional form:
+    ostr_ << "<command name=\"Prove\">\n"
+      "  <input a0=\"AreEqual[";
+    e.operands()[0]->acceptVisitor(*this);
+    ostr_ << ", ";
+    e.operands()[1]->acceptVisitor(*this);
+    ostr_ << "]\"/>\n" <<
+      "  <output a0=\"" << AuxiliaryObjects::get() << "\"/>\n" <<
+      "</command>\n";
+    */
+
+    // Relational form:
+    ostr_ << "<command name=\"Prove\">\n"
+      "  <input a0=\"";
+    e.operands()[0]->acceptVisitor(*this);
+    ostr_ << " == ";
+    e.operands()[1]->acceptVisitor(*this);
+    ostr_ << "\"/>\n" <<
+      "  <output a0=\"" << AuxiliaryObjects::get() << "\"/>\n" <<
+      "</command>\n";
+
+
+  }
 }
 
 void PrinterGGB::visitParallel_P(const Parallel_P& e) {
