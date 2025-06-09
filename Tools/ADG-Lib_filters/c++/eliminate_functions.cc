@@ -9,7 +9,7 @@ ExprPtr EliminateFunctionsTransformer::transformNaryExpression(const NaryExpress
 }
 
 ExprPtr EliminateFunctionsTransformer::transformFunMidpoint(const FunMidpoint& e) {
-  return std::make_shared<Midpoint>(e.newPoint().name(), e.point1().name(), e.point2().name());
+  return std::make_shared<Midpoint>(e.X().name(), e.A().name(), e.B().name());
 }
 
 ExprPtr EliminateFunctionsTransformer::transformFunSegmentBisector(const FunSegmentBisector& e) {
@@ -30,19 +30,19 @@ ExprPtr EliminateFunctionsTransformer::transformFunIntersectLL(const FunIntersec
 }
 
 ExprPtr EliminateFunctionsTransformer::transformFunIntersectLL_P(const FunIntersectLL_P& e) {
-  ExprPtr col1 = std::make_shared<Collinear>(e.newPoint().name(), e.A1().name(), e.B1().name());
-  ExprPtr col2 = std::make_shared<Collinear>(e.newPoint().name(), e.A2().name(), e.B2().name());
+  ExprPtr col1 = std::make_shared<Collinear>(e.X().name(), e.A1().name(), e.B1().name());
+  ExprPtr col2 = std::make_shared<Collinear>(e.X().name(), e.A2().name(), e.B2().name());
   return make_expression("&", col1, col2);
 }
 
-ExprPtr EliminateFunctionsTransformer::transformOnLine(const OnLine& e) {
+ExprPtr EliminateFunctionsTransformer::transformOnLine_P(const OnLine_P& e) {
   return std::make_shared<Collinear>(e.X().name(), e.A().name(), e.B().name());
 }
 
-ExprPtr EliminateFunctionsTransformer::transformOnParallel(const OnParallel& e) {
+ExprPtr EliminateFunctionsTransformer::transformOnParallel_P(const OnParallel_P& e) {
   return std::make_shared<Parallel_P>(e.X().name(), e.P().name(), e.A().name(), e.B().name());
 }
 
-ExprPtr EliminateFunctionsTransformer::transformOnPerpendicular(const OnPerpendicular& e) {
+ExprPtr EliminateFunctionsTransformer::transformOnPerpendicular_P(const OnPerpendicular_P& e) {
   return std::make_shared<Perpendicular_P>(e.X().name(), e.P().name(), e.A().name(), e.B().name());
 }

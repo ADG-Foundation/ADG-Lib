@@ -28,6 +28,7 @@ public:
   void visitFunSegmentBisector(const FunSegmentBisector&) override;
   void visitFunParallel(const FunParallel&) override;
   void visitFunPerpendicular(const FunPerpendicular&) override;
+  void visitFunPerpendicular_P(const FunPerpendicular_P&) override;
   void visitFunIntersectLL(const FunIntersectLL&) override;
   void visitFunIntersectLL_P(const FunIntersectLL_P&) override;
 
@@ -71,9 +72,9 @@ public:
     // throw std::string("Predicates are not supported");
   }
   
-  void visitOnLine(const OnLine&) override;  
-  void visitOnParallel(const OnParallel&) override;  
-  void visitOnPerpendicular(const OnPerpendicular&) override;  
+  void visitOnLine_P(const OnLine_P&) override;  
+  void visitOnParallel_P(const OnParallel_P&) override;  
+  void visitOnPerpendicular_P(const OnPerpendicular_P&) override;  
 };
 
 

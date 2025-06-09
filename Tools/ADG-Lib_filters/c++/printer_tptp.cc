@@ -97,6 +97,10 @@ void PrinterTPTP::visitFunPerpendicular(const FunPerpendicular& e) {
   throw std::string("Functions should have been eliminated");
 }
 
+void PrinterTPTP::visitFunPerpendicular_P(const FunPerpendicular_P& e) {
+  throw std::string("Functions should have been eliminated");
+}
+
 void PrinterTPTP::visitFunIntersectLL(const FunIntersectLL& e) {
   throw std::string("Functions should have been eliminated");
 }
@@ -106,7 +110,7 @@ void PrinterTPTP::visitFunIntersectLL_P(const FunIntersectLL_P& e) {
 }
 
 void PrinterTPTP::visitMidpoint(const Midpoint& e) {
-  conjuncts_.push_back(printPredicate("midpoint", e.midpoint(), e.point1(), e.point2()));
+  conjuncts_.push_back(printPredicate("midpoint", e.X(), e.A(), e.B()));
 }
 
 void PrinterTPTP::visitParallel_P(const Parallel_P& e) {
@@ -148,7 +152,7 @@ void PrinterTPTP::visitCongruent(const Congruent& e) {
 }
 
 void PrinterTPTP::visitIdentical(const Identical& e) {
-  conjuncts_.push_back(printPredicate("identical", e.A(), e.B()));
+  conjuncts_.push_back(e.A().name() + " = " + e.B().name());
 }
 
 
@@ -156,15 +160,15 @@ void PrinterTPTP::visitHarmonic(const Harmonic& e) {
   conjuncts_.push_back(printPredicate("harmonic", e.A(), e.B(), e.C(), e.D()));
 }
 
-void PrinterTPTP::visitOnLine(const OnLine& e) {
+void PrinterTPTP::visitOnLine_P(const OnLine_P& e) {
   throw std::string("Non-deterministic functions should have been eliminated");
 }
 
-void PrinterTPTP::visitOnParallel(const OnParallel& e) {
+void PrinterTPTP::visitOnParallel_P(const OnParallel_P& e) {
   throw std::string("Non-deterministic functions should have been eliminated");
 }
 
-void PrinterTPTP::visitOnPerpendicular(const OnPerpendicular& e) {
+void PrinterTPTP::visitOnPerpendicular_P(const OnPerpendicular_P& e) {
   throw std::string("Non-deterministic functions should have been eliminated");
 }
 

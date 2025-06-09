@@ -14,9 +14,9 @@ public:
   ExprPtr transformFunIntersectLL(const FunIntersectLL& e) override;
   ExprPtr transformFunIntersectLL_P(const FunIntersectLL_P& e) override;
 
-  ExprPtr transformOnLine(const OnLine& e) override;
-  ExprPtr transformOnParallel(const OnParallel& e) override;
-  ExprPtr transformOnPerpendicular(const OnPerpendicular& e) override;
+  ExprPtr transformOnLine_P(const OnLine_P& e) override;
+  ExprPtr transformOnParallel_P(const OnParallel_P& e) override;
+  ExprPtr transformOnPerpendicular_P(const OnPerpendicular_P& e) override;
 };
 
 #endif

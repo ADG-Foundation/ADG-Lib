@@ -77,18 +77,18 @@ private:
 
 class Point {
 public:
-  Point(const std::string& id, int x=0, int y=0) :
+  Point(const std::string& id, double x=0.0, double y=0.0) :
     id_(id), x_(x), y_(y) {
   }
-  Point(const Point& other) = default;
+  Point(const Point&) = default;
 
   const std::string& id() const { return id_; }
-  int x() const { return x_; }
-  int y() const { return y_; }
+  double x() const { return x_; }
+  double y() const { return y_; }
   
 private:
   std::string id_;
-  int x_, y_;
+  double x_, y_;
 };
 
 class FreePoint : public Point, public Expression {
@@ -111,7 +111,7 @@ public:
     this->points_[0] = point1;
     this->points_[1] = point2;
   }  
-  Line(const Line& other) = default;
+  Line(const Line&) = default;
 
   const std::string& id() const { return id_; }
   const std::string& point1() const { return points_[0]; }
@@ -131,37 +131,37 @@ private:
 // Represents a command that draws a point (without a label)
 class DrawPoint : public Expression {
 public:
-  DrawPoint(const std::string& point) :
-    point_(Variable(point)) {
+  DrawPoint(const std::string& A) :
+    A_(Variable(A)) {
   }
-  DrawPoint(const DrawPoint& other) = default;
+  DrawPoint(const DrawPoint&) = default;
 
-  const Variable& point() const { return point_; }
+  const Variable& A() const { return A_; }
       
   void print(std::ostream&) const override;
   void acceptVisitor(ExpressionVisitor&) const override;
   ExprPtr acceptTransformer(ExpressionTransformer&) const override;
   
 private:
-  Variable point_;
+  Variable A_;
 };
 
 // Represents a command that draws a point (without a label)
 class LabelPoint : public Expression {
 public:
-  LabelPoint(const std::string& point) :
-    point_(Variable(point)) {
+  LabelPoint(const std::string& A) :
+    A_(Variable(A)) {
   }
-  LabelPoint(const LabelPoint& other) = default;
+  LabelPoint(const LabelPoint&) = default;
 
-  const Variable& point() const { return point_; }
+  const Variable& A() const { return A_; }
       
   void print(std::ostream&) const override;
   void acceptVisitor(ExpressionVisitor&) const override;
   ExprPtr acceptTransformer(ExpressionTransformer&) const override;
   
 private:
-  Variable point_;
+  Variable A_;
 };
 
 
@@ -171,13 +171,13 @@ enum DrawingStyle {SOLID, DASHED, BOLD};
 class DrawSegment : public Expression {
 public:
   
-  DrawSegment(const std::string& point1, const std::string& point2, DrawingStyle style = SOLID) :
-    point1_(Variable(point1)), point2_(Variable(point2)) {
+  DrawSegment(const std::string& A, const std::string& B, DrawingStyle style = SOLID) :
+    A_(Variable(A)), B_(Variable(B)) {
   }
-  DrawSegment(const DrawSegment& other) = default;
+  DrawSegment(const DrawSegment&) = default;
 
-  const Variable& point1() const { return point1_; }
-  const Variable& point2() const { return point2_; }
+  const Variable& A() const { return A_; }
+  const Variable& B() const { return B_; }
   const DrawingStyle& style() const { return style_; }
     
   
@@ -186,41 +186,39 @@ public:
   ExprPtr acceptTransformer(ExpressionTransformer&) const override;
   
 private:
-  Variable point1_, point2_;
+  Variable A_, B_;
   DrawingStyle style_;
 };
 
 // Represents a command that draws a line
 class DrawLine : public Expression {
-public:
-  
-  DrawLine(const std::string& line, DrawingStyle style = SOLID) :
-    line_(Variable(line)) {
+public:  
+  DrawLine(const std::string& l, DrawingStyle style = SOLID) :
+    l_(Variable(l)) {
   }
-  DrawLine(const DrawLine& other) = default;
+  DrawLine(const DrawLine&) = default;
 
-  const Variable& line() const { return line_; }
+  const Variable& l() const { return l_; }
   const DrawingStyle& style() const { return style_; }
-    
   
   void print(std::ostream&) const override;
   void acceptVisitor(ExpressionVisitor&) const override;
   ExprPtr acceptTransformer(ExpressionTransformer&) const override;
   
 private:
-  Variable line_;
+  Variable l_;
   DrawingStyle style_;
 };
 
 // Represents a command that draws a circle
 class DrawCircle : public Expression {
 public:
-  DrawCircle(const std::string& circle, DrawingStyle style = SOLID) :
-    circle_(Variable(circle)) {
+  DrawCircle(const std::string& c, DrawingStyle style = SOLID) :
+    c_(Variable(c)) {
   }
-  DrawCircle(const DrawCircle& other) = default;
+  DrawCircle(const DrawCircle&) = default;
 
-  const Variable& circle() const { return circle_; }
+  const Variable& c() const { return c_; }
   const DrawingStyle& style() const { return style_; }
     
   void print(std::ostream&) const override;
@@ -228,40 +226,39 @@ public:
   ExprPtr acceptTransformer(ExpressionTransformer&) const override;
   
 private:
-  Variable circle_;
+  Variable c_;
   DrawingStyle style_;
 };
 
 // Represents a command that draws a line given by two points
 class DrawLine_P : public Expression {
 public:  
-  DrawLine_P(const std::string& point1, const std::string& point2, DrawingStyle style = SOLID) :
-    point1_(Variable(point1)), point2_(Variable(point2)) {
+  DrawLine_P(const std::string& A, const std::string& B, DrawingStyle style = SOLID) :
+    A_(Variable(A)), B_(Variable(B)) {
   }
 
-  const Variable& point1() const { return point1_; }
-  const Variable& point2() const { return point2_; }
+  const Variable& A() const { return A_; }
+  const Variable& B() const { return B_; }
   const DrawingStyle& style() const { return style_; }
-    
   
   void print(std::ostream&) const override;
   void acceptVisitor(ExpressionVisitor&) const override;
   ExprPtr acceptTransformer(ExpressionTransformer&) const override;
   
 private:
-  Variable point1_, point2_;
+  Variable A_, B_;
   DrawingStyle style_;
 };
 
 // Represents a command that draws a circle given by the center and a point
 class DrawCircle_P : public Expression {
 public:
-  DrawCircle_P(const std::string& point1, const std::string& point2, DrawingStyle style = SOLID) :
-    point1_(Variable(point1)), point2_(Variable(point2)) {
+  DrawCircle_P(const std::string& O, const std::string& A, DrawingStyle style = SOLID) :
+    O_(Variable(O)), A_(Variable(A)) {
   }
 
-  const Variable& point1() const { return point1_; }
-  const Variable& point2() const { return point2_; }
+  const Variable& O() const { return O_; }
+  const Variable& A() const { return A_; }
   const DrawingStyle& style() const { return style_; }
     
   
@@ -270,50 +267,49 @@ public:
   ExprPtr acceptTransformer(ExpressionTransformer&) const override;
   
 private:
-  Variable point1_, point2_;
+  Variable O_, A_;
   DrawingStyle style_;
 };
-
 
 
 // Represents a function that constructs the midpoint of a segment
 class FunMidpoint : public Expression {
 public:
-  FunMidpoint(const std::string& new_point, const std::string& point1, const std::string& point2)
-    : new_point_(Variable(new_point)), point1_(Variable(point1)), point2_(Variable(point2)) {
+  FunMidpoint(const std::string& X, const std::string& A, const std::string& B)
+    : X_(Variable(X)), A_(Variable(A)), B_(Variable(B)) {
   }
   FunMidpoint(const FunMidpoint&) = default;
 
-  const Variable& newPoint() const { return new_point_; }
-  const Variable& point1() const { return point1_; }
-  const Variable& point2() const { return point2_; }
+  const Variable& X() const { return X_; }
+  const Variable& A() const { return A_; }
+  const Variable& B() const { return B_; }
 
   void print(std::ostream&) const override;
   void acceptVisitor(ExpressionVisitor&) const override;
   ExprPtr acceptTransformer(ExpressionTransformer&) const override;
   
 private:
-  Variable new_point_, point1_, point2_;
+  Variable X_, A_, B_;
 };
 
 // Represents a predicate that checks if the given point is the midpoint of a segment
 class Midpoint : public Expression {
 public:
-  Midpoint(const std::string& midpoint, const std::string& point1, const std::string& point2)
-    : midpoint_(Variable(midpoint)), point1_(Variable(point1)), point2_(Variable(point2)) {
+  Midpoint(const std::string& X, const std::string& A, const std::string& B)
+    : X_(Variable(X)), A_(Variable(A)), B_(Variable(B)) {
   }
   Midpoint(const Midpoint&) = default;
 
-  const Variable& midpoint() const { return midpoint_; }
-  const Variable& point1() const { return point1_; }
-  const Variable& point2() const { return point2_; }
+  const Variable& X() const { return X_; }
+  const Variable& A() const { return A_; }
+  const Variable& B() const { return B_; }
 
   void print(std::ostream&) const override;
   void acceptVisitor(ExpressionVisitor&) const override;
   ExprPtr acceptTransformer(ExpressionTransformer&) const override;
   
 private:
-  Variable midpoint_, point1_, point2_;
+  Variable X_, A_, B_;
 };
 
 // Represents a predicate that checks if the two segments given by
@@ -497,92 +493,112 @@ private:
 // Represents a function that constructs the perpendicular bisector of a segment
 class FunSegmentBisector : public Expression {
 public:
-  FunSegmentBisector(const std::string& new_line, const std::string& point1, const std::string& point2)
-    : new_line_(Variable(new_line)), point1_(Variable(point1)), point2_(Variable(point2)) {
+  FunSegmentBisector(const std::string& x, const std::string& A, const std::string& B)
+    : x_(Variable(x)), A_(Variable(A)), B_(Variable(B)) {
   }
 
-  const Variable& newLine() const { return new_line_; }
-  const Variable& point1() const { return point1_; }
-  const Variable& point2() const { return point2_; }
+  const Variable& x() const { return x_; }
+  const Variable& A() const { return A_; }
+  const Variable& B() const { return B_; }
 
   void print(std::ostream&) const override;
   void acceptVisitor(ExpressionVisitor&) const override;
   ExprPtr acceptTransformer(ExpressionTransformer&) const override;
   
 private:
-  Variable new_line_, point1_, point2_;
+  Variable x_, A_, B_;
 };
 
 
 // Rrepresents a line parallel to the given line through a given point
 class FunParallel : public Expression {
 public:
-  FunParallel(const std::string& new_line, const std::string& point, const std::string& line)
-    : new_line_(Variable(new_line)), point_(Variable(point)), line_(Variable(line)) {
+  FunParallel(const std::string& x, const std::string& A, const std::string& l)
+    : x_(Variable(x)), A_(Variable(A)), l_(Variable(l)) {
   }
 
-  const Variable& newLine() const { return new_line_; }
-  const Variable& point() const { return point_; }
-  const Variable& line() const { return line_; }
+  const Variable& x() const { return x_; }
+  const Variable& A() const { return A_; }
+  const Variable& l() const { return l_; }
 
   void print(std::ostream&) const override;
   void acceptVisitor(ExpressionVisitor&) const override;
   ExprPtr acceptTransformer(ExpressionTransformer&) const override;
   
 private:
-  Variable new_line_, point_, line_;
+  Variable x_, A_, l_;
 };
 
 // Rrepresents a line perpendicular to the given line through a given point
 class FunPerpendicular : public Expression {
 public:
-  FunPerpendicular(const std::string& new_line, const std::string& point, const std::string& line)
-    : new_line_(Variable(new_line)), point_(Variable(point)), line_(Variable(line)) {
+  FunPerpendicular(const std::string& x, const std::string& A, const std::string& l)
+    : x_(Variable(x)), A_(Variable(A)), l_(Variable(l)) {
   }
 
-  const Variable& newLine() const { return new_line_; }
-  const Variable& point() const { return point_; }
-  const Variable& line() const { return line_; }
+  const Variable& x() const { return x_; }
+  const Variable& A() const { return A_; }
+  const Variable& l() const { return l_; }
 
   void print(std::ostream&) const override;
   void acceptVisitor(ExpressionVisitor&) const override;
   ExprPtr acceptTransformer(ExpressionTransformer&) const override;
   
 private:
-  Variable new_line_, point_, line_;
+  Variable x_, A_, l_;
+};
+
+// Rrepresents a line perpendicular to the given line through a given point
+class FunPerpendicular_P : public Expression {
+public:
+  FunPerpendicular_P(const std::string& x, const std::string& A, const std::string& B, const std::string& P)
+    : x_(Variable(x)), P_(Variable(P)), A_(Variable(A)), B_(Variable(B)) {
+  }
+
+  const Variable& x() const { return x_; }
+  const Variable& A() const { return A_; }
+  const Variable& B() const { return B_; }
+  const Variable& P() const { return P_; }
+
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+private:
+  Variable x_, A_, B_, P_;
 };
 
 
 // Represents the point that is the intersection of two lines
 class FunIntersectLL : public Expression {
 public:
-  FunIntersectLL(const std::string& new_point, const std::string& line1, const std::string& line2)
-    : new_point_(Variable(new_point)), line1_(Variable(line1)), line2_(Variable(line2)) {
+  FunIntersectLL(const std::string& X, const std::string& l1, const std::string& l2)
+    : X_(Variable(X)), l1_(Variable(l1)), l2_(Variable(l2)) {
   }
 
-  const Variable& newPoint() const { return new_point_; }
-  const Variable& line1() const { return line1_; }
-  const Variable& line2() const { return line2_; }
+  const Variable& X() const { return X_; }
+  const Variable& l1() const { return l1_; }
+  const Variable& l2() const { return l2_; }
 
   void print(std::ostream&) const override;
   void acceptVisitor(ExpressionVisitor&) const override;
   ExprPtr acceptTransformer(ExpressionTransformer&) const override;
   
 private:
-  Variable new_point_, line1_, line2_;
+  Variable X_, l1_, l2_;
 };
 
 class FunIntersectLL_P : public Expression {
 public:
-  FunIntersectLL_P(const std::string& new_point,
+  FunIntersectLL_P(const std::string& X,
                    const std::string& A1, const std::string& B1,
                    const std::string& A2, const std::string& B2)
-    : new_point_(Variable(new_point)),
+    : X_(Variable(X)),
       A1_(Variable(A1)), B1_(Variable(B1)),
       A2_(Variable(A2)), B2_(Variable(B2))
   {}
 
-  const Variable& newPoint() const { return new_point_; }
+  const Variable& X() const { return X_; }
   const Variable& A1() const { return A1_; }
   const Variable& B1() const { return B1_; }
   const Variable& A2() const { return A2_; }
@@ -593,12 +609,12 @@ public:
   ExprPtr acceptTransformer(ExpressionTransformer&) const override;
   
 private:
-  Variable new_point_, A1_, B1_, A2_, B2_;
+  Variable X_, A1_, B1_, A2_, B2_;
 };
 
-class OnLine: public Expression {
+class OnLine_P: public Expression {
 public:
-  OnLine(const std::string& X, const std::string& A, const std::string& B) :
+  OnLine_P(const std::string& X, const std::string& A, const std::string& B) :
     X_(Variable(X)), A_(Variable(A)), B_(Variable(B)) {
   }
 
@@ -614,9 +630,9 @@ private:
 };
 
 
-class OnParallel: public Expression {
+class OnParallel_P: public Expression {
 public:
-  OnParallel(const std::string& X,
+  OnParallel_P(const std::string& X,
              const std::string& A, const std::string& B,
              const std::string& P) :
     X_(Variable(X)), A_(Variable(A)), B_(Variable(B)), P_(Variable(P)) {
@@ -634,9 +650,9 @@ private:
   Variable X_, A_, B_, P_;
 };
 
-class OnPerpendicular: public Expression {
+class OnPerpendicular_P: public Expression {
 public:
-  OnPerpendicular(const std::string& X,
+  OnPerpendicular_P(const std::string& X,
                   const std::string& A, const std::string& B,
                   const std::string& P) :
     X_(Variable(X)), A_(Variable(A)), B_(Variable(B)), P_(Variable(P)) {
@@ -675,12 +691,13 @@ public:
   virtual void visitFunSegmentBisector(const FunSegmentBisector&) = 0;
   virtual void visitFunParallel(const FunParallel&) = 0;
   virtual void visitFunPerpendicular(const FunPerpendicular&) = 0;
+  virtual void visitFunPerpendicular_P(const FunPerpendicular_P&) = 0;
   virtual void visitFunIntersectLL(const FunIntersectLL&) = 0;
   virtual void visitFunIntersectLL_P(const FunIntersectLL_P&) = 0;
 
-  virtual void visitOnLine(const OnLine&) = 0;
-  virtual void visitOnParallel(const OnParallel&) = 0;
-  virtual void visitOnPerpendicular(const OnPerpendicular&) = 0;
+  virtual void visitOnLine_P(const OnLine_P&) = 0;
+  virtual void visitOnParallel_P(const OnParallel_P&) = 0;
+  virtual void visitOnPerpendicular_P(const OnPerpendicular_P&) = 0;
 
   virtual void visitMidpoint(const Midpoint&) = 0;
   virtual void visitParallel_P(const Parallel_P&) = 0;
@@ -754,6 +771,11 @@ public:
   virtual ExprPtr transformFunPerpendicular(const FunPerpendicular& e) {
     return std::make_shared<FunPerpendicular>(e);
   }
+
+  virtual ExprPtr transformFunPerpendicular_P(const FunPerpendicular_P& e) {
+    return std::make_shared<FunPerpendicular_P>(e);
+  }
+  
   
   virtual ExprPtr transformFunIntersectLL(const FunIntersectLL& e) {
     return std::make_shared<FunIntersectLL>(e);
@@ -763,16 +785,16 @@ public:
     return std::make_shared<FunIntersectLL_P>(e);
   }
 
-  virtual ExprPtr transformOnLine(const OnLine& e) {
-    return std::make_shared<OnLine>(e);
+  virtual ExprPtr transformOnLine_P(const OnLine_P& e) {
+    return std::make_shared<OnLine_P>(e);
   }
   
-  virtual ExprPtr transformOnParallel(const OnParallel& e) {
-    return std::make_shared<OnParallel>(e);
+  virtual ExprPtr transformOnParallel_P(const OnParallel_P& e) {
+    return std::make_shared<OnParallel_P>(e);
   }
   
-  virtual ExprPtr transformOnPerpendicular(const OnPerpendicular& e) {
-    return std::make_shared<OnPerpendicular>(e);
+  virtual ExprPtr transformOnPerpendicular_P(const OnPerpendicular_P& e) {
+    return std::make_shared<OnPerpendicular_P>(e);
   }
 
   virtual ExprPtr transformMidpoint(const Midpoint& e) {

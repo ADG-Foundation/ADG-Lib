@@ -74,7 +74,7 @@ extern int scanner_gcl_lex(void);  // tell Bison to call this instead of yylex
 
 %token <std::string> VARIABLE "variable"
 %token <std::string> STRING "string"
-%token <int> NUMBER "number"
+%token <double> NUMBER "number"
 
 %nterm <ExprPtr> hypothesis conjecture term
 
@@ -118,7 +118,7 @@ hypothesis:
 }
 | ONLINE VARIABLE VARIABLE VARIABLE {
    drv.points.push_back(Point{$2});
-  $$ = std::make_shared<OnLine>($2, $3, $4);
+  $$ = std::make_shared<OnLine_P>($2, $3, $4);
 }
 | PARALLEL VARIABLE VARIABLE VARIABLE {
     $$ = std::make_shared<FunParallel>($2, $3, $4);

@@ -4,13 +4,15 @@
 #include "printer.hh"
 #include <fstream>
 #include <filesystem>
+
+#ifdef LIBZIP
 #include <zip.h>
+#endif
 
 const std::string GEOGEBRA_XML = "geogebra.xml";
 
 class PrinterGGB : public Printer {
 public:
-  
   PrinterGGB(const std::string& conjectureName, bool zipOutput) :
     Printer([&]() -> std::ostream& {
               if (zipOutput) {
@@ -23,7 +25,6 @@ public:
             }(), conjectureName), zipOutput_(zipOutput) {
     if (zipOutput)
       gxml_.open(GEOGEBRA_XML, std::ios::out | std::ios::trunc);
-              
   }
 
   void printHeader() override;
@@ -46,12 +47,13 @@ public:
   void visitFunSegmentBisector(const FunSegmentBisector&) override;
   void visitFunParallel(const FunParallel&) override;
   void visitFunPerpendicular(const FunPerpendicular&) override;
+  void visitFunPerpendicular_P(const FunPerpendicular_P&) override;
   void visitFunIntersectLL(const FunIntersectLL&) override;
   void visitFunIntersectLL_P(const FunIntersectLL_P& e) override;  
 
-  void visitOnLine(const OnLine&) override;
-  void visitOnParallel(const OnParallel&) override;
-  void visitOnPerpendicular(const OnPerpendicular&) override;
+  void visitOnLine_P(const OnLine_P&) override;
+  void visitOnParallel_P(const OnParallel_P&) override;
+  void visitOnPerpendicular_P(const OnPerpendicular_P&) override;
 
   void visitMidpoint(const Midpoint&) override {
     throw std::string("Predicates are not supported");
@@ -90,12 +92,19 @@ public:
   void postprocess() override {
     if (zipOutput_) {
       gxml_.close();
+
+#ifdef LIBZIP      
       createZipArchive(conjectureName_ + ".ggb", GEOGEBRA_XML);
       std::filesystem::remove(GEOGEBRA_XML);
+#else
+      std::cerr << "LibZip not found -- zipping geobegra.xml to ggb skipped" << std::endl;
+#endif
     }
   }
 
 private:
+
+#ifdef LIBZIP
   void createZipArchive(const std::string& archivePath, const std::string& fileName) {
     // Get error object
     zip_error_t zerr;
@@ -130,6 +139,7 @@ private:
       return;
     }
   }
+#endif
   
   bool zipOutput_;
   std::ofstream gxml_;

@@ -121,7 +121,7 @@ ExprPtr Line::acceptTransformer(ExpressionTransformer& transformer) const {
 
 // DrawPoint implementation
 void DrawPoint::print(std::ostream& ostr) const  {
-  ostr << "(draw_point " << point_ << ")" << std::endl;
+  ostr << "(draw_point " << A_ << ")" << std::endl;
 }
 
 void DrawPoint::acceptVisitor(ExpressionVisitor& visitor) const {
@@ -134,7 +134,7 @@ ExprPtr DrawPoint::acceptTransformer(ExpressionTransformer& transformer) const {
 
 // LabelPoint implementation
 void LabelPoint::print(std::ostream& ostr) const  {
-  ostr << "(label_point " << point_ << ")" << std::endl;
+  ostr << "(label_point " << A_ << ")" << std::endl;
 }
 
 void LabelPoint::acceptVisitor(ExpressionVisitor& visitor) const {
@@ -148,7 +148,7 @@ ExprPtr LabelPoint::acceptTransformer(ExpressionTransformer& transformer) const 
 
 // DrawSegment implementation
 void DrawSegment::print(std::ostream& ostr) const  {
-  ostr << "(draw_segment " << point1_ << "," << point2_ << ")" << std::endl;
+  ostr << "(draw_segment " << A_ << "," << B_ << ")" << std::endl;
 }
 
 void DrawSegment::acceptVisitor(ExpressionVisitor& visitor) const {
@@ -161,7 +161,7 @@ ExprPtr DrawSegment::acceptTransformer(ExpressionTransformer& transformer) const
 
 // DrawLine implementation
 void DrawLine::print(std::ostream& ostr) const  {
-  ostr << "(draw_line " << line_ << ")" << std::endl;
+  ostr << "(draw_line " << l_ << ")" << std::endl;
 }
 
 void DrawLine::acceptVisitor(ExpressionVisitor& visitor) const {
@@ -174,7 +174,7 @@ ExprPtr DrawLine::acceptTransformer(ExpressionTransformer& transformer) const {
 
 // DrawLine_P implementation
 void DrawLine_P::print(std::ostream& ostr) const  {
-  ostr << "(draw_line " << point1_ << "," << point2_ << ")" << std::endl;
+  ostr << "(draw_line " << A_ << "," << B_ << ")" << std::endl;
 }
 
 void DrawLine_P::acceptVisitor(ExpressionVisitor& visitor) const {
@@ -188,7 +188,7 @@ ExprPtr DrawLine_P::acceptTransformer(ExpressionTransformer& transformer) const 
 // FunMidpoint implementation
 
 void FunMidpoint::print(std::ostream& ostr) const {
-  ostr << "(fun_midpoint " << new_point_ << "," << point1_ << "," << point2_ << ")";
+  ostr << "(fun_midpoint " << X_ << "," << A_ << "," << B_ << ")";
 }
 
 void FunMidpoint::acceptVisitor(ExpressionVisitor& visitor) const {
@@ -202,7 +202,7 @@ ExprPtr FunMidpoint::acceptTransformer(ExpressionTransformer& transformer) const
 // Midpoint implementation
 
 void Midpoint::print(std::ostream& ostr) const {
-  ostr << "(midpoint " << midpoint_ << "," << point1_ << "," << point2_ << ")";
+  ostr << "(midpoint " << X_ << "," << A_ << "," << B_ << ")";
 }
 
 void Midpoint::acceptVisitor(ExpressionVisitor& visitor) const {
@@ -339,7 +339,7 @@ ExprPtr Identical::acceptTransformer(ExpressionTransformer& transformer) const {
 // FunSegmentBisector implementation
 
 void FunSegmentBisector::print(std::ostream& ostr) const {
-  ostr << "(fun_segment_bisector " << new_line_ << "," << point1_ << "," << point2_ << ")";
+  ostr << "(fun_segment_bisector " << x_ << "," << A_ << "," << B_ << ")";
 }
 
 void FunSegmentBisector::acceptVisitor(ExpressionVisitor& visitor) const {
@@ -354,7 +354,7 @@ ExprPtr FunSegmentBisector::acceptTransformer(ExpressionTransformer& transformer
 // FunParallel implementation
 
 void FunParallel::print(std::ostream& ostr) const {
-  ostr << "(fun_paralel " << new_line_ << "," << point_ << "," << line_ << ")";
+  ostr << "(fun_paralel " << x_ << "," << A_ << "," << l_ << ")";
 }
 
 void FunParallel::acceptVisitor(ExpressionVisitor& visitor) const {
@@ -368,7 +368,7 @@ ExprPtr FunParallel::acceptTransformer(ExpressionTransformer& transformer) const
 // FunPerpendicular implementation
 
 void FunPerpendicular::print(std::ostream& ostr) const {
-  ostr << "(fun_peprpendicular " << new_line_ << "," << point_ << "," << line_ << ")";
+  ostr << "(fun_peprpendicular " << x_ << "," << A_ << "," << l_ << ")";
 }
 
 void FunPerpendicular::acceptVisitor(ExpressionVisitor& visitor) const {
@@ -379,10 +379,23 @@ ExprPtr FunPerpendicular::acceptTransformer(ExpressionTransformer& transformer) 
   return transformer.transformFunPerpendicular(*this);
 }
 
+// FunPerpendicular_P implementation
+void FunPerpendicular_P::print(std::ostream& ostr) const {
+  ostr << "(fun_peprpendicular_p " << x_ << "," << A_ << "," << B_ << "," << P_ << ")";
+}
+
+void FunPerpendicular_P::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitFunPerpendicular_P(*this);
+}
+
+ExprPtr FunPerpendicular_P::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformFunPerpendicular_P(*this);
+}
+
 // FunIntersectLL implementation
 
 void FunIntersectLL::print(std::ostream& ostr) const {
-  ostr << "(fun_intersect_ll " << new_point_ << "," << line1_ << "," << line2_ << ")";
+  ostr << "(fun_intersect_ll " << X_ << "," << l1_ << "," << l2_ << ")";
 }
 
 void FunIntersectLL::acceptVisitor(ExpressionVisitor& visitor) const {
@@ -396,7 +409,7 @@ ExprPtr FunIntersectLL::acceptTransformer(ExpressionTransformer& transformer) co
 // FunIntersectLL_P implementation
 
 void FunIntersectLL_P::print(std::ostream& ostr) const {
-  ostr << "(fun_intersect_ll_p " << new_point_ << "," << A1_ << "," << B1_ << "," << A2_ << "," << B2_ << ")";
+  ostr << "(fun_intersect_ll_p " << X_ << "," << A1_ << "," << B1_ << "," << A2_ << "," << B2_ << ")";
 }
 
 void FunIntersectLL_P::acceptVisitor(ExpressionVisitor& visitor) const {
@@ -407,47 +420,47 @@ ExprPtr FunIntersectLL_P::acceptTransformer(ExpressionTransformer& transformer) 
   return transformer.transformFunIntersectLL_P(*this);
 }
 
-// OnLine implementation
+// OnLine_P implementation
 
-void OnLine::print(std::ostream& ostr) const {
-  ostr << "(on_line " << X_ << "," << A_ << "," << B_ << ")";
+void OnLine_P::print(std::ostream& ostr) const {
+  ostr << "(on_line_p " << X_ << "," << A_ << "," << B_ << ")";
 }
 
-void OnLine::acceptVisitor(ExpressionVisitor& visitor) const {
-  visitor.visitOnLine(*this);
+void OnLine_P::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitOnLine_P(*this);
 }
 
-ExprPtr OnLine::acceptTransformer(ExpressionTransformer& transformer) const {
-  return transformer.transformOnLine(*this);
+ExprPtr OnLine_P::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformOnLine_P(*this);
 }
 
 
-// OnParallel implementation
+// OnParallel_P implementation
 
-void OnParallel::print(std::ostream& ostr) const {
-  ostr << "(on_parallel " << X_ << "," << A_ << "," << B_ << "," << P_ << ")";
+void OnParallel_P::print(std::ostream& ostr) const {
+  ostr << "(on_parallel_p " << X_ << "," << A_ << "," << B_ << "," << P_ << ")";
 }
 
-void OnParallel::acceptVisitor(ExpressionVisitor& visitor) const {
-  visitor.visitOnParallel(*this);
+void OnParallel_P::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitOnParallel_P(*this);
 }
 
-ExprPtr OnParallel::acceptTransformer(ExpressionTransformer& transformer) const {
-  return transformer.transformOnParallel(*this);
+ExprPtr OnParallel_P::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformOnParallel_P(*this);
 }
 
 // OnPerpendicular implementation
 
-void OnPerpendicular::print(std::ostream& ostr) const {
-  ostr << "(on_perpendicular " << X_ << "," << A_ << "," << B_ << "," << P_ << ")";
+void OnPerpendicular_P::print(std::ostream& ostr) const {
+  ostr << "(on_perpendicular_p " << X_ << "," << A_ << "," << B_ << "," << P_ << ")";
 }
 
-void OnPerpendicular::acceptVisitor(ExpressionVisitor& visitor) const {
-  visitor.visitOnPerpendicular(*this);
+void OnPerpendicular_P::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitOnPerpendicular_P(*this);
 }
 
-ExprPtr OnPerpendicular::acceptTransformer(ExpressionTransformer& transformer) const {
-  return transformer.transformOnPerpendicular(*this);
+ExprPtr OnPerpendicular_P::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformOnPerpendicular_P(*this);
 }
 
 // Operator overload

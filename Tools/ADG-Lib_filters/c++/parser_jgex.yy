@@ -139,18 +139,17 @@ other: SHOW {
 
 relation: 
    MIDPOINT VARIABLE VARIABLE VARIABLE {
-  $$ = make_expression("midp", $2, $3, $4);
+     $$ = std::make_shared<Midpoint>($2, $3, $4);
 }  
 |  FOOT VARIABLE VARIABLE VARIABLE VARIABLE {
-  ExprPtr perp = make_expression("perp", $2, $3, $4, $5);
-  ExprPtr col = make_expression("col", $2, $4, $5);
-  $$ = make_expression("&", perp, col);
+  // FIXME
+  $$ = nullptr;
 }
 |  PERPENDICULAR VARIABLE VARIABLE VARIABLE VARIABLE {
-  $$ = make_expression("perp", $2, $3, $4, $5);
+  $$ = std::make_shared<Perpendicular_P>($2, $3, $4, $5);
 }
 | ONLINE VARIABLE VARIABLE VARIABLE {
-  $$ = make_expression("col", $2, $3, $4);
+  $$ = std::make_shared<OnLine_P>($2, $3, $4);
 }
 | ONRCIRCLE VARIABLE VARIABLE VARIABLE VARIABLE {
   /* circle E O A with EO _|_ AO */
@@ -170,7 +169,7 @@ relation:
   $$ = make_expression("circle", $3, $4, $2, aux_point);
 }
 | ONTLINE VARIABLE VARIABLE VARIABLE VARIABLE {
-  $$ = make_expression("perp", $4, $5, $2, $3);
+  $$ = std::make_shared<OnPerpendicular_P>($2, $3, $4, $5);
 }
 | ONPLINE VARIABLE VARIABLE VARIABLE VARIABLE {
   $$ = make_expression("para", $4, $5, $3, $2);
