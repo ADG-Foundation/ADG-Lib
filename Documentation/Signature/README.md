@@ -1,5 +1,5 @@
 This directory contains the source for the specification of the ADGLib signature. 
-We use [https://www.sphinx-doc.org/en/master/](Sphinx), tool. 
+We use [Sphinx](https://www.sphinx-doc.org/en/master/), tool. 
 
 To compile use:
 ```make html``` or ```make latexpdf```
