@@ -8,12 +8,13 @@
 #include "printer_ggb.hh"
 #include "printer_argodg.hh"
 #include "printer_tptp.hh"
+#include "printer_geocoq.hh"
 
 #include "eliminate_lines.hh"
 #include "eliminate_functions.hh"
 #include "eliminate_dg.hh"
 
-enum Format {UNKNOWN = -1, GCL, JGEX, GGB, ArgoDG, TPTP};
+enum Format {UNKNOWN = -1, GCL, JGEX, GGB, ARGODG, TPTP, GEOCOQ};
 
 // TODO:
 // add flags for options
@@ -157,7 +158,7 @@ int process_file(const std::string& fileName, driver& drv,
     std::string conjectureName = getFilenameStem(fileName);    
 
     std::unique_ptr<Printer> printer;
-    if (outputFormat == ArgoDG)
+    if (outputFormat == ARGODG)
       printer = std::make_unique<PrinterArgoDG>(std::cout, conjectureName);
     else if (outputFormat == GCL)
       printer = std::make_unique<PrinterGCL>(std::cout, conjectureName);
@@ -165,6 +166,8 @@ int process_file(const std::string& fileName, driver& drv,
       printer = std::make_unique<PrinterGGB>(conjectureName, zipOutput);
     else if (outputFormat == TPTP)
       printer = std::make_unique<PrinterTPTP>(std::cout, conjectureName);
+    else if (outputFormat == GEOCOQ)
+      printer = std::make_unique<PrinterGeoCoq>(std::cout, conjectureName);
 
     printer->printComment(std::string("generated from ") + conjectureName + std::string(" using ADG-Lib tools"));
     printer->printHeader();
@@ -209,9 +212,11 @@ int main (int argc, char *argv[])
             if (format_str == "ggb")
               zip_output = true;
           } else if (format_str == "argodg") {
-            outputFormat = ArgoDG;
+            outputFormat = ARGODG;
           } else if (format_str == "tptp") {
             outputFormat = TPTP;
+          } else if (format_str == "geocoq" || format_str == "coq" || format_str == "v") {
+            outputFormat = GEOCOQ;
           } else {
             std::cerr << "output format " << format_str << " unknown" << std::endl;
           }

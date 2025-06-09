@@ -57,6 +57,7 @@ set(SOURCES
     printer_ggb.cc printer_ggb.hh
     printer_tptp.cc printer_tptp.hh
     printer_argodg.cc printer_argodg.hh
+    printer_geocoq.cc printer_geocoq.hh
 )
 
 # Final binary

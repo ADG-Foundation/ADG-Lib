@@ -1,0 +1,101 @@
+#ifndef __PRINTER_GEOCOQ_HH__
+#define __PRINTER_GEOCOQ_HH__
+
+#include "printer.hh"
+#include <sstream>
+
+class PrinterGeoCoq : public Printer {
+public:
+  PrinterGeoCoq(std::ostream& ostr, const std::string& conjectureName) : Printer(ostr, conjectureName) {
+  }
+
+
+  // TODO: Be carefull about the top level connectives
+  void printHypotheses(const std::vector<ExprPtr>& hypotheses) override {
+    conjuncts_.clear();
+    
+    for (ExprPtr h : hypotheses)
+      h->acceptVisitor(*this);
+    
+    if (conjuncts_.empty())
+      ostr_ << "true";
+    else
+      printConjuncts("->");
+  }
+
+  void printConjectures(const std::vector<ExprPtr>& conjectures) override {
+    conjuncts_.clear();
+    ostr_ << " -> ";
+    
+    for (ExprPtr c : conjectures)
+      c->acceptVisitor(*this);
+    
+    if (conjuncts_.empty())
+      ostr_ << "true";
+    else
+      printConjuncts("\\/");
+  }
+
+  void printHeader() override {
+    ostr_ << "Lemma " << conjectureName_ << " : ";    
+  }
+  
+  void printFooter() override {
+    ostr_ << "." << std::endl;
+  }
+
+  void printQuantifiers(const std::vector<Point>& points) override {
+    if (points.empty()) return;
+    ostr_ << "forall ";
+    ostr_ << points[0].id();
+    for (int i = 1; i < points.size(); i++)
+      ostr_ << " " << points[i].id();
+    ostr_ << ", " << std::endl;
+  }
+  
+
+  void visitConstant(const Constant&) override; 
+  void visitVariable(const Variable&) override; 
+  void visitNaryExpression(const NaryExpression&) override;
+
+  void visitFreePoint(const FreePoint&) override;
+  void visitLine(const Line&) override;
+  
+  void visitDrawPoint(const DrawPoint&) override;
+  void visitDrawSegment(const DrawSegment&) override;
+  void visitDrawLine(const DrawLine&) override;
+  void visitDrawLine_P(const DrawLine_P&) override;
+  void visitLabelPoint(const LabelPoint&) override;
+  
+  void visitFunMidpoint(const FunMidpoint&) override;
+  void visitFunSegmentBisector(const FunSegmentBisector&) override;
+  void visitFunParallel(const FunParallel&) override;
+  void visitFunPerpendicular(const FunPerpendicular&) override;
+  void visitFunPerpendicular_P(const FunPerpendicular_P&) override;
+  void visitFunIntersectLL(const FunIntersectLL&) override;
+  void visitFunIntersectLL_P(const FunIntersectLL_P&) override;
+
+  void visitMidpoint(const Midpoint&) override;
+  void visitParallel_P(const Parallel_P& e) override;
+  void visitParallelDG_P(const ParallelDG_P& e) override;
+  void visitPerpendicular_P(const Perpendicular_P& e) override;
+  void visitPerpendicularDG_P(const PerpendicularDG_P& e) override;
+  void visitCongruent(const Congruent& e) override;
+  void visitCollinear(const Collinear& e) override;
+
+  void visitEqual(const Equal& e) override;
+  void visitIdentical(const Identical& e) override;
+  void visitHarmonic(const Harmonic& e) override;
+  
+  void visitOnLine_P(const OnLine_P&) override;  
+  void visitOnParallel_P(const OnParallel_P&) override;  
+  void visitOnPerpendicular_P(const OnPerpendicular_P&) override;
+
+private:
+  void printConjuncts(const std::string& separator) const;
+  
+  std::ostringstream current_;
+  std::vector<std::string> conjuncts_;
+};
+
+#endif

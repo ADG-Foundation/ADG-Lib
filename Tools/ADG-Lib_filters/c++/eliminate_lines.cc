@@ -34,7 +34,7 @@ ExprPtr EliminateLinesTransformer::transformFunSegmentBisector(const FunSegmentB
 }
 
 ExprPtr EliminateLinesTransformer::transformFunParallel(const FunParallel& e) {
-  std::string lineId  = e.x().name();
+  std::string lineId  = e.l().name();
   auto it1 = lines_.find(lineId);
   if (it1 == lines_.end())
     throw std::string("Line ") + lineId + std::string(" not found");
