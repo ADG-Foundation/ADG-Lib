@@ -84,11 +84,11 @@ public:
     if (zipOutput_) {
       gxml_.close();
 
-#ifdef LIBZIP      
+#ifdef LIBZIP
       createZipArchive(conjectureName_ + ".ggb", GEOGEBRA_XML);
       std::filesystem::remove(GEOGEBRA_XML);
 #else
-      std::cerr << "LibZip not found -- zipping geobegra.xml to ggb skipped" << std::endl;
+      std::cerr << "LibZip not found -- zipping geogebra.xml to ggb skipped" << std::endl;
 #endif
     }
   }
