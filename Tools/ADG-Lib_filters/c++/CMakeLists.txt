@@ -64,7 +64,7 @@ add_executable(adg_lib_converter ${SOURCES})
 
 # Link LibZip if found
 if (LIBZIP_FOUND)
-#  add_compile_definitions(LIBZIP)
+  add_compile_definitions(LIBZIP)
   target_link_libraries(adg_lib_converter PRIVATE libzip::zip)
   include_directories(${ZIP_INCLUDE_DIR})
 else()

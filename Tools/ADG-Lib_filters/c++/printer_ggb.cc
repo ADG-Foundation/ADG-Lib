@@ -16,13 +16,59 @@ void PrinterGGB::printFooter() {
   ostr_ << footer << std::endl;
 }
 
-void PrinterGGB::visitConstant(const Constant&) {
+void PrinterGGB::visitConstant(const Constant& c) {
+  ostr_ << c.value();
 }
 
 void PrinterGGB::visitVariable(const Variable& v) {
+  ostr_ << v.name();
 }
 
 void PrinterGGB::visitNaryExpression(const NaryExpression& e) {
+  if (e.op() == "&") {
+    for (ExprPtr operand : e.operands())
+      operand->acceptVisitor(*this);
+  } else {
+    std::string op = e.op();
+    if (e.operands().size() == 2) {
+      ostr_ << "( ";
+      e.operands()[0]->acceptVisitor(*this);
+      ostr_ << ") " << op << " ";
+      ostr_ << "( ";
+      e.operands()[1]->acceptVisitor(*this);
+      ostr_ << ")";
+    } else if (op == "sratio") {
+      ostr_ << "(Segment[";
+      e.operands()[0]->acceptVisitor(*this);
+      ostr_ << ", ";
+      e.operands()[1]->acceptVisitor(*this);
+      ostr_ << "]/Segment[";
+      e.operands()[2]->acceptVisitor(*this);
+      ostr_ << ", ";
+      e.operands()[3]->acceptVisitor(*this);
+      ostr_ << "])";
+    } else if (op == "sa3") {
+      ostr_ << "Area[";
+      e.operands()[0]->acceptVisitor(*this);
+      ostr_ << ", ";
+      e.operands()[1]->acceptVisitor(*this);
+      ostr_ << ", ";
+      e.operands()[2]->acceptVisitor(*this);
+      ostr_ << "]";
+    } else if (op == "sa4") {
+      ostr_ << "Area[";
+      e.operands()[0]->acceptVisitor(*this);
+      ostr_ << ", ";
+      e.operands()[1]->acceptVisitor(*this);
+      ostr_ << ", ";
+      e.operands()[2]->acceptVisitor(*this);
+      ostr_ << ", ";
+      e.operands()[3]->acceptVisitor(*this);
+      ostr_ << "]";
+    } else {
+      throw std::string("Unsupported operation: " + op);
+    }
+  }
 }
 
 void PrinterGGB::visitFreePoint(const FreePoint& p) {
@@ -101,7 +147,7 @@ void PrinterGGB::visitFunParallel(const FunParallel& e) {
 }
 
 void PrinterGGB::visitFunPerpendicular(const FunPerpendicular& e) {
-  ostr_ << "<command name=\"OthogonalLine\">" << std::endl;
+  ostr_ << "<command name=\"OrthogonalLine\">" << std::endl;
   ostr_ << "  <input a0=\"" << e.A() << "\" a1=\"" << e.l() << "\"/>" << std::endl;
   ostr_ << "  <output a0=\"" << e.x() << "\"/>" << std::endl;
   ostr_ << "</command>" << std::endl;
@@ -155,6 +201,37 @@ void PrinterGGB::visitCollinear(const Collinear& e) {
       "</command>\n";
 }
 
+void PrinterGGB::visitEqual(const Equal& e) {
+  if (!printingConjectures_)
+    throw std::string("Predicates in hypotheses are not supported");
+  else {
+
+    /*
+    // Functional form (it is required currently if the arguments are Area[...], FIXME):
+    ostr_ << "<command name=\"Prove\">\n"
+      "  <input a0=\"AreEqual[";
+    e.operands()[0]->acceptVisitor(*this);
+    ostr_ << ", ";
+    e.operands()[1]->acceptVisitor(*this);
+    ostr_ << "]\"/>\n" <<
+      "  <output a0=\"" << AuxiliaryObjects::get() << "\"/>\n" <<
+      "</command>\n";
+    */
+
+    // Relational form:
+    ostr_ << "<command name=\"Prove\">\n"
+      "  <input a0=\"";
+    e.operands()[0]->acceptVisitor(*this);
+    ostr_ << " == ";
+    e.operands()[1]->acceptVisitor(*this);
+    ostr_ << "\"/>\n" <<
+      "  <output a0=\"" << AuxiliaryObjects::get() << "\"/>\n" <<
+      "</command>\n";
+
+
+  }
+}
+
 void PrinterGGB::visitParallel_P(const Parallel_P& e) {
   if (!printingConjectures_)
     throw std::string("Predicates in hypotheses are not supported");
@@ -174,6 +251,53 @@ void PrinterGGB::visitPerpendicular_P(const Perpendicular_P& e) {
     ostr_ << "<command name=\"Prove\">\n"
       "  <input a0=\"ArePerpendicular[Line[" << e.A1() << ", " << e.B1()
       << "], Line[" << e.A2() << ", " << e.B2() << "]]\"/>\n" <<
+      "  <output a0=\"" << AuxiliaryObjects::get() << "\"/>\n" <<
+      "</command>\n";
+}
+
+void PrinterGGB::visitIdentical(const Identical& e) {
+  if (!printingConjectures_)
+    throw std::string("Predicates in hypotheses are not supported");
+  else {
+    ostr_ << "prove { " << "identical ";
+    e.A().acceptVisitor(*this);
+    ostr_ << " ";
+    e.B().acceptVisitor(*this);
+    ostr_ << " } ";
+
+    ostr_ << "<command name=\"Prove\">\n"
+      "  <input a0=\"AreEqual[";
+    e.A().acceptVisitor(*this);
+    ostr_ << ", ";
+    e.B().acceptVisitor(*this);
+    ostr_ << "]\"/>\n" <<
+      "  <output a0=\"" << AuxiliaryObjects::get() << "\"/>\n" <<
+      "</command>\n";
+  }
+}
+
+void PrinterGGB::visitHarmonic(const Harmonic& e) {
+  if (!printingConjectures_)
+    throw std::string("Predicates in hypotheses are not supported");
+  else
+    ostr_ << "<command name=\"Prove\">\n"
+      "  <input a0=\"Segment[";
+    e.A().acceptVisitor(*this);
+    ostr_ << ", ";
+    e.C().acceptVisitor(*this);
+    ostr_ << "]*Segment[";
+    e.D().acceptVisitor(*this);
+    ostr_ << ", ";
+    e.B().acceptVisitor(*this);
+    ostr_ << "] == Segment[";
+    e.C().acceptVisitor(*this);
+    ostr_ << ", ";
+    e.B().acceptVisitor(*this);
+    ostr_ << "]*Segment[";
+    e.D().acceptVisitor(*this);
+    ostr_ << ", ";
+    e.A().acceptVisitor(*this);
+    ostr_ << "]\"/>\n" <<
       "  <output a0=\"" << AuxiliaryObjects::get() << "\"/>\n" <<
       "</command>\n";
 }

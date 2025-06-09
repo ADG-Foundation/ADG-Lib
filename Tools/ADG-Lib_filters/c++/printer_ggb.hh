@@ -70,21 +70,12 @@ public:
   void visitPerpendicularDG_P(const PerpendicularDG_P& e) override {
     throw std::string("Predicate perpendiculardg should have been eliminated");
   }
-  
+
   void visitCollinear(const Collinear& e) override;
-  
-  void visitEqual(const Equal& e) override {
-      throw std::string("Predicates are not supported");
-  }
 
-  void visitIdentical(const Identical& e) override {
-      throw std::string("Predicates are not supported");
-  }
-
-  void visitHarmonic(const Harmonic& e) override {
-      throw std::string("Predicates are not supported");
-  }
-  
+  void visitEqual(const Equal& e) override;
+  void visitIdentical(const Identical& e) override;
+  void visitHarmonic(const Harmonic& e) override;
   void visitCongruent(const Congruent& e) override {
       throw std::string("Predicates are not supported");
   }
