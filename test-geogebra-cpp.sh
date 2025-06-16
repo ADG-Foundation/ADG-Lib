@@ -28,7 +28,7 @@ cd ../../../../CustomFormats/GCLC
 P_DIR=`pwd`
 SUCCESS=0
 ALL=0
-FILES=`find . -name '*.gcl'`
+FILES=`find . -name '*.gcl' | sort`
 for i in $FILES; do
   ALL=$((ALL+1))
   cd "$OUT_DIR"
