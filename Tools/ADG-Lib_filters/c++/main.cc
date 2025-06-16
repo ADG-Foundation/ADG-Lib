@@ -90,6 +90,8 @@ inline bool ends_with(std::string const & value, std::string const & ending)
     return std::equal(ending.rbegin(), ending.rend(), value.rbegin());
 }
 
+bool ggb_functional_request;
+
 int process_file(const std::string& fileName, driver& drv,
                  bool traceScanning, bool traceParsing,
                  bool eliminateLines, bool eliminateFunctions, Format outputFormat, bool zipOutput) {

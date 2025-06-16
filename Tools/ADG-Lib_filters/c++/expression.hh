@@ -7,6 +7,8 @@
 #include <vector>
 #include <algorithm>
 
+extern bool ggb_functional_request;
+
 // Forward declaration to avoid circular dependencies
 class Expression;
 class ExpressionVisitor;
@@ -853,6 +855,9 @@ std::string to_uppercase(const std::string& input);
 template <typename... Args>
 ExprPtr make_expression(const std::string& name, const std::string& first, Args... rest) {
     std::vector<ExprPtr> operands {std::make_shared<Variable>(first), std::make_shared<Variable>(rest)... };
+    if (name == "sa3") {
+        ggb_functional_request = true;
+    }
     return std::make_shared<NaryExpression>(name, operands);
 }
 
