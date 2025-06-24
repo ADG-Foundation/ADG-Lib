@@ -174,7 +174,7 @@ class DrawSegment : public Expression {
 public:
   
   DrawSegment(const std::string& A, const std::string& B, DrawingStyle style = SOLID) :
-    A_(Variable(A)), B_(Variable(B)) {
+    A_(Variable(A)), B_(Variable(B)), style_(style) {
   }
   DrawSegment(const DrawSegment&) = default;
 
