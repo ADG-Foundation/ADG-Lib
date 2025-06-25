@@ -571,6 +571,28 @@ private:
 };
 
 
+// Represents the point that is the image of a given point wrt given translation
+class FunTranslate : public Expression {
+public:
+  FunTranslate(const std::string& X, const std::string& A, const std::string& B, const std::string& P)
+    : X_(Variable(X)), A_(Variable(A)), B_(Variable(B)), P_(Variable(P)) {
+  }
+
+  const Variable& X() const { return X_; }
+  const Variable& A() const { return A_; }
+  const Variable& B() const { return B_; }
+  const Variable& P() const { return P_; }  
+
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+private:
+  Variable X_, A_, B_, P_;
+};
+
+
+
 // Represents the point that is the intersection of two lines
 class FunIntersectLL : public Expression {
 public:
@@ -694,6 +716,7 @@ public:
   virtual void visitFunParallel(const FunParallel&) = 0;
   virtual void visitFunPerpendicular(const FunPerpendicular&) = 0;
   virtual void visitFunPerpendicular_P(const FunPerpendicular_P&) = 0;
+  virtual void visitFunTranslate(const FunTranslate&) = 0;
   virtual void visitFunIntersectLL(const FunIntersectLL&) = 0;
   virtual void visitFunIntersectLL_P(const FunIntersectLL_P&) = 0;
 
@@ -777,7 +800,10 @@ public:
   virtual ExprPtr transformFunPerpendicular_P(const FunPerpendicular_P& e) {
     return std::make_shared<FunPerpendicular_P>(e);
   }
-  
+
+  virtual ExprPtr transformFunTranslate(const FunTranslate& e) {
+    return std::make_shared<FunTranslate>(e);
+  }
   
   virtual ExprPtr transformFunIntersectLL(const FunIntersectLL& e) {
     return std::make_shared<FunIntersectLL>(e);

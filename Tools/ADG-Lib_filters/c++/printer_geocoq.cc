@@ -71,6 +71,8 @@ void PrinterGeoCoq::visitFunPerpendicular(const FunPerpendicular&){
 }
 void PrinterGeoCoq::visitFunPerpendicular_P(const FunPerpendicular_P&){
 }
+void PrinterGeoCoq::visitFunTranslate(const FunTranslate& e) {
+}
 void PrinterGeoCoq::visitFunIntersectLL(const FunIntersectLL&){
 }
 void PrinterGeoCoq::visitFunIntersectLL_P(const FunIntersectLL_P&){

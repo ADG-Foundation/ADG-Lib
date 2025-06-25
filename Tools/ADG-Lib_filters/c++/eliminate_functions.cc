@@ -25,6 +25,11 @@ ExprPtr EliminateFunctionsTransformer::transformFunPerpendicular(const FunPerpen
   throw std::string("Lines should have been eliminated");
 }
 
+ExprPtr EliminateFunctionsTransformer::transformFunTranslate(const FunTranslate& e) {
+  // FIXME
+  throw std::string("Lines should have been eliminated");
+}
+
 ExprPtr EliminateFunctionsTransformer::transformFunIntersectLL(const FunIntersectLL& e) {
   throw std::string("Lines should have been eliminated");
 }

@@ -164,6 +164,10 @@ void PrinterGGB::visitFunIntersectLL(const FunIntersectLL& e) {
   ostr_ << "</command>" << std::endl;
 }
 
+void PrinterGGB::visitFunTranslate(const FunTranslate& e) {
+  // FIXME
+}
+
 void PrinterGGB::visitFunIntersectLL_P(const FunIntersectLL_P& e) {
   // FIXME
   /*

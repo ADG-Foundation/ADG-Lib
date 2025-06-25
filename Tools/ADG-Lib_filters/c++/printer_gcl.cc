@@ -121,6 +121,10 @@ void PrinterGCL::visitFunPerpendicular_P(const FunPerpendicular_P& e) {
   ostr_ << "perp " << e.x() << " " << e.P() << " " << l << std::endl;  
 }
 
+void PrinterGCL::visitFunTranslate(const FunTranslate& e) {
+  ostr_ << "translate " << e.X() << " " << e.A() << " " << e.B() << " " << e.P() << std::endl;
+}
+
 void PrinterGCL::visitFunIntersectLL(const FunIntersectLL& e) {
   ostr_ << "intersec " << e.X() << " " << e.l1() << " " << e.l2() << std::endl;
 }

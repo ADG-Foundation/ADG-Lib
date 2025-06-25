@@ -101,6 +101,10 @@ void PrinterTPTP::visitFunPerpendicular_P(const FunPerpendicular_P& e) {
   throw std::string("Functions should have been eliminated");
 }
 
+void PrinterTPTP::visitFunTranslate(const FunTranslate& e) {
+  throw std::string("Functions should have been eliminated");
+}
+
 void PrinterTPTP::visitFunIntersectLL(const FunIntersectLL& e) {
   throw std::string("Functions should have been eliminated");
 }

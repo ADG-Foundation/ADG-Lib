@@ -392,6 +392,22 @@ ExprPtr FunPerpendicular_P::acceptTransformer(ExpressionTransformer& transformer
   return transformer.transformFunPerpendicular_P(*this);
 }
 
+// FunTranslate implementation
+
+void FunTranslate::print(std::ostream& ostr) const {
+  ostr << "(fun_translate " << X_ << "," << A_ << "," << B_ << "," << P_ << ")";
+}
+
+void FunTranslate::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitFunTranslate(*this);
+}
+
+ExprPtr FunTranslate::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformFunTranslate(*this);
+}
+
+
+
 // FunIntersectLL implementation
 
 void FunIntersectLL::print(std::ostream& ostr) const {

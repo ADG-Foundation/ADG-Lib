@@ -77,6 +77,7 @@ public:
   void visitFunParallel(const FunParallel&) override;
   void visitFunPerpendicular(const FunPerpendicular&) override;
   void visitFunPerpendicular_P(const FunPerpendicular_P&) override;
+  void visitFunTranslate(const FunTranslate&) override;
   void visitFunIntersectLL(const FunIntersectLL&) override;
   void visitFunIntersectLL_P(const FunIntersectLL_P&) override;
 
