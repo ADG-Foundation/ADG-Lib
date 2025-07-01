@@ -82,6 +82,14 @@ void PrinterGGB::visitLine(const Line& e) {
   ostr_ << "</command>" << std::endl;
 }
 
+void PrinterGGB::visitCircle(const Circle& e) {
+  // FIXME
+  ostr_ << "<command name=\"Circle\">" << std::endl;
+  ostr_ << "  <input a0=\"" << e.center() << "\" a1=\"" << e.point_on_circle() << "\"/>" << std::endl;
+  ostr_ << "  <output a0=\"" << e.id() << "\"/>" << std::endl;
+  ostr_ << "</command>" << std::endl;
+}
+
 
 void PrinterGGB::visitDrawPoint(const DrawPoint& e) {
   ostr_ << "<element type=\"point\" label=\"" << e.A() << "\">" << std::endl;
@@ -121,6 +129,14 @@ void PrinterGGB::visitDrawLine(const DrawLine& e) {
 }
 
 void PrinterGGB::visitDrawLine_P(const DrawLine_P& e) {
+  // FIXME
+}
+
+void PrinterGGB::visitDrawCircle(const DrawCircle& e) {
+  // FIXME
+}
+
+void PrinterGGB::visitDrawCircle_P(const DrawCircle_P& e) {
   // FIXME
 }
 
@@ -184,6 +200,15 @@ void PrinterGGB::visitOnLine_P(const OnLine_P& e) {
   ostr_ << "   <output a0=\"" << e.X() << "\"/>" << std::endl;
   ostr_ << "</command>" << std::endl;
 }
+
+void PrinterGGB::visitOnCircle_P(const OnCircle_P& e) {
+  // FIXME
+  ostr_ << "<command name=\"Point\">" << std::endl;
+  ostr_ << "   <input a0=\"Circle[" << e.O() << ", " << e.P() << "]\"/>" << std::endl;
+  ostr_ << "   <output a0=\"" << e.X() << "\"/>" << std::endl;
+  ostr_ << "</command>" << std::endl;
+}
+
 
 void PrinterGGB::visitOnParallel_P(const OnParallel_P& e) {
   // FIXME

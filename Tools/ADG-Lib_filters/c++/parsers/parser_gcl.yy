@@ -47,6 +47,7 @@ extern int scanner_gcl_lex(void);  // tell Bison to call this instead of yylex
   TRANSLATE "translate"
   INTERSECTION "intersection"
   ONLINE "online"                      
+  ONCIRCLE "oncircle"            
   PROVE "prove"
   EQUAL "equal"
   PD3 "pythagoras difference 3"
@@ -110,6 +111,10 @@ hypothesis:
    drv.lines.emplace($2, Line{$2, $3, $4});
    $$ = std::make_shared<Line>($2, $3, $4);
 }
+| CIRCLE VARIABLE VARIABLE VARIABLE {
+   drv.circles.emplace($2, Circle{$2, $3, $4});
+   $$ = std::make_shared<Circle>($2, $3, $4);
+}
 | MIDPOINT VARIABLE VARIABLE VARIABLE {
     drv.points.push_back(FreePoint{$2});
     $$ = std::make_shared<FunMidpoint>($2, $3, $4);
@@ -121,15 +126,15 @@ hypothesis:
    drv.points.push_back(Point{$2});
   $$ = std::make_shared<OnLine_P>($2, $3, $4);
 }
+| ONCIRCLE VARIABLE VARIABLE VARIABLE {
+   drv.points.push_back(Point{$2});
+  $$ = std::make_shared<OnCircle_P>($2, $3, $4);
+}
 | PARALLEL VARIABLE VARIABLE VARIABLE {
     $$ = std::make_shared<FunParallel>($2, $3, $4);
 }
 | PERP VARIABLE VARIABLE VARIABLE {
     $$ = std::make_shared<FunPerpendicular>($2, $3, $4);
-}
-| CIRCLE VARIABLE VARIABLE VARIABLE {
-    // FIXME
-    $$ = nullptr;
 }
 | TRANSLATE VARIABLE VARIABLE VARIABLE VARIABLE {
   drv.points.push_back(Point{$2});
@@ -160,9 +165,11 @@ hypothesis:
 | DRAWLINE VARIABLE {
   $$ = std::make_shared<DrawLine>($2);
 }
+| DRAWCIRCLE VARIABLE {
+  $$ = std::make_shared<DrawCircle>($2);
+}
 | DRAWCIRCLE VARIABLE VARIABLE {
-  // FIXME: DRAWLINE -> DRAWCIRCLE
-  $$ = std::make_shared<DrawLine_P>($2, $3);
+  $$ = std::make_shared<DrawCircle_P>($2, $3);
 }
 | DRAWLINE VARIABLE VARIABLE {
   $$ = std::make_shared<DrawLine_P>($2, $3);
@@ -186,7 +193,7 @@ conjecture:
   $$ = std::make_shared<ParallelDG_P>($4, $5, $6, $7);
 }
 | PROVE '{' PERPENDICULAR VARIABLE VARIABLE VARIABLE VARIABLE '}' {
-  $$ = std::make_shared<Perpendicular_P>($4, $5, $6, $7);
+  $$ = std::make_shared<PerpendicularDG_P>($4, $5, $6, $7);
 }
 | PROVE '{' HARMONIC VARIABLE VARIABLE VARIABLE VARIABLE '}' {
   $$ = std::make_shared<Harmonic>($4, $5, $6, $7);
@@ -214,6 +221,9 @@ term :
   }
 | '{' ADD term term '}' {
   $$ = make_expression("+", $3, $4);
+  }
+| '{' NUMBER '}' {
+  $$ = std::make_shared<Constant>($2);
   }
 | NUMBER {
   $$ = std::make_shared<Constant>($1);

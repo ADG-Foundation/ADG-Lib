@@ -46,6 +46,10 @@ void PrinterArgoDG::visitLine(const Line& l) {
   ostr_ << l.id() << " = RC.line(" << l.point1() << ", " << l.point2() << ").hide();" << std::endl;
 }
 
+void PrinterArgoDG::visitCircle(const Circle& c) {
+  ostr_ << c.id() << " = RC.circle(" << c.center() << ", " << c.point_on_circle() << ").hide();" << std::endl;
+}
+
 void PrinterArgoDG::visitDrawPoint(const DrawPoint& e) {
   ostr_ << e.A() << ".show();" << std::endl;
 }
@@ -86,6 +90,31 @@ void PrinterArgoDG::visitDrawLine_P(const DrawLine_P& e) {
     break;
   case DASHED:
     ostr_ << "RC.line(" << e.A() << ", " << e.B() << ").dashed();" << std::endl;
+    break;
+  }
+}
+
+
+void PrinterArgoDG::visitDrawCircle(const DrawCircle& e) {
+  switch(e.style()) {
+  case SOLID:
+  case BOLD:
+    ostr_ << e.c() << ".show();" << std::endl;
+    break;
+  case DASHED:
+    ostr_ << e.c() << ".dashed().show();" << std::endl;
+    break;
+  }
+}
+
+void PrinterArgoDG::visitDrawCircle_P(const DrawCircle_P& e) {
+  switch(e.style()) {
+  case SOLID:
+  case BOLD:
+    ostr_ << "RC.line(" << e.O() << ", " << e.P() << ");" << std::endl;
+    break;
+  case DASHED:
+    ostr_ << "RC.line(" << e.O() << ", " << e.P() << ").dashed();" << std::endl;
     break;
   }
 }
@@ -134,6 +163,14 @@ void PrinterArgoDG::visitOnLine_P(const OnLine_P& e) {
         << "0, 0).color(\"red\").hide();"
         << std::endl;
 }
+
+
+void PrinterArgoDG::visitOnCircle_P(const OnCircle_P& e) {
+  ostr_ << e.X() << " = RC.free_point_on_circle("
+        << "0, 0).color(\"red\").hide();"
+        << std::endl;
+}
+
 
 void PrinterArgoDG::visitOnParallel_P(const OnParallel_P& e) {
   ostr_ << e.X() << " = RC.free_point_on_parallel("

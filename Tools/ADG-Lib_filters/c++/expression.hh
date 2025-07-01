@@ -129,6 +129,30 @@ private:
 };
 
 
+class Circle : public Expression {
+public:
+  Circle(const std::string& id, const std::string& center, const std::string& point_on_circle) {
+    this->id_ = id;
+    this->points_[0] = center;
+    this->points_[1] = point_on_circle;
+  }  
+  Circle(const Circle&) = default;
+
+  const std::string& id() const { return id_; }
+  const std::string& center() const { return points_[0]; }
+  const std::string& point_on_circle() const { return points_[1]; }
+
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+private:
+  std::string id_;
+  std::string points_[2];
+};
+
+
+
 
 // Represents a command that draws a point (without a label)
 class DrawPoint : public Expression {
@@ -212,25 +236,6 @@ private:
   DrawingStyle style_;
 };
 
-// Represents a command that draws a circle
-class DrawCircle : public Expression {
-public:
-  DrawCircle(const std::string& c, DrawingStyle style = SOLID) :
-    c_(Variable(c)) {
-  }
-  DrawCircle(const DrawCircle&) = default;
-
-  const Variable& c() const { return c_; }
-  const DrawingStyle& style() const { return style_; }
-    
-  void print(std::ostream&) const override;
-  void acceptVisitor(ExpressionVisitor&) const override;
-  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
-  
-private:
-  Variable c_;
-  DrawingStyle style_;
-};
 
 // Represents a command that draws a line given by two points
 class DrawLine_P : public Expression {
@@ -252,15 +257,37 @@ private:
   DrawingStyle style_;
 };
 
+
+// Represents a command that draws a circle
+class DrawCircle : public Expression {
+public:
+  DrawCircle(const std::string& c, DrawingStyle style = SOLID) :
+    c_(Variable(c)) {
+  }
+  DrawCircle(const DrawCircle&) = default;
+
+  const Variable& c() const { return c_; }
+  const DrawingStyle& style() const { return style_; }
+    
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+private:
+  Variable c_;
+  DrawingStyle style_;
+};
+
+
 // Represents a command that draws a circle given by the center and a point
 class DrawCircle_P : public Expression {
 public:
-  DrawCircle_P(const std::string& O, const std::string& A, DrawingStyle style = SOLID) :
-    O_(Variable(O)), A_(Variable(A)) {
+  DrawCircle_P(const std::string& O, const std::string& P, DrawingStyle style = SOLID) :
+    O_(Variable(O)), P_(Variable(P)) {
   }
 
   const Variable& O() const { return O_; }
-  const Variable& A() const { return A_; }
+  const Variable& P() const { return P_; }
   const DrawingStyle& style() const { return style_; }
     
   
@@ -269,7 +296,7 @@ public:
   ExprPtr acceptTransformer(ExpressionTransformer&) const override;
   
 private:
-  Variable O_, A_;
+  Variable O_, P_;
   DrawingStyle style_;
 };
 
@@ -675,6 +702,25 @@ private:
 };
 
 
+class OnCircle_P: public Expression {
+public:
+  OnCircle_P(const std::string& X, const std::string& O, const std::string& P) :
+    X_(Variable(X)), O_(Variable(O)), P_(Variable(P)) {
+  }
+
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+  const Variable& X() const { return X_; }
+  const Variable& O() const { return O_; }
+  const Variable& P() const { return P_; }
+private:
+  Variable X_, O_, P_;
+};
+
+
+
 class OnParallel_P: public Expression {
 public:
   OnParallel_P(const std::string& X,
@@ -721,6 +767,7 @@ class ExpressionVisitor {
 public:
   virtual void visitFreePoint(const FreePoint&) = 0;
   virtual void visitLine(const Line&) = 0;
+  virtual void visitCircle(const Circle&) = 0;  
   
   virtual void visitConstant(const Constant&) = 0;
   virtual void visitVariable(const Variable&) = 0;
@@ -730,6 +777,8 @@ public:
   virtual void visitDrawSegment(const DrawSegment&) = 0;
   virtual void visitDrawLine(const DrawLine&) = 0;
   virtual void visitDrawLine_P(const DrawLine_P&) = 0;
+  virtual void visitDrawCircle(const DrawCircle&) = 0;
+  virtual void visitDrawCircle_P(const DrawCircle_P&) = 0;
   virtual void visitLabelPoint(const LabelPoint&) = 0;
   
   virtual void visitFunMidpoint(const FunMidpoint&) = 0;
@@ -742,6 +791,7 @@ public:
   virtual void visitFunIntersectLL_P(const FunIntersectLL_P&) = 0;
 
   virtual void visitOnLine_P(const OnLine_P&) = 0;
+  virtual void visitOnCircle_P(const OnCircle_P&) = 0;  
   virtual void visitOnParallel_P(const OnParallel_P&) = 0;
   virtual void visitOnPerpendicular_P(const OnPerpendicular_P&) = 0;
 
@@ -783,6 +833,10 @@ public:
     return std::make_shared<Line>(e);
   }
   
+  virtual ExprPtr transformCircle(const Circle& e) {
+    return std::make_shared<Circle>(e);
+  }
+
   virtual ExprPtr transformDrawPoint(const DrawPoint& e) {
     return std::make_shared<DrawPoint>(e);
   }
@@ -797,6 +851,14 @@ public:
   
   virtual ExprPtr transformDrawLine_P(const DrawLine_P& e) {
     return std::make_shared<DrawLine_P>(e);
+  }
+
+  virtual ExprPtr transformDrawCircle(const DrawCircle& e) {
+    return std::make_shared<DrawCircle>(e);
+  }
+  
+  virtual ExprPtr transformDrawCircle_P(const DrawCircle_P& e) {
+    return std::make_shared<DrawCircle_P>(e);
   }
   
   virtual ExprPtr transformLabelPoint(const LabelPoint& e) {
@@ -839,6 +901,10 @@ public:
     return std::make_shared<OnLine_P>(e);
   }
   
+  virtual ExprPtr transformOnCircle_P(const OnCircle_P& e) {
+    return std::make_shared<OnCircle_P>(e);
+  }
+
   virtual ExprPtr transformOnParallel_P(const OnParallel_P& e) {
     return std::make_shared<OnParallel_P>(e);
   }
@@ -974,3 +1040,4 @@ public:
 };
 
 #endif // EXPRESSION_HPP
+

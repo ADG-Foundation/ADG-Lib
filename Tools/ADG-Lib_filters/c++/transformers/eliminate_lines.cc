@@ -8,6 +8,16 @@ ExprPtr EliminateLinesTransformer::transformNaryExpression(const NaryExpression&
   return std::make_shared<NaryExpression>(e.op(), operands);
 }
 
+
+ExprPtr EliminateLinesTransformer::transformCircle(const Circle& e) {
+  std::string c = e.id();
+  std::string O = e.center();
+  std::string P = e.point_on_circle();
+  circles_.emplace(c, Circle{c, O, P});
+  return nullptr;
+}
+
+
 ExprPtr EliminateLinesTransformer::transformDrawLine(const DrawLine& e) {
   std::string lineId  = e.l().name();
   auto it1 = lines_.find(lineId);
@@ -19,6 +29,19 @@ ExprPtr EliminateLinesTransformer::transformDrawLine(const DrawLine& e) {
     return std::make_shared<DrawLine_P>(A, B, e.style());
   }
 }
+
+ExprPtr EliminateLinesTransformer::transformDrawCircle(const DrawCircle& e) {
+  std::string circleId  = e.c().name();
+  auto it1 = circles_.find(circleId);
+  if (it1 == circles_.end())
+    throw std::string("Circle ") + circleId + std::string(" not found");
+  else {
+    std::string O = it1->second.center();
+    std::string P = it1->second.point_on_circle();
+    return std::make_shared<DrawCircle_P>(O, P, e.style());
+  }
+}
+
 
 ExprPtr EliminateLinesTransformer::transformFunSegmentBisector(const FunSegmentBisector& e) {
   std::string A = e.A().name();

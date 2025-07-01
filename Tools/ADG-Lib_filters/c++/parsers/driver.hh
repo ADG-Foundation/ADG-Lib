@@ -34,6 +34,7 @@ public:
   // information collected during parsing
   std::vector<Point> points;
   std::map<std::string, Line> lines;
+  std::map<std::string, Circle> circles;  
   std::vector<ExprPtr> hypotheses;
   std::vector<ExprPtr> conjectures;
 };  

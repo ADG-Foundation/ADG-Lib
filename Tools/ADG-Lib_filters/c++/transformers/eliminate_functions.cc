@@ -44,6 +44,10 @@ ExprPtr EliminateFunctionsTransformer::transformOnLine_P(const OnLine_P& e) {
   return std::make_shared<Collinear>(e.X().name(), e.A().name(), e.B().name());
 }
 
+ExprPtr EliminateFunctionsTransformer::transformOnCircle_P(const OnCircle_P& e) {
+  return std::make_shared<OnCircle_P>(e.X().name(), e.O().name(), e.P().name());
+}
+
 ExprPtr EliminateFunctionsTransformer::transformOnParallel_P(const OnParallel_P& e) {
   return std::make_shared<Parallel_P>(e.X().name(), e.P().name(), e.A().name(), e.B().name());
 }

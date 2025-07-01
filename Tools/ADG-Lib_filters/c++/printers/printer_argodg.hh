@@ -17,11 +17,14 @@ public:
 
   void visitFreePoint(const FreePoint&) override;
   void visitLine(const Line&) override;
+  void visitCircle(const Circle&) override;  
   
   void visitDrawPoint(const DrawPoint&) override;
   void visitDrawSegment(const DrawSegment&) override;
   void visitDrawLine(const DrawLine&) override;
   void visitDrawLine_P(const DrawLine_P&) override;
+  void visitDrawCircle(const DrawCircle&) override;
+  void visitDrawCircle_P(const DrawCircle_P&) override;
   void visitLabelPoint(const LabelPoint&) override;
   
   void visitFunMidpoint(const FunMidpoint&) override;
@@ -77,8 +80,9 @@ public:
   void visitHarmonic(const Harmonic& e) override {
     // throw std::string("Predicates are not supported");
   }
-  
+
   void visitOnLine_P(const OnLine_P&) override;  
+  void visitOnCircle_P(const OnCircle_P&) override;  
   void visitOnParallel_P(const OnParallel_P&) override;  
   void visitOnPerpendicular_P(const OnPerpendicular_P&) override;  
 };

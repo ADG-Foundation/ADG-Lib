@@ -49,6 +49,8 @@ void PrinterGeoCoq::visitFreePoint(const FreePoint&){
 }
 void PrinterGeoCoq::visitLine(const Line&){
 }
+void PrinterGeoCoq::visitCircle(const Circle&){
+}
   
 void PrinterGeoCoq::visitDrawPoint(const DrawPoint&){
 }
@@ -57,6 +59,10 @@ void PrinterGeoCoq::visitDrawSegment(const DrawSegment&){
 void PrinterGeoCoq::visitDrawLine(const DrawLine&){
 }
 void PrinterGeoCoq::visitDrawLine_P(const DrawLine_P&){
+}
+void PrinterGeoCoq::visitDrawCircle(const DrawCircle&){
+}
+void PrinterGeoCoq::visitDrawCircle_P(const DrawCircle_P&){
 }
 void PrinterGeoCoq::visitLabelPoint(const LabelPoint&){
 }
@@ -121,10 +127,16 @@ void PrinterGeoCoq::visitHarmonic(const Harmonic& e){
 }
   
 void PrinterGeoCoq::visitOnLine_P(const OnLine_P&){
+ // todo
+}  
+void PrinterGeoCoq::visitOnCircle_P(const OnCircle_P&){
+ // todo
 }  
 void PrinterGeoCoq::visitOnParallel_P(const OnParallel_P&){
+ // todo
 }  
 void PrinterGeoCoq::visitOnPerpendicular_P(const OnPerpendicular_P&){
+ // todo
 }  
 
 void PrinterGeoCoq::printConjuncts(const std::string& separator) const {

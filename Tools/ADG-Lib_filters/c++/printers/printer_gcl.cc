@@ -54,6 +54,10 @@ void PrinterGCL::visitLine(const Line& l) {
   ostr_ << "line " << l.id() << " " << l.point1() << " " << l.point2() << std::endl;
 }
 
+void PrinterGCL::visitCircle(const Circle& c) {
+  ostr_ << "circle " << c.id() << " " << c.center() << " " << c.point_on_circle() << std::endl;
+}
+
 void PrinterGCL::visitDrawPoint(const DrawPoint& e) {
   ostr_ << "cmark " << e.A() << std::endl;
 }
@@ -98,6 +102,31 @@ void PrinterGCL::visitDrawLine_P(const DrawLine_P& e) {
   }
 }
 
+void PrinterGCL::visitDrawCircle(const DrawCircle& e) {
+  switch(e.style()) {
+  case SOLID:
+  case BOLD:
+    ostr_ << "drawcircle " << e.c() << std::endl;
+    break;
+  case DASHED:
+    ostr_ << "drawdashcircle " << e.c() << std::endl;
+    break;
+  }
+}
+
+void PrinterGCL::visitDrawCircle_P(const DrawCircle_P& e) {
+  switch(e.style()) {
+  case SOLID:
+  case BOLD:
+    ostr_ << "drawcircle " << e.O() << " " << e.P() << std::endl;
+    break;
+  case DASHED:
+    ostr_ << "drawdashcircle " << e.O() << " " << e.P() << std::endl;
+    break;
+  }
+}
+
+
 
 void PrinterGCL::visitFunMidpoint(const FunMidpoint& e) {
   ostr_ << "midpoint " << e.X() << " " << e.A() << " " << e.B() << std::endl;
@@ -137,6 +166,12 @@ void PrinterGCL::visitOnLine_P(const OnLine_P& e) {
   ostr_ << "online " << e.X() << " " << e.A() << " " << e.B() << std::endl;
 }
 
+
+void PrinterGCL::visitOnCircle_P(const OnCircle_P& e) {
+  ostr_ << "oncircle " << e.X() << " " << e.O() << " " << e.P() << std::endl;
+}
+
+
 void PrinterGCL::visitOnParallel_P(const OnParallel_P& e) {
   ostr_ << "translate " << e.X() << " " << e.A() << " " << e.B() << " " << e.P() << std::endl;
 }
@@ -163,22 +198,31 @@ void PrinterGCL::visitParallel_P(const Parallel_P& e) {
   if (!printingConjectures_)
     throw std::string("Predicates in hypotheses are not supported");
   else
-    ostr_ << std::endl << "prove { " << "parallel " << e.A1() << " " << e.B1() << " " << e.A2() << " " << e.B2() << " } " << std::endl ;
+    ostr_ << std::endl << "prove { " << "parallel " << e.A1() << " " << e.B1() << " " << e.A2() << " " << e.B2() << " } " << std::endl;
 }
 
 void PrinterGCL::visitParallelDG_P(const ParallelDG_P& e) {
   if (!printingConjectures_)
     throw std::string("Predicates in hypotheses are not supported");
   else
-    ostr_ << std::endl << "prove { " << "parallel " << e.A1() << " " << e.B1() << " " << e.A2() << " " << e.B2() << " } " << std::endl ;
+    ostr_ << std::endl << "prove { " << "parallel " << e.A1() << " " << e.B1() << " " << e.A2() << " " << e.B2() << " } " << std::endl;
 }
 
 void PrinterGCL::visitPerpendicular_P(const Perpendicular_P& e) {
   if (!printingConjectures_)
     throw std::string("Predicates in hypotheses are not supported");
   else
-    throw std::string("Non-degenerate perpendicular is not supported by GCL");
+    ostr_ << "prove { " << "perpendicular " << e.A1() << " " << e.B1() << " " << e.A2() << " " << e.B2() << " } " << std::endl;
+    // throw std::string("Non-degenerate perpendicular is not supported by GCL");
 }
+
+void PrinterGCL::visitPerpendicularDG_P(const PerpendicularDG_P& e) {
+  if (!printingConjectures_)
+    throw std::string("Predicates in hypotheses are not supported");
+  else
+    ostr_ << "prove { " << "perpendicular " << e.A1() << " " << e.B1() << " " << e.A2() << " " << e.B2() << " } "  << std::endl;
+}
+
 
 void PrinterGCL::visitFoot_P(const Foot_P& e) {
   if (!printingConjectures_)
@@ -187,13 +231,6 @@ void PrinterGCL::visitFoot_P(const Foot_P& e) {
     throw std::string("Proving foot is not supported by GCL");
 }
 
-
-void PrinterGCL::visitPerpendicularDG_P(const PerpendicularDG_P& e) {
-  if (!printingConjectures_)
-    throw std::string("Predicates in hypotheses are not supported");
-  else
-    ostr_ << "prove { " << "perpendicular " << e.A1() << " " << e.B1() << " " << e.A2() << " " << e.B2() << " } ";
-}
 
 void PrinterGCL::visitCongruent(const Congruent& e) {
   if (!printingConjectures_)

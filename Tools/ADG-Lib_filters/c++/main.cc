@@ -106,7 +106,7 @@ int process_file(const std::string& fileName, driver& drv,
       return 1;
     }
 
-    std::cout << "Parse successfull" << std::endl;
+    // std::cout << "Parse successfull" << std::endl;
 
     std::vector<ExprPtr> hypotheses(drv.hypotheses);
     std::vector<ExprPtr> conjectures(drv.conjectures);
@@ -119,12 +119,14 @@ int process_file(const std::string& fileName, driver& drv,
       
       std::vector<ExprPtr> hypothesesNoLines;
       hypothesesNoLines.reserve(hypotheses.size());
+
       for (int i = 0; i < hypotheses.size(); i++) {
         ExprPtr e = hypotheses[i]->acceptTransformer(transformer);
         if (e != nullptr)
           hypothesesNoLines.push_back(e);
       }
       hypotheses = hypothesesNoLines;
+
 
       std::vector<ExprPtr> conjecturesNoLines;
       conjecturesNoLines.reserve(conjectures.size());

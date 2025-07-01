@@ -16,8 +16,11 @@ public:
     : points_(points), lines_(lines) {
   }
   
+  ExprPtr transformCircle(const Circle& e) override;
+  
   ExprPtr transformNaryExpression(const NaryExpression& e) override;
   ExprPtr transformDrawLine(const DrawLine&) override;
+  ExprPtr transformDrawCircle(const DrawCircle&) override;  
   ExprPtr transformFunSegmentBisector(const FunSegmentBisector&) override;
   ExprPtr transformFunParallel(const FunParallel& e) override;
   ExprPtr transformFunPerpendicular(const FunPerpendicular& e) override;
@@ -25,6 +28,7 @@ public:
   
 private:
   std::map<std::string, Line> lines_;
+  std::map<std::string, Circle> circles_;  
   std::vector<Point>& points_;
 };
 

@@ -119,6 +119,22 @@ ExprPtr Line::acceptTransformer(ExpressionTransformer& transformer) const {
 }
 
 
+// Circle implementation
+
+void Circle::print(std::ostream& ostr) const  {
+  ostr << "(circle " << id_ << ")" << std::endl;
+}
+
+void Circle::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitCircle(*this);
+}
+
+ExprPtr Circle::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformCircle(*this);
+}
+
+
+
 // DrawPoint implementation
 void DrawPoint::print(std::ostream& ostr) const  {
   ostr << "(draw_point " << A_ << ")" << std::endl;
@@ -184,6 +200,34 @@ void DrawLine_P::acceptVisitor(ExpressionVisitor& visitor) const {
 ExprPtr DrawLine_P::acceptTransformer(ExpressionTransformer& transformer) const {
   return transformer.transformDrawLine_P(*this);
 }
+
+// DrawCircle implementation
+void DrawCircle::print(std::ostream& ostr) const  {
+  ostr << "(draw_circle " << c_ << ")" << std::endl;
+}
+
+void DrawCircle::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitDrawCircle(*this);
+}
+
+ExprPtr DrawCircle::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformDrawCircle(*this);
+}
+
+
+// DrawCircle_P implementation
+void DrawCircle_P::print(std::ostream& ostr) const  {
+  ostr << "(draw_circle " << O_ << "," << P_ << ")" << std::endl;
+}
+
+void DrawCircle_P::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitDrawCircle_P(*this);
+}
+
+ExprPtr DrawCircle_P::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformDrawCircle_P(*this);
+}
+
 
 // FunMidpoint implementation
 
@@ -463,6 +507,20 @@ void OnLine_P::acceptVisitor(ExpressionVisitor& visitor) const {
 
 ExprPtr OnLine_P::acceptTransformer(ExpressionTransformer& transformer) const {
   return transformer.transformOnLine_P(*this);
+}
+
+// OnCircle_P implementation
+
+void OnCircle_P::print(std::ostream& ostr) const {
+  ostr << "(on_circle_p " << X_ << "," << O_ << "," << P_ << ")";
+}
+
+void OnCircle_P::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitOnCircle_P(*this);
+}
+
+ExprPtr OnCircle_P::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformOnCircle_P(*this);
 }
 
 

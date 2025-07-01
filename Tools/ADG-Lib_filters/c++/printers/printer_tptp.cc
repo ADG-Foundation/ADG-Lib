@@ -65,6 +65,9 @@ void PrinterTPTP::visitFreePoint(const FreePoint& p) {
 void PrinterTPTP::visitLine(const Line& l) {
 }
 
+void PrinterTPTP::visitCircle(const Circle& c) {
+}
+
 void PrinterTPTP::visitDrawPoint(const DrawPoint& e) {
 }
 
@@ -75,6 +78,12 @@ void PrinterTPTP::visitDrawLine(const DrawLine& e) {
 }
 
 void PrinterTPTP::visitDrawLine_P(const DrawLine_P& e) {
+}
+
+void PrinterTPTP::visitDrawCircle(const DrawCircle& e) {
+}
+
+void PrinterTPTP::visitDrawCircle_P(const DrawCircle_P& e) {
 }
 
 void PrinterTPTP::visitLabelPoint(const LabelPoint& e) {
@@ -170,7 +179,9 @@ void PrinterTPTP::visitHarmonic(const Harmonic& e) {
 void PrinterTPTP::visitOnLine_P(const OnLine_P& e) {
   throw std::string("Non-deterministic functions should have been eliminated");
 }
-
+void PrinterTPTP::visitOnCircle_P(const OnCircle_P& e) {
+  throw std::string("Non-deterministic functions should have been eliminated");
+}
 void PrinterTPTP::visitOnParallel_P(const OnParallel_P& e) {
   throw std::string("Non-deterministic functions should have been eliminated");
 }
