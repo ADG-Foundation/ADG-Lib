@@ -71,6 +71,11 @@ public:
     throw std::string("Predicate perpendiculardg should have been eliminated");
   }
 
+  void visitFoot_P(const Foot_P& e) override {
+    // TODO
+  }
+
+  
   void visitCollinear(const Collinear& e) override;
 
   void visitEqual(const Equal& e) override;

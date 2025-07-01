@@ -158,6 +158,13 @@ void PrinterGCL::visitPerpendicular_P(const Perpendicular_P& e) {
     throw std::string("Non-degenerate perpendicular is not supported by GCL");
 }
 
+void PrinterGCL::visitFoot_P(const Foot_P& e) {
+  if (!printingConjectures_)
+    throw std::string("Predicates in hypotheses are not supported");
+  else
+    throw std::string("Proving foot is not supported by GCL");
+}
+
 
 void PrinterGCL::visitPerpendicularDG_P(const PerpendicularDG_P& e) {
   if (!printingConjectures_)

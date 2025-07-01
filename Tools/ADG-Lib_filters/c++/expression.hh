@@ -419,6 +419,27 @@ private:
   Variable A1_, B1_, A2_, B2_;
 };
 
+// Represents a predicate that checks if the given point X is the foot of the perpendicular from point P to line A B
+class Foot_P : public Expression {
+public:
+  Foot_P(const std::string& X, const std::string& P, const std::string& A, const std::string& B)
+    : X_(Variable(X)), P_(Variable(P)), A_(Variable(A)), B_(Variable(B)) {
+  }
+
+  const Variable& X() const { return X_; }
+  const Variable& P() const { return P_; }
+  const Variable& A() const { return A_; }
+  const Variable& B() const { return B_; }
+
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+private:
+  Variable X_, P_, A_, B_;
+};
+
+
 // Represents a predicate that checks if the lines given by two pairs
 // of points are perpendicular, allowing that points are equal (degenerate case)
 class PerpendicularDG_P : public Expression {
@@ -706,6 +727,7 @@ public:
   virtual void visitParallelDG_P(const ParallelDG_P&) = 0;
   virtual void visitPerpendicular_P(const Perpendicular_P&) = 0;
   virtual void visitPerpendicularDG_P(const PerpendicularDG_P&) = 0;
+  virtual void visitFoot_P(const Foot_P&) = 0;
   virtual void visitCongruent(const Congruent&) = 0;
   virtual void visitCollinear(const Collinear&) = 0;
   virtual void visitEqual(const Equal& e) = 0;
@@ -777,8 +799,7 @@ public:
   virtual ExprPtr transformFunPerpendicular_P(const FunPerpendicular_P& e) {
     return std::make_shared<FunPerpendicular_P>(e);
   }
-  
-  
+
   virtual ExprPtr transformFunIntersectLL(const FunIntersectLL& e) {
     return std::make_shared<FunIntersectLL>(e);
   }
@@ -813,6 +834,10 @@ public:
   
   virtual ExprPtr transformPerpendicular_P(const Perpendicular_P& e) {
     return std::make_shared<Perpendicular_P>(e);
+  }
+
+  virtual ExprPtr transformFoot_P(const Foot_P& e) {
+    return std::make_shared<Foot_P>(e);
   }
   
   virtual ExprPtr transformPerpendicularDG_P(const PerpendicularDG_P& e) {

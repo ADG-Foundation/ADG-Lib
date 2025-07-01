@@ -4,6 +4,10 @@
 #include "expression.hh"
 #include <map>
 
+
+// Transformer that eliminates lines, circles etc. and returns an
+// expression that includes only points
+
 class EliminateLinesTransformer : public ExpressionTransformer {
 public:
 

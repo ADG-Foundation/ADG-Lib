@@ -142,8 +142,7 @@ relation:
      $$ = std::make_shared<Midpoint>($2, $3, $4);
 }  
 |  FOOT VARIABLE VARIABLE VARIABLE VARIABLE {
-  // FIXME
-  $$ = nullptr;
+     $$ = std::make_shared<Foot_P>($2, $3, $4, $5);
 }
 |  PERPENDICULAR VARIABLE VARIABLE VARIABLE VARIABLE {
   $$ = std::make_shared<Perpendicular_P>($2, $3, $4, $5);
@@ -189,13 +188,12 @@ relation:
   $$ = make_expression("eqangle", $2, $3, $3, $4, $5, $6, $6, $7);
 }
 | COLLINEAR VARIABLE VARIABLE VARIABLE {
-  $$ = make_expression("col", $2, $3, $4);
+   $$ = std::make_shared<Collinear>($2, $3, $4);
 }
 | INTERSECTIONLL VARIABLE VARIABLE VARIABLE VARIABLE VARIABLE {
-  /* Intersection Line Line */
-  ExprPtr col1 = make_expression("col", $2, $3, $4);
-  ExprPtr col2 = make_expression("col", $2, $5, $6);
-  $$ = make_expression("&", col1, col2);
+     ExprPtr col1 = std::make_shared<Collinear>($2, $3, $4);
+     ExprPtr col2 = std::make_shared<Collinear>($2, $5, $6);
+     $$ = make_expression("&", col1, col2);
 }
 ;
 

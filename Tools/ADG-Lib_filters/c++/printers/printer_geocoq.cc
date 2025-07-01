@@ -91,6 +91,10 @@ void PrinterGeoCoq::visitPerpendicular_P(const Perpendicular_P& e){
 void PrinterGeoCoq::visitPerpendicularDG_P(const PerpendicularDG_P& e){
   throw std::string("Not supported");
 }
+void PrinterGeoCoq::visitFoot_P(const Foot_P& e){
+  // CHECK IF THIS EXISTS IN GEOCOQ
+  conjuncts_.push_back(printPredicateCoq("Foot", e.X(), e.P(), e.A(), e.B()));
+}
 void PrinterGeoCoq::visitCongruent(const Congruent& e){
   conjuncts_.push_back(printPredicateCoq("Cong", e.A1(), e.B1(), e.A2(), e.B2()));
 }

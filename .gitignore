@@ -3,3 +3,6 @@
 lex.yy.*
 *.synctex.gz
 Documentation/Signature/ADG-Lib-Doc.synctex.gz
+_build/
+build/
+temp/

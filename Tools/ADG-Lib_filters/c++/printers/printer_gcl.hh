@@ -41,6 +41,7 @@ public:
   void visitParallelDG_P(const ParallelDG_P& e) override;
   void visitPerpendicular_P(const Perpendicular_P& e) override;
   void visitPerpendicularDG_P(const PerpendicularDG_P& e) override;
+  void visitFoot_P(const Foot_P& e) override;
   void visitCongruent(const Congruent& e) override;
   void visitCollinear(const Collinear& e) override; 
   void visitEqual(const Equal& e) override;

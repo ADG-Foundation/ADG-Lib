@@ -256,6 +256,21 @@ ExprPtr Perpendicular_P::acceptTransformer(ExpressionTransformer& transformer) c
   return transformer.transformPerpendicular_P(*this);
 }
 
+// Foot_P implementation
+
+void Foot_P::print(std::ostream& ostr) const {
+  ostr << "(foot_p " << X_ << "," << P_ << "," << A_ << "," << B_ << ")";
+}
+
+void Foot_P::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitFoot_P(*this);
+}
+
+ExprPtr Foot_P::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformFoot_P(*this);
+}
+
+
 // PerpendicularDG_P implementation
 
 void PerpendicularDG_P::print(std::ostream& ostr) const {

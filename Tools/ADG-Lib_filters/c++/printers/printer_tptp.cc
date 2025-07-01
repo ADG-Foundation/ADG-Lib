@@ -121,13 +121,16 @@ void PrinterTPTP::visitParallelDG_P(const ParallelDG_P& e) {
   conjuncts_.push_back(printPredicate("parallelDG", e.A1(), e.B1(), e.A2(), e.B2()));
 }
 
-
 void PrinterTPTP::visitPerpendicular_P(const Perpendicular_P& e) {
   conjuncts_.push_back(printPredicate("perpendicular", e.A1(), e.B1(), e.A2(), e.B2()));
 }
 
 void PrinterTPTP::visitPerpendicularDG_P(const PerpendicularDG_P& e) {
   conjuncts_.push_back(printPredicate("perpendicularDG", e.A1(), e.B1(), e.A2(), e.B2()));
+}
+
+void PrinterTPTP::visitFoot_P(const Foot_P& e) {
+  conjuncts_.push_back(printPredicate("foot", e.X(), e.P(), e.A(), e.B()));
 }
 
 void PrinterTPTP::visitCollinear(const Collinear& e) {

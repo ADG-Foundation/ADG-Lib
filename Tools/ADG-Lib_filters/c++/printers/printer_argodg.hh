@@ -52,6 +52,11 @@ public:
     // throw std::string("Predicates are not supported");
   }
 
+  void visitFoot_P(const Foot_P& e) override {
+    // throw std::string("Predicates are not supported");
+  }
+  
+
   void visitCongruent(const Congruent& e) override {
     // throw std::string("Predicates are not supported");
   }

@@ -106,6 +106,8 @@ int process_file(const std::string& fileName, driver& drv,
       return 1;
     }
 
+    std::cout << "Parse successfull" << std::endl;
+
     std::vector<ExprPtr> hypotheses(drv.hypotheses);
     std::vector<ExprPtr> conjectures(drv.conjectures);
     std::vector<Point> points(drv.points);
@@ -154,7 +156,6 @@ int process_file(const std::string& fileName, driver& drv,
       for (int i = 0; i < conjectures.size(); i++)
         conjectures[i] = conjectures[i]->acceptTransformer(transformer);
     }
-    
 
     // print in the chosen format
     std::string conjectureName = getFilenameStem(fileName);    
