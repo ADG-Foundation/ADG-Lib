@@ -111,6 +111,12 @@ void PrinterArgoDG::visitFunPerpendicular_P(const FunPerpendicular_P& e) {
   ostr_ << e.x() << " = RC.drop_perp(" << "RC.line(" << e.A() << ", " << e.B() << ").hide()" << ", " << e.P() << ").hide();" << std::endl;  
 }
 
+void PrinterArgoDG::visitFunTranslate(const FunTranslate& e) {
+  // FIXME / CHECK ArgoDG syntax
+  ostr_ << e.X() << " = RC.translate(" <<  e.X() << ", " << e.A() << ", " << e.B() << ", " << e.P() << ").hide();" << std::endl;
+}
+
+
 void PrinterArgoDG::visitFunIntersectLL(const FunIntersectLL& e) {
   ostr_ << e.X() << " = RC.intersectLL(" <<  e.l1() << ", " << e.l2() << ").hide();" << std::endl;
 }

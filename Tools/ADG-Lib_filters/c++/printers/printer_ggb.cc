@@ -174,6 +174,10 @@ void PrinterGGB::visitFunIntersectLL_P(const FunIntersectLL_P& e) {
   */
 }
 
+void PrinterGGB::visitFunTranslate(const FunTranslate& e) {
+  // FIXME
+}
+
 void PrinterGGB::visitOnLine_P(const OnLine_P& e) {
   ostr_ << "<command name=\"Point\">" << std::endl;
   ostr_ << "   <input a0=\"Line[" << e.A() << ", " << e.B() << "]\"/>" << std::endl;

@@ -66,6 +66,7 @@ med                     { return parser_gcl::parser_gcl::make_MED(loc); }
 intersec                { return parser_gcl::parser_gcl::make_INTERSECTION(loc); }
 intersection            { return parser_gcl::parser_gcl::make_INTERSECTION(loc); }
 online                  { return parser_gcl::parser_gcl::make_ONLINE(loc); }
+translate               { return parser_gcl::parser_gcl::make_TRANSLATE(loc); }
 prove                   { return parser_gcl::parser_gcl::make_PROVE(loc); }
 equal                   { return parser_gcl::parser_gcl::make_EQUAL(loc); }
 sratio                  { return parser_gcl::parser_gcl::make_SRATIO(loc); }

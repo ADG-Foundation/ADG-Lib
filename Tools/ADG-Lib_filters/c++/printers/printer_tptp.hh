@@ -17,7 +17,7 @@ public:
   }
 
   void printFooter() override {
-    ostr_ << "))." << std::endl;
+    ostr_ << ")))." << std::endl;
   }
 
   void printComment(const std::string& comment) override {
@@ -36,10 +36,9 @@ public:
   // TODO: Be carefull about the top level connectives
   void printHypotheses(const std::vector<ExprPtr>& hypotheses) override {
     conjuncts_.clear();
-    
+    ostr_ << "(";    
     for (ExprPtr h : hypotheses)
       h->acceptVisitor(*this);
-    
     if (conjuncts_.empty())
       ostr_ << "true";
     else
@@ -48,7 +47,7 @@ public:
 
   void printConjectures(const std::vector<ExprPtr>& conjectures) override {
     conjuncts_.clear();
-    ostr_ << " => ";
+    ostr_ << std::endl << " => " << std::endl;
     
     for (ExprPtr c : conjectures)
       c->acceptVisitor(*this);
@@ -78,6 +77,7 @@ public:
   void visitFunParallel(const FunParallel&) override;
   void visitFunPerpendicular(const FunPerpendicular&) override;
   void visitFunPerpendicular_P(const FunPerpendicular_P&) override;
+  void visitFunTranslate(const FunTranslate&) override;
   void visitFunIntersectLL(const FunIntersectLL&) override;
   void visitFunIntersectLL_P(const FunIntersectLL_P&) override;
 

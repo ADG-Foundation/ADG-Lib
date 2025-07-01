@@ -11,6 +11,7 @@ public:
   ExprPtr transformFunSegmentBisector(const FunSegmentBisector&) override;
   ExprPtr transformFunParallel(const FunParallel& e) override;
   ExprPtr transformFunPerpendicular(const FunPerpendicular& e) override;
+  ExprPtr transformFunTranslate(const FunTranslate& e) override;
   ExprPtr transformFunIntersectLL(const FunIntersectLL& e) override;
   ExprPtr transformFunIntersectLL_P(const FunIntersectLL_P& e) override;
 

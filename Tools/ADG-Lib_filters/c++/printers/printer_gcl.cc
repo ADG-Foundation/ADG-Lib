@@ -19,12 +19,30 @@ void PrinterGCL::visitNaryExpression(const NaryExpression& e) {
     if (longNames.count(op))
       op = longNames[op];
     
-    ostr_ << "{ " << op << " ";
-    for (ExprPtr operand : e.operands()) {
-      operand->acceptVisitor(*this);
-      ostr_ << " ";
+    if (printingConjectures_) {
+      ostr_ << "{ " << op << " ";
+      for (ExprPtr operand : e.operands()) {
+        operand->acceptVisitor(*this);
+        ostr_ << " ";
+      }
+      ostr_ << " }";
+    } else { // printing hypotheses
+      if (op == "!=") {
+        auto ops = e.operands();
+        ostr_ << "\% assuming ";
+        ops[0]->acceptVisitor(*this);
+        ostr_ << " != ";
+        ops[1]->acceptVisitor(*this);
+        ostr_ << std::endl;
+      } else {
+        ostr_ << "{ " << op << " ";
+        for (ExprPtr operand : e.operands()) {
+          operand->acceptVisitor(*this);
+          ostr_ << " ";
+        }
+        ostr_ << " }";        
+      }
     }
-    ostr_ << " }";
   }
 }
 
@@ -103,6 +121,10 @@ void PrinterGCL::visitFunPerpendicular_P(const FunPerpendicular_P& e) {
   ostr_ << "perp " << e.x() << " " << e.P() << " " << l << std::endl;  
 }
 
+void PrinterGCL::visitFunTranslate(const FunTranslate& e) {
+  ostr_ << "translate " << e.X() << " " << e.A() << " " << e.B() << " " << e.P() << std::endl;
+}
+
 void PrinterGCL::visitFunIntersectLL(const FunIntersectLL& e) {
   ostr_ << "intersec " << e.X() << " " << e.l1() << " " << e.l2() << std::endl;
 }
@@ -141,14 +163,14 @@ void PrinterGCL::visitParallel_P(const Parallel_P& e) {
   if (!printingConjectures_)
     throw std::string("Predicates in hypotheses are not supported");
   else
-    throw std::string("Non-degenerate parallel is not supported by GCL");
+    ostr_ << std::endl << "prove { " << "parallel " << e.A1() << " " << e.B1() << " " << e.A2() << " " << e.B2() << " } " << std::endl ;
 }
 
 void PrinterGCL::visitParallelDG_P(const ParallelDG_P& e) {
   if (!printingConjectures_)
     throw std::string("Predicates in hypotheses are not supported");
   else
-    ostr_ << "prove { " << "parallel " << e.A1() << " " << e.B1() << " " << e.A2() << " " << e.B2() << " } ";
+    ostr_ << std::endl << "prove { " << "parallel " << e.A1() << " " << e.B1() << " " << e.A2() << " " << e.B2() << " } " << std::endl ;
 }
 
 void PrinterGCL::visitPerpendicular_P(const Perpendicular_P& e) {

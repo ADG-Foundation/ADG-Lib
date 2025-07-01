@@ -44,8 +44,9 @@ extern int scanner_gcl_lex(void);  // tell Bison to call this instead of yylex
   CIRCLE "circle"
   MIDPOINT "midpoint"
   MED "med"
+  TRANSLATE "translate"
   INTERSECTION "intersection"
-  ONLINE "on line"                      
+  ONLINE "online"                      
   PROVE "prove"
   EQUAL "equal"
   PD3 "pythagoras difference 3"
@@ -130,9 +131,13 @@ hypothesis:
     // FIXME
     $$ = nullptr;
 }
+| TRANSLATE VARIABLE VARIABLE VARIABLE VARIABLE {
+  drv.points.push_back(Point{$2});
+  $$ = std::make_shared<FunTranslate>($2, $3, $4, $5);
+}
 | INTERSECTION VARIABLE VARIABLE VARIABLE VARIABLE VARIABLE {
   drv.points.push_back(Point{$2});
-  $$ = std::make_shared<FunIntersectLL_P>($2, $3, $4, $5, $5);
+  $$ = std::make_shared<FunIntersectLL_P>($2, $3, $4, $5, $6);
 }
 | INTERSECTION VARIABLE VARIABLE VARIABLE {
   drv.points.push_back(Point{$2});
