@@ -202,22 +202,24 @@ void PrinterGGB::visitOnLine_P(const OnLine_P& e) {
 }
 
 void PrinterGGB::visitOnCircle_P(const OnCircle_P& e) {
-  // FIXME
   ostr_ << "<command name=\"Point\">" << std::endl;
   ostr_ << "   <input a0=\"Circle[" << e.O() << ", " << e.P() << "]\"/>" << std::endl;
   ostr_ << "   <output a0=\"" << e.X() << "\"/>" << std::endl;
   ostr_ << "</command>" << std::endl;
 }
 
-
 void PrinterGGB::visitOnParallel_P(const OnParallel_P& e) {
-  // FIXME
-  ostr_ << "OnParallel " << std::endl;
+  ostr_ << "<command name=\"Point\">" << std::endl;
+  ostr_ << "   <input a0=\"Line[" << e.P() << ", Line[" << e.A() << ", " << e.B() << "]]\"/>" << std::endl;
+  ostr_ << "   <output a0=\"" << e.X() << "\"/>" << std::endl;
+  ostr_ << "</command>" << std::endl;
 }
 
 void PrinterGGB::visitOnPerpendicular_P(const OnPerpendicular_P& e) {
-  // FIXME
-  ostr_ << "OnPerpendicular " << std::endl;
+  ostr_ << "<command name=\"Point\">" << std::endl;
+  ostr_ << "   <input a0=\"PerpendicularLine[" << e.P() << ", Line[" << e.A() << ", " << e.B() << "]]\"/>" << std::endl;
+  ostr_ << "   <output a0=\"" << e.X() << "\"/>" << std::endl;
+  ostr_ << "</command>" << std::endl;
 }
 
 void PrinterGGB::visitCollinear(const Collinear& e) {
