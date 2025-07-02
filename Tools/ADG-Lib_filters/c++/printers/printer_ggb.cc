@@ -217,7 +217,6 @@ void PrinterGGB::visitOnLine_P(const OnLine_P& e) {
 }
 
 void PrinterGGB::visitOnCircle_P(const OnCircle_P& e) {
-  // FIXME
   ostr_ << "<command name=\"Point\">" << std::endl;
   ostr_ << "   <input a0=\"Circle[" << e.O() << ", " << e.P() << "]\"/>" << std::endl;
   ostr_ << "   <output a0=\"" << e.X() << "\"/>" << std::endl;
