@@ -234,30 +234,27 @@ void PrinterGGB::visitEqual(const Equal& e) {
   if (!printingConjectures_)
     throw std::string("Predicates in hypotheses are not supported");
   else {
-
-    /*
-    // Functional form (it is required currently if the arguments are Area[...], FIXME):
-    ostr_ << "<command name=\"Prove\">\n"
-      "  <input a0=\"AreEqual[";
-    e.operands()[0]->acceptVisitor(*this);
-    ostr_ << ", ";
-    e.operands()[1]->acceptVisitor(*this);
-    ostr_ << "]\"/>\n" <<
-      "  <output a0=\"" << AuxiliaryObjects::get() << "\"/>\n" <<
-      "</command>\n";
-    */
-
-    // Relational form:
-    ostr_ << "<command name=\"Prove\">\n"
-      "  <input a0=\"";
-    e.operands()[0]->acceptVisitor(*this);
-    ostr_ << " == ";
-    e.operands()[1]->acceptVisitor(*this);
-    ostr_ << "\"/>\n" <<
-      "  <output a0=\"" << AuxiliaryObjects::get() << "\"/>\n" <<
-      "</command>\n";
-
-
+     if (ggb_functional_request) {
+        // Functional form (it is required currently if the arguments are Area[...], FIXME):
+        ostr_ << "<command name=\"Prove\">\n"
+          "  <input a0=\"AreEqual[";
+        e.operands()[0]->acceptVisitor(*this);
+        ostr_ << ", ";
+        e.operands()[1]->acceptVisitor(*this);
+        ostr_ << "]\"/>\n" <<
+          "  <output a0=\"" << AuxiliaryObjects::get() << "\"/>\n" <<
+          "</command>\n";
+      } else {
+        // Relational form:
+        ostr_ << "<command name=\"Prove\">\n"
+          "  <input a0=\"";
+        e.operands()[0]->acceptVisitor(*this);
+        ostr_ << " == ";
+        e.operands()[1]->acceptVisitor(*this);
+        ostr_ << "\"/>\n" <<
+          "  <output a0=\"" << AuxiliaryObjects::get() << "\"/>\n" <<
+          "</command>\n";
+      }
   }
 }
 
