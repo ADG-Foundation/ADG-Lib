@@ -69,7 +69,9 @@ public:
   void visitDrawCircle(const DrawCircle&) override;
   void visitDrawCircle_P(const DrawCircle_P&) override;
   void visitLabelPoint(const LabelPoint&) override;
-  
+
+  void visitFunTowards(const FunTowards&) override;  
+  void visitFunFoot(const FunFoot&) override;  
   void visitFunMidpoint(const FunMidpoint&) override;
   void visitFunSegmentBisector(const FunSegmentBisector&) override;
   void visitFunParallel(const FunParallel&) override;
@@ -79,6 +81,8 @@ public:
   void visitFunIntersectLL(const FunIntersectLL&) override;
   void visitFunIntersectLL_P(const FunIntersectLL_P&) override;
 
+  void visitTowards(const Towards&) override;
+  void visitFoot(const Foot&) override;
   void visitMidpoint(const Midpoint&) override;
   void visitParallel_P(const Parallel_P& e) override;
   void visitParallelDG_P(const ParallelDG_P& e) override;
@@ -90,6 +94,7 @@ public:
 
   void visitEqual(const Equal& e) override;
   void visitIdentical(const Identical& e) override;
+  void visitAlgSum3(const AlgSum3& e) override;
   void visitHarmonic(const Harmonic& e) override;
   
   void visitOnLine_P(const OnLine_P&) override;

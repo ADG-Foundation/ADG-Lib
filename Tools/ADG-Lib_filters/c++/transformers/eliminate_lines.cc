@@ -9,12 +9,16 @@ ExprPtr EliminateLinesTransformer::transformNaryExpression(const NaryExpression&
 }
 
 
-ExprPtr EliminateLinesTransformer::transformCircle(const Circle& e) {
-  std::string c = e.id();
-  std::string O = e.center();
-  std::string P = e.point_on_circle();
-  circles_.emplace(c, Circle{c, O, P});
-  return nullptr;
+ExprPtr EliminateLinesTransformer::transformFoot(const Foot& e) {
+  std::string lineId  = e.p().name();
+  auto it1 = lines_.find(lineId);
+  if (it1 == lines_.end())
+    throw std::string("Line ") + lineId + std::string(" not found");
+  else {
+    std::string A = it1->second.point1();
+    std::string B = it1->second.point2();
+    return std::make_shared<Foot_P>(e.X().name(), e.P().name(), A, B);
+  }
 }
 
 
@@ -105,3 +109,13 @@ ExprPtr EliminateLinesTransformer::transformFunIntersectLL(const FunIntersectLL&
     return std::make_shared<FunIntersectLL_P>(pointId, it1->second.point1(), it1->second.point2(), it2->second.point1(), it2->second.point2());
   }
 }
+
+ExprPtr EliminateLinesTransformer::transformCircle(const Circle& e) {
+  std::string c = e.id();
+  std::string O = e.center();
+  std::string P = e.point_on_circle();
+  circles_.emplace(c, Circle{c, O, P});
+  return nullptr;
+}
+
+

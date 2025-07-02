@@ -8,6 +8,15 @@ ExprPtr EliminateFunctionsTransformer::transformNaryExpression(const NaryExpress
   return std::make_shared<NaryExpression>(e.op(), transformedOperands);
 }
 
+ExprPtr EliminateFunctionsTransformer::transformFunTowards(const FunTowards& e) {
+  return std::make_shared<Towards>(e.X().name(), e.A().name(), e.B().name(), e.R().value());
+}
+
+
+ExprPtr EliminateFunctionsTransformer::transformFunFoot(const FunFoot& e) {
+  return std::make_shared<Foot>(e.X().name(), e.P().name(), e.p().name());
+}
+
 ExprPtr EliminateFunctionsTransformer::transformFunMidpoint(const FunMidpoint& e) {
   return std::make_shared<Midpoint>(e.X().name(), e.A().name(), e.B().name());
 }

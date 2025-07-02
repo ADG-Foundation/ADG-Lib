@@ -140,6 +140,21 @@ void PrinterGGB::visitDrawCircle_P(const DrawCircle_P& e) {
   // FIXME
 }
 
+void PrinterGGB::visitFunTowards(const FunTowards& e) {
+  // FIXME
+  ostr_ << "<command name=\"Foot\">" << std::endl;
+  ostr_ << "  <input a0=\"" << e.A() << "\" a1=\"" << e.B() << "\" a2=\"" << e.R() << "\"/>" << std::endl;
+  ostr_ << "  <output a0=\"" << e.X() << "\"/>" << std::endl;
+  ostr_ << "</command>" << std::endl;
+}
+
+void PrinterGGB::visitFunFoot(const FunFoot& e) {
+  // FIXME
+  ostr_ << "<command name=\"Foot\">" << std::endl;
+  ostr_ << "  <input a0=\"" << e.P() << "\" a1=\"" << e.p() << "\"/>" << std::endl;
+  ostr_ << "  <output a0=\"" << e.X() << "\"/>" << std::endl;
+  ostr_ << "</command>" << std::endl;
+}
 
 void PrinterGGB::visitFunMidpoint(const FunMidpoint& e) {
   ostr_ << "<command name=\"Midpoint\">" << std::endl;
@@ -209,15 +224,18 @@ void PrinterGGB::visitOnCircle_P(const OnCircle_P& e) {
   ostr_ << "</command>" << std::endl;
 }
 
-
 void PrinterGGB::visitOnParallel_P(const OnParallel_P& e) {
-  // FIXME
-  ostr_ << "OnParallel " << std::endl;
+  ostr_ << "<command name=\"Point\">" << std::endl;
+  ostr_ << "   <input a0=\"Line[" << e.P() << ", Line[" << e.A() << ", " << e.B() << "]]\"/>" << std::endl;
+  ostr_ << "   <output a0=\"" << e.X() << "\"/>" << std::endl;
+  ostr_ << "</command>" << std::endl;
 }
 
 void PrinterGGB::visitOnPerpendicular_P(const OnPerpendicular_P& e) {
-  // FIXME
-  ostr_ << "OnPerpendicular " << std::endl;
+  ostr_ << "<command name=\"Point\">" << std::endl;
+  ostr_ << "   <input a0=\"PerpendicularLine[" << e.P() << ", Line[" << e.A() << ", " << e.B() << "]]\"/>" << std::endl;
+  ostr_ << "   <output a0=\"" << e.X() << "\"/>" << std::endl;
+  ostr_ << "</command>" << std::endl;
 }
 
 void PrinterGGB::visitCollinear(const Collinear& e) {
@@ -230,36 +248,36 @@ void PrinterGGB::visitCollinear(const Collinear& e) {
       "</command>\n";
 }
 
+
+
 void PrinterGGB::visitEqual(const Equal& e) {
   if (!printingConjectures_)
     throw std::string("Predicates in hypotheses are not supported");
   else {
-
-    /*
-    // Functional form (it is required currently if the arguments are Area[...], FIXME):
-    ostr_ << "<command name=\"Prove\">\n"
-      "  <input a0=\"AreEqual[";
-    e.operands()[0]->acceptVisitor(*this);
-    ostr_ << ", ";
-    e.operands()[1]->acceptVisitor(*this);
-    ostr_ << "]\"/>\n" <<
-      "  <output a0=\"" << AuxiliaryObjects::get() << "\"/>\n" <<
-      "</command>\n";
-    */
-
-    // Relational form:
-    ostr_ << "<command name=\"Prove\">\n"
-      "  <input a0=\"";
-    e.operands()[0]->acceptVisitor(*this);
-    ostr_ << " == ";
-    e.operands()[1]->acceptVisitor(*this);
-    ostr_ << "\"/>\n" <<
-      "  <output a0=\"" << AuxiliaryObjects::get() << "\"/>\n" <<
-      "</command>\n";
-
-
+     if (ggb_functional_request) {
+        // Functional form (it is required currently if the arguments are Area[...], FIXME):
+        ostr_ << "<command name=\"Prove\">\n"
+          "  <input a0=\"AreEqual[";
+        e.operands()[0]->acceptVisitor(*this);
+        ostr_ << ", ";
+        e.operands()[1]->acceptVisitor(*this);
+        ostr_ << "]\"/>\n" <<
+          "  <output a0=\"" << AuxiliaryObjects::get() << "\"/>\n" <<
+          "</command>\n";
+      } else {
+        // Relational form:
+        ostr_ << "<command name=\"Prove\">\n"
+          "  <input a0=\"";
+        e.operands()[0]->acceptVisitor(*this);
+        ostr_ << " == ";
+        e.operands()[1]->acceptVisitor(*this);
+        ostr_ << "\"/>\n" <<
+          "  <output a0=\"" << AuxiliaryObjects::get() << "\"/>\n" <<
+          "</command>\n";
+      }
   }
 }
+
 
 void PrinterGGB::visitParallel_P(const Parallel_P& e) {
   if (!printingConjectures_)
@@ -304,6 +322,26 @@ void PrinterGGB::visitIdentical(const Identical& e) {
       "</command>\n";
   }
 }
+
+
+void PrinterGGB::visitAlgSum3(const AlgSum3& e) {
+  if (!printingConjectures_)
+    throw std::string("Predicates in hypotheses are not supported");
+  else {
+    ostr_ << "<command name=\"Prove\">\n"
+      "  <input a0=\"AreEqual[";
+    e.operands()[0]->acceptVisitor(*this); 
+    ostr_ << "  ";
+    e.operands()[1]->acceptVisitor(*this); 
+    ostr_ << "  ";
+    e.operands()[2]->acceptVisitor(*this);
+    ostr_ << ", 0";
+    ostr_ << "0 ]\"/>\n" <<
+      "  <output a0=\"" << AuxiliaryObjects::get() << "\"/>\n" <<
+      "</command>\n";
+  }
+}
+
 
 void PrinterGGB::visitHarmonic(const Harmonic& e) {
   if (!printingConjectures_)

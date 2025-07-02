@@ -66,7 +66,11 @@ void PrinterGeoCoq::visitDrawCircle_P(const DrawCircle_P&){
 }
 void PrinterGeoCoq::visitLabelPoint(const LabelPoint&){
 }
-  
+
+void PrinterGeoCoq::visitFunTowards(const FunTowards&){
+}
+void PrinterGeoCoq::visitFunFoot(const FunFoot&){
+}
 void PrinterGeoCoq::visitFunMidpoint(const FunMidpoint&){
 }
 void PrinterGeoCoq::visitFunSegmentBisector(const FunSegmentBisector&){
@@ -84,6 +88,12 @@ void PrinterGeoCoq::visitFunIntersectLL(const FunIntersectLL&){
 void PrinterGeoCoq::visitFunIntersectLL_P(const FunIntersectLL_P&){
 }
 
+void PrinterGeoCoq::visitTowards(const Towards& e){
+  conjuncts_.push_back(printPredicateCoq("Towards", e.X(), e.A(), e.B(), e.R()));
+}
+void PrinterGeoCoq::visitFoot(const Foot& e){
+  conjuncts_.push_back(printPredicateCoq("Foot", e.X(), e.P(), e.p()));
+}
 void PrinterGeoCoq::visitMidpoint(const Midpoint& e){
   conjuncts_.push_back(printPredicateCoq("Midpoint", e.X(), e.A(), e.B()));
 }
@@ -114,6 +124,18 @@ void PrinterGeoCoq::visitEqual(const Equal& e){
   e.operands()[0]->acceptVisitor(*this);
   current_ << " = ";
   e.operands()[1]->acceptVisitor(*this);
+  conjuncts_.push_back(current_.str());
+  current_.str("");
+  current_.clear();
+}
+
+void PrinterGeoCoq::visitAlgSum3(const AlgSum3& e) {
+  e.operands()[0]->acceptVisitor(*this);
+  current_ << " + ";
+  e.operands()[1]->acceptVisitor(*this);
+  current_ << " + ";
+  e.operands()[2]->acceptVisitor(*this);
+  current_ << " = 0";
   conjuncts_.push_back(current_.str());
   current_.str("");
   current_.clear();

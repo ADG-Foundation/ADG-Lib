@@ -89,6 +89,13 @@ void PrinterTPTP::visitDrawCircle_P(const DrawCircle_P& e) {
 void PrinterTPTP::visitLabelPoint(const LabelPoint& e) {
 }
 
+void PrinterTPTP::visitFunTowards(const FunTowards& e) {
+  throw std::string("Functions should have been eliminated");
+}
+
+void PrinterTPTP::visitFunFoot(const FunFoot& e) {
+  throw std::string("Functions should have been eliminated");
+}
 
 void PrinterTPTP::visitFunMidpoint(const FunMidpoint& e) {
   throw std::string("Functions should have been eliminated");
@@ -120,6 +127,14 @@ void PrinterTPTP::visitFunIntersectLL(const FunIntersectLL& e) {
 
 void PrinterTPTP::visitFunIntersectLL_P(const FunIntersectLL_P& e) {
   throw std::string("Functions should have been eliminated");
+}
+
+void PrinterTPTP::visitTowards(const Towards& e) {
+  conjuncts_.push_back(printPredicate("towards", e.X(), e.A(), e.B(), e.R	()));
+}
+
+void PrinterTPTP::visitFoot(const Foot& e) {
+  conjuncts_.push_back(printPredicate("foot", e.X(), e.P(), e.p()));
 }
 
 void PrinterTPTP::visitMidpoint(const Midpoint& e) {
@@ -171,6 +186,22 @@ void PrinterTPTP::visitIdentical(const Identical& e) {
   conjuncts_.push_back(e.A().name() + " = " + e.B().name());
 }
 
+void PrinterTPTP::visitAlgSum3(const AlgSum3& e) {
+  current_ << "(";
+  e.operands()[0]->acceptVisitor(*this);
+  current_ << ") + ";
+  current_ << "(";
+  e.operands()[1]->acceptVisitor(*this);
+  current_ << ") + ";
+  current_ << "(";
+  e.operands()[2]->acceptVisitor(*this);
+  current_ << ") = ";
+  current_ << "( 0 )";
+  conjuncts_.push_back(current_.str());
+  current_.str("");
+  current_.clear();
+
+}
 
 void PrinterTPTP::visitHarmonic(const Harmonic& e) {
   conjuncts_.push_back(printPredicate("harmonic", e.A(), e.B(), e.C(), e.D()));

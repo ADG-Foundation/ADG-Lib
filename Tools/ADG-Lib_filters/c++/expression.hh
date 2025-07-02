@@ -61,6 +61,7 @@ class NaryExpression : public Expression {
 public:
   NaryExpression(Operator op, std::vector<ExprPtr> operands);
   NaryExpression(Operator op, ExprPtr op1, ExprPtr op2);
+  NaryExpression(Operator op, ExprPtr op1, ExprPtr op2, ExprPtr op3);  
   NaryExpression(const NaryExpression&) = default;
   void print(std::ostream&) const override;
   void acceptVisitor(ExpressionVisitor&) const override;
@@ -301,6 +302,116 @@ private:
 };
 
 
+// Represents a function that constructs the foot of a point to a line
+class FunFoot : public Expression {
+public:
+  FunFoot(const std::string& X, const std::string& P, const std::string& p)
+    : X_(Variable(X)), P_(Variable(P)), p_(Variable(p)) {
+  }
+  FunFoot(const FunFoot&) = default;
+
+  const Variable& X() const { return X_; }
+  const Variable& P() const { return P_; }
+  const Variable& p() const { return p_; }
+
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+private:
+  Variable X_, P_, p_;
+};
+
+
+// Represents a predicate that checks if the given point is the foot of a point on a line
+class Foot : public Expression {
+public:
+  Foot(const std::string& X, const std::string& P, const std::string& p)
+    : X_(Variable(X)), P_(Variable(P)), p_(Variable(p)) {
+  }
+  Foot(const Foot&) = default;
+
+  const Variable& X() const { return X_; }
+  const Variable& P() const { return P_; }
+  const Variable& p() const { return p_; }
+
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+private:
+  Variable X_, P_, p_;
+};
+
+
+// Represents a predicate that checks if the given point X is the foot of the perpendicular from point P to line A B
+class Foot_P : public Expression {
+public:
+  Foot_P(const std::string& X, const std::string& P, const std::string& A, const std::string& B)
+    : X_(Variable(X)), P_(Variable(P)), A_(Variable(A)), B_(Variable(B)) {
+  }
+
+  const Variable& X() const { return X_; }
+  const Variable& P() const { return P_; }
+  const Variable& A() const { return A_; }
+  const Variable& B() const { return B_; }
+
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+private:
+  Variable X_, P_, A_, B_;
+};
+
+
+// Represents a predicate that checks if the given point meets the condition AX/BX=R
+class Towards : public Expression {
+public:
+  Towards(const std::string& X, const std::string& A, const std::string& B, double R)
+    : X_(Variable(X)), A_(Variable(A)), B_(Variable(B)), R_(Constant(R)) {
+  }
+  Towards(const Towards&) = default;
+
+  const Variable& X() const { return X_; }
+  const Variable& A() const { return A_; }
+  const Variable& B() const { return B_; }
+  const Constant& R() const { return R_; }  
+
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+private:
+  Variable X_, A_, B_;
+  Constant R_;
+};
+
+
+
+// Represents a function that constructs the point such that AX/BX=R
+class FunTowards : public Expression {
+public:
+  FunTowards(const std::string& X, const std::string& A, const std::string& B, double R)
+    : X_(Variable(X)), A_(Variable(A)), B_(Variable(B)), R_(Constant(R)) {
+  }
+  FunTowards(const FunTowards&) = default;
+
+  const Variable& X() const { return X_; }
+  const Variable& A() const { return A_; }
+  const Variable& B() const { return B_; }
+  const Constant& R() const { return R_; }  
+
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+private:
+  Variable X_, A_, B_;
+  Constant R_;
+};
+
+
 // Represents a function that constructs the midpoint of a segment
 class FunMidpoint : public Expression {
 public:
@@ -320,6 +431,7 @@ public:
 private:
   Variable X_, A_, B_;
 };
+
 
 // Represents a predicate that checks if the given point is the midpoint of a segment
 class Midpoint : public Expression {
@@ -446,26 +558,6 @@ private:
   Variable A1_, B1_, A2_, B2_;
 };
 
-// Represents a predicate that checks if the given point X is the foot of the perpendicular from point P to line A B
-class Foot_P : public Expression {
-public:
-  Foot_P(const std::string& X, const std::string& P, const std::string& A, const std::string& B)
-    : X_(Variable(X)), P_(Variable(P)), A_(Variable(A)), B_(Variable(B)) {
-  }
-
-  const Variable& X() const { return X_; }
-  const Variable& P() const { return P_; }
-  const Variable& A() const { return A_; }
-  const Variable& B() const { return B_; }
-
-  void print(std::ostream&) const override;
-  void acceptVisitor(ExpressionVisitor&) const override;
-  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
-  
-private:
-  Variable X_, P_, A_, B_;
-};
-
 
 // Represents a predicate that checks if the lines given by two pairs
 // of points are perpendicular, allowing that points are equal (degenerate case)
@@ -513,10 +605,43 @@ public:
 
   const Variable& A() const { return A_; }
   const Variable& B() const { return B_; }
-  
+  	
 private:
   Variable A_, B_;
 };
+
+
+// Represents equality of sum of three terms to zero
+
+class AlgSum3 : public NaryExpression {
+public:
+  AlgSum3(ExprPtr op1, ExprPtr op2, ExprPtr op3) : NaryExpression("algsum3", op1, op2, op3) {
+  }
+
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+};
+
+/*
+class AlgSum3 : public Expression {
+public:
+  AlgSum3(const std::string& A, const std::string& B, const std::string& C) :
+    A_(Variable(A)), B_(Variable(B)), C_(Variable(C)) {
+  }
+  AlgSum3(const AlgSum3&) = default;
+
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+
+  const Variable& A() const { return A_; }
+  const Variable& B() const { return B_; }
+  const Variable& C() const { return C_; }  
+  
+private:
+  Variable A_, B_, C_;
+};*/
+
 
 // Represents that 4 points are harmonically conjugated
 class Harmonic : public Expression {
@@ -781,6 +906,8 @@ public:
   virtual void visitDrawCircle_P(const DrawCircle_P&) = 0;
   virtual void visitLabelPoint(const LabelPoint&) = 0;
   
+  virtual void visitFunTowards(const FunTowards&) = 0;
+  virtual void visitFunFoot(const FunFoot&) = 0;
   virtual void visitFunMidpoint(const FunMidpoint&) = 0;
   virtual void visitFunSegmentBisector(const FunSegmentBisector&) = 0;
   virtual void visitFunParallel(const FunParallel&) = 0;
@@ -795,6 +922,8 @@ public:
   virtual void visitOnParallel_P(const OnParallel_P&) = 0;
   virtual void visitOnPerpendicular_P(const OnPerpendicular_P&) = 0;
 
+  virtual void visitTowards(const Towards&) = 0;
+  virtual void visitFoot(const Foot&) = 0;
   virtual void visitMidpoint(const Midpoint&) = 0;
   virtual void visitParallel_P(const Parallel_P&) = 0;
   virtual void visitParallelDG_P(const ParallelDG_P&) = 0;
@@ -805,6 +934,7 @@ public:
   virtual void visitCollinear(const Collinear&) = 0;
   virtual void visitEqual(const Equal& e) = 0;
   virtual void visitIdentical(const Identical& e) = 0;
+  virtual void visitAlgSum3(const AlgSum3& e) = 0;  
   virtual void visitHarmonic(const Harmonic& e) = 0;
   
   virtual ~ExpressionVisitor() = default;
@@ -827,6 +957,10 @@ public:
 
   virtual ExprPtr transformFreePoint(const FreePoint& e) {
     return std::make_shared<FreePoint>(e);
+  }
+
+  virtual ExprPtr transformFoot(const Foot& e) {
+    return std::make_shared<Foot>(e);
   }
   
   virtual ExprPtr transformLine(const Line& e) {
@@ -863,6 +997,14 @@ public:
   
   virtual ExprPtr transformLabelPoint(const LabelPoint& e) {
     return std::make_shared<LabelPoint>(e);
+  }
+
+  virtual ExprPtr transformFunTowards(const FunTowards& e) {
+    return std::make_shared<FunTowards>(e);
+  }
+
+  virtual ExprPtr transformFunFoot(const FunFoot& e) {
+    return std::make_shared<FunFoot>(e);
   }
   
   virtual ExprPtr transformFunMidpoint(const FunMidpoint& e) {
@@ -913,6 +1055,10 @@ public:
     return std::make_shared<OnPerpendicular_P>(e);
   }
 
+  virtual ExprPtr transformTowards(const Towards& e) {
+    return std::make_shared<Towards>(e);
+  }
+
   virtual ExprPtr transformMidpoint(const Midpoint& e) {
     return std::make_shared<Midpoint>(e);
   }
@@ -956,7 +1102,10 @@ public:
   virtual ExprPtr transformHarmonic(const Harmonic& e) {
     return std::make_shared<Harmonic>(e);
   }
-  
+
+  virtual ExprPtr transformAlgSum3(const AlgSum3& e) {
+    return std::make_shared<AlgSum3>(e);
+  }
   
   virtual ~ExpressionTransformer() = default;
 };

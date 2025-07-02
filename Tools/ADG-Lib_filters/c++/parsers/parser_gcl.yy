@@ -43,16 +43,21 @@ extern int scanner_gcl_lex(void);  // tell Bison to call this instead of yylex
   LINE "line"
   CIRCLE "circle"
   MIDPOINT "midpoint"
+  FOOT "foot"
   MED "med"
   TRANSLATE "translate"
+  TOWARDS "towards"
   INTERSECTION "intersection"
   ONLINE "online"                      
   ONCIRCLE "oncircle"            
   PROVE "prove"
   EQUAL "equal"
   PD3 "pythagoras difference 3"
-  SA3 "signed area 3"
+  SA3 "signed_area3"
+  SA4 "signed_area4"  
   SRATIO "signed ratio"
+  SEGMENT "segment"
+  ALGSUM3 "alg_sum_zero3"
   HARMONIC "harmonic"
   IDENTICAL "identical"
   SAMELENGTH "same_length"
@@ -68,7 +73,7 @@ extern int scanner_gcl_lex(void);  // tell Bison to call this instead of yylex
   DRAWDASHLINE "drawdashline"
   DRAWCIRCLE "drawcircle"
   MULT "mult"
-  ADD "add"
+  SUM "sum"
   DIM "dim"
   AREA "area"
   COLOR "color"
@@ -119,6 +124,10 @@ hypothesis:
     drv.points.push_back(FreePoint{$2});
     $$ = std::make_shared<FunMidpoint>($2, $3, $4);
 }
+| FOOT VARIABLE VARIABLE VARIABLE {
+    drv.points.push_back(FreePoint{$2});
+    $$ = std::make_shared<FunFoot>($2, $3, $4);
+}
 | MED VARIABLE VARIABLE VARIABLE {
     $$ = std::make_shared<FunSegmentBisector>($2, $3, $4);
 }
@@ -139,6 +148,10 @@ hypothesis:
 | TRANSLATE VARIABLE VARIABLE VARIABLE VARIABLE {
   drv.points.push_back(Point{$2});
   $$ = std::make_shared<FunTranslate>($2, $3, $4, $5);
+}
+| TOWARDS VARIABLE VARIABLE VARIABLE NUMBER {
+  drv.points.push_back(Point{$2});
+  $$ = std::make_shared<FunTowards>($2, $3, $4, $5);
 }
 | INTERSECTION VARIABLE VARIABLE VARIABLE VARIABLE VARIABLE {
   drv.points.push_back(Point{$2});
@@ -201,6 +214,9 @@ conjecture:
 | PROVE '{' IDENTICAL VARIABLE VARIABLE '}' {
   $$ = std::make_shared<Identical>($4, $5);
   }
+| PROVE '{' ALGSUM3 term term term '}' {
+  $$ = std::make_shared<AlgSum3>($4, $5, $6);
+  }
 | PROVE '{' EQUAL term term '}'  {
   $$ = std::make_shared<Equal>($4, $5);
 }
@@ -213,13 +229,19 @@ term :
 | '{' SA3 VARIABLE VARIABLE VARIABLE '}' {
     $$ = make_expression("sa3", $3, $4, $5);
   }
+| '{' SA4 VARIABLE VARIABLE VARIABLE VARIABLE '}' {
+    $$ = make_expression("sa4", $3, $4, $5, $6);
+  }
 | '{' PD3 VARIABLE VARIABLE VARIABLE '}' {
     $$ = make_expression("pd3", $3, $4, $5);
+  }
+| '{' SEGMENT VARIABLE VARIABLE '}' {
+    $$ = make_expression("segment", $3, $4);
   }
 | '{' MULT term term '}' {
   $$ = make_expression("*", $3, $4);
   }
-| '{' ADD term term '}' {
+| '{' SUM term term '}' {
   $$ = make_expression("+", $3, $4);
   }
 | '{' NUMBER '}' {

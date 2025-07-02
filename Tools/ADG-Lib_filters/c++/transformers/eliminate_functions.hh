@@ -7,6 +7,8 @@ class EliminateFunctionsTransformer : public ExpressionTransformer {
 public:
   ExprPtr transformNaryExpression(const NaryExpression& e) override;
 
+  ExprPtr transformFunTowards(const FunTowards&) override;
+  ExprPtr transformFunFoot(const FunFoot&) override;
   ExprPtr transformFunMidpoint(const FunMidpoint&) override;
   ExprPtr transformFunSegmentBisector(const FunSegmentBisector&) override;
   ExprPtr transformFunParallel(const FunParallel& e) override;

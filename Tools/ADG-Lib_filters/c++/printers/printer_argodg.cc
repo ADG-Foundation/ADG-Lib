@@ -119,6 +119,13 @@ void PrinterArgoDG::visitDrawCircle_P(const DrawCircle_P& e) {
   }
 }
 
+void PrinterArgoDG::visitFunTowards(const FunTowards& e) {
+  ostr_ << e.X() << " = RC.towards(" << e.A() << ", " << e.B() << " " << e.R() << std::endl;
+}
+
+void PrinterArgoDG::visitFunFoot(const FunFoot& e) {
+  ostr_ << e.X() << " = RC.foot(" << e.P() << ", " << e.p() << ").hide();" << std::endl;
+}
 
 void PrinterArgoDG::visitFunMidpoint(const FunMidpoint& e) {
   ostr_ << e.X() << " = RC.midpoint(" << e.A() << ", " << e.B() << ").hide();" << std::endl;

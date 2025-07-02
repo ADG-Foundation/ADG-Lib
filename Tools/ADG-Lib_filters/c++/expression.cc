@@ -56,6 +56,16 @@ NaryExpression::NaryExpression(Operator op, ExprPtr op1, ExprPtr op2)
   setInfix(op);
 }
 
+
+NaryExpression::NaryExpression(Operator op, ExprPtr op1, ExprPtr op2, ExprPtr op3)
+    : op_(op) {
+  operands_.push_back(op1);
+  operands_.push_back(op2);
+  operands_.push_back(op3);  
+  setInfix(op);
+}
+
+
 void NaryExpression::print(std::ostream& os) const {
   if (infix_) {
     operands_[0]->print(os);
@@ -229,6 +239,21 @@ ExprPtr DrawCircle_P::acceptTransformer(ExpressionTransformer& transformer) cons
 }
 
 
+// FunTowards implementation
+
+void FunTowards::print(std::ostream& ostr) const {
+  ostr << "(fun_foot " << X_ << "," << A_ << "," << B_ << "," << R_ << ")";
+}
+
+void FunTowards::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitFunTowards(*this);
+}
+
+ExprPtr FunTowards::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformFunTowards(*this);
+}
+
+
 // FunMidpoint implementation
 
 void FunMidpoint::print(std::ostream& ostr) const {
@@ -242,6 +267,53 @@ void FunMidpoint::acceptVisitor(ExpressionVisitor& visitor) const {
 ExprPtr FunMidpoint::acceptTransformer(ExpressionTransformer& transformer) const {
   return transformer.transformFunMidpoint(*this);
 }
+
+
+// FunFoot implementation
+
+void FunFoot::print(std::ostream& ostr) const {
+  ostr << "(fun_foot " << X_ << "," << P_ << "," << p_ << ")";
+}
+
+void FunFoot::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitFunFoot(*this);
+}
+
+ExprPtr FunFoot::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformFunFoot(*this);
+}
+
+
+// Foot implementation
+
+void Foot::print(std::ostream& ostr) const {
+  ostr << "(foot " << X_ << "," << P_ << "," << p_ << ")";
+}
+
+void Foot::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitFoot(*this);
+}
+
+ExprPtr Foot::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformFoot(*this);
+}
+
+
+// Towards implementation
+
+void Towards::print(std::ostream& ostr) const {
+  ostr << "(towards " << X_ << "," << A_ << "," << B_ << "," << R_ << ")";
+}
+
+void Towards::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitTowards(*this);
+}
+
+ExprPtr Towards::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformTowards(*this);
+}
+
+
 
 // Midpoint implementation
 
@@ -394,6 +466,24 @@ void Identical::acceptVisitor(ExpressionVisitor& visitor) const {
 ExprPtr Identical::acceptTransformer(ExpressionTransformer& transformer) const {
   return transformer.transformIdentical(*this);
 }
+
+
+// AlgSum3 implementation
+
+/*
+void AlgSum3::print(std::ostream& ostr) const {
+  ostr << "(alg_sum_zero3 " << A_ << "," << B_ << "," << C_ << ")";
+}*/
+
+void AlgSum3::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitAlgSum3(*this);
+}
+
+ExprPtr AlgSum3::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformAlgSum3(*this);
+}
+
+
 
 // FunSegmentBisector implementation
 

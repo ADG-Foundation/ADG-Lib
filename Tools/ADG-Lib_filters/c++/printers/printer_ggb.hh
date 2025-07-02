@@ -45,7 +45,9 @@ public:
   void visitDrawCircle(const DrawCircle&) override;
   void visitDrawCircle_P(const DrawCircle_P&) override;
   void visitLabelPoint(const LabelPoint&) override;
-  
+
+  void visitFunTowards(const FunTowards&) override;  
+  void visitFunFoot(const FunFoot&) override;  
   void visitFunMidpoint(const FunMidpoint&) override;
   void visitFunSegmentBisector(const FunSegmentBisector&) override;
   void visitFunParallel(const FunParallel&) override;
@@ -60,6 +62,14 @@ public:
   void visitOnParallel_P(const OnParallel_P&) override;
   void visitOnPerpendicular_P(const OnPerpendicular_P&) override;
 
+  void visitTowards(const Towards&) override {
+    throw std::string("Predicates are not supported");
+  }
+
+  void visitFoot(const Foot&) override {
+    throw std::string("Predicates are not supported");
+  }
+  
   void visitMidpoint(const Midpoint&) override {
     throw std::string("Predicates are not supported");
   }
@@ -85,6 +95,7 @@ public:
 
   void visitEqual(const Equal& e) override;
   void visitIdentical(const Identical& e) override;
+  void visitAlgSum3(const AlgSum3& e) override;  
   void visitHarmonic(const Harmonic& e) override;
   void visitCongruent(const Congruent& e) override {
       throw std::string("Predicates are not supported");

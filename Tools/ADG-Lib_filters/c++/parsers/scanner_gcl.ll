@@ -61,7 +61,9 @@
 point                   { return parser_gcl::parser_gcl::make_POINT(loc); }
 line                    { return parser_gcl::parser_gcl::make_LINE(loc); }
 circle                  { return parser_gcl::parser_gcl::make_CIRCLE(loc); }
+towards                 { return parser_gcl::parser_gcl::make_TOWARDS(loc); }
 midpoint                { return parser_gcl::parser_gcl::make_MIDPOINT(loc); }
+foot                    { return parser_gcl::parser_gcl::make_FOOT(loc); }
 med                     { return parser_gcl::parser_gcl::make_MED(loc); }
 intersec                { return parser_gcl::parser_gcl::make_INTERSECTION(loc); }
 intersection            { return parser_gcl::parser_gcl::make_INTERSECTION(loc); }
@@ -72,6 +74,9 @@ prove                   { return parser_gcl::parser_gcl::make_PROVE(loc); }
 equal                   { return parser_gcl::parser_gcl::make_EQUAL(loc); }
 sratio                  { return parser_gcl::parser_gcl::make_SRATIO(loc); }
 signed_area3            { return parser_gcl::parser_gcl::make_SA3(loc); }
+signed_area4            { return parser_gcl::parser_gcl::make_SA4(loc); }
+segment                 { return parser_gcl::parser_gcl::make_SEGMENT(loc); }
+alg_sum_zero3           { return parser_gcl::parser_gcl::make_ALGSUM3(loc); }
 pythagoras_difference3  { return parser_gcl::parser_gcl::make_PD3(loc); }
 harmonic                { return parser_gcl::parser_gcl::make_HARMONIC(loc); }
 identical               { return parser_gcl::parser_gcl::make_IDENTICAL(loc); }
@@ -95,7 +100,7 @@ drawline                { return parser_gcl::parser_gcl::make_DRAWLINE(loc); }
 drawcircle              { return parser_gcl::parser_gcl::make_DRAWCIRCLE(loc); }
 drawdashline            { return parser_gcl::parser_gcl::make_DRAWDASHLINE(loc); }
 mult                    { return parser_gcl::parser_gcl::make_MULT(loc); }
-sum                     { return parser_gcl::parser_gcl::make_ADD(loc); }
+sum                     { return parser_gcl::parser_gcl::make_SUM(loc); }
 dim                     { return parser_gcl::parser_gcl::make_DIM(loc); }
 area                    { return parser_gcl::parser_gcl::make_AREA(loc); }
 color                   { return parser_gcl::parser_gcl::make_COLOR(loc); }

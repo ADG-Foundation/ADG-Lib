@@ -15,12 +15,20 @@ void PrinterGCL::visitNaryExpression(const NaryExpression& e) {
       operand->acceptVisitor(*this);
   } else {
     std::string op = e.op();
-    std::map<std::string, std::string> longNames {{"*", "mult"}, {"+", "add"}};
+    std::map<std::string, std::string> longNames {
+      {"*", "mult"}, 
+      {"+", "sum"}, 
+      {"sa3","signed_area3"},
+      {"sa4","signed_area4"},
+      {"algsum3","alg_sum_zero3"},      
+      {"segment","segment"}            
+    };
     if (longNames.count(op))
       op = longNames[op];
     
     if (printingConjectures_) {
       ostr_ << "{ " << op << " ";
+            
       for (ExprPtr operand : e.operands()) {
         operand->acceptVisitor(*this);
         ostr_ << " ";
@@ -128,6 +136,15 @@ void PrinterGCL::visitDrawCircle_P(const DrawCircle_P& e) {
 
 
 
+
+void PrinterGCL::visitFunTowards(const FunTowards& e) {
+  ostr_ << "towards " << e.X() << " " << e.A() << " " << e.B() <<  " " << e.R() << std::endl;
+}
+
+void PrinterGCL::visitFunFoot(const FunFoot& e) {
+  ostr_ << "foot " << e.X() << " " << e.P() << " " << e.p() << std::endl;
+}
+
 void PrinterGCL::visitFunMidpoint(const FunMidpoint& e) {
   ostr_ << "midpoint " << e.X() << " " << e.A() << " " << e.B() << std::endl;
 }
@@ -189,6 +206,9 @@ void PrinterGCL::visitOnPerpendicular_P(const OnPerpendicular_P& e) {
   ostr_ << "translate " << e.X() << " " << N << " " << e.P() << " " << e.P() << std::endl;
 }
 
+void PrinterGCL::visitTowards(const Towards&) {
+  throw std::string("Predicates in hypotheses are not supported");
+}
 
 void PrinterGCL::visitMidpoint(const Midpoint&) {
   throw std::string("Predicates in hypotheses are not supported");
@@ -198,21 +218,21 @@ void PrinterGCL::visitParallel_P(const Parallel_P& e) {
   if (!printingConjectures_)
     throw std::string("Predicates in hypotheses are not supported");
   else
-    ostr_ << std::endl << "prove { " << "parallel " << e.A1() << " " << e.B1() << " " << e.A2() << " " << e.B2() << " } " << std::endl;
+    ostr_ << std::endl << "prove { " << "parallel " << e.A1() << " " << e.B1() << " " << e.A2() << " " << e.B2() << " } ";
 }
 
 void PrinterGCL::visitParallelDG_P(const ParallelDG_P& e) {
   if (!printingConjectures_)
     throw std::string("Predicates in hypotheses are not supported");
   else
-    ostr_ << std::endl << "prove { " << "parallel " << e.A1() << " " << e.B1() << " " << e.A2() << " " << e.B2() << " } " << std::endl;
+    ostr_ << std::endl << "prove { " << "parallel " << e.A1() << " " << e.B1() << " " << e.A2() << " " << e.B2() << " } ";
 }
 
 void PrinterGCL::visitPerpendicular_P(const Perpendicular_P& e) {
   if (!printingConjectures_)
     throw std::string("Predicates in hypotheses are not supported");
   else
-    ostr_ << "prove { " << "perpendicular " << e.A1() << " " << e.B1() << " " << e.A2() << " " << e.B2() << " } " << std::endl;
+    ostr_ << "prove { " << "perpendicular " << e.A1() << " " << e.B1() << " " << e.A2() << " " << e.B2() << " } ";
     // throw std::string("Non-degenerate perpendicular is not supported by GCL");
 }
 
@@ -220,7 +240,15 @@ void PrinterGCL::visitPerpendicularDG_P(const PerpendicularDG_P& e) {
   if (!printingConjectures_)
     throw std::string("Predicates in hypotheses are not supported");
   else
-    ostr_ << "prove { " << "perpendicular " << e.A1() << " " << e.B1() << " " << e.A2() << " " << e.B2() << " } "  << std::endl;
+    ostr_ << "prove { " << "perpendicular " << e.A1() << " " << e.B1() << " " << e.A2() << " " << e.B2() << " } ";
+}
+
+
+void PrinterGCL::visitFoot(const Foot& e) {
+  if (!printingConjectures_)
+    throw std::string("Predicates in hypotheses are not supported");
+  else
+    throw std::string("Proving foot is not supported by GCL");
 }
 
 
@@ -269,6 +297,23 @@ void PrinterGCL::visitIdentical(const Identical& e) {
     ostr_ << " } ";
   }
 }
+
+
+void PrinterGCL::visitAlgSum3(const AlgSum3& e) {
+  if (!printingConjectures_)
+    throw std::string("Predicates in hypotheses are not supported");
+  else {
+    ostr_ << "prove { " << "alg_sum_zero3 ";
+    e.operands()[0]->acceptVisitor(*this);
+    ostr_ << " ";
+    e.operands()[1]->acceptVisitor(*this);
+    ostr_ << " ";
+    e.operands()[2]->acceptVisitor(*this);
+    ostr_ << " } ";
+  }
+}
+
+
 
 void PrinterGCL::visitHarmonic(const Harmonic& e) {
   if (!printingConjectures_)

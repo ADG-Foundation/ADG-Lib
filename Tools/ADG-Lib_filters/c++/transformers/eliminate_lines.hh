@@ -15,16 +15,18 @@ public:
                             std::map<std::string, Line>& lines)
     : points_(points), lines_(lines) {
   }
-  
-  ExprPtr transformCircle(const Circle& e) override;
-  
+
   ExprPtr transformNaryExpression(const NaryExpression& e) override;
+
+  ExprPtr transformFoot(const Foot&) override;  
   ExprPtr transformDrawLine(const DrawLine&) override;
   ExprPtr transformDrawCircle(const DrawCircle&) override;  
   ExprPtr transformFunSegmentBisector(const FunSegmentBisector&) override;
   ExprPtr transformFunParallel(const FunParallel& e) override;
   ExprPtr transformFunPerpendicular(const FunPerpendicular& e) override;
   ExprPtr transformFunIntersectLL(const FunIntersectLL& e) override;
+
+  ExprPtr transformCircle(const Circle& e) override;
   
 private:
   std::map<std::string, Line> lines_;
