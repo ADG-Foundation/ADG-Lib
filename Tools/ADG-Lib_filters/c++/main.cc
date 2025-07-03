@@ -3,6 +3,7 @@
 
 #include "driver_jgex.hh"
 #include "driver_gcl.hh"
+#include "driver_jgex_binary.hh"
 
 #include "printer_gcl.hh"
 #include "printer_ggb.hh"
@@ -102,8 +103,7 @@ int process_file(const std::string& fileName, driver& drv,
     return 1;
   else {
     if (drv.conjectures.size() == 0) {
-      std::cerr << "Error: no conjectures found" << std::endl;
-      return 1;
+      std::cerr << "Warning: no conjectures found" << std::endl;
     }
 
     // std::cout << "Parse successfull" << std::endl;
@@ -196,6 +196,7 @@ int main (int argc, char *argv[])
     bool eliminate_lines = false;
     bool eliminate_functions = false;
     bool zip_output = false;
+    bool jgex_binary = false;
 
     Format outputFormat = UNKNOWN;
     
@@ -205,6 +206,8 @@ int main (int argc, char *argv[])
         trace_parsing = true;
       else if (arg == "-s") {
         trace_scanning = true;
+      } else if (arg == "-jb") {
+	jgex_binary = true;
       } else if (arg == "-o") {
         if (i + 1 < argc) {
           std::string format_str{argv[i+1]};
@@ -244,17 +247,25 @@ int main (int argc, char *argv[])
     }
 
     for (const std::string& fileName : inputFiles) {
+      std::unique_ptr<driver> drv = nullptr;
+      
       if (ends_with(fileName, ".gcl")) {
-        driver_gcl drv;
-        if (process_file(fileName, drv, trace_scanning, trace_parsing, eliminate_lines, eliminate_functions, outputFormat, zip_output) == 1)
-          result = 1;
+        drv = std::make_unique<driver_gcl>();
       } else if (ends_with(fileName, ".jgex") || ends_with(fileName, ".gex")) {
-        driver_jgex drv;
-        if (process_file(fileName, drv, trace_scanning, trace_parsing, eliminate_lines, eliminate_functions, outputFormat, zip_output) == 1)
-          result = 1;
+	if (!jgex_binary) {
+	  drv = std::make_unique<driver_jgex>();
+	} else {
+	  drv = std::make_unique<driver_jgex_binary>();
+	}
       } else {
         std::cerr << "Unknown input format extension " << fileName << std::endl;
       }
+
+      if (drv != nullptr) {
+	if (process_file(fileName, *drv, trace_scanning, trace_parsing, eliminate_lines, eliminate_functions, outputFormat, zip_output) == 1)
+	  result = 1;
+      }
+
     }
     
     return result;

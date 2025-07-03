@@ -102,6 +102,8 @@ public:
   void visitOnParallel_P(const OnParallel_P&) override;  
   void visitOnPerpendicular_P(const OnPerpendicular_P&) override;
 
+  void visitTriangle(const Triangle&) override;
+  
 private:
   void printConjuncts(const std::string& separator) const;
   

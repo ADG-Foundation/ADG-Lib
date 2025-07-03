@@ -145,6 +145,7 @@ void PrinterGCL::visitFunFoot(const FunFoot& e) {
   ostr_ << "foot " << e.X() << " " << e.P() << " " << e.p() << std::endl;
 }
 
+
 void PrinterGCL::visitFunMidpoint(const FunMidpoint& e) {
   ostr_ << "midpoint " << e.X() << " " << e.A() << " " << e.B() << std::endl;
 }
@@ -329,4 +330,10 @@ void PrinterGCL::visitHarmonic(const Harmonic& e) {
     e.D().acceptVisitor(*this);
     ostr_ << " } ";
   }
+}
+
+void PrinterGCL::visitTriangle(const Triangle& e) {
+  visitFreePoint(e.A());
+  visitFreePoint(e.B());
+  visitFreePoint(e.C());
 }

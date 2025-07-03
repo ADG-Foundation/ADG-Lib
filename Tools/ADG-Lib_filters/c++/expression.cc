@@ -283,7 +283,6 @@ ExprPtr FunFoot::acceptTransformer(ExpressionTransformer& transformer) const {
   return transformer.transformFunFoot(*this);
 }
 
-
 // Foot implementation
 
 void Foot::print(std::ostream& ostr) const {
@@ -641,6 +640,22 @@ void OnPerpendicular_P::acceptVisitor(ExpressionVisitor& visitor) const {
 ExprPtr OnPerpendicular_P::acceptTransformer(ExpressionTransformer& transformer) const {
   return transformer.transformOnPerpendicular_P(*this);
 }
+
+
+// Triangle implementation
+
+void Triangle::print(std::ostream& ostr) const {
+  ostr << "(triangle " << A_.id() << "," << B_.id() << "," << C_.id() << ")";
+}
+
+void Triangle::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitTriangle(*this);
+}
+
+ExprPtr Triangle::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformTriangle(*this);
+}
+
 
 // Operator overload
 std::ostream& operator<<(std::ostream& os, const Expression& expr) {

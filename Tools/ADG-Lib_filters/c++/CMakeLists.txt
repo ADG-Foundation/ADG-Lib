@@ -63,6 +63,9 @@ set(SOURCES
     ${BISON_ParserTPTP_OUTPUTS}
     ${FLEX_ScannerTPTP_OUTPUTS}
 
+
+    parsers/driver_jgex_binary.hh parsers/driver_jgex_binary.cc
+
     # Printers
     printers/printer.hh
     printers/printer_gcl.cc printers/printer_gcl.hh

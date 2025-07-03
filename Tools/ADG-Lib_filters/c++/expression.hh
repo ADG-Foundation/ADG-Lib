@@ -88,7 +88,7 @@ public:
   const std::string& id() const { return id_; }
   double x() const { return x_; }
   double y() const { return y_; }
-  
+
 private:
   std::string id_;
   double x_, y_;
@@ -96,7 +96,7 @@ private:
 
 class FreePoint : public Point, public Expression {
 public:
-  FreePoint(const std::string& id, int x=0, int y=0) :
+  FreePoint(const std::string& id, double x=0, double y=0) :
     Point(id, x, y) {
   }
   FreePoint(const FreePoint& other) = default;
@@ -320,6 +320,27 @@ public:
   
 private:
   Variable X_, P_, p_;
+};
+
+// Represents a function that constructs the foot X of a point to P a line AB
+class FunFoot_P : public Expression {
+public:
+  FunFoot_P(const std::string& X, const std::string& P, const std::string& A, const std::string& B)
+    : X_(Variable(X)), P_(Variable(P)), A_(Variable(A)), B_(Variable(B)) {
+  }
+  FunFoot_P(const FunFoot_P&) = default;
+
+  const Variable& X() const { return X_; }
+  const Variable& P() const { return P_; }
+  const Variable& A() const { return A_; }
+  const Variable& B() const { return B_; }
+
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+private:
+  Variable X_, P_, A_, B_;
 };
 
 
@@ -887,6 +908,27 @@ private:
 };
 
 
+
+class Triangle : public Expression {
+public:
+  Triangle(const std::string& A, double xA, double yA,
+	   const std::string& B, double xB, double yB,
+	   const std::string& C, double xC, double yC)
+    : A_(A, xA, yA), B_(B, xB, yB), C_(C, xC, yC) {
+  }
+
+  const FreePoint& A() const { return A_; }
+  const FreePoint& B() const { return B_; }
+  const FreePoint& C() const { return C_; }
+
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+private:
+  FreePoint A_, B_, C_;
+};
+
 // Base class for expression visitors
 class ExpressionVisitor {
 public:
@@ -936,6 +978,8 @@ public:
   virtual void visitIdentical(const Identical& e) = 0;
   virtual void visitAlgSum3(const AlgSum3& e) = 0;  
   virtual void visitHarmonic(const Harmonic& e) = 0;
+
+  virtual void visitTriangle(const Triangle& e) = 0;
   
   virtual ~ExpressionVisitor() = default;
 };
@@ -1105,6 +1149,10 @@ public:
 
   virtual ExprPtr transformAlgSum3(const AlgSum3& e) {
     return std::make_shared<AlgSum3>(e);
+  }
+
+  virtual ExprPtr transformTriangle(const Triangle& e) {
+    return std::make_shared<Triangle>(e);
   }
   
   virtual ~ExpressionTransformer() = default;

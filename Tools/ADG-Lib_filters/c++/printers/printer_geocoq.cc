@@ -166,3 +166,9 @@ void PrinterGeoCoq::printConjuncts(const std::string& separator) const {
   for (int i = 1; i < conjuncts_.size(); i++)
     ostr_ << " " << separator << std::endl << conjuncts_[i];
 }
+
+void PrinterGeoCoq::visitTriangle(const Triangle& e) {
+  visitFreePoint(e.A());
+  visitFreePoint(e.B());
+  visitFreePoint(e.C());
+}

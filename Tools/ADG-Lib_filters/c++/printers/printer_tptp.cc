@@ -221,3 +221,8 @@ void PrinterTPTP::visitOnPerpendicular_P(const OnPerpendicular_P& e) {
   throw std::string("Non-deterministic functions should have been eliminated");
 }
 
+void PrinterTPTP::visitTriangle(const Triangle& e) {
+  visitFreePoint(e.A());
+  visitFreePoint(e.B());
+  visitFreePoint(e.C());
+}

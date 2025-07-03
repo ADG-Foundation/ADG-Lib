@@ -101,6 +101,8 @@ public:
       throw std::string("Predicates are not supported");
   }
 
+  void visitTriangle(const Triangle&) override;
+
   void postprocess() override {
     if (zipOutput_) {
       gxml_.close();

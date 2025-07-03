@@ -96,7 +96,10 @@ public:
   void visitOnLine_P(const OnLine_P&) override;  
   void visitOnCircle_P(const OnCircle_P&) override;  
   void visitOnParallel_P(const OnParallel_P&) override;  
-  void visitOnPerpendicular_P(const OnPerpendicular_P&) override;  
+  void visitOnPerpendicular_P(const OnPerpendicular_P&) override;
+
+
+  void visitTriangle(const Triangle&) override;
 };
 
 

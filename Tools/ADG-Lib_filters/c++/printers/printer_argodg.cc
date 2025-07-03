@@ -192,3 +192,9 @@ void PrinterArgoDG::visitOnPerpendicular_P(const OnPerpendicular_P& e) {
         << e.P() << ", 0, 0).color(\"red\").hide();"
         << std::endl;
 }
+
+void PrinterArgoDG::visitTriangle(const Triangle& e) {
+  visitFreePoint(e.A());
+  visitFreePoint(e.B());
+  visitFreePoint(e.C());
+}

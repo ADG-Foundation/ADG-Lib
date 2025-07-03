@@ -367,3 +367,9 @@ void PrinterGGB::visitHarmonic(const Harmonic& e) {
       "  <output a0=\"" << AuxiliaryObjects::get() << "\"/>\n" <<
       "</command>\n";
 }
+
+void PrinterGGB::visitTriangle(const Triangle& e) {
+  visitFreePoint(e.A());
+  visitFreePoint(e.B());
+  visitFreePoint(e.C());
+}
