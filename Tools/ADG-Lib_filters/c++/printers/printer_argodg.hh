@@ -37,6 +37,11 @@ public:
   void visitFunTranslate(const FunTranslate&) override;
   void visitFunIntersectLL(const FunIntersectLL&) override;
   void visitFunIntersectLL_P(const FunIntersectLL_P&) override;
+  void visitFunIntersectLC(const FunIntersectLC&) override;
+  void visitFunIntersectLC_P(const FunIntersectLC_P&) override;
+  void visitFunIntersectCC(const FunIntersectCC&) override;
+  void visitFunIntersectCC_P(const FunIntersectCC_P&) override;
+
 
   void visitTowards(const Towards&) override {
     // throw std::string("Predicates are not supported");

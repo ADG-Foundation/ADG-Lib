@@ -205,6 +205,21 @@ void PrinterGGB::visitFunIntersectLL_P(const FunIntersectLL_P& e) {
   */
 }
 
+void PrinterGGB::visitFunIntersectLC(const FunIntersectLC& e) {
+  // TODO
+}
+void PrinterGGB::visitFunIntersectLC_P(const FunIntersectLC_P& e) {
+  // TODO
+}
+void PrinterGGB::visitFunIntersectCC(const FunIntersectCC& e) {
+  // TODO
+}
+void PrinterGGB::visitFunIntersectCC_P(const FunIntersectCC_P& e) {
+  // TODO
+}
+
+
+
 void PrinterGGB::visitFunTranslate(const FunTranslate& e) {
   // FIXME
 }

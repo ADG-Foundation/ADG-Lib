@@ -584,6 +584,64 @@ ExprPtr FunIntersectLL_P::acceptTransformer(ExpressionTransformer& transformer) 
   return transformer.transformFunIntersectLL_P(*this);
 }
 
+
+// FunIntersectLC implementation
+
+void FunIntersectLC::print(std::ostream& ostr) const {
+  ostr << "(fun_intersect_ll " << X1_ << "," << X2_ << "," << l_ << "," << c_ << ")";
+}
+
+void FunIntersectLC::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitFunIntersectLC(*this);
+}
+
+ExprPtr FunIntersectLC::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformFunIntersectLC(*this);
+}
+
+// FunIntersectLC_P implementation
+
+void FunIntersectLC_P::print(std::ostream& ostr) const {
+  ostr << "(fun_intersect_lc_p " << X1_ << "," << X2_ << "," << A_ << "," << B_ << "," << O_ << "," << P_ << ")";
+}
+
+void FunIntersectLC_P::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitFunIntersectLC_P(*this);
+}
+
+ExprPtr FunIntersectLC_P::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformFunIntersectLC_P(*this);
+}
+
+// FunIntersectCC implementation
+
+void FunIntersectCC::print(std::ostream& ostr) const {
+  ostr << "(fun_intersect_cc " << X1_ << "," << X2_ << "," << c1_ << "," << c2_ << ")";
+}
+
+void FunIntersectCC::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitFunIntersectCC(*this);
+}
+
+ExprPtr FunIntersectCC::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformFunIntersectCC(*this);
+}
+
+// FunIntersectCC_P implementation
+
+void FunIntersectCC_P::print(std::ostream& ostr) const {
+  ostr << "(fun_intersect_cc_p " << X1_ << "," << X2_ << "," << O1_ << "," << P1_ << "," << O2_ << "," << P2_ << ")";
+}
+
+void FunIntersectCC_P::acceptVisitor(ExpressionVisitor& visitor) const {
+  visitor.visitFunIntersectCC_P(*this);
+}
+
+ExprPtr FunIntersectCC_P::acceptTransformer(ExpressionTransformer& transformer) const {
+  return transformer.transformFunIntersectCC_P(*this);
+}
+
+
 // OnLine_P implementation
 
 void OnLine_P::print(std::ostream& ostr) const {

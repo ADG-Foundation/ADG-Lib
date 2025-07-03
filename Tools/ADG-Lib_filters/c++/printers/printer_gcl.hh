@@ -3,12 +3,28 @@
 
 #include "printer.hh"
 
+// used for better layout
+enum command_type {
+  eFreePoint,
+  eDrawing,
+  eLabeling,
+  eOther
+};
+
 class PrinterGCL : public Printer {
 public:
   PrinterGCL(std::ostream& ostr, const std::string& conjectureName) : Printer(ostr, conjectureName) {
+     prevCommand = eOther;
   }
 
   void printHeader() override {
+  }
+  
+  void printConjectures(const std::vector<ExprPtr>& conjectures) {
+    printingConjectures_ = true;
+    for (ExprPtr c : conjectures)
+      c->acceptVisitor(*this);
+    ostr_ << std::endl << std::endl;    
   }
 
   void printComment(const std::string& comment) {
@@ -41,6 +57,10 @@ public:
   void visitFunTranslate(const FunTranslate&) override;
   void visitFunIntersectLL(const FunIntersectLL&) override;
   void visitFunIntersectLL_P(const FunIntersectLL_P&) override;
+  void visitFunIntersectLC(const FunIntersectLC&) override;
+  void visitFunIntersectLC_P(const FunIntersectLC_P&) override;
+  void visitFunIntersectCC(const FunIntersectCC&) override;
+  void visitFunIntersectCC_P(const FunIntersectCC_P&) override;
 
   void visitTowards(const Towards&) override;
   void visitFoot(const Foot&) override;
@@ -63,6 +83,10 @@ public:
   void visitOnPerpendicular_P(const OnPerpendicular_P&) override;
 
   void visitTriangle(const Triangle&) override;
+  
+private:
+  void printNewLineIfNeeded(enum command_type c);
+  enum command_type prevCommand;
 };
 
 #endif

@@ -56,6 +56,10 @@ public:
   void visitFunTranslate(const FunTranslate&) override;
   void visitFunIntersectLL(const FunIntersectLL&) override;
   void visitFunIntersectLL_P(const FunIntersectLL_P& e) override;  
+  void visitFunIntersectLC(const FunIntersectLC&) override;
+  void visitFunIntersectLC_P(const FunIntersectLC_P&) override;
+  void visitFunIntersectCC(const FunIntersectCC&) override;
+  void visitFunIntersectCC_P(const FunIntersectCC_P&) override;
 
   void visitOnLine_P(const OnLine_P&) override;
   void visitOnCircle_P(const OnCircle_P&) override;  

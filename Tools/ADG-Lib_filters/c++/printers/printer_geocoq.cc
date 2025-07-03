@@ -87,6 +87,15 @@ void PrinterGeoCoq::visitFunIntersectLL(const FunIntersectLL&){
 }
 void PrinterGeoCoq::visitFunIntersectLL_P(const FunIntersectLL_P&){
 }
+void PrinterGeoCoq::visitFunIntersectLC(const FunIntersectLC& e) {
+}
+void PrinterGeoCoq::visitFunIntersectLC_P(const FunIntersectLC_P& e) {
+}
+void PrinterGeoCoq::visitFunIntersectCC(const FunIntersectCC& e) {
+}
+void PrinterGeoCoq::visitFunIntersectCC_P(const FunIntersectCC_P& e) {
+}
+
 
 void PrinterGeoCoq::visitTowards(const Towards& e){
   conjuncts_.push_back(printPredicateCoq("Towards", e.X(), e.A(), e.B(), e.R()));

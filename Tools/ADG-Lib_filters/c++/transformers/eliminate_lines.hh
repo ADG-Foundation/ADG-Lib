@@ -25,6 +25,9 @@ public:
   ExprPtr transformFunParallel(const FunParallel& e) override;
   ExprPtr transformFunPerpendicular(const FunPerpendicular& e) override;
   ExprPtr transformFunIntersectLL(const FunIntersectLL& e) override;
+  ExprPtr transformFunIntersectLC(const FunIntersectLC& e) override;
+  ExprPtr transformFunIntersectCC(const FunIntersectCC& e) override;
+
 
   ExprPtr transformCircle(const Circle& e) override;
   

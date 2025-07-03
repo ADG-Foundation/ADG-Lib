@@ -1,6 +1,14 @@
 #include "printer_gcl.hh"
 #include <map>
 
+
+void PrinterGCL::printNewLineIfNeeded(enum command_type c) {
+  if (prevCommand != c)
+    ostr_ << std::endl;
+  prevCommand = c;    
+}
+
+
 void PrinterGCL::visitConstant(const Constant& c) {
   ostr_ << c.value();
 }
@@ -33,7 +41,7 @@ void PrinterGCL::visitNaryExpression(const NaryExpression& e) {
         operand->acceptVisitor(*this);
         ostr_ << " ";
       }
-      ostr_ << " }";
+      ostr_ << "}";
     } else { // printing hypotheses
       if (op == "!=") {
         auto ops = e.operands();
@@ -48,33 +56,39 @@ void PrinterGCL::visitNaryExpression(const NaryExpression& e) {
           operand->acceptVisitor(*this);
           ostr_ << " ";
         }
-        ostr_ << " }";        
+        ostr_ << "}";        
       }
     }
   }
 }
 
 void PrinterGCL::visitFreePoint(const FreePoint& p) {
+  printNewLineIfNeeded(eFreePoint);
   ostr_ << "point " << p.id() << " " << p.x() << " " << p.y() << std::endl;
 }
 
 void PrinterGCL::visitLine(const Line& l) {
+  printNewLineIfNeeded(eOther);
   ostr_ << "line " << l.id() << " " << l.point1() << " " << l.point2() << std::endl;
 }
 
 void PrinterGCL::visitCircle(const Circle& c) {
+  printNewLineIfNeeded(eOther);
   ostr_ << "circle " << c.id() << " " << c.center() << " " << c.point_on_circle() << std::endl;
 }
 
 void PrinterGCL::visitDrawPoint(const DrawPoint& e) {
+  printNewLineIfNeeded(eLabeling);
   ostr_ << "cmark " << e.A() << std::endl;
 }
 
 void PrinterGCL::visitLabelPoint(const LabelPoint& e) {
+  printNewLineIfNeeded(eLabeling);
   ostr_ << "mark_lt " << e.A() << std::endl;
 }
 
 void PrinterGCL::visitDrawSegment(const DrawSegment& e) {
+  printNewLineIfNeeded(eDrawing);
   switch(e.style()) {
   case SOLID:
   case BOLD:
@@ -87,6 +101,7 @@ void PrinterGCL::visitDrawSegment(const DrawSegment& e) {
 }
 
 void PrinterGCL::visitDrawLine(const DrawLine& e) {
+  printNewLineIfNeeded(eDrawing);
   switch(e.style()) {
   case SOLID:
   case BOLD:
@@ -99,6 +114,7 @@ void PrinterGCL::visitDrawLine(const DrawLine& e) {
 }
 
 void PrinterGCL::visitDrawLine_P(const DrawLine_P& e) {
+  printNewLineIfNeeded(eDrawing);
   switch(e.style()) {
   case SOLID:
   case BOLD:
@@ -111,6 +127,7 @@ void PrinterGCL::visitDrawLine_P(const DrawLine_P& e) {
 }
 
 void PrinterGCL::visitDrawCircle(const DrawCircle& e) {
+  printNewLineIfNeeded(eDrawing);
   switch(e.style()) {
   case SOLID:
   case BOLD:
@@ -123,6 +140,7 @@ void PrinterGCL::visitDrawCircle(const DrawCircle& e) {
 }
 
 void PrinterGCL::visitDrawCircle_P(const DrawCircle_P& e) {
+  printNewLineIfNeeded(eDrawing);
   switch(e.style()) {
   case SOLID:
   case BOLD:
@@ -138,63 +156,98 @@ void PrinterGCL::visitDrawCircle_P(const DrawCircle_P& e) {
 
 
 void PrinterGCL::visitFunTowards(const FunTowards& e) {
+  printNewLineIfNeeded(eOther);
   ostr_ << "towards " << e.X() << " " << e.A() << " " << e.B() <<  " " << e.R() << std::endl;
 }
 
 void PrinterGCL::visitFunFoot(const FunFoot& e) {
+  printNewLineIfNeeded(eOther);
   ostr_ << "foot " << e.X() << " " << e.P() << " " << e.p() << std::endl;
 }
 
 
 void PrinterGCL::visitFunMidpoint(const FunMidpoint& e) {
+  printNewLineIfNeeded(eOther);
   ostr_ << "midpoint " << e.X() << " " << e.A() << " " << e.B() << std::endl;
 }
 
 void PrinterGCL::visitFunSegmentBisector(const FunSegmentBisector& e) {
+  printNewLineIfNeeded(eOther);
   ostr_ << "med " << e.x() << " " << e.A() << " " << e.B() << std::endl;
 }
 
 void PrinterGCL::visitFunParallel(const FunParallel& e) {
+  printNewLineIfNeeded(eOther);
   ostr_ << "parallel " << e.x() << " " << e.A() << " " << e.l() << std::endl;  
 }
 
 void PrinterGCL::visitFunPerpendicular(const FunPerpendicular& e) {
+  printNewLineIfNeeded(eOther);
   ostr_ << "perp " << e.x() << " " << e.A() << " " << e.l() << std::endl;  
 }
 
 void PrinterGCL::visitFunPerpendicular_P(const FunPerpendicular_P& e) {
+  printNewLineIfNeeded(eOther);
   std::string l = AuxiliaryLines::get();
   ostr_ << "line " << l << " " << e.A() << " " << e.B() << std::endl;
   ostr_ << "perp " << e.x() << " " << e.P() << " " << l << std::endl;  
 }
 
 void PrinterGCL::visitFunTranslate(const FunTranslate& e) {
+  printNewLineIfNeeded(eOther);
   ostr_ << "translate " << e.X() << " " << e.A() << " " << e.B() << " " << e.P() << std::endl;
 }
 
 void PrinterGCL::visitFunIntersectLL(const FunIntersectLL& e) {
+  printNewLineIfNeeded(eOther);
   ostr_ << "intersec " << e.X() << " " << e.l1() << " " << e.l2() << std::endl;
 }
 
 void PrinterGCL::visitFunIntersectLL_P(const FunIntersectLL_P& e) {
+  printNewLineIfNeeded(eOther);
   ostr_ << "intersec " << e.X() << " " << e.A1() << " " << e.B1() << " " << e.A2() << " " << e.B2() << std::endl;
 }
 
+void PrinterGCL::visitFunIntersectLC(const FunIntersectLC& e) {
+  printNewLineIfNeeded(eOther);
+  ostr_ << "intersec2 " << e.X1() << " " << e.X2() << " " << e.l() << " " << e.c() << std::endl;
+}
+
+void PrinterGCL::visitFunIntersectLC_P(const FunIntersectLC_P& e) {
+  printNewLineIfNeeded(eOther);
+  ostr_ << "intersec2 " << e.X1() << " " << e.X2() << " " << e.A() << " " << e.B() << " " << e.O() << " " << e.P() << std::endl;
+}
+
+void PrinterGCL::visitFunIntersectCC(const FunIntersectCC& e) {
+  printNewLineIfNeeded(eOther);
+  ostr_ << "intersec2 " << e.X1() << " " << e.X2() << " " << e.c1() << " " << e.c2() << std::endl;
+}
+
+void PrinterGCL::visitFunIntersectCC_P(const FunIntersectCC_P& e) {
+  printNewLineIfNeeded(eOther);
+  ostr_ << "intersec2 " << e.X1() << " " << e.X2() << " " << e.O1() << " " << e.P1() << " " << e.O2() << " " << e.P2() << std::endl;
+}
+
+
 void PrinterGCL::visitOnLine_P(const OnLine_P& e) {
+  printNewLineIfNeeded(eOther);
   ostr_ << "online " << e.X() << " " << e.A() << " " << e.B() << std::endl;
 }
 
 
 void PrinterGCL::visitOnCircle_P(const OnCircle_P& e) {
+  printNewLineIfNeeded(eOther);
   ostr_ << "oncircle " << e.X() << " " << e.O() << " " << e.P() << std::endl;
 }
 
 
 void PrinterGCL::visitOnParallel_P(const OnParallel_P& e) {
+  printNewLineIfNeeded(eOther);
   ostr_ << "translate " << e.X() << " " << e.A() << " " << e.B() << " " << e.P() << std::endl;
 }
 
 void PrinterGCL::visitOnPerpendicular_P(const OnPerpendicular_P& e) {
+  printNewLineIfNeeded(eOther);
   ostr_ << "%";
   e.print(ostr_);
   ostr_ << std::endl;
@@ -216,6 +269,7 @@ void PrinterGCL::visitMidpoint(const Midpoint&) {
 }
 
 void PrinterGCL::visitParallel_P(const Parallel_P& e) {
+  printNewLineIfNeeded(eOther);
   if (!printingConjectures_)
     throw std::string("Predicates in hypotheses are not supported");
   else
@@ -223,6 +277,7 @@ void PrinterGCL::visitParallel_P(const Parallel_P& e) {
 }
 
 void PrinterGCL::visitParallelDG_P(const ParallelDG_P& e) {
+  printNewLineIfNeeded(eOther);
   if (!printingConjectures_)
     throw std::string("Predicates in hypotheses are not supported");
   else
@@ -230,6 +285,7 @@ void PrinterGCL::visitParallelDG_P(const ParallelDG_P& e) {
 }
 
 void PrinterGCL::visitPerpendicular_P(const Perpendicular_P& e) {
+  printNewLineIfNeeded(eOther);
   if (!printingConjectures_)
     throw std::string("Predicates in hypotheses are not supported");
   else
@@ -238,6 +294,7 @@ void PrinterGCL::visitPerpendicular_P(const Perpendicular_P& e) {
 }
 
 void PrinterGCL::visitPerpendicularDG_P(const PerpendicularDG_P& e) {
+  printNewLineIfNeeded(eOther);
   if (!printingConjectures_)
     throw std::string("Predicates in hypotheses are not supported");
   else
@@ -246,6 +303,7 @@ void PrinterGCL::visitPerpendicularDG_P(const PerpendicularDG_P& e) {
 
 
 void PrinterGCL::visitFoot(const Foot& e) {
+  printNewLineIfNeeded(eOther);
   if (!printingConjectures_)
     throw std::string("Predicates in hypotheses are not supported");
   else
@@ -254,6 +312,7 @@ void PrinterGCL::visitFoot(const Foot& e) {
 
 
 void PrinterGCL::visitFoot_P(const Foot_P& e) {
+  printNewLineIfNeeded(eOther);
   if (!printingConjectures_)
     throw std::string("Predicates in hypotheses are not supported");
   else
@@ -262,6 +321,7 @@ void PrinterGCL::visitFoot_P(const Foot_P& e) {
 
 
 void PrinterGCL::visitCongruent(const Congruent& e) {
+  printNewLineIfNeeded(eOther);
   if (!printingConjectures_)
     throw std::string("Predicates hypotheses are not supported");
   else
@@ -269,6 +329,7 @@ void PrinterGCL::visitCongruent(const Congruent& e) {
 }
   
 void PrinterGCL::visitCollinear(const Collinear& e) {
+  printNewLineIfNeeded(eOther);
   if (!printingConjectures_)
     throw std::string("Predicates in hypotheses are not supported");
   else
@@ -276,6 +337,7 @@ void PrinterGCL::visitCollinear(const Collinear& e) {
 }
 
 void PrinterGCL::visitEqual(const Equal& e) {
+  printNewLineIfNeeded(eOther);
   if (!printingConjectures_)
     throw std::string("Predicates in hypotheses are not supported");
   else {
@@ -288,6 +350,7 @@ void PrinterGCL::visitEqual(const Equal& e) {
 }
 
 void PrinterGCL::visitIdentical(const Identical& e) {
+  printNewLineIfNeeded(eOther);
   if (!printingConjectures_)
     throw std::string("Predicates in hypotheses are not supported");
   else {
@@ -301,6 +364,7 @@ void PrinterGCL::visitIdentical(const Identical& e) {
 
 
 void PrinterGCL::visitAlgSum3(const AlgSum3& e) {
+  printNewLineIfNeeded(eOther);
   if (!printingConjectures_)
     throw std::string("Predicates in hypotheses are not supported");
   else {
@@ -317,6 +381,7 @@ void PrinterGCL::visitAlgSum3(const AlgSum3& e) {
 
 
 void PrinterGCL::visitHarmonic(const Harmonic& e) {
+  printNewLineIfNeeded(eOther);
   if (!printingConjectures_)
     throw std::string("Predicates in hypotheses are not supported");
   else {
