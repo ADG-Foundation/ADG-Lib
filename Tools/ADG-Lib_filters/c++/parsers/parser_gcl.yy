@@ -48,6 +48,7 @@ extern int scanner_gcl_lex(void);  // tell Bison to call this instead of yylex
   TRANSLATE "translate"
   TOWARDS "towards"
   INTERSECTION "intersection"
+  INTERSECTION2 "intersection2"  
   ONLINE "online"                      
   ONCIRCLE "oncircle"            
   PROVE "prove"
@@ -160,6 +161,14 @@ hypothesis:
 | INTERSECTION VARIABLE VARIABLE VARIABLE {
   drv.points.push_back(Point{$2});
   $$ = std::make_shared<FunIntersectLL>($2, $3, $4);
+}
+| INTERSECTION2 VARIABLE VARIABLE VARIABLE VARIABLE{
+  drv.points.push_back(Point{$2});
+  $$ = std::make_shared<FunIntersectLC>($2, $3, $4, $5);
+}
+| INTERSECTION2 VARIABLE VARIABLE VARIABLE VARIABLE {
+  drv.points.push_back(Point{$2});
+  $$ = std::make_shared<FunIntersectCC>($2, $3, $4, $5);
 }
 | CMARK VARIABLE {
   $$ = std::make_shared<DrawPoint>($2);

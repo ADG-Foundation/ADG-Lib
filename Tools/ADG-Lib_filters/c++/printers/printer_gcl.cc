@@ -1,6 +1,7 @@
 #include "printer_gcl.hh"
 #include <map>
 
+
 void PrinterGCL::visitConstant(const Constant& c) {
   ostr_ << c.value();
 }
@@ -33,7 +34,7 @@ void PrinterGCL::visitNaryExpression(const NaryExpression& e) {
         operand->acceptVisitor(*this);
         ostr_ << " ";
       }
-      ostr_ << " }";
+      ostr_ << "}";
     } else { // printing hypotheses
       if (op == "!=") {
         auto ops = e.operands();
@@ -48,7 +49,7 @@ void PrinterGCL::visitNaryExpression(const NaryExpression& e) {
           operand->acceptVisitor(*this);
           ostr_ << " ";
         }
-        ostr_ << " }";        
+        ostr_ << "}";        
       }
     }
   }
@@ -178,6 +179,23 @@ void PrinterGCL::visitFunIntersectLL(const FunIntersectLL& e) {
 void PrinterGCL::visitFunIntersectLL_P(const FunIntersectLL_P& e) {
   ostr_ << "intersec " << e.X() << " " << e.A1() << " " << e.B1() << " " << e.A2() << " " << e.B2() << std::endl;
 }
+
+void PrinterGCL::visitFunIntersectLC(const FunIntersectLC& e) {
+  ostr_ << "intersec2 " << e.X1() << " " << e.X2() << " " << e.l() << " " << e.c() << std::endl;
+}
+
+void PrinterGCL::visitFunIntersectLC_P(const FunIntersectLC_P& e) {
+  ostr_ << "intersec2 " << e.X1() << " " << e.X2() << " " << e.A() << " " << e.B() << " " << e.O() << " " << e.P() << std::endl;
+}
+
+void PrinterGCL::visitFunIntersectCC(const FunIntersectCC& e) {
+  ostr_ << "intersec2 " << e.X1() << " " << e.X2() << " " << e.c1() << " " << e.c2() << std::endl;
+}
+
+void PrinterGCL::visitFunIntersectCC_P(const FunIntersectCC_P& e) {
+  ostr_ << "intersec2 " << e.X1() << " " << e.X2() << " " << e.O1() << " " << e.P1() << " " << e.O2() << " " << e.P2() << std::endl;
+}
+
 
 void PrinterGCL::visitOnLine_P(const OnLine_P& e) {
   ostr_ << "online " << e.X() << " " << e.A() << " " << e.B() << std::endl;

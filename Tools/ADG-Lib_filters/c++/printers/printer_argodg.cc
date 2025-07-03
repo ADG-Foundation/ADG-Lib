@@ -164,6 +164,39 @@ void PrinterArgoDG::visitFunIntersectLL_P(const FunIntersectLL_P& e) {
         << std::endl;
 }
 
+void PrinterArgoDG::visitFunIntersectLC(const FunIntersectLC& e) {
+  ostr_ << e.X1() << " = RC.intersectLC1(" <<  e.l() << ", " << e.c() << ").hide();" << std::endl;
+  ostr_ << e.X2() << " = RC.intersectLC2(" <<  e.l() << ", " << e.c() << ").hide();" << std::endl;  
+}
+
+void PrinterArgoDG::visitFunIntersectLC_P(const FunIntersectLC_P& e) {
+  ostr_ << e.X1() << " = RC.intersectLC_P1("
+        << "RC.line(" <<  e.A() << ", " << e.B() << ").hide()" << ", "
+        << "RC.circle(" <<  e.O() << ", " << e.P() << ").hide()" << ").hide();"
+        << std::endl;
+  ostr_ << e.X2() << " = RC.intersectLC_P2("
+        << "RC.line(" <<  e.A() << ", " << e.B() << ").hide()" << ", "
+        << "RC.circle(" <<  e.O() << ", " << e.P() << ").hide()" << ").hide();"
+        << std::endl;
+}
+
+void PrinterArgoDG::visitFunIntersectCC(const FunIntersectCC& e) {
+  ostr_ << e.X1() << " = RC.intersectCC1(" <<  e.c1() << ", " << e.c2() << ").hide();" << std::endl;
+  ostr_ << e.X2() << " = RC.intersectCC2(" <<  e.c1() << ", " << e.c2() << ").hide();" << std::endl;
+}
+
+void PrinterArgoDG::visitFunIntersectCC_P(const FunIntersectCC_P& e) {
+  ostr_ << e.X1() << " = RC.intersectCC("
+        << "RC.circle(" <<  e.O1() << ", " << e.P1() << ").hide()" << ", "
+        << "RC.circle(" <<  e.O2() << ", " << e.P2() << ").hide()" << ").hide();"
+        << std::endl;
+  ostr_ << e.X2() << " = RC.intersectCC("
+        << "RC.circle(" <<  e.O1() << ", " << e.P1() << ").hide()" << ", "
+        << "RC.circle(" <<  e.O2() << ", " << e.P2() << ").hide()" << ").hide();"
+        << std::endl;
+}
+
+
 void PrinterArgoDG::visitOnLine_P(const OnLine_P& e) {
   ostr_ << e.X() << " = RC.free_point_on_line("
         << "RC.line(" <<  e.A() << ", " << e.B() << ").hide()" << ", "

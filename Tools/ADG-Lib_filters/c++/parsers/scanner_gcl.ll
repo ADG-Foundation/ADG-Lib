@@ -67,6 +67,7 @@ foot                    { return parser_gcl::parser_gcl::make_FOOT(loc); }
 med                     { return parser_gcl::parser_gcl::make_MED(loc); }
 intersec                { return parser_gcl::parser_gcl::make_INTERSECTION(loc); }
 intersection            { return parser_gcl::parser_gcl::make_INTERSECTION(loc); }
+intersec2               { return parser_gcl::parser_gcl::make_INTERSECTION2(loc); }
 online                  { return parser_gcl::parser_gcl::make_ONLINE(loc); }
 oncircle                { return parser_gcl::parser_gcl::make_ONCIRCLE(loc); }
 translate               { return parser_gcl::parser_gcl::make_TRANSLATE(loc); }

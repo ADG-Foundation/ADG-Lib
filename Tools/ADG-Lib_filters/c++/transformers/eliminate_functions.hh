@@ -16,6 +16,11 @@ public:
   ExprPtr transformFunTranslate(const FunTranslate& e) override;
   ExprPtr transformFunIntersectLL(const FunIntersectLL& e) override;
   ExprPtr transformFunIntersectLL_P(const FunIntersectLL_P& e) override;
+  ExprPtr transformFunIntersectLC(const FunIntersectLC& e) override;
+  ExprPtr transformFunIntersectLC_P(const FunIntersectLC_P& e) override;
+  ExprPtr transformFunIntersectCC(const FunIntersectCC& e) override;
+  ExprPtr transformFunIntersectCC_P(const FunIntersectCC_P& e) override;
+
 
   ExprPtr transformOnLine_P(const OnLine_P& e) override;
   ExprPtr transformOnCircle_P(const OnCircle_P& e) override;  

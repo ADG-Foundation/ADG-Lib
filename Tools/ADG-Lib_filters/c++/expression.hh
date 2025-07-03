@@ -622,26 +622,6 @@ public:
   ExprPtr acceptTransformer(ExpressionTransformer&) const override;
 };
 
-/*
-class AlgSum3 : public Expression {
-public:
-  AlgSum3(const std::string& A, const std::string& B, const std::string& C) :
-    A_(Variable(A)), B_(Variable(B)), C_(Variable(C)) {
-  }
-  AlgSum3(const AlgSum3&) = default;
-
-  void print(std::ostream&) const override;
-  void acceptVisitor(ExpressionVisitor&) const override;
-  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
-
-  const Variable& A() const { return A_; }
-  const Variable& B() const { return B_; }
-  const Variable& C() const { return C_; }  
-  
-private:
-  Variable A_, B_, C_;
-};*/
-
 
 // Represents that 4 points are harmonically conjugated
 class Harmonic : public Expression {
@@ -809,6 +789,103 @@ private:
   Variable X_, A1_, B1_, A2_, B2_;
 };
 
+
+// Represents the point that is the intersection of a line and a circle
+class FunIntersectLC: public Expression {
+public:
+  FunIntersectLC(const std::string& X1, const std::string& X2, const std::string& l, const std::string& c)
+    : X1_(Variable(X1)), X2_(Variable(X2)), l_(Variable(l)), c_(Variable(c)) {
+  }
+
+  const Variable& X1() const { return X1_; }
+  const Variable& X2() const { return X2_; }  
+  const Variable& l() const { return l_; }
+  const Variable& c() const { return c_; }
+
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+private:
+  Variable X1_, X2_, l_, c_;
+};
+
+class FunIntersectLC_P : public Expression {
+public:
+  FunIntersectLC_P(const std::string& X1, const std::string& X2,
+                   const std::string& A, const std::string& B,
+                   const std::string& O, const std::string& P)
+    : X1_(Variable(X1)),
+      X2_(Variable(X2)),    
+      A_(Variable(A)), B_(Variable(B)),
+      P_(Variable(P)), O_(Variable(O))
+  {}
+
+  const Variable& X1() const { return X1_; }
+  const Variable& X2() const { return X2_; }  
+  const Variable& A() const { return A_; }
+  const Variable& B() const { return B_; }
+  const Variable& O() const { return O_; }
+  const Variable& P() const { return P_; }
+
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+private:
+  Variable X1_, X2_, A_, B_, O_, P_;
+};
+
+
+
+// Represents the point that is the intersection of two circles
+class FunIntersectCC: public Expression {
+public:
+  FunIntersectCC(const std::string& X1, const std::string& X2, const std::string& c1, const std::string& c2)
+    : X1_(Variable(X1)), X2_(Variable(X2)), c1_(Variable(c1)), c2_(Variable(c2)) {
+  }
+
+  const Variable& X1() const { return X1_; }
+  const Variable& X2() const { return X2_; }
+  const Variable& c1() const { return c1_; }
+  const Variable& c2() const { return c2_; }
+
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+private:
+  Variable X1_, X2_, c1_, c2_;
+};
+
+
+class FunIntersectCC_P : public Expression {
+public:
+  FunIntersectCC_P(const std::string& X1, const std::string& X2,
+                   const std::string& O1, const std::string& P1,
+                   const std::string& O2, const std::string& P2)
+    : X1_(Variable(X1)), X2_(Variable(X2)),
+      O1_(Variable(O1)), P1_(Variable(P1)),
+      O2_(Variable(O2)), P2_(Variable(P2))
+  {}
+
+  const Variable& X1() const { return X1_; }
+  const Variable& X2() const { return X2_; }
+  const Variable& O1() const { return O1_; }
+  const Variable& P1() const { return P1_; }
+  const Variable& O2() const { return O2_; }
+  const Variable& P2() const { return P2_; }
+
+  void print(std::ostream&) const override;
+  void acceptVisitor(ExpressionVisitor&) const override;
+  ExprPtr acceptTransformer(ExpressionTransformer&) const override;
+  
+private:
+  Variable X1_, X2_, O1_, P1_, O2_, P2_;
+};
+
+
+
 class OnLine_P: public Expression {
 public:
   OnLine_P(const std::string& X, const std::string& A, const std::string& B) :
@@ -916,6 +993,11 @@ public:
   virtual void visitFunTranslate(const FunTranslate&) = 0;
   virtual void visitFunIntersectLL(const FunIntersectLL&) = 0;
   virtual void visitFunIntersectLL_P(const FunIntersectLL_P&) = 0;
+  virtual void visitFunIntersectLC(const FunIntersectLC&) = 0;
+  virtual void visitFunIntersectLC_P(const FunIntersectLC_P&) = 0;
+  virtual void visitFunIntersectCC(const FunIntersectCC&) = 0;
+  virtual void visitFunIntersectCC_P(const FunIntersectCC_P&) = 0;
+
 
   virtual void visitOnLine_P(const OnLine_P&) = 0;
   virtual void visitOnCircle_P(const OnCircle_P&) = 0;  
@@ -1038,6 +1120,20 @@ public:
   virtual ExprPtr transformFunIntersectLL_P(const FunIntersectLL_P& e) {
     return std::make_shared<FunIntersectLL_P>(e);
   }
+
+  virtual ExprPtr transformFunIntersectLC(const FunIntersectLC& e) {
+    return std::make_shared<FunIntersectLC>(e);
+  }
+  virtual ExprPtr transformFunIntersectLC_P(const FunIntersectLC_P& e) {
+    return std::make_shared<FunIntersectLC_P>(e);
+  }
+  virtual ExprPtr transformFunIntersectCC(const FunIntersectCC& e) {
+    return std::make_shared<FunIntersectCC>(e);
+  }
+  virtual ExprPtr transformFunIntersectCC_P(const FunIntersectCC_P& e) {
+    return std::make_shared<FunIntersectCC_P>(e);
+  }
+
 
   virtual ExprPtr transformOnLine_P(const OnLine_P& e) {
     return std::make_shared<OnLine_P>(e);

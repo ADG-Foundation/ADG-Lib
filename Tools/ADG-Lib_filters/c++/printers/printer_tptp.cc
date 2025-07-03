@@ -129,6 +129,21 @@ void PrinterTPTP::visitFunIntersectLL_P(const FunIntersectLL_P& e) {
   throw std::string("Functions should have been eliminated");
 }
 
+void PrinterTPTP::visitFunIntersectLC(const FunIntersectLC& e) {
+  throw std::string("Functions should have been eliminated");
+}
+void PrinterTPTP::visitFunIntersectLC_P(const FunIntersectLC_P& e) {
+  throw std::string("Functions should have been eliminated");
+}
+void PrinterTPTP::visitFunIntersectCC(const FunIntersectCC& e) {
+  throw std::string("Functions should have been eliminated");
+}
+void PrinterTPTP::visitFunIntersectCC_P(const FunIntersectCC_P& e) {
+  throw std::string("Functions should have been eliminated");
+}
+
+
+
 void PrinterTPTP::visitTowards(const Towards& e) {
   conjuncts_.push_back(printPredicate("towards", e.X(), e.A(), e.B(), e.R	()));
 }

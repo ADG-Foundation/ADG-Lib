@@ -110,6 +110,52 @@ ExprPtr EliminateLinesTransformer::transformFunIntersectLL(const FunIntersectLL&
   }
 }
 
+
+ExprPtr EliminateLinesTransformer::transformFunIntersectLC(const FunIntersectLC& e) {
+  std::string pointId1 = e.X1().name();
+  std::string pointId2 = e.X2().name();  
+  std::string linecircle1 = e.l().name();
+  std::string linecircle2 = e.c().name();
+
+  auto it1 = lines_.find(linecircle1);
+  auto it2 = circles_.find(linecircle1);
+  if (it1 == lines_.end()) {
+    it1 = lines_.find(linecircle2);
+    if (it1 == lines_.end()) {
+      throw std::string("Line ") + linecircle2 + std::string(" not found");
+    }
+    if (it2 == circles_.end()) {
+      throw std::string("Circle ") + linecircle1 + std::string(" not found");
+    } 
+  } else {
+    it2 = circles_.find(linecircle2);
+    if (it2 == circles_.end()) {
+      throw std::string("Circle ") + linecircle2 + std::string(" not found");
+    }
+  }
+  return std::make_shared<FunIntersectLC_P>(pointId1, pointId2, it1->second.point1(), it1->second.point2(), it2->second.center(), it2->second.point_on_circle());
+  }
+
+
+ExprPtr EliminateLinesTransformer::transformFunIntersectCC(const FunIntersectCC& e) {
+  std::string pointId1 = e.X1().name();
+  std::string pointId2 = e.X2().name();  
+  std::string circleId1  = e.c1().name();
+  std::string circleId2  = e.c2().name();
+  auto it1 = circles_.find(circleId1);
+  auto it2 = circles_.find(circleId2);
+  if (it1 == circles_.end()) {
+    throw std::string("Circle ") + circleId1 + std::string(" not found");
+  } else if (it2 == circles_.end()) {
+    throw std::string("Circle ") + circleId2 + std::string(" not found");
+  } else {
+    return std::make_shared<FunIntersectCC_P>(pointId1, pointId2, it1->second.center(), it1->second.point_on_circle(), it2->second.center(), it2->second.point_on_circle());
+  }
+}
+
+
+
+
 ExprPtr EliminateLinesTransformer::transformCircle(const Circle& e) {
   std::string c = e.id();
   std::string O = e.center();
