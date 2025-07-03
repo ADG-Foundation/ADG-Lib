@@ -3,12 +3,28 @@
 
 #include "printer.hh"
 
+// used for better layout
+enum command_type {
+  eFreePoint,
+  eDrawing,
+  eLabeling,
+  eOther
+};
+
 class PrinterGCL : public Printer {
 public:
   PrinterGCL(std::ostream& ostr, const std::string& conjectureName) : Printer(ostr, conjectureName) {
+     prevCommand = eOther;
   }
 
   void printHeader() override {
+  }
+  
+  void printConjectures(const std::vector<ExprPtr>& conjectures) {
+    printingConjectures_ = true;
+    for (ExprPtr c : conjectures)
+      c->acceptVisitor(*this);
+    ostr_ << std::endl << std::endl;    
   }
 
   void printComment(const std::string& comment) {
@@ -65,6 +81,10 @@ public:
   void visitOnCircle_P(const OnCircle_P&) override;      
   void visitOnParallel_P(const OnParallel_P&) override;  
   void visitOnPerpendicular_P(const OnPerpendicular_P&) override;
+
+private:
+  void printNewLineIfNeeded(enum command_type c);
+  enum command_type prevCommand;
 };
 
 #endif

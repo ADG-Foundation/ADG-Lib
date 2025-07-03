@@ -28,7 +28,6 @@ public:
     printingConjectures_ = true;
     for (ExprPtr c : conjectures)
       c->acceptVisitor(*this);
-    ostr_ << std::endl;  
   }
 
   virtual void postprocess() {
