@@ -15,6 +15,7 @@ template<typename... Args>
 std::string printPredicate(const std::string& name, const Args&... args) {
   std::ostringstream oss;
   oss << name << "(";
+
   std::string separator = "";
   ((oss << separator << args, separator = ", "), ...);
   oss << ")";
@@ -60,33 +61,43 @@ void PrinterTPTP::visitNaryExpression(const NaryExpression& e) {
 }
 
 void PrinterTPTP::visitFreePoint(const FreePoint& p) {
+//  conjuncts_.push_back(printPredicate("freepoint", p.id(), p.x(), p.y()));
 }
 
 void PrinterTPTP::visitLine(const Line& l) {
+  conjuncts_.push_back(printPredicate("line", l.id(), l.point1(), l.point2()));
 }
 
 void PrinterTPTP::visitCircle(const Circle& c) {
+  conjuncts_.push_back(printPredicate("circle", c.id(), c.center(), c.point_on_circle()));
 }
 
 void PrinterTPTP::visitDrawPoint(const DrawPoint& e) {
-}
-
-void PrinterTPTP::visitDrawSegment(const DrawSegment& e) {
-}
-
-void PrinterTPTP::visitDrawLine(const DrawLine& e) {
-}
-
-void PrinterTPTP::visitDrawLine_P(const DrawLine_P& e) {
-}
-
-void PrinterTPTP::visitDrawCircle(const DrawCircle& e) {
-}
-
-void PrinterTPTP::visitDrawCircle_P(const DrawCircle_P& e) {
+  conjuncts_.push_back(printPredicate("drawpoint", e.A()));
 }
 
 void PrinterTPTP::visitLabelPoint(const LabelPoint& e) {
+  conjuncts_.push_back(printPredicate("labelpoint", e.A()));
+}
+
+void PrinterTPTP::visitDrawSegment(const DrawSegment& e) {
+  conjuncts_.push_back(printPredicate("drawsegment", e.A(), e.B()));
+}
+
+void PrinterTPTP::visitDrawLine(const DrawLine& e) {
+  conjuncts_.push_back(printPredicate("drawline", e.l()));
+}
+
+void PrinterTPTP::visitDrawLine_P(const DrawLine_P& e) {
+  conjuncts_.push_back(printPredicate("drawline", e.A(), e.B()));
+}
+
+void PrinterTPTP::visitDrawCircle(const DrawCircle& e) {
+  conjuncts_.push_back(printPredicate("drawcircle", e.c()));
+}
+
+void PrinterTPTP::visitDrawCircle_P(const DrawCircle_P& e) {
+  conjuncts_.push_back(printPredicate("drawline", e.O(),  e.P()));
 }
 
 void PrinterTPTP::visitFunTowards(const FunTowards& e) {
@@ -132,20 +143,21 @@ void PrinterTPTP::visitFunIntersectLL_P(const FunIntersectLL_P& e) {
 void PrinterTPTP::visitFunIntersectLC(const FunIntersectLC& e) {
   throw std::string("Functions should have been eliminated");
 }
+
 void PrinterTPTP::visitFunIntersectLC_P(const FunIntersectLC_P& e) {
   throw std::string("Functions should have been eliminated");
 }
+
 void PrinterTPTP::visitFunIntersectCC(const FunIntersectCC& e) {
   throw std::string("Functions should have been eliminated");
 }
+
 void PrinterTPTP::visitFunIntersectCC_P(const FunIntersectCC_P& e) {
   throw std::string("Functions should have been eliminated");
 }
 
-
-
 void PrinterTPTP::visitTowards(const Towards& e) {
-  conjuncts_.push_back(printPredicate("towards", e.X(), e.A(), e.B(), e.R	()));
+  conjuncts_.push_back(printPredicate("towards", e.X(), e.A(), e.B(), e.R()));
 }
 
 void PrinterTPTP::visitFoot(const Foot& e) {
