@@ -142,16 +142,12 @@ void PrinterGGB::visitDrawCircle_P(const DrawCircle_P& e) {
 
 void PrinterGGB::visitFunTowards(const FunTowards& e) {
   // FIXME
-  ostr_ << "<command name=\"Foot\">" << std::endl;
-  ostr_ << "  <input a0=\"" << e.A() << "\" a1=\"" << e.B() << "\" a2=\"" << e.R() << "\"/>" << std::endl;
-  ostr_ << "  <output a0=\"" << e.X() << "\"/>" << std::endl;
-  ostr_ << "</command>" << std::endl;
 }
 
 void PrinterGGB::visitFunFoot(const FunFoot& e) {
-  // FIXME
-  ostr_ << "<command name=\"Foot\">" << std::endl;
-  ostr_ << "  <input a0=\"" << e.P() << "\" a1=\"" << e.p() << "\"/>" << std::endl;
+ ostr_ << "<command name=\"Intersect\">" << std::endl;
+  ostr_ << "  <input a0=\"" << e.p() << "\"";
+  ostr_ << " a1=\"PerpendicularLine[" << e.P() << ", " << e.p() << "]\"/>" << std::endl;
   ostr_ << "  <output a0=\"" << e.X() << "\"/>" << std::endl;
   ostr_ << "</command>" << std::endl;
 }
@@ -196,29 +192,41 @@ void PrinterGGB::visitFunIntersectLL(const FunIntersectLL& e) {
 }
 
 void PrinterGGB::visitFunIntersectLL_P(const FunIntersectLL_P& e) {
-  // FIXME
-  /*
   ostr_ << "<command name=\"Intersect\">" << std::endl;
-  ostr_ << "   <input a0=\"" << e.line1() << "\" a1=\"" << e.line2() << "\"/>" << std::endl;
-  ostr_ << "   <output a0=\"" << e.newPoint() << "\"/>" << std::endl;
+  ostr_ << "   <input a0=\"Line[" << e.A1() << ", " << e.A2() << "]\"";
+  ostr_ << " a1=\"Line[" << e.B1() << ", " << e.B2() << "\"]/>" << std::endl;
+  ostr_ << "   <output a0=\"" << e.X() << "\"/>" << std::endl;
   ostr_ << "</command>" << std::endl;
-  */
 }
 
 void PrinterGGB::visitFunIntersectLC(const FunIntersectLC& e) {
-  // TODO
+  ostr_ << "<command name=\"Intersect\">" << std::endl;
+  ostr_ << "   <input a0=\"" << e.l() << "\" a1=\"" << e.c() << "\" a2=\"1\"/>" << std::endl;
+  ostr_ << "   <output a0=\"" << e.X1() << "\"/>" << std::endl;
+  ostr_ << "</command>" << std::endl;
+  ostr_ << "<command name=\"Intersect\">" << std::endl;
+  ostr_ << "   <input a0=\"" << e.l() << "\" a1=\"" << e.c() << "\" a2=\"2\"/>" << std::endl;
+  ostr_ << "   <output a0=\"" << e.X2() << "\"/>" << std::endl;
+  ostr_ << "</command>" << std::endl;
 }
+
 void PrinterGGB::visitFunIntersectLC_P(const FunIntersectLC_P& e) {
   // TODO
 }
 void PrinterGGB::visitFunIntersectCC(const FunIntersectCC& e) {
-  // TODO
+  ostr_ << "<command name=\"Intersect\">" << std::endl;
+  ostr_ << "   <input a0=\"" << e.c1() << "\" a1=\"" << e.c2() << "\" a2=\"1\"/>" << std::endl;
+  ostr_ << "   <output a0=\"" << e.X1() << "\"/>" << std::endl;
+  ostr_ << "</command>" << std::endl;
+  ostr_ << "<command name=\"Intersect\">" << std::endl;
+  ostr_ << "   <input a0=\"" << e.c1() << "\" a1=\"" << e.c2() << "\" a2=\"2\"/>" << std::endl;
+  ostr_ << "   <output a0=\"" << e.X2() << "\"/>" << std::endl;
+  ostr_ << "</command>" << std::endl;
 }
+
 void PrinterGGB::visitFunIntersectCC_P(const FunIntersectCC_P& e) {
   // TODO
 }
-
-
 
 void PrinterGGB::visitFunTranslate(const FunTranslate& e) {
   // FIXME

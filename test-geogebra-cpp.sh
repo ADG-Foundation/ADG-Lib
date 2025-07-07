@@ -54,6 +54,11 @@ for i in $FILES; do
   timeout $TIMEOUT $GEOGEBRA --prover=timeout:$TIMEOUT --logFile="$TESTNAME.log" \
     --regressionFile="$TESTNAME.result" --language=en "$TESTNAME.ggb" \
     > "$TESTNAME.out" 2> "$TESTNAME.err"
+  grep --silent "command not found" "$TESTNAME.log" && {
+    echo -n " unknown command in GeoGebra: "
+    grep "command not found" "$TESTNAME.log" | head -1 | cut -d" " -f11
+    continue
+    }
   grep --silent "STATEMENT IS TRUE" "$TESTNAME.log" && {
     TIME=`grep "Benchmarking" "$TESTNAME.log" | head -1 | awk '{print $5}'`
     echo " true ($TIME ms)"
