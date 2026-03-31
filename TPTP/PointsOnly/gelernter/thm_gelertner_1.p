@@ -1,17 +1,17 @@
-include('../Axioms/gelernter-neutral.ax').
-include('../Axioms/gelernter-euclidean.ax').
+%include('../axioms/axiomsGelernter.p').
+include('../axioms/geo.ax').
 
 % Example taken from Gelertner seminal paper:  
 % REALIZATION OF A GEOMETRY THEOREM PROVING MACHINE
 % --------------------------------------------------------------------------------
 
- fof(thm_A, conjecture, ![A,B,C,D]: 
+ fof(thm_gelertner_1, conjecture, ![A,B,C,D]: 
  (( 
    ~collinear(B,A,D) &
-   ~collinear(B,C,D) &
    congruent_angles(A,B,D,D,B,C) & 
    perpendicular(A,D,A,B) &
-   perpendicular(D,C,B,C) )
+   perpendicular(D,C,B,C) 
+   )
   => 
   cong(A,D,C,D)
 
@@ -26,5 +26,6 @@ include('../Axioms/gelernter-euclidean.ax').
 
 % --------------------------------------------------------------------------------
 
-% larus TPTP/PointsOnly/gelernter/gel_thm_1.p  -t -m7 -l2000 -h -noexcludedmiddle (2s)
+% larus thm_gelertner_1.p -h  -t  -l100 -noexcludedmiddle -m8
+% Elapsed time: 4.85s
 

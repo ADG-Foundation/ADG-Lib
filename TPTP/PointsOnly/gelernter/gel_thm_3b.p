@@ -8,10 +8,6 @@ include('../Axioms/gelernter-neutral.ax').
 fof(thm_C, conjecture, ![A,B,C,D,M,E]: (
   ( 
   ~collinear(A,B,C) &
- % D != A &
- % D != M &
- % opposite_sides(C,B,E,D)&
- % opposite_sides(E,D,B,C)&
   between_strict(B,M,C) & 
   cong(B,M,M,C) &
   between_strict(A,D,M) & 
