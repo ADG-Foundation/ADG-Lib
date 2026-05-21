@@ -28,8 +28,8 @@ __________
     "equilateralNdg(A,B,C)"#""#":math:`ABC` is an equilateral triangle and the points are distinct and hence not collinear"#":math:`equilateral A B C \land A \neq B`"
     "harmonic(A,B,C,D)"#""#"Points :math:`A`, :math:`B`, :math:`C`, :math:`D` are on the same line and :math:`AC/CB=DA/DB`"#
     "incenterNdg(G,A,B,C)"#""#":math:`G` is the in-center of triangle :math:`ABC`"#
-    "insideCircleStrict(C,O,P)"#""#":math:`C` is strictly inside or on circle (or sphere) of center :math:`O` going through :math:`P`"#
-    "insideCircle(C,O,P)"#" "#":math:`C` is inside the circle (or sphere) of center :math:`O` going through :math:`P`"#
+    "insideCircleStrict(C,O,P)"#""#":math:`C` is strictly inside the circle(or sphere) of center :math:`O` going through :math:`P`"#
+    "insideCircle(C,O,P)"#" "#":math:`C` is inside or on the circle (or sphere) of center :math:`O` going through :math:`P`"#
     "insideAngle(P,A,B,C)"#":math:`\insideAngle{P}{A}{B}{C}`"#"the point :math:`P` is inside the angle :math:`\angle{ABC}`"#":math:`A \neq B \land C \neq B \land P \neq B \land \exists X, \betweenNonStrict{A}{X}{C} \land (X = B \lor out{B}{X}{P})`"
     "intersectionLineLine(X,A,B,C,D)}"#""#":math:`X` is the intersection of lines :math:`AB` and :math:`CD`"#
     "intersectionLineSegment(X,A,B,C,D)"#""#":math:`X` is the intersection of line :math:`AB` and segment :math:`CD`"#
