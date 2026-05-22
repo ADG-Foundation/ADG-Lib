@@ -80,7 +80,7 @@ __________
     "trapezoidRight(A,B,C,D)"#""#":math:`ABCD` is a trapezium with a right angle in :math:`A`" 
     "trapezoidIsosceles(A,B,C,D)"#""#" :math:`ABCD` is a trapezoid with congruent non-necessary parallel sides :math:`AB` is parallel to :math:`CD` and :math:`\congruentSegments{B}{C}{D}{A}`"
     "triangleNdg(A,B,C)"#""#":math:`A`, :math:`B`, :math:`C` are non-collinear"  
-    "lessEqual(A,B,C,D)"#":math:`AB \leq CD`"#"the length :math:`AB` is smaller or equal to length :math:`CD`"#" :math:`\exists E, \betweenNonStrict{C}{Y}{D} \land \congruentSegments{A}{B}{C}{E}`" 
+    "lessEqual(A,B,C,D)"#":math:`AB \leq CD`"#"the length :math:`AB` is smaller or equal to length :math:`CD`"#" :math:`\exists E, \betweenNonStrict{C}{E}{D} \land \congruentSegments{A}{B}{C}{E}`" 
     "lessThan(A,B,C,D)"#":math:`AB < CD`"#"the length :math:`AB` is smaller to length :math:`CD`"#" :math:`AB \leq CD \land \lnot \congruentSegments{A}{B}{C}{D}`"
     "greaterEqual(A,B,C,D)"#":math:`AB \ge CD`"#"the length :math:`AB` is greater or equal to length :math:`CD`"#" :math:`CD \leq AB`"
     "greaterThan(A,B,C,D)"#":math:`AB > CD`"#"the length :math:`AB` is greater than length :math:`CD`"#" :math:`CD < AB`"
