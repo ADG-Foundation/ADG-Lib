@@ -44,7 +44,7 @@ __________
     "onAngleBisector(P,A,O,B)"#""#":math:`P` belongs to the bisector of angle :math:`AOB`"#" :math:`P \neq O \land \angle{AOP}` and :math:`\angle{POB}` are congruent"
     "onCircle(C,O,P)}"#""#":math:`C` is on circle (or sphere) of center :math:`O` going through :math:`P`"#
     "onLine(P,A,B)"#""#"points :math:`P` is on line :math:`AB` (:math:`A\neq B`)"#
-    "onParallel(P,B,C,D)"#""#":math:`P` is on the parallel to line :math:`CD` through :math:`B`"#":math:`\parallelADG{A}{B}{C}{D} \land C \neq D`"
+    "onParallel(P,B,C,D)"#""#":math:`P` is on the parallel to line :math:`CD` through :math:`B`"#":math:`\parallelADG{P}{B}{C}{D} \land C \neq D`"
     "onPerpendicularBisector(P,A,B)"#""#":math:`P` belongs to the perpendicular bisector of segment :math:`AB`"#":math:`P \neq midpoint(A,B)` and :math:`\congruentSegments{P}{A}{P}{B}`"
     "onRay(O,A,B)"#":math:`out{O}{A}{B}`"#":math:`B` belongs to the half line :math:`OA`"#":math:`O \neq A \land O  \neq B \land (\betweenNonStrict{O}{A}{B} \lor \betweenNonStrict{O}{B}{A})`"
     "oppositeSides(A,B,P,Q)"#":math:`tS{A}{B}{P}{Q}`"# :math:`P` and :math:`Q` are on different sides of line :math:`AB` # :math:`\lnot \collinear{P}{A}{B} \land \lnot \collinear{Q}{A}{B} \land \exists T, \collinear{T}{A}{B} \land \betweenNonStrict{P}{T}{Q}`
